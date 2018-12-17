@@ -1,0 +1,54 @@
+---
+title: "Title"
+author: '`r Sys.info()["effective_user"]`'
+date: '`r strftime(Sys.time(), "%A, %b %d, %Y")`'
+mainfont: 'Source Serif Pro'
+monofont: 'Source Code Pro'
+output:
+  rmarkdown::html_vignette:
+    df_print: kable
+    standalone: true
+  pdf_document: 
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, cache = FALSE,
+  warning = FALSE, message = FALSE,
+  fig.width = 10, fig.height = 7, 
+  fig.showtext = TRUE # for the fancy fonts, disable if not needed
+)
+```
+
+```{css global-css, echo=FALSE}
+img {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+```
+
+```{r library, include=FALSE}
+library(tidyverse)
+
+# Use the grkmisc theme
+theme_set(
+  grkmisc::theme_grk(
+    base_family = "Source Serif Pro",
+    axis_text_family = "Source Code Pro",
+    axis_title_family = "Source Serif Pro",
+    default_geom_font = "Source Sans Pro",
+    use_showtext = TRUE
+  ) + 
+    theme(panel.grid.minor = element_blank())
+)
+```
+
+```{r load, include=FALSE}
+# Load Data
+```
+
+<!-- Start Document Here -->
