@@ -101,4 +101,5 @@ seer_std_ages <-
 
 seer_std_ages %>%
   filter(standard == "202") %>%
+  ungroup() %>%
   saveRDS(here::here("data", "seer_std_ages.rds"))

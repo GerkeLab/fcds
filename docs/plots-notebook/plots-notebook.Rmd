@@ -1,0 +1,281 @@
+---
+title: "FCDS Plots and Tables Notebook"
+description: |
+  Exploration of visualizations for the FCDS data
+author:
+  - name: Garrick Aden-Buie
+    url: https://garrickadenbuie.com
+    affiliation: GerkeLab
+    affiliation_url: https://gerkelab.com
+  - name: Travis Gerke
+    url: https://travisgerke.com
+    affiliation: GerkeLab
+    affiliation_url: https://gerkelab.com
+date: "`r Sys.Date()`"
+output: radix::radix_article
+creative_commons: CC BY-NC
+preview: https://www.gerkelab.com/img/GerkeLab-1200dpi-square.png
+twitter:
+  site: "@travisgerke"
+  creator: "@grrrck"
+repository_url: https://gitlab.moffitt.usf.edu:8000/4468739/fcds
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, cache = FALSE,
+  warning = FALSE, message = FALSE,
+  fig.width = 10, fig.height = 7,
+  fig.showtext = TRUE # for the fancy fonts, disable if not needed
+)
+```
+
+```{r library, include=FALSE}
+library(tidyverse)
+library(geofacet)
+library(sf)
+
+# Use the grkmisc theme
+theme_set(
+  grkmisc::theme_grk(
+    base_family = "Source Sans Pro",
+    axis_text_family = "Fira Sans Condensed",
+    axis_title_family = "Fira Sans Condensed",
+    default_geom_font = "Fira Sans Condensed",
+    use_showtext = TRUE
+  ) +
+    theme(panel.grid.minor = element_blank())
+)
+```
+
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro" rel="stylesheet"> 
+
+```{css, echo=FALSE}
+html {
+  font-family: "Source Sans Pro";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Source Serif Pro";
+}
+
+pre, pre code {
+  font-family: "Source Code Pro";
+}
+```
+
+```{r load}
+source(here::here("R", "census_load-data.R"))
+seer_std_ages <- readRDS(here::here("data", "seer_std_ages.rds"))
+fcds <- readRDS(here::here("data", "stat_dataset_2018_clean.rds"))
+```
+
+<!-- DOCUMENT START -->
+
+## Overall Incidence by County/Gender
+
+```{r geofacet-incidence-gender, fig.height=18, fig.width=20, layout="l-page"}
+fcds %>% 
+  filter(sex != "Unknown") %>% 
+  group_by(county_name, dx_year, sex) %>% 
+  count() %>% 
+  ungroup() %>% 
+  complete(county_name, dx_year, sex, fill = list(n = 0)) %>% 
+  arrange(dx_year) %>% 
+  mutate(
+    dx_year = fct_inorder(dx_year),
+    dx_year = fct_relabel(dx_year, ~ str_extract(., "\\d{2}$"))
+  ) %>% 
+  ggplot() +
+  aes(dx_year, n, color = sex, group = sex) +
+  geom_line() +
+  geom_point(size = 0.5) +
+  facet_geo(~ county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+  theme_minimal() +
+  scale_y_continuous(labels = grkmisc::pretty_num) +
+  scale_x_discrete(breaks = c("85", "95", "05", "15")) +
+  # grkmisc::scale_color_moffitt(color_other = "red", direction = -1) +
+  scale_color_manual(values = c(
+    "Male" = "#157a6e",
+    "Female" = "#3a2e5c"
+  )) +
+  labs(x = NULL, y = NULL) +
+  theme(
+    text = element_text(size = 8),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank())
+```
+
+## Top 10 Site Groups
+
+```{r eval=FALSE}
+fcds %>% 
+  filter(sex != "Unknown") %>% 
+  group_by(county_name, dx_year, fcds_site_group) %>% 
+  count() %>% 
+  ungroup() %>% 
+  complete(county_name, dx_year, fcds_site_group, fill = list(n = 0)) %>% 
+  arrange(dx_year) %>% 
+  mutate(
+    dx_year = fct_inorder(dx_year),
+    dx_year = fct_relabel(dx_year, ~ str_extract(., "\\d{2}$"))
+  )
+```
+
+```{r}
+shorten_site_group <- function(x) {
+  if (str_detect(x, "Non-Hodgkin's")) {
+    "Non-Hodgkin Lymphoma"
+  } else if (str_detect(x, "Cecum, Appendix, Ascending Colon")) {
+    "Colon excluding Rectum"
+  } else if (str_detect(x, "Lip, Tongue, Salivary Glands")) {
+    "Oral Cavity and Pharynx"
+  } else if (str_detect(x, "Rectosigmoid")) {
+    "Rectum and Rectosigmoid Junction"
+  } else {
+    x
+  }
+}
+
+fcds_site_group_counts <- 
+  fcds %>% 
+  group_by(fcds_site_group) %>% 
+  count(sort = TRUE) %>% 
+  ungroup()
+
+fcds_site_group_counts %>% 
+  slice(1:10) %>% 
+  mutate(fcds_site_group = map_chr(fcds_site_group, shorten_site_group)) %>% 
+  knitr::kable()
+```
+
+```{r geofacet-top10, fig.height=18, fig.width=20, layout="l-page"}
+fcds %>% 
+  filter(fcds_site_group %in% fcds_site_group_counts$fcds_site_group[1:10]) %>% 
+  group_by(county_name, dx_year_mid, fcds_site_group) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(fcds_site_group = map_chr(fcds_site_group, shorten_site_group)) %>% 
+  ggplot() +
+  aes(dx_year_mid, n, fill = fcds_site_group) +
+  geom_col(width = 1) +
+  facet_geo(~ county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+  theme_minimal() +
+  scale_y_continuous(labels = grkmisc::pretty_num) +
+  scale_x_discrete(breaks = c("85", "95", "05", "15")) +
+  ggsci::scale_fill_d3() +
+  labs(x = NULL, y = NULL) +
+  theme(
+    text = element_text(size = 9),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank())
+```
+
+```{r geofacet-top10-2, fig.height=18, fig.width=20, layout="l-page"}
+fcds %>% 
+  filter(fcds_site_group %in% fcds_site_group_counts$fcds_site_group[1:10]) %>% 
+  group_by(county_name, dx_year_mid, fcds_site_group) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(fcds_site_group = map_chr(fcds_site_group, shorten_site_group)) %>% 
+  ggplot() +
+  aes(as.integer(dx_year_mid), n, color = fcds_site_group, group = fcds_site_group) +
+  geom_line() +
+  geom_point(size = 0.5) +
+  facet_geo(~ county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+  theme_minimal() +
+  scale_y_continuous(labels = grkmisc::pretty_num) +
+  scale_x_continuous(breaks = seq(1985, 2015, 10), 
+                     labels = c("83", "93", "03", "13")) +
+  ggsci::scale_color_d3() +
+  labs(x = NULL, y = NULL) +
+  theme(
+    text = element_text(size = 10),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank())
+```
+
+### Age-Adjusted
+
+```{r geofacet-top10-age-adjusted, fig.height=18, fig.width=20, layout="l-page"}
+seer_fl_pop <- readRDS(here::here("data/seer_fl_pop.rds"))
+seer_us_std <- readRDS(here::here("data/seer_std_ages.rds"))
+
+seer_us_std_total <- sum(seer_us_std$std_pop)
+
+grouped_sum <- function(df, sum_var, ...) {
+  group_vars <- rlang::enquos(...)
+  sum_var <- rlang::enquo(sum_var)
+  sum_var_name <- rlang::quo_name(sum_var)
+  
+  df %>% 
+    group_by(!!!group_vars) %>% 
+    summarize(!!sum_var_name := sum(!!sum_var))
+}
+
+fcds %>% 
+  filter(age_group != "Unknown") %>% 
+  group_by(dx_year, dx_year_mid, county_name, age_group, fcds_site_group) %>% 
+  count() %>%
+  left_join(
+    seer_fl_pop %>% grouped_sum(population, year, county_name, age_group),
+    by = c("dx_year_mid" = "year", "county_name", "age_group")
+  ) %>% 
+  left_join(
+    seer_us_std %>% select(age_group, std_pop),
+    by = "age_group"
+  ) %>% 
+  mutate(
+    rate = n / population,
+    rate_age_adjusted = rate * std_pop/seer_us_std_total * 100000
+  ) %>% 
+  group_by(dx_year, dx_year_mid, county_name, fcds_site_group) %>% 
+  summarize(
+    n = sum(n),
+    population = sum(population),
+    rate_age_adjusted = sum(rate_age_adjusted)
+  ) %>% 
+  ungroup() %>% 
+  filter(fcds_site_group %in% fcds_site_group_counts$fcds_site_group[1:10]) %>% 
+  mutate(fcds_site_group = map_chr(fcds_site_group, shorten_site_group)) %>% 
+  ggplot() +
+  aes(as.integer(dx_year_mid), rate_age_adjusted, color = fcds_site_group, group = fcds_site_group) +
+  geom_line() +
+  geom_point(size = 0.5) +
+  facet_geo(~ county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+  theme_minimal() +
+  scale_y_continuous(labels = grkmisc::pretty_num) +
+  scale_x_continuous(breaks = seq(1985, 2015, 10), 
+                     labels = c("83", "93", "03", "13")) +
+  ggsci::scale_color_d3() +
+  labs(x = NULL, y = NULL) +
+  theme(
+    text = element_text(size = 10),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank())
+```
+
+## Repeat Cancers
+
+This plot shows the number of times a cancer site appears as a patient's *n*^th^ cancer.
+
+```{r cancer-by-incidence-number, fig.height=18, fig.width=20, layout="l-page"}
+fcds %>%
+  group_by(patient_id) %>%
+  mutate(record_number = row_number()) %>%
+  group_by(fcds_site_group, record_number) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(fcds_site_group = fct_reorder(fcds_site_group, n)) %>%
+  ggplot() +
+  aes(fcds_site_group, n) +
+  geom_col() +
+  facet_wrap(~record_number, scales = "free") +
+  coord_flip() +
+  scale_x_discrete(labels = grkmisc::format_pretty_string(20)) +
+  theme(
+    axis.text.y = element_text(size = 6),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+  )
+```
