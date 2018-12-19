@@ -108,6 +108,57 @@ dat <- dat %>%
          `9` = "Unknown"),
       seer_stage = ifelse(is.na(seer_stage_2000), seer_stage_1977, seer_stage_2000),
       fcds_site_group = recode(
+         # Using most-specific summary-level group from
+         # https://seer.cancer.gov/siterecode/icdo3_dwhoheme/
+         # (i.e. level 2 header for a level 3 item, if all level 3 items are grouped together)
+         FCDS_Site_Group,
+         `0110` = "Oral Cavity and Pharynx",
+         `0011` = "Esophagus",
+         `0012` = "Stomach",
+         `0013` = "Small Intestine",
+         `1422` = "Colon excluding Rectum",
+         `2324` = "Rectum and Rectosigmoid Junction",
+         `0025` = "Anus, Anal Canal & Anorectum",
+         `2627` = "Liver and Intrahepatic Bile Duct",
+         `0028` = "Gall Bladder",
+         `0029` = "Other Biliary",
+         `0030` = "Pancreas",
+         `3133` = "Retroperitoneum, Peritoneum, Omentum & Mesentery, Other Digestive Organs",
+         ## Where is Nose, Nasal Cavity and Middle Ear?
+         `0035` = "Larynx",
+         `0036` = "Lung and Bronchus",
+         ## Where are Pleura, and "Trachea ... and Other Respiratory"?
+         `0039` = "Bones and Joints",
+         `0040` = "Soft Tissue including Heart",
+         `0041` = "Melanoma of the Skin",
+         `0042` = "Other Non-Epithelial Skin",
+         `0043` = "Breast",
+         `0044` = "Cervix Uteri",
+         `4546` = "Corpus and Uterus, NOS",
+         `0047` = "Ovary",
+         `4850` = "Vagina, Vulva, Other Female Genital Organs",
+         `0051` = "Prostate Gland",
+         `0052` = "Testes",
+         ## Where are Penis and other Male Genital Organs?
+         `0055` = "Urinary Bladder",
+         `0056` = "Kidney & Renal Pelvis",
+         `5758` = "Ureter, Other Urinary Organs",
+         `0059` = "Eye and Orbit",
+         `6061` = "Brain and Other Nervous System",
+         `0062` = "Thyroid Gland",
+         ## Missing "Other Endocrin including Thymus" (possibly in Benign/Borderline)
+         `6465` = "Hodgkin Lymphoma",
+         `6667` = "Non-Hodgkin Lymphoma",
+         `0068` = "Multiple Myeloma",
+         `6971` = "Lymphocytic Leukemia",
+         `7275` = "Myeloid and Monocytic Leukemia",
+         `7677` = "Other Leukemia",
+         `0078` = "Mesothelioma",
+         `0079` = "Kaposi Sarcoma",
+         `0080` = "Other",
+         `8183` = "Benign/Borderline (Brain, Nervous System, Endocrine)"),
+      fcds_site_specific = recode(
+         # https://fcds.med.miami.edu/downloads/datarequest/STAT%202018%20layout.pdf
          FCDS_Site_Group,
          `0110` = paste("Lip, Tongue, Salivary Glands , Floor of Mouth, Gum & Other Mouth,",
                         "Nasopharynx, Tonsil, Oropharynx, Hypopharynx, Other Buccal Cavity & Pharynx"),
