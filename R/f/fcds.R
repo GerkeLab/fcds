@@ -26,7 +26,7 @@ fill_age_groups <- function(.data, low = NULL, high = NULL,
                             fill = list(n = 0),
                             include_unknown = FALSE) {
   stopifnot("age_group" %in% names(.data))
-  ages <- data_frame(age_group = fcds_const("age_group")) %>%
+  ages <- tibble(age_group = fcds_const("age_group")) %>%
     { if (include_unknown) . else filter(., age_group != "Unknown") } %>%
     age_boundaries()
   if (!is.null(low)) ages <- filter(ages, age_low >= low)
@@ -38,7 +38,7 @@ fill_age_groups <- function(.data, low = NULL, high = NULL,
 
 fill_year_groups <- function(.data, start = NULL, end = NULL, year_var = "dx_year", fill = list(n = 0)) {
   stopifnot(year_var %in% names(.data))
-  years <- data_frame(year = fcds_const("year")) %>%
+  years <- tibble(year = fcds_const("year")) %>%
     separate(year, c("start", "end"), sep = "\\s*-\\s*", remove = FALSE) %>%
     mutate_at(vars(start, end), as.integer)
 

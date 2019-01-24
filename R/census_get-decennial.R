@@ -20,7 +20,7 @@ age_boundaries <- function(age) {
   age <- str_remove_all(age, "yrs")
   age <- str_replace(age, "over", "Inf")
   age <- str_split(age, pattern = "\\s*(&|to)\\s*")[[1]]
-  age_df <- function(h, l = h) data_frame(age_high = h, age_low = l)
+  age_df <- function(h, l = h) tibble(age_high = h, age_low = l)
   age <- if (length(age) == 1) {
     if (age == "All") {
       age_df(-Inf, Inf)

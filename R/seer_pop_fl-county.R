@@ -75,7 +75,7 @@ names(recode_age_groups) <- sprintf("%02d", 0:18)
 # Load Data ---------------------------------------------------------------
 seer_fl_pop <-
   read_lines(seer_fl_pop_file) %>%
-  data_frame(raw = .) %>%
+  tibble(raw = .) %>%
   extract(
     raw,
     c("year", "state", "state_fips", "county_fips",
@@ -104,7 +104,7 @@ saveRDS(seer_fl_pop, here::here("data", "seer_fl_pop.rds"))
 
 seer_fl_pop_exp_race <-
   read_lines(seer_fl_pop_exp_race_file) %>%
-  data_frame(raw = .) %>%
+  tibble(raw = .) %>%
   extract(
     raw,
     c("year", "state", "state_fips", "county_fips",
