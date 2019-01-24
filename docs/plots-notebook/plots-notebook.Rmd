@@ -35,6 +35,8 @@ library(tidyverse)
 library(geofacet)
 library(sf)
 
+walk(fs::dir_ls(here::here("R", "f")), sys.source, envir = .GlobalEnv)
+
 # Use the grkmisc theme
 theme_set(
   grkmisc::theme_grk(
@@ -253,6 +255,128 @@ fcds %>%
     text = element_text(size = 10),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_blank())
+```
+
+### Prostate Cancer by Race (Age Adjusted)
+
+```{r pca-race-ageadjusted, fig.height=18, fig.width=20, layout="l-page", echo = TRUE}
+fcds %>%
+  filter(fcds_site_group == "Prostate Gland") %>%
+  group_by(fcds_site_group, county_name) %>%
+  summarize_fcds(race = c("White", "Black"), sex = "Male") %>%
+  age_adjust() %>%
+  fill_year_groups(fill = list(n = 0, rate = 0)) %>% 
+  { 
+    ggplot(.) +
+      aes(dx_year, rate, color = race, group = race) +
+      geom_line() +
+      geom_point() +
+      geofacet::facet_geo(~county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+      theme_minimal() +
+      scale_y_continuous(labels = grkmisc::format_pretty_num()) +
+      scale_x_discrete(breaks = fcds_const("year")[c(1, 3, 5, 7)], 
+                       labels = c("83", "93", "03", "13")) +
+      ggsci::scale_color_d3() +
+      labs(x = NULL, y = NULL, color = "Race",
+           title = "Prostate Cancer Incidence in Florida",
+           subtitle = "Age adjusted rates per 100,000\n1981 - 2015", 
+           caption = "Source: SEER 2018") +
+      theme(
+        text = element_text(size = 10, color = "grey30"),
+        plot.title = element_text(size = 16, color = "grey30", hjust = 0.5),
+        plot.subtitle = element_text(size = 14, color = "grey30", hjust = 0.5),
+        legend.position = "top",
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) 
+  } %>% 
+  grkmisc::ggsave_and_print("figures/pca-race-fl.pdf", width = 20, height = 18, force_save = TRUE)
+```
+
+### Prostate Cancer by Race (Crude)
+
+```{r}
+fcds %>%
+  filter(fcds_site_group == "Prostate Gland") %>%
+  group_by(fcds_site_group, county_name) %>%
+  summarize_fcds(race = c("White", "Black"), sex = "Male") %>%
+  group_drop(age_group) %>%
+  count(wt = n) %>%
+  rename(n = nn) %>%
+  group_drop(dx_year_mid, .remove = TRUE) %>% 
+  fill_year_groups() %>%
+  # add_mid_year() %>% 
+  # # filter(county_name == "Lafayette") %>% 
+  # merge_fl_pop() %>%
+  # select(-dx_year_mid) %>% 
+  # ungroup() %>% 
+  # group_drop(dx_year_mid, .remove = TRUE) %>%
+  # mutate(rate = n / population * 100000) %>% 
+  { 
+    ggplot(.) +
+      aes(dx_year, n, color = race, group = race) +
+      geom_line() +
+      geom_point() +
+      geofacet::facet_geo(~county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+      theme_minimal() +
+      scale_y_continuous(labels = grkmisc::format_pretty_num()) +
+      scale_x_discrete(breaks = fcds_const("year")[c(1, 3, 5, 7)], 
+                       labels = c("83", "93", "03", "13")) +
+      ggsci::scale_color_d3() +
+      labs(x = NULL, y = NULL, color = "Race",
+           title = "Prostate Cancer Incidence in Florida",
+           subtitle = "Crude rates per 100,000\n1981 - 2015", 
+           caption = "Source: SEER 2018") +
+      theme(
+        text = element_text(size = 10, color = "grey30"),
+        plot.title = element_text(size = 16, color = "grey30", hjust = 0.5),
+        plot.subtitle = element_text(size = 14, color = "grey30", hjust = 0.5),
+        legend.position = "top",
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) 
+  } #%>% 
+  grkmisc::ggsave_and_print("figures/pca-race-fl-crude.pdf", width = 20, height = 18, force_save = TRUE)
+```
+
+```{r}
+fcds %>%
+  filter(fcds_site_group == "Breast") %>%
+  group_by(fcds_site_group, county_name) %>%
+  summarize_fcds(race = c("White", "Black"), sex = "Female") %>%
+  group_drop(age_group) %>%
+  count(wt = n) %>%
+  rename(n = nn) %>%
+  group_drop(dx_year_mid, .remove = TRUE) %>% 
+  fill_year_groups() %>%
+  # add_mid_year() %>% 
+  # # filter(county_name == "Lafayette") %>% 
+  # merge_fl_pop() %>%
+  # select(-dx_year_mid) %>% 
+  # ungroup() %>% 
+  # group_drop(dx_year_mid, .remove = TRUE) %>%
+  # mutate(rate = n / population * 100000) %>% 
+  { 
+    ggplot(.) +
+      aes(dx_year, n, color = race, group = race) +
+      geom_line() +
+      geom_point() +
+      geofacet::facet_geo(~county_name, scales = "free_y", grid = "us_fl_counties_grid1") +
+      theme_minimal() +
+      scale_y_continuous(labels = grkmisc::format_pretty_num()) +
+      scale_x_discrete(breaks = fcds_const("year")[c(1, 3, 5, 7)], 
+                       labels = c("83", "93", "03", "13")) +
+      ggsci::scale_color_d3() +
+      labs(x = NULL, y = NULL, color = "Race",
+           title = "Breast Cancer Incidence in Florida",
+           subtitle = "Crude rates per 100,000\n1981 - 2015", 
+           caption = "Source: SEER 2018") +
+      theme(
+        text = element_text(size = 10, color = "grey30"),
+        plot.title = element_text(size = 16, color = "grey30", hjust = 0.5),
+        plot.subtitle = element_text(size = 14, color = "grey30", hjust = 0.5),
+        legend.position = "top",
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) 
+  }
 ```
 
 ## Repeat Cancers
