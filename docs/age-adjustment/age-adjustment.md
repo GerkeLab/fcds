@@ -1,56 +1,6 @@
----
-title: "FCDS Age Adjustment Notes"
-date: '`r strftime(Sys.time(), "%A, %b %d, %Y")`'
-mainfont: 'Source Serif Pro'
-monofont: 'Source Code Pro'
-output:
-  github_document: default
-  rmarkdown::html_vignette:
-    df_print: kable
-    standalone: true
-  pdf_document: 
-    latex_engine: xelatex
-editor_options: 
-  chunk_output_type: console
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = FALSE, cache = FALSE,
-  warning = FALSE, message = FALSE,
-  fig.width = 10, fig.height = 7, 
-  fig.showtext = TRUE # for the fancy fonts, disable if not needed
-)
-```
-
-```{css global-css, echo=FALSE}
-img {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-}
-```
-
-```{r library, eval=FALSE}
-library(tidyverse)
-
-browser()
-# Use the grkmisc theme
-theme_set(
-  grkmisc::theme_grk(
-    base_family = "Fira Sans",
-    axis_text_family = "Fira Sans Condensed",
-    axis_title_family = "Fira Sans Condensed",
-    default_geom_font = "Fira Sans Condensed",
-    use_showtext = TRUE
-  ) + 
-    theme(panel.grid.minor = element_blank())
-)
-```
-
-```{r load, include=FALSE}
-# Load Data
-```
+FCDS Age Adjustment Notes
+================
+Thursday, Jan 24, 2019
 
 <!-- Start Document Here -->
 
@@ -62,19 +12,31 @@ theme_set(
 
 <https://seer.cancer.gov/popdata/download.html>
 
-> The U.S. Census Bureau annually releases unbridged population estimates for five-year age groups and race at the county level. The Census Bureau does not release bridged race estimates by single year of age at the county level due to concerns about the reliability of these estimates. However, these estimates are provided to the National Cancer Institute to meet programmatic needs such as the creation of age groupings that differ from the standard groupings used by the Census Bureau. Users of the single-year-of-age county-level bridged race population estimates should carefully consider the limited reliability of these estimates.
+> The U.S. Census Bureau annually releases unbridged population
+> estimates for five-year age groups and race at the county level. The
+> Census Bureau does not release bridged race estimates by single year
+> of age at the county level due to concerns about the reliability of
+> these estimates. However, these estimates are provided to the National
+> Cancer Institute to meet programmatic needs such as the creation of
+> age groupings that differ from the standard groupings used by the
+> Census Bureau. Users of the single-year-of-age county-level bridged
+> race population estimates should carefully consider the limited
+> reliability of these estimates.
 
 ## Age Adjustment
 
-An age-adjusted rate is a weighted average of the age-specific (crude) rates according to the proportion of the population in the corresponding age group of a standard population.
+An age-adjusted rate is a weighted average of the age-specific (crude)
+rates according to the proportion of the population in the corresponding
+age group of a standard population.
 
-The age adjusted rates are calculated according to
+The age adjusted rates are calculated according
+to
 
-$$\left. r_{adj} \right\vert_x^y = \sum_{\text{age}=x}^y \left\lbrack \frac{count_{\text{age}}}{pop_{\text{age}}} \times \frac{stdpop_{\text{age}}}{\sum_{j=x}^{y} stdpop_j} \right\rbrack$$
+\[\left. r_{adj} \right\vert_x^y = \sum_{\text{age}=x}^y \left\lbrack \frac{count_{\text{age}}}{pop_{\text{age}}} \times \frac{stdpop_{\text{age}}}{\sum_{j=x}^{y} stdpop_j} \right\rbrack\]
 
 This was implemented in code as:
 
-```{r eval=FALSE, echo=TRUE}
+``` r
 age_adjust <- function(
   .data,
   outcome_var = n,
