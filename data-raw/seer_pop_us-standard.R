@@ -1,6 +1,7 @@
 library(readr)
 library(dplyr)
 library(stringr)
+library(purrr)
 
 # SEER Standard Ages ----
 # https://seer.cancer.gov/stdpopulations/
@@ -99,7 +100,9 @@ seer_std_ages <-
   group_by(standard, standard_name, age_group) %>%
   summarize(std_pop = sum(std_pop))
 
-seer_std_ages %>%
+seer_std_ages <-
+  seer_std_ages %>%
   filter(standard == "202") %>%
-  ungroup() %>%
-  saveRDS(here::here("data", "seer_std_ages.rds"))
+  ungroup()
+
+usethis::use_data(seer_std_ages, compress = "xz", overwrite = TRUE)

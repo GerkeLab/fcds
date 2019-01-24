@@ -1,5 +1,7 @@
-# 20 Appendix B FIPS County Codes for Florida.pdf
+# The fields below were copy-pasted from the table in
+# `20 Appendix B FIPS County Codes for Florida.pdf`
 library(stringr)
+library(dplyr)
 
 # FIPS County Codes -------------------------------------------------------
 
@@ -284,10 +286,10 @@ split_and_clean <- function(x, by = "\n") {
   x[x != ""]
 }
 
-county_fips_code <- tibble::tibble(
+county_fips_code <- tibble(
   county_name = tools::toTitleCase(tolower(split_and_clean(county_name))),
   fips_code = str_remove(split_and_clean(fips_code), "^0+")
 ) %>%
-  dplyr::mutate(county_name = dplyr::recode(county_name, "Desoto" = "DeSoto"))
+  mutate(county_name = recode(county_name, "Desoto" = "DeSoto"))
 
-saveRDS(county_fips_code, here::here("data", "county_fips_code.rds"))
+use_data(county_fips_code)

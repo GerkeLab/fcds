@@ -1,0 +1,42 @@
+Package: fcds
+Title: Process data from the Florida Cancer Data System
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Garrick",
+             family = "Aden-Buie",
+             role = c("aut", "cre"),
+             email = "Garrick.Aden-Buie@moffitt.org"),
+      person(given = "Jordan",
+             family = "Creed",
+             role = c("aut"),
+             email = "Jordan.H.Creed@moffitt.org"),
+      person(given = "Travis",
+             family = "Gerke",
+             role = "aut",
+             email = "Travis.Gerke@moffitt.org"))
+Description: Helper functions for processing data from the
+    Florida Cancer Data System.
+License: MIT + file LICENSE
+Imports: 
+    dplyr,
+    ggplot2,
+    glue,
+    grkmisc (>= 0.0.0.9060),
+    purrr,
+    readr,
+    readxl,
+    rlang,
+    stringr,
+    tidycensus,
+    tidyr,
+    tools,
+    USAboundaries
+Suggests: 
+    here,
+    janitor
+Remotes: 
+    gerkelab/grkmisc
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)

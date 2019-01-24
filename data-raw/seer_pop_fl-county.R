@@ -2,15 +2,22 @@
 #' https://seer.cancer.gov/popdata/download.html
 #'
 #' Data dictionary: https://seer.cancer.gov/popdata/popdic.html
-library(tidyverse)
-source(here::here("R/county_fips_code.R"))
-county_fips_code <- county_fips_code %>%
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(readr)
+
+use_data <- partial(usethis::use_data, overwrite = TRUE, compress = "xz")
+
+county_fips_file <- here::here("data", "county_fips_code.rda")
+if (!file.exists(county_fips_file)) stop(
+  "Please run `data-raw/county_fips_code.R` first"
+)
+
+county_fips_code <- fcds::county_fips_code %>%
   mutate(county_fips = sprintf("%03d", as.integer(fips_code)))
 
 # Download Files ----------------------------------------------------------
-# library(rvest)
-# x <- read_html("https://seer.cancer.gov/popdata/download.html")
-
 seer_fl_pop_file <- here::here("data-raw", "seer_fl-1969-2016_19ages.txt.gz")
 if (!file.exists(seer_fl_pop_file)) {
   download.file(
@@ -100,7 +107,7 @@ seer_fl_pop <-
     by = "county_fips"
   )
 
-saveRDS(seer_fl_pop, here::here("data", "seer_fl_pop.rds"))
+use_data(seer_fl_pop)
 
 seer_fl_pop_exp_race <-
   read_lines(seer_fl_pop_exp_race_file) %>%
@@ -119,7 +126,7 @@ seer_fl_pop_exp_race <-
   ungroup() %>%
   mutate(
     registry = recode_registry[registry],
-    race = recode_race_1969[race],
+    race = recode_race_1990[race],
     origin = recode_origin_1990[origin],
     sex = recode_sex[sex],
     age_group = recode_age_groups[age_group]
@@ -129,5 +136,4 @@ seer_fl_pop_exp_race <-
     by = "county_fips"
   )
 
-saveRDS(seer_fl_pop_exp_race,
-        here::here("data", "seer_fl_pop_exp_race.rds"))
+use_data(seer_fl_pop_exp_race)
