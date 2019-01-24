@@ -287,4 +287,7 @@ split_and_clean <- function(x, by = "\n") {
 county_fips_code <- tibble::tibble(
   county_name = tools::toTitleCase(tolower(split_and_clean(county_name))),
   fips_code = str_remove(split_and_clean(fips_code), "^0+")
-)
+) %>%
+  dplyr::mutate(county_name = dplyr::recode(county_name, "Desoto" = "DeSoto"))
+
+saveRDS(county_fips_code, here::here("data", "county_fips_code.rds"))
