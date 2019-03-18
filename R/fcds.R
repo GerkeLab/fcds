@@ -1,3 +1,13 @@
+#' Convert Age Group Column to Low and High Age Range
+#'
+#' Takes the age group stored in `age_var` and creates two variables,
+#' `age_low` and `age_high` with the age boundaries of the group.
+#'
+#' @param .data A data frame
+#' @param age_var Unquoted column name containing the age grouping.
+#' @inheritParams tidyr::separate
+#' @family age processors
+#' @export
 age_boundaries <- function(.data, age_var = age_group, sep = "\\s*-\\s*") {
   age_var <- rlang::enquo(age_var)
   .data %>%
@@ -11,10 +21,22 @@ age_boundaries <- function(.data, age_var = age_group, sep = "\\s*-\\s*") {
     mutate(age_high = if_else(is.na(age_high) & !is.na(age_low), Inf, age_high))
 }
 
-filter_age <- function(.data, age_low = 0, age_high = Inf) {
+#' Filter Data by Age Range
+#'
+#' Filters data to include persons with ages in the range between `age_low` and
+#' `age_high`.
+#'
+#' @inheritParams age_boundaries
+#' @param age_low Youngest age (inclusive)
+#' @param age_high Eldest age (inclusive)
+#' @family age processors
+#' @export
+filter_age <- function(.data, age_low = 0, age_high = Inf, age_var = age_group) {
+  age_var <- rlang::enquo(age_var)
+  age_var_name <- rlang::quo_name(age_var)
   if (!"age_low" %in% names(.data)) {
-    stopifnot("age_group" %in% names(.data))
-    .data <- age_boundaries(.data)
+    stopifnot(age_var_name %in% names(.data))
+    .data <- age_boundaries(.data, age_var = !!age_var)
   }
   stopifnot("age_low" %in% names(.data))
   stopifnot("age_high" %in% names(.data))
@@ -22,9 +44,25 @@ filter_age <- function(.data, age_low = 0, age_high = Inf) {
     filter(age_low >= !!age_low, age_high <= !!age_high)
 }
 
-fill_age_groups <- function(.data, low = NULL, high = NULL,
-                            fill = list(n = 0),
-                            include_unknown = FALSE) {
+#' Complete Age Groups
+#'
+#' Completes age groups by adding missing age groups, either within the age
+#' range from `low` to `high` or using the full age list from the SEER data.
+#'
+#' @param .data A data frame
+#' @param low Low age boundary (inclusive)
+#' @param high High age boundary (inclusive)
+#' @inheritParams tidyr::complete
+#' @param include_unknown Should the "Unknown" age group be included?
+#' @family age processors
+#' @export
+complete_age_groups <- function(
+  .data,
+  low = NULL,
+  high = NULL,
+  fill = list(n = 0),
+  include_unknown = FALSE
+) {
   stopifnot("age_group" %in% names(.data))
   ages <- tibble(age_group = fcds_const("age_group")) %>%
     { if (include_unknown) . else filter(., age_group != "Unknown") } %>%
