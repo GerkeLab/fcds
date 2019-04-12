@@ -9,6 +9,14 @@
 Helper functions for processing data from the
     Florida Cancer Data System.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/GerkeLab/fcds}
+  \item Report bugs at \url{https://github.com/GerkeLab/fcds/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Garrick Aden-Buie \email{Garrick.Aden-Buie@moffitt.org}
 

@@ -8,7 +8,7 @@ Authors@R:
              email = "Garrick.Aden-Buie@moffitt.org"),
       person(given = "Jordan",
              family = "Creed",
-             role = c("aut"),
+             role = "aut",
              email = "Jordan.H.Creed@moffitt.org"),
       person(given = "Travis",
              family = "Gerke",
@@ -17,6 +17,8 @@ Authors@R:
 Description: Helper functions for processing data from the
     Florida Cancer Data System.
 License: MIT + file LICENSE
+URL: https://github.com/GerkeLab/fcds
+BugReports: https://github.com/GerkeLab/fcds/issues
 Imports: 
     dplyr,
     ggplot2,
@@ -38,5 +40,5 @@ Remotes:
     gerkelab/grkmisc
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
