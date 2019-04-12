@@ -18,19 +18,19 @@ county_fips_code <- fcds::county_fips_code %>%
   mutate(county_fips = sprintf("%03d", as.integer(fips_code)))
 
 # Download Files ----------------------------------------------------------
-seer_fl_pop_file <- here::here("data-raw", "seer_fl-1969-2016_19ages.txt.gz")
-if (!file.exists(seer_fl_pop_file)) {
+seer_pop_fl_file <- here::here("data-raw", "seer_fl-1969-2016_19ages.txt.gz")
+if (!file.exists(seer_pop_fl_file)) {
   download.file(
     "https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz",
-    seer_fl_pop_file
+    seer_pop_fl_file
   )
 }
 
-seer_fl_pop_exp_race_file <- here::here(
+seer_pop_fl_exp_race_file <- here::here(
   "data-raw", "seer_fl-1990-2016_19ages.txt.gz")
-if (!file.exists(seer_fl_pop_exp_race_file)) download.file(
+if (!file.exists(seer_pop_fl_exp_race_file)) download.file(
   "https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz",
-  seer_fl_pop_exp_race_file
+  seer_pop_fl_exp_race_file
 )
 
 seer_pop_us_file <- here::here("data-raw", "us.1990_2017.19ages.adjusted.txt.gz")
@@ -87,8 +87,10 @@ names(recode_age_groups) <- sprintf("%02d", 0:18)
 
 
 # Load Data ---------------------------------------------------------------
-seer_fl_pop <-
-  read_lines(seer_fl_pop_file) %>%
+
+# ---- SEER Florida Population ----
+seer_pop_fl <-
+  read_lines(seer_pop_fl_file) %>%
   tibble(raw = .) %>%
   extract(
     raw,
@@ -114,10 +116,11 @@ seer_fl_pop <-
     by = "county_fips"
   )
 
-use_data(seer_fl_pop)
+use_data(seer_pop_fl)
 
-seer_fl_pop_exp_race <-
-  read_lines(seer_fl_pop_exp_race_file) %>%
+# ---- SEER Florida Population with Expanded Race ----
+seer_pop_fl_exp_race <-
+  read_lines(seer_pop_fl_exp_race_file) %>%
   tibble(raw = .) %>%
   extract(
     raw,
@@ -143,9 +146,9 @@ seer_fl_pop_exp_race <-
     by = "county_fips"
   )
 
-use_data(seer_fl_pop_exp_race)
+use_data(seer_pop_fl_exp_race)
 
-
+# ---- SEER US Population ----
 read_seer_pop_us <- function(txt, ...) {
   if (length(txt == 1) && !grepl("\n", txt)) {
     # treat txt as path and see if un-gzipped version exists

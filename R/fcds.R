@@ -145,7 +145,7 @@ age_adjust <- function(
   .data,
   outcome_var = n,
   year_var = dx_year_mid,
-  fl_pop = get_data("seer_fl_pop"),
+  fl_pop = get_data("seer_pop_fl"),
   std_pop_data = get_data("seer_std_ages"),
   keep_age_group = FALSE
 ) {
@@ -180,7 +180,7 @@ age_adjust <- function(
 merge_fl_pop <- function(
   .data,
   year_var = dx_year_mid,
-  fl_pop = get_data("seer_fl_pop")
+  fl_pop = get_data("seer_pop_fl")
 ) {
   year_var <- rlang::enquo(year_var)
   year_var_name <- rlang::quo_name(year_var)

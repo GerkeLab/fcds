@@ -40,7 +40,7 @@
 #'   0- 4, 5 - 9, \dots 85+} \item{`population`}{Population}
 #'   \item{`county_name`}{County Name, see [county_fips_code()]} }
 #' @family SEER Population Data
-"seer_fl_pop"
+"seer_pop_fl"
 
 #' SEER Florida population data, expanded Race
 #'
@@ -68,7 +68,7 @@
 #'   \dots 85+} \item{`population`}{Population} \item{`county_name`}{County
 #'   Name, see [county_fips_code()]} }
 #' @family SEER Population Data
-"seer_fl_pop_exp_race"
+"seer_pop_fl_exp_race"
 
 
 #' SEER Standard Population for Age-Adjustment
