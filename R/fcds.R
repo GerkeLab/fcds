@@ -74,7 +74,7 @@ complete_age_groups <- function(
     select(colnames(.data))
 }
 
-fill_year_groups <- function(.data, start = NULL, end = NULL, year_var = "dx_year", fill = list(n = 0)) {
+complete_year_groups <- function(.data, start = NULL, end = NULL, year_var = "dx_year", fill = list(n = 0)) {
   stopifnot(year_var %in% names(.data))
   years <- tibble(year = fcds_const("year")) %>%
     separate(year, c("start", "end"), sep = "\\s*-\\s*", remove = FALSE) %>%
