@@ -33,6 +33,13 @@ if (!file.exists(seer_fl_pop_exp_race_file)) download.file(
   seer_fl_pop_exp_race_file
 )
 
+seer_pop_us_file <- here::here("data-raw", "us.1990_2017.19ages.adjusted.txt.gz")
+if (!file.exists(seer_pop_us_file)) {
+  download.file(
+    "https://seer.cancer.gov/popdata/yr1990_2017.19ages/us.1990_2017.19ages.adjusted.txt.gz",
+    seer_pop_us_file
+  )
+}
 
 # Recode Functions --------------------------------------------------------
 # Data dictionary: https://seer.cancer.gov/popdata/popdic.html
@@ -137,3 +144,44 @@ seer_fl_pop_exp_race <-
   )
 
 use_data(seer_fl_pop_exp_race)
+
+
+read_seer_pop_us <- function(txt, ...) {
+  if (length(txt == 1) && !grepl("\n", txt)) {
+    # treat txt as path and see if un-gzipped version exists
+    path_ungzipped <- fs::path_ext_remove(txt)
+    if (fs::file_exists(path_ungzipped)) {
+      txt <- path_ungzipped
+      message("Using: ", txt)
+    }
+  }
+  readr::read_fwf(
+    txt,
+    col_positions = fwf_widths(
+      widths = c(4, 2, 2, 3, 2, 1, 1, 1, 2, 8),
+      col_names = c("year", "state", "state_fips", "county_fips",
+                    "registry", "race", "origin", "sex", "age_group", "population")
+    ),
+    col_types = cols(
+      population = col_integer(),
+      .default = col_character()
+    )
+  )
+}
+
+seer_pop_us <-
+  read_seer_pop_us(seer_pop_us_file) %>%
+  mutate(
+    age_group = recode(age_group, "00" = "01")
+  ) %>%
+  group_by(year, race, origin, sex, age_group) %>%
+  summarize(population = sum(population)) %>%
+  ungroup() %>%
+  mutate(
+    race = factor(race, names(recode_race_1990), recode_race_1990),
+    origin = factor(origin, names(recode_origin_1990), recode_origin_1990),
+    sex = factor(sex, names(recode_sex), recode_sex),
+    age_group = recode_age_groups[age_group]
+  )
+
+use_data(seer_pop_us)
