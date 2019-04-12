@@ -74,6 +74,12 @@ complete_age_groups <- function(
     select(colnames(.data))
 }
 
+#' Complete Year Groups
+#'
+#' Completes year groups with expected years.
+#'
+#' @family year processors
+#' @export
 complete_year_groups <- function(.data, start = NULL, end = NULL, year_var = "dx_year", fill = list(n = 0)) {
   stopifnot(year_var %in% names(.data))
   years <- tibble(year = fcds_const("year")) %>%
@@ -99,6 +105,13 @@ complete_year_groups <- function(.data, start = NULL, end = NULL, year_var = "dx
     select(colnames(.data))
 }
 
+#' Add Mid-Year Column
+#'
+#' Adds a new column containing the midpoint year of the range given in the
+#' column indicated by `year_var`.
+#'
+#' @family year processors
+#' @export
 add_mid_year <- function(.data, year_var = dx_year, sep = "-") {
   year_var <- rlang::enquo(year_var)
   year_var_name <- paste0(rlang::quo_name(year_var), "_mid")
