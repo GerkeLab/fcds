@@ -86,18 +86,28 @@ recode_age_groups <- map_chr(0:18, age_18_groups_by_index)
 names(recode_age_groups) <- sprintf("%02d", 0:18)
 
 
+# Read SEER Fixed Width File ----------------------------------------------
+read_seer_fwf <- function(file, ...) {
+  readr::read_fwf(
+    file,
+    col_positions = readr::fwf_widths(
+      widths = c(4, 2, 2, 3, 2, 1, 1, 1, 2, 8),
+      col_names = c("year", "state", "state_fips", "county_fips",
+                    "registry", "race", "origin", "sex", "age_group", "population")
+    ),
+    col_types = readr::cols(
+      population = readr::col_integer(),
+      .default = readr::col_character()
+    ),
+    ...
+  )
+}
+
 # Load Data ---------------------------------------------------------------
 
 # ---- SEER Florida Population ----
 seer_pop_fl <-
-  read_lines(seer_pop_fl_file) %>%
-  tibble(raw = .) %>%
-  extract(
-    raw,
-    c("year", "state", "state_fips", "county_fips",
-      "registry", "race", "origin", "sex", "age_group", "population"),
-    regex = "(.{4})(.{2})(.{2})(.{3})(.{2})(.{1})(.{1})(.{1})(.{2})(.{8})"
-  ) %>%
+  read_seer_fwf(seer_pop_fl_file) %>%
   mutate(
     age_group = recode(age_group, "00" = "01")
   ) %>%
@@ -120,14 +130,7 @@ use_data(seer_pop_fl)
 
 # ---- SEER Florida Population with Expanded Race ----
 seer_pop_fl_exp_race <-
-  read_lines(seer_pop_fl_exp_race_file) %>%
-  tibble(raw = .) %>%
-  extract(
-    raw,
-    c("year", "state", "state_fips", "county_fips",
-      "registry", "race", "origin", "sex", "age_group", "population"),
-    regex = "(.{4})(.{2})(.{2})(.{3})(.{2})(.{1})(.{1})(.{1})(.{2})(.{8})"
-  ) %>%
+  read_seer_fwf(seer_pop_fl_exp_race_file) %>%
   mutate(
     age_group = recode(age_group, "00" = "01")
   ) %>%
@@ -158,18 +161,7 @@ read_seer_pop_us <- function(txt, ...) {
       message("Using: ", txt)
     }
   }
-  readr::read_fwf(
-    txt,
-    col_positions = fwf_widths(
-      widths = c(4, 2, 2, 3, 2, 1, 1, 1, 2, 8),
-      col_names = c("year", "state", "state_fips", "county_fips",
-                    "registry", "race", "origin", "sex", "age_group", "population")
-    ),
-    col_types = cols(
-      population = col_integer(),
-      .default = col_character()
-    )
-  )
+  read_seer_fwf(txt, ...)
 }
 
 seer_pop_us <-
