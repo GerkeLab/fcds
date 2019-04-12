@@ -21,23 +21,12 @@ URL: https://github.com/GerkeLab/fcds
 BugReports: https://github.com/GerkeLab/fcds/issues
 Imports: 
     dplyr,
-    ggplot2,
     glue,
-    grkmisc (>= 0.0.0.9060),
-    purrr,
-    readr,
-    readxl,
     rlang,
-    stringr,
-    tidycensus,
     tidyr,
     tools
 Suggests: 
-    here,
-    janitor,
     USAboundaries
-Remotes: 
-    gerkelab/grkmisc
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

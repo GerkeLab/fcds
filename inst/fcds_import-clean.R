@@ -1,5 +1,7 @@
-library(tidyverse)
+library(dplyr)
+fcds:::requires_package(c("here", "readxl", "readr"), "fcds_import-clean.R")
 library(here)
+library(readr)
 library(readxl)
 
 dat <- read_csv(here("data-raw", "STAT_dataset_2018.dat"))

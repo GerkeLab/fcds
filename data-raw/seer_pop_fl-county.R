@@ -3,8 +3,9 @@
 #'
 #' Data dictionary: https://seer.cancer.gov/popdata/popdic.html
 library(dplyr)
-library(purrr)
 library(tidyr)
+fcds:::requires_package(c("purrr", "tidyr", "here"), "data-raw/seer_pop_fl-county.R")
+library(purrr)
 library(readr)
 
 use_data <- partial(usethis::use_data, overwrite = TRUE, compress = "xz")

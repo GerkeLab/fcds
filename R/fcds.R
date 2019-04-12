@@ -329,9 +329,7 @@ group_drop <- function(.data, ..., .remove = FALSE) {
 }
 
 merge_fl_counties <- function(.data) {
-  if (!requireNamespace("USAboundaries", quietly = TRUE)) {
-    rlang::stop("Package `USAboundaries` is required.\ninstall.packages('USAboundaries')")
-  }
+  requires_package("USAboundaries", "merge_fl_counties()")
   florida_counties <- USAboundaries::us_counties(states = "Florida") %>%
     select(fips_code = countyfp, geometry)
 

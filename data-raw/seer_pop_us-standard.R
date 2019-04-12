@@ -1,5 +1,6 @@
-library(readr)
 library(dplyr)
+fcds:::requires_package(c("readr", "stringr", "purrr", "here"), "seer_pop_us-standard.R")
+library(readr)
 library(stringr)
 library(purrr)
 

@@ -1,7 +1,8 @@
 # The fields below were copy-pasted from the table in
 # `20 Appendix B FIPS County Codes for Florida.pdf`
-library(stringr)
 library(dplyr)
+fcds:::requires_package("stringr", "data-raw/county_fips_code.R")
+library(stringr)
 
 # FIPS County Codes -------------------------------------------------------
 

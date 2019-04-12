@@ -1,4 +1,8 @@
-library(tidyverse)
+fcds:::requires_package(c("here", "readr", "janitor", "purrr"), "fcds_import-simple.R")
+library(dplyr)
+library(readr)
+library(purrr)
+
 source(here::here("R", "county_fips_code.R"))
 
 DATA_FILE <- here::here("data/STAT_dataset_2018.dat")
