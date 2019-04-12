@@ -31,11 +31,11 @@ Imports:
     stringr,
     tidycensus,
     tidyr,
-    tools,
-    USAboundaries
+    tools
 Suggests: 
     here,
-    janitor
+    janitor,
+    USAboundaries
 Remotes: 
     gerkelab/grkmisc
 Encoding: UTF-8
