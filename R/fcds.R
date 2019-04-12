@@ -8,7 +8,7 @@
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
-age_boundaries <- function(.data, age_var = age_group, sep = "\\s*-\\s*") {
+expand_age_groups <- function(.data, age_var = age_group, sep = "\\s*-\\s*") {
   age_var <- rlang::enquo(age_var)
   .data %>%
     separate(!!age_var, into = paste0("age_", c("low", "high")),
@@ -26,7 +26,7 @@ age_boundaries <- function(.data, age_var = age_group, sep = "\\s*-\\s*") {
 #' Filters data to include persons with ages in the range between `age_low` and
 #' `age_high`.
 #'
-#' @inheritParams age_boundaries
+#' @inheritParams expand_age_groups
 #' @param age_low Youngest age (inclusive)
 #' @param age_high Eldest age (inclusive)
 #' @family age processors
@@ -36,7 +36,7 @@ filter_age <- function(.data, age_low = 0, age_high = Inf, age_var = age_group) 
   age_var_name <- rlang::quo_name(age_var)
   if (!"age_low" %in% names(.data)) {
     stopifnot(age_var_name %in% names(.data))
-    .data <- age_boundaries(.data, age_var = !!age_var)
+    .data <- expand_age_groups(.data, age_var = !!age_var)
   }
   stopifnot("age_low" %in% names(.data))
   stopifnot("age_high" %in% names(.data))
@@ -66,7 +66,7 @@ complete_age_groups <- function(
   stopifnot("age_group" %in% names(.data))
   ages <- tibble(age_group = fcds_const("age_group")) %>%
     { if (include_unknown) . else filter(., age_group != "Unknown") } %>%
-    age_boundaries()
+    expand_age_groups()
   if (!is.null(low)) ages <- filter(ages, age_low >= low)
   if (!is.null(high)) ages <- filter(ages, age_high <= high)
   .data %>%

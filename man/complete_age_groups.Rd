@@ -24,7 +24,7 @@ Completes age groups by adding missing age groups, either within the age
 range from \code{low} to \code{high} or using the full age list from the SEER data.
 }
 \seealso{
-Other age processors: \code{\link{age_boundaries}},
+Other age processors: \code{\link{expand_age_groups}},
   \code{\link{filter_age}}
 }
 \concept{age processors}

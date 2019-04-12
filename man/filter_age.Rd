@@ -20,7 +20,7 @@ Filters data to include persons with ages in the range between \code{age_low} an
 \code{age_high}.
 }
 \seealso{
-Other age processors: \code{\link{age_boundaries}},
-  \code{\link{complete_age_groups}}
+Other age processors: \code{\link{complete_age_groups}},
+  \code{\link{expand_age_groups}}
 }
 \concept{age processors}
