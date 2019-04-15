@@ -29,6 +29,27 @@ suggests_package <- function(pkg, needed_by = NULL, ...) {
 
 common_names <- function(x, y) intersect(names(x), names(y))
 
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
+is_neg_infinite <- function(x) {
+  vapply(x, function(y) {
+    y < 0 & is.infinite(y)
+  }, logical(1))
+}
+
+is_pos_infinite <- function(x) {
+  vapply(x, function(y) {
+    y > 0 & is.infinite(y)
+  }, logical(1))
+}
+
+seq2 <- function(x, y) {
+  purrr::map2(x, y, ~ {
+    if (any(is.na(c(.x, .y)))) return(NA_integer_)
+    seq.int(floor(.x), floor(.y))
+  })
+}
+
 group_drop <- function(.data, ..., .remove = FALSE) {
   group_var <- rlang::enquos(...)
   group_var_name <- map_chr(group_var, rlang::quo_name)
