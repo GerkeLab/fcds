@@ -22,6 +22,7 @@ BugReports: https://github.com/GerkeLab/fcds/issues
 Imports: 
     dplyr,
     glue,
+    magrittr,
     rlang,
     tidyr,
     tools
