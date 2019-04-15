@@ -1,21 +1,21 @@
 
 merge_fl_pop <- function(
-  .data,
+  data,
   year_var = dx_year_mid,
   fl_pop = get_data("seer_pop_fl")
 ) {
   year_var <- rlang::enquo(year_var)
   year_var_name <- rlang::quo_name(year_var)
-  stopifnot(year_var_name %in% names(.data))
+  stopifnot(year_var_name %in% names(data))
 
   fl_pop <- fl_pop %>%
     rename(!!year_var_name := year) %>%
-    nest(setdiff(names(.), c(common_names(.data, fl_pop), year_var_name)),
+    nest(setdiff(names(.), c(common_names(data, fl_pop), year_var_name)),
          .key = "population")
 
   # TODO: message here about common_names()?
 
-  left_join(.data, fl_pop, by = common_names(.data, fl_pop))
+  left_join(data, fl_pop, by = common_names(data, fl_pop))
 }
 
 summarize_fcds <- function(
@@ -59,18 +59,18 @@ filter_fcds <- function(fcds, var_name, values) {
     group_by(!!var, add = TRUE)
 }
 
-merge_fl_counties <- function(.data) {
+merge_fl_counties <- function(data) {
   requires_package("USAboundaries", "merge_fl_counties()")
   florida_counties <- USAboundaries::us_counties(states = "Florida") %>%
     select(fips_code = countyfp, geometry)
 
-  if (!"county_fips" %in% names(.data)) {
+  if (!"county_fips" %in% names(data)) {
     county_fips <- get_data("county_fips_code")
-    .data <-
-      .data %>%
+    data <-
+      data %>%
       left_join(county_fips, by = "county_name") %>%
       mutate(fips_code = sprintf("%03d", as.integer(fips_code)))
   }
 
-  left_join(.data, florida_counties, by = "fips_code")
+  left_join(data, florida_counties, by = "fips_code")
 }

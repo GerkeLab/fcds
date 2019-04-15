@@ -276,7 +276,7 @@ format_age_groups <- function(
 # Age Adjustment ----------------------------------------------------------
 
 age_adjust <- function(
-  .data,
+  data,
   outcome_var = n,
   year_var = dx_year_mid,
   fl_pop = get_data("seer_pop_fl"),
@@ -289,37 +289,37 @@ age_adjust <- function(
   year_var_name <- rlang::quo_name(year_var)
 
   # Age and Year are required in source data
-  stopifnot(year_var_name %in% names(.data))
-  stopifnot("age_group" %in% names(.data))
-  .data <- filter(.data, age_group != "Unknown")
-  data_groups <- groups(.data)
+  stopifnot(year_var_name %in% names(data))
+  stopifnot("age_group" %in% names(data))
+  data <- filter(data, age_group != "Unknown")
+  data_groups <- groups(data)
 
   #  Get groups from .data
   #  Roll up FL and std pop data for those groups
   #  Merge into fcds
   #  Calculate age-adjusted rate
-  .data <- merge_fl_pop(.data, !!year_var, fl_pop) %>%
+  data <- merge_fl_pop(data, !!year_var, fl_pop) %>%
     mutate(population = map(population, "population") %>% map_int(sum)) %>%
     summarize_at(vars(!!outcome_var, population), sum) %>%
     group_by(!!!data_groups) # restore groups
 
-  data_groups <- setdiff(group_vars(.data), year_var_name)
-  .data <- .data %>%
+  data_groups <- setdiff(group_vars(data), year_var_name)
+  data <- data %>%
     group_by(!!!rlang::syms(data_groups))
 
-  if (keep_age_group) return(.data)
-  .data %>% age_adjust_finalize(!!outcome_var, std_pop_data)
+  if (keep_age_group) return(data)
+  data %>% age_adjust_finalize(!!outcome_var, std_pop_data)
 }
 
 
 age_adjust_finalize <- function(
-  .data,
+  data,
   outcome_var = n,
   std_pop_data = get_data("seer_std_ages")
 ) {
   outcome_var <- rlang::enquo(outcome_var)
 
-  age_groups <- unique(.data$age_group)
+  age_groups <- unique(data$age_group)
 
   # Get standard population
   std_pop_relevant <-
@@ -328,13 +328,13 @@ age_adjust_finalize <- function(
     select(age_group, std_pop) %>%
     mutate(w = std_pop / sum(std_pop))
 
-  .data <- left_join(.data, std_pop_relevant, by = "age_group")
+  data <- left_join(data, std_pop_relevant, by = "age_group")
 
   # Get groups from the data other than "age_group" because we'll be
   # summing over the "age_group" column
-  data_groups <- group_vars(.data) %>% setdiff("age_group") %>% rlang::syms()
+  data_groups <- group_vars(data) %>% setdiff("age_group") %>% rlang::syms()
 
-  .data %>%
+  data %>%
     ungroup() %>%
     mutate(
       rate = !!outcome_var / population * w
