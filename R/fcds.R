@@ -51,20 +51,6 @@ mid_year <- function(years, sep = "-", offset = 2) {
   paste(as.integer(sub(low_year_regex, "\\1", years)) + offset)
 }
 
-get_data <- function(x) {
-  if (!exists(x)) {
-    rds_file <- here::here("data", paste0(x, ".rds"))
-    if (!file.exists(rds_file)) {
-      rlang::abort(
-        glue::glue("Unable to find RDS data file for {x} in data/")
-      )
-    }
-    readRDS(rds_file)
-  } else {
-    get(x)
-  }
-}
-
 merge_fl_pop <- function(
   .data,
   year_var = dx_year_mid,
@@ -123,21 +109,6 @@ filter_fcds <- function(fcds, var_name, values) {
   fcds %>%
     filter(!!var %in% values) %>%
     group_by(!!var, add = TRUE)
-}
-
-
-common_names <- function(x, y) intersect(names(x), names(y))
-
-group_drop <- function(.data, ..., .remove = FALSE) {
-  group_var <- rlang::enquos(...)
-  group_var_name <- map_chr(group_var, rlang::quo_name)
-  are_in_groups <- map_lgl(group_var_name, ~ . %in% group_vars(.data))
-  if (!any(are_in_groups)) return(.data)
-  .groups <- groups(.data) %>% set_names(group_vars(.data))
-  .groups <- .groups[setdiff(names(.groups), group_var_name)]
-  .data <- .data %>% ungroup() %>% group_by(!!!.groups)
-  if (!.remove) return(.data)
-  select(.data, -group_var_name)
 }
 
 merge_fl_counties <- function(.data) {

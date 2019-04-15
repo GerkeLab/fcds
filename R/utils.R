@@ -26,3 +26,31 @@ suggests_package <- function(pkg, needed_by = NULL, ...) {
     check_package(package, needed_by, ..., warn = TRUE)
   }
 }
+
+common_names <- function(x, y) intersect(names(x), names(y))
+
+group_drop <- function(.data, ..., .remove = FALSE) {
+  group_var <- rlang::enquos(...)
+  group_var_name <- map_chr(group_var, rlang::quo_name)
+  are_in_groups <- map_lgl(group_var_name, ~ . %in% group_vars(.data))
+  if (!any(are_in_groups)) return(.data)
+  .groups <- groups(.data) %>% set_names(group_vars(.data))
+  .groups <- .groups[setdiff(names(.groups), group_var_name)]
+  .data <- .data %>% ungroup() %>% group_by(!!!.groups)
+  if (!.remove) return(.data)
+  select(.data, -group_var_name)
+}
+
+get_data <- function(x) {
+  if (!exists(x)) {
+    rds_file <- here::here("data", paste0(x, ".rds"))
+    if (!file.exists(rds_file)) {
+      rlang::abort(
+        glue::glue("Unable to find RDS data file for {x} in data/")
+      )
+    }
+    readRDS(rds_file)
+  } else {
+    get(x)
+  }
+}
