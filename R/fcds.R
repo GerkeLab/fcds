@@ -270,50 +270,6 @@ filter_fcds <- function(fcds, var_name, values) {
 }
 
 
-fcds_const <- function(const = c("year", "county_name", "sex", "race",
-                                 "hispanic", "age_group")) {
-  switch(
-    match.arg(const),
-    "year" = c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
-               "2001-2005", "2006-2010", "2011-2015"),
-    "county_name" = c("Alachua", "Baker", "Bay", "Bradford", "Brevard", "Broward",
-                      "Calhoun", "Charlotte", "Citrus", "Clay", "Collier", "Columbia",
-                      "DeSoto", "Dixie", "Duval", "Escambia", "Flagler", "Franklin",
-                      "Gadsden", "Gilchrist", "Glades", "Gulf", "Hamilton", "Hardee",
-                      "Hendry", "Hernando", "Highlands", "Hillsborough", "Holmes",
-                      "Indian River", "Jackson", "Jefferson", "Lafayette", "Lake",
-                      "Lee", "Leon", "Levy", "Liberty", "Madison", "Manatee", "Marion",
-                      "Martin", "Miami-Dade", "Monroe", "Nassau", "Okaloosa", "Okeechobee",
-                      "Orange", "Osceola", "Palm Beach", "Pasco", "Pinellas", "Polk",
-                      "Putnam", "Santa Rosa", "Sarasota", "Seminole", "St. Johns",
-                      "St. Lucie", "Sumter", "Suwannee", "Taylor", "Union", "Volusia",
-                      "Wakulla", "Walton", "Washington"),
-    "sex" = c("Female", "Male", "Unknown"),
-    "race" = c("Black", "Other", "Unknown", "White"),
-    "hispanic" = c("Hispanic", "Not Hispanic", "Unknown"),
-    "age_group" = c("0 - 4", "10 - 14", "15 - 19", "20 - 24", "25 - 29", "30 - 34",
-                "35 - 39", "40 - 44", "45 - 49", "5 - 9", "50 - 54", "55 - 59",
-                "60 - 64", "65 - 69", "70 - 74", "75 - 79", "80 - 84", "85+",
-                "Unknown")
-  )
-}
-
-valid_fcds_const <- function(value, value_name, var_name = value_name, stop = TRUE) {
-  if (is.null(value)) return(NULL)
-  value <- paste(value)
-  not_in_const <- vapply(value, function(x) !x %in% fcds_const(value_name), logical(1))
-  if (any(not_in_const)) {
-    if (stop) rlang::abort(
-      glue::glue("Invalid '{var_name}': \"{value[not_in_const][1]}\" is not one of the options ",
-                 "in `fcds_const(\"{value_name}\")`")
-    ) else {
-      rlang::warn(paste("Ignoring invalid values in", var_name))
-    }
-    value <- value[!not_in_const]
-  }
-  value
-}
-
 common_names <- function(x, y) intersect(names(x), names(y))
 
 group_drop <- function(.data, ..., .remove = FALSE) {
