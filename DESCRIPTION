@@ -28,6 +28,7 @@ Imports:
     tidyr,
     tools
 Suggests: 
+    testthat,
     USAboundaries
 Encoding: UTF-8
 LazyData: true

@@ -90,6 +90,7 @@
 
 # Constants ---------------------------------------------------------------
 
+#' @export
 fcds_const <- function(
   const = c("year", "county_name", "sex", "race", "hispanic", "age_group")
 ) {
