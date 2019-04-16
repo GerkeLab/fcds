@@ -177,6 +177,7 @@ fcds_const <- function(
     "hispanic" = c("Hispanic", "Not Hispanic", "Unknown"),
     "age_group" = c(
       "0 - 4",
+      "5 - 9",
       "10 - 14",
       "15 - 19",
       "20 - 24",
@@ -185,7 +186,6 @@ fcds_const <- function(
       "35 - 39",
       "40 - 44",
       "45 - 49",
-      "5 - 9",
       "50 - 54",
       "55 - 59",
       "60 - 64",
