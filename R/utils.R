@@ -50,6 +50,21 @@ seq2 <- function(x, y) {
   })
 }
 
+validate_all_have_var <- function(var, ...) {
+  datasets <- purrr::map(
+    list(...),
+    ~ ifelse(var %in% names(.), "has", "missing")
+  )
+
+  if (purrr::some(datasets, ~ . == "missing")) {
+    missing <- purrr::keep(datasets, ~ . == "missing") %>%
+      names() %>% glue::glue_collapse("`, `", last = "` and `")
+
+    abort(glue("'{var}' is missing from `{missing}`"))
+  }
+}
+
+
 # Group Utilities ---------------------------------------------------------
 
 #' Remove a Grouping Column from Groups

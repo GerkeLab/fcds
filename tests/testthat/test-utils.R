@@ -105,3 +105,25 @@ test_that("with_retain_groups() implicitly drops groups with a warning", {
     "implicitly dropped.+year"
   )
 })
+
+
+# Various Utilities -------------------------------------------------------
+
+test_that("validate_all_have_var", {
+  data1 <- tibble(a = 1, b = 2, c = 3)
+  data2 <- tibble(b = 2, c = 3, d = 4)
+  data3 <- tibble(c = 3, d = 4, e = 5)
+  expect_error(
+    validate_all_have_var("b", data1 = data1, data2 = data2, data3 = data3),
+    "data3"
+  )
+
+  expect_error(
+    validate_all_have_var("e", data1 = data1, data2 = data2, data3 = data3),
+    "data1.+data2"
+  )
+
+  expect_null(
+    validate_all_have_var("c", data1 = data1, data2 = data2, data3 = data3)
+  )
+})
