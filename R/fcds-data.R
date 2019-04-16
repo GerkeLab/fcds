@@ -9,7 +9,7 @@
 #' @format A data frame with 68 rows and 2 variables: \describe{
 #'   \item{`county_name`}{Name of the county in Florida.}
 #'   \item{`fips_code`}{FIPS code.} }
-"county_fips_code"
+"county_fips_fl"
 
 
 #' SEER Florida population data

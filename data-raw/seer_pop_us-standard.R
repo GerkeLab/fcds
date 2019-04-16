@@ -104,6 +104,8 @@ seer_std_ages <-
 seer_std_ages <-
   seer_std_ages %>%
   filter(standard == "202") %>%
-  ungroup()
+  ungroup() %>%
+  fcds::standardize_age_groups() %>%
+  dplyr::arrange(age_group)
 
 usethis::use_data(seer_std_ages, compress = "xz", overwrite = TRUE)

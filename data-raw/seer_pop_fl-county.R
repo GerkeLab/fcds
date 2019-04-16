@@ -10,12 +10,12 @@ library(readr)
 
 use_data <- partial(usethis::use_data, overwrite = TRUE, compress = "xz")
 
-county_fips_file <- here::here("data", "county_fips_code.rda")
+county_fips_file <- here::here("data", "county_fips_fl.rda")
 if (!file.exists(county_fips_file)) stop(
-  "Please run `data-raw/county_fips_code.R` first"
+  "Please run `data-raw/county_fips_fl.R` first"
 )
 
-county_fips_code <- fcds::county_fips_code %>%
+county_fips_fl <- fcds::county_fips_fl %>%
   mutate(county_fips = sprintf("%03d", as.integer(fips_code)))
 
 # Download Files ----------------------------------------------------------
@@ -86,6 +86,9 @@ age_18_groups_by_index <- function(i) {
 recode_age_groups <- map_chr(0:18, age_18_groups_by_index)
 names(recode_age_groups) <- sprintf("%02d", 0:18)
 
+recode_fct <- function(x, recode_levels) {
+  factor(x, levels = names(recode_levels), labels = unname(recode_levels))
+}
 
 # Read SEER Fixed Width File ----------------------------------------------
 read_seer_fwf <- function(file, ...) {
@@ -116,16 +119,18 @@ seer_pop_fl <-
   summarize(population = sum(as.integer(population))) %>%
   ungroup() %>%
   mutate(
-    registry = recode_registry[registry],
-    race = recode_race_1969[race],
-    origin = recode_origin_1990[origin],
-    sex = recode_sex[sex],
+    registry  = factor(recode_registry[registry]),
+    race      = recode_fct(race, recode_race_1969),
+    origin    = recode_fct(origin, recode_origin_1990),
+    sex       = recode_fct(sex, recode_sex),
     age_group = recode_age_groups[age_group]
   ) %>%
   left_join(
-    county_fips_code %>% select(starts_with("county")),
+    county_fips_fl %>% select(starts_with("county")),
     by = "county_fips"
-  )
+  ) %>%
+  mutate(county_name = factor(county_name, levels = county_fips_fl$county_name)) %>%
+  fcds::standardize_age_groups()
 
 use_data(seer_pop_fl)
 
@@ -139,16 +144,18 @@ seer_pop_fl_exp_race <-
   summarize(population = sum(as.integer(population))) %>%
   ungroup() %>%
   mutate(
-    registry = recode_registry[registry],
-    race = recode_race_1990[race],
-    origin = recode_origin_1990[origin],
-    sex = recode_sex[sex],
+    registry  = factor(recode_registry[registry]),
+    race      = recode_fct(race, recode_race_1990),
+    origin    = recode_fct(origin, recode_origin_1990),
+    sex       = recode_fct(sex, recode_sex),
     age_group = recode_age_groups[age_group]
   ) %>%
   left_join(
-    county_fips_code %>% select(starts_with("county")),
+    county_fips_fl %>% select(starts_with("county")),
     by = "county_fips"
-  )
+  ) %>%
+  mutate(county_name = factor(county_name, levels = county_fips_fl$county_name)) %>%
+  fcds::standardize_age_groups()
 
 use_data(seer_pop_fl_exp_race)
 
@@ -174,10 +181,11 @@ seer_pop_us <-
   summarize(population = sum(population)) %>%
   ungroup() %>%
   mutate(
-    race = factor(race, names(recode_race_1990), recode_race_1990),
-    origin = factor(origin, names(recode_origin_1990), recode_origin_1990),
-    sex = factor(sex, names(recode_sex), recode_sex),
+    race      = recode_fct(race, recode_race_1990),
+    origin    = recode_fct(origin, recode_origin_1990),
+    sex       = recode_fct(sex, recode_sex),
     age_group = recode_age_groups[age_group]
-  )
+  ) %>%
+  fcds::standardize_age_groups()
 
 use_data(seer_pop_us)

@@ -287,10 +287,10 @@ split_and_clean <- function(x, by = "\n") {
   x[x != ""]
 }
 
-county_fips_code <- tibble(
+county_fips_fl <- tibble(
   county_name = tools::toTitleCase(tolower(split_and_clean(county_name))),
   fips_code = str_remove(split_and_clean(fips_code), "^0+")
 ) %>%
   mutate(county_name = recode(county_name, "Desoto" = "DeSoto"))
 
-use_data(county_fips_code)
+usethis::use_data(county_fips_fl, overwrite = TRUE, compress = "xz")
