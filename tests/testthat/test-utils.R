@@ -1,3 +1,6 @@
+
+# group_drop() ------------------------------------------------------------
+
 test_that("group_drop(): Groups are dropped from grouping", {
   expect_equal(
     tidyr::table2 %>% group_by(country, year, type) %>% group_drop(type),
@@ -39,4 +42,66 @@ test_that("group_drop(): Doesn't do anything if there are no groups defined", {
   expect_equal(tidyr::table2 %>% group_drop(country), tidyr::table2)
 
   expect_equal(data.frame(a = 1) %>% group_drop(a), data.frame(a = 1))
+})
+
+
+# with_ungroup() ----------------------------------------------------------
+
+test_that("with_ungroup() computes and restores groups", {
+  expect_equal(
+    tidyr::table1 %>% group_by(country, year) %>%
+      with_ungroup(~ mutate(., r = cases/population)),
+    tidyr::table1 %>% mutate(r = cases/population) %>% group_by(country, year)
+  )
+})
+
+test_that("with_ungroup() is a normal function if no groups", {
+  expect_equal(
+    tidyr::table1 %>% with_ungroup(~ mutate(., r = cases/population)),
+    tidyr::table1 %>% mutate(r = cases/population)
+  )
+})
+
+test_that("with_ungroup() implicitly drops groups with a warning", {
+  expect_warning(
+    tidyr::table1 %>% group_by(country, year) %>%
+      with_ungroup(~ mutate(., r = cases/population) %>% select(-year)),
+    "implicitly dropped.+year"
+  )
+})
+
+
+# with_retain_groups() ----------------------------------------------------
+
+test_that("with_retain_groups() restores groups after computation", {
+  expect_equal(
+    tidyr::table1 %>% group_by(country, year) %>%
+      with_retain_groups(~ dplyr::summarize(., cases = sum(cases))),
+    tidyr::table1 %>% group_by(country, year) %>%
+      dplyr::summarize(cases = sum(cases)) %>% group_by(year, add = TRUE)
+  )
+
+  expect_equal(
+    tidyr::table1 %>% group_by(country, year) %>%
+      with_retain_groups(~ dplyr::ungroup(.) %>% dplyr::slice(1)),
+    tidyr::table1 %>% dplyr::slice(1) %>% group_by(country, year)
+  )
+})
+
+test_that("with_retain_groups() is a normal function if no groups", {
+  expect_equal(
+    tidyr::table1 %>% with_retain_groups(~ mutate(., r = cases/population)),
+    tidyr::table1 %>% mutate(r = cases/population)
+  )
+})
+
+test_that("with_retain_groups() implicitly drops groups with a warning", {
+  expect_warning(
+    tidyr::table1 %>% group_by(country, year) %>%
+      with_retain_groups(~ {
+          dplyr::summarize(., r = cases/population) %>%
+          dplyr::summarize(r = mean(r))
+      }),
+    "implicitly dropped.+year"
+  )
 })

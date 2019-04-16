@@ -41,4 +41,8 @@ tidyr::table2 \%>\%
   group_drop(type)
 
 }
+\seealso{
+Other Group Utilities: \code{\link{with_retain_groups}},
+  \code{\link{with_ungroup}}
+}
 \concept{Group Utilities}

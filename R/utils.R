@@ -109,4 +109,92 @@ group_drop <- function(.data, ..., .remove_dropped = FALSE) {
   }
 }
 
+#' Apply a Function to a Temporarily Ungrouped Data Frame
+#'
+#' Occasionally it is useful to ungroup a data frame before applying a
+#' calculation that would otherwise by slowed down by subdividing the
+#' calculation by group. In these circumstances, the calculation should be
+#' independent of the grouping. `with_ungroup()` temporarily removes groups,
+#' applies the function `.f` to `.data` (as `.f(.data)`) and then restores
+#' the original grouping.
+#'
+#' @examples
+#' # with_ungroup() applies inner function to ungrouped data frame
+#' # and restores grouping on output
+#' tidyr::table1 %>%
+#'   dplyr::group_by(country, year) %>%
+#'   with_ungroup(~ dplyr::mutate(., r = cases / population))
+#'
+#' # groups that "disappear" are implicitly dropped, with a warning
+#' tidyr::table1 %>%
+#'   dplyr::group_by(country, year) %>%
+#'   with_ungroup(~ {
+#'     dplyr::mutate(., r = cases/population) %>%
+#'       dplyr::select(-year)
+#'   })
+#'
+#' # works like "normal" if no groupings are present
+#' tidyr::table1 %>%
+#'   with_ungroup(~ dplyr::mutate(., r = cases/population))
+#'
+#' @inheritParams purrr::as_mapper
+#' @inheritParams group_drop
+#' @family Group Utilities
+#' @export
+with_ungroup <- function(.data, .f, ...) {
+  .f <- purrr::as_mapper(.f, ...)
+  if (!inherits(.data, "grouped_df")) return(.f(.data))
+  data_groups <- group_vars(.data)
+  .data <- ungroup(.data)
+  .data <- .f(.data)
+  regroup(.data, data_groups)
 }
+
+#' Restore Groups After Applying a Function to a Data Frame
+#'
+#' Groups are sometimes removed by [dplyr] functions, such as
+#' [dplyr::summarize()]. However, it may be necessary to ensure that the data
+#' output by a function retains as many of the original groups as are available
+#' after applying the function. `with_retain_groups()` applies a function to a
+#' grouped data frame and restores the original group as much as possible.
+#'
+#' @examples
+#' # with_retain_groups() applies inner function to grouped data frame
+#' # and restores grouping on output
+#' tidyr::table1 %>%
+#'   dplyr::group_by(country, year) %>%
+#'   with_retain_groups(~ dplyr::summarize(., cases = sum(cases)))
+#'
+#' # Groups that "disappear" are implicitly dropped, with a warning
+#' tidyr::table1 %>%
+#'   dplyr::group_by(country, year) %>%
+#'   with_retain_groups(~ {
+#'     dplyr::summarize(., r = cases / population) %>%
+#'       dplyr::summarize(r = mean(r))
+#'   })
+#'
+#' # Works like "normal" if no groupings are present
+#' tidyr::table1 %>%
+#'   with_retain_groups(~ dplyr::mutate(., r = cases / population))
+#'
+#' @inheritParams with_ungroup
+#' @family Group Utilities
+#' @export
+with_retain_groups <- function(.data, .f, ...) {
+  .f <- purrr::as_mapper(.f, ...)
+  if (!inherits(.data, "grouped_df")) return(.f(.data))
+  data_groups <- group_vars(.data)
+  .data <- .f(.data)
+  regroup(.data, data_groups)
+}
+
+regroup <- function(.data, groups_possible) {
+  g_after <- intersect(groups_possible, names(.data))
+  g_missing <- setdiff(groups_possible, g_after)
+  if (length(g_missing)) {
+    g_missing <- glue::glue_collapse(glue("`{g_missing}`"), ", ")
+    warn(glue("groups were implicitly dropped: {g_missing}"))
+  }
+  group_by(.data, !!!rlang::syms(g_after))
+}
+
