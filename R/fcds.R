@@ -1,21 +1,39 @@
-
-merge_fl_pop <- function(
+join_population <- function(
   data,
-  year_var = dx_year_mid,
-  fl_pop = get_data("seer_pop_fl")
+  population = fcds::seer_pop_fl,
+  by_year = NULL
 ) {
-  year_var <- enquo(year_var)
-  year_var_name <- quo_name(year_var)
-  stopifnot(year_var_name %in% names(data))
+  if (!is.null(by_year)) {
+    return(join_population_by_year(data, population, by_year))
+  }
 
-  fl_pop <- fl_pop %>%
-    rename(!!year_var_name := year) %>%
-    nest(setdiff(names(.), c(common_names(data, fl_pop), year_var_name)),
-         .key = "population")
+  common_names_ <- common_names(data, population)
+  pop_vars <- setdiff(names(population), common_names_)
 
-  # TODO: message here about common_names()?
+  # Nest population specific variables
+  population <- population %>% tidyr::nest(pop_vars, .key = "population")
 
-  left_join(data, fl_pop, by = common_names(data, fl_pop))
+  dplyr::left_join(data, population, by = common_names_)
+}
+
+join_population_by_year <- function(
+  data,
+  population = fcds::seer_pop_fl,
+  by_year = c("dx_year_mid" = "year")
+) {
+  if (length(by_year) != 1) {
+    abort(glue(
+      "`by_year` must be a length-1 character vector: ",
+      "either the name of the year column in both `data` and `population`, or ",
+      "a named vector where the name provides the year column name in `data`."
+    ))
+  }
+  if (is.null(names(by_year))) by_year <- setNames(nm = by_year)
+  validate_all_have_var(names(by_year), data = data)
+  validate_all_have_var(unname(by_year), population = population)
+
+  population <- population %>% dplyr::rename(!!!by_year)
+  join_population(data, population, by_year = NULL)
 }
 
 summarize_fcds <- function(

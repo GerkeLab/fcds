@@ -2,6 +2,7 @@
 
 export("%>%")
 export(add_mid_year)
+export(age_adjust)
 export(complete_age_groups)
 export(complete_year_groups)
 export(expand_age_groups)

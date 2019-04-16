@@ -129,3 +129,105 @@ test_that("standardize_age_groups() returns columns in same order", {
     names(t_age_group)[c(2, 1, 3)]
   )
 })
+
+
+# Age Adjustment ----------------------------------------------------------
+
+
+# Age Adjustment Example Data ----
+# Example modified from https://seer.cancer.gov/seerstat/tutorials/aarates/
+d_incidence <- tibble::tribble(
+  ~age_group,   ~n,
+     "0 - 4",  116,
+     "5 - 9",   67,
+   "10 - 14",   71,
+   "15 - 19",   87,
+   "20 - 24",  177,
+   "25 - 29",  290,
+   "30 - 34",  657,
+   "35 - 39", 1072,
+   "40 - 44", 1691,
+   "45 - 49", 2428,
+   "50 - 54", 2931,
+   "55 - 59", 2881,
+   "60 - 64", 2817,
+   "65 - 69", 2817,
+   "70 - 74", 2744,
+   "75 - 79", 2634,
+   "80 - 84", 1884,
+       "85+", 1705
+) %>%
+  fcds::standardize_age_groups()
+
+d_population <- tibble::tribble(
+  ~age_group, ~population, ~crude_rate,
+     "0 - 4",      693068,        16.7,
+     "5 - 9",      736212,         9.1,
+   "10 - 14",      770999,         9.2,
+   "15 - 19",      651390,        13.4,
+   "20 - 24",      639159,        27.7,
+   "25 - 29",      676354,        42.9,
+   "30 - 34",      736557,        89.2,
+   "35 - 39",      724826,       147.9,
+   "40 - 44",      700200,       241.5,
+   "45 - 49",      617437,       393.2,
+   "50 - 54",      516541,       567.4,
+   "55 - 59",      361170,       797.7,
+   "60 - 64",      259440,      1085.8,
+   "65 - 69",      206204,      1366.1,
+   "70 - 74",      172087,      1594.5,
+   "75 - 79",      142958,      1842.5,
+   "80 - 84",       99654,      1890.5,
+       "85+",       92692,      1839.4
+  ) %>%
+  fcds::standardize_age_groups()
+
+d_std <- tibble::tribble(
+  ~age_group,  ~std_pop, ~age_dist, ~rate,
+     "0 - 4",  18986520,  0.069134,  1.16,
+     "5 - 9",  19919840,  0.072532,  0.66,
+   "10 - 14",  20056779,  0.073031,  0.67,
+   "15 - 19",  19819518,  0.072167,  0.96,
+   "20 - 24",  18257225,  0.066478,  1.84,
+   "25 - 29",  17722067,   0.06453,  2.77,
+   "30 - 34",  19511370,  0.071045,  6.34,
+   "35 - 39",  22179956,  0.080762, 11.94,
+   "40 - 44",  22479229,  0.081852, 19.77,
+   "45 - 49",  19805793,  0.072117, 28.36,
+   "50 - 54",  17224359,  0.062718, 35.59,
+   "55 - 59",  13307234,  0.048454, 38.65,
+   "60 - 64",  10654272,  0.038794, 42.12,
+   "65 - 69",   9409940,  0.034264, 46.81,
+   "70 - 74",   8725574,  0.031772, 50.66,
+   "75 - 79",   7414559,  0.026998, 49.74,
+   "80 - 84",   4900234,  0.017843, 33.73,
+       "85+",   4259173,  0.015509, 28.53
+  ) %>%
+  fcds::standardize_age_groups()
+
+d_answer <- tibble::tribble(
+  ~age_group,  ~std_pop, ~age_dist, ~rate,
+  "All Ages", 274633642,         1, 400.3
+)
+
+# Age Adjustment Tests ----
+
+# Needs Tests
+#
+# * data should be at least grouped by {age}
+# * what if data is grouped by year?
+
+test_that("age_adjust()", {
+  r_age_adjusted <- age_adjust(d_incidence, population = d_population, by_year = NULL)
+
+  expect_equal(round(r_age_adjusted$rate, 1), d_answer$rate)
+  expect_equal(r_age_adjusted$population, sum(d_population$population))
+  expect_equal(r_age_adjusted$n, sum(d_incidence$n))
+
+  expect_error(
+    age_adjust(d_incidence,
+               by_year = NULL,
+               population = d_population %>% dplyr::rename(pop = population)),
+    "population.+is missing"
+  )
+})

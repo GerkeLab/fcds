@@ -253,6 +253,7 @@ standardize_age_groups <- function(
     mutate(age_group = factor(age_group, std_age_groups, ordered = TRUE))
 }
 
+# nocov start
 format_age_groups <- function(
   data,
   age_low_var = age_low,
@@ -273,77 +274,131 @@ format_age_groups <- function(
     ) %>%
     select(-age_group_low, -age_group_high)
 }
+# nocov end
 
 
 # Age Adjustment ----------------------------------------------------------
 
+#' Age-Adjust Rates
+#'
+#' Provides age-adjusted incident rates with respect to a reference population,
+#' by default [seer_std_ages].
+#'
+#' @section Age-Adjusted Rates:
+#'
+#' Calculating age-adjusted rates requires three primary inputs:
+#'
+#' 1. Raw age-specific count of event or outcome, possibly observed or
+#'    summarized at repeated, consistent time intervals.
+#' 2. Population data with the same demographic resolution as the age-specific
+#'    counts, as in, for example, the population for the same geographic region,
+#'    sex, race, year, and age.
+#' 3. The standard reference population that is used to weight incidence among
+#'    the observed age-specific count.
+#'
+#' Note that each input is required to have a column `age_group` containing
+#' matching age groups across all three inputs.
+#'
+#' @return A data frame with age-adjusted incidence rates. Note that `age_group`
+#'   will no longer be included in the output because the age-adjusted rate
+#'   summarizes the observed incidence across all ages.
+#'
+#' @param data A data frame, containing counts
+#' @param count The unquoted column name containing raw event or outcome counts.
+#' @param year The unquoted column name containing the year that will be matched
+#'   to the population data.
+#' @param population Population data specific to the population described by
+#'   `data`. By default, uses the county-specific Florida population data
+#'   provided by SEER (see [seer_pop_fl]).
+#' @param population_standard The standard age-specific population used to
+#'   calculate the age-adjusted rates. By default, uses the 2000 U.S. standard
+#'   population provided by SEER (see [seer_std_ages]).
+#' @param keep_age Age-adjustment by definition summarizes event or outcome
+#'   counts (incidence) over _all_ included ages. Set `keep_age` to join the
+#'   source data with all age-specific population without completing the age
+#'   adjustment calculation. This option is primarily provided for debugging
+#'   purposes.
+#' @export
 age_adjust <- function(
   data,
-  outcome_var = n,
-  year_var = dx_year_mid,
-  fl_pop = get_data("seer_pop_fl"),
-  std_pop_data = get_data("seer_std_ages"),
-  keep_age_group = FALSE
+  count = n,
+  population = fcds::seer_pop_fl,
+  population_standard = fcds::seer_std_ages,
+  by_year = c("dx_year_mid" = "year"),
+  age = age_group,
+  keep_age = FALSE
 ) {
-  outcome_var <- enquo(outcome_var)
-  outcome_var_name <- quo_name(outcome_var)
-  year_var <- enquo(year_var)
-  year_var_name <- quo_name(year_var)
+  count <- enquo(count)
+  age <- enquo(age)
+  age_var_name <- quo_name(age)
 
-  # Age and Year are required in source data
-  stopifnot(year_var_name %in% names(data))
-  stopifnot("age_group" %in% names(data))
-  data <- filter(data, age_group != "Unknown")
+  # All inputs need to have the age_grouping variable
+  validate_all_have_var(age_var_name, data = data, population = population,
+                        population_standard = population_standard)
+
+  # `population` needs a "population" column
+  validate_all_have_var("population", population = population)
+
+  data <- filter(data, !!age != "Unknown") %>%
+    # data needs age to be in the groups
+    group_by(!!age, add = TRUE)
   data_groups <- groups(data)
 
-  #  Get groups from data
-  #  Roll up FL and std pop data for those groups
-  #  Merge into fcds
-  #  Calculate age-adjusted rate
-  data <- merge_fl_pop(data, !!year_var, fl_pop) %>%
-    mutate(population = map(population, "population") %>% map_int(sum)) %>%
-    summarize_at(vars(!!outcome_var, population), sum) %>%
-    group_by(!!!data_groups) # restore groups
-
-  data_groups <- setdiff(group_vars(data), year_var_name)
   data <- data %>%
-    group_by(!!!rlang::syms(data_groups))
+    join_population(population, by_year = by_year) %>%
+    with_ungroup(~ {
+      mutate(
+        .x, population = purrr::map(population, "population") %>% purrr::map_dbl(sum)
+      )
+    }) %>%
+    with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population), sum))
 
-  if (keep_age_group) return(data)
-  data %>% age_adjust_finalize(!!outcome_var, std_pop_data)
+  # Should keep_age_group exit here? Or should we add std pop data first?
+
+  # data_groups <- setdiff(dplyr::group_vars(data), year_var_name)
+  # data <- data %>% group_by(!!!rlang::syms(data_groups))
+
+  data %>% age_adjust_finalize(!!count, population_standard, keep_age)
 }
 
 
 age_adjust_finalize <- function(
   data,
-  outcome_var = n,
-  std_pop_data = get_data("seer_std_ages")
+  count = n,
+  population_standard = get_data("seer_std_ages"),
+  keep_age = FALSE
 ) {
-  outcome_var <- enquo(outcome_var)
+  count <- enquo(count)
+
+  if (!"age_group" %in% names(population_standard)) {
+    abort("age_adjust() requires population_standard to have the column 'age_group'.")
+  }
 
   age_groups <- unique(data$age_group)
+  pop_std_age_groups <- unique(population_standard$age_group)
+  if (length(intersect(age_groups, pop_std_age_groups)) == 0) {
+    abort("The age groups in data do not match any age groups in population_standard.")
+  }
 
   # Get standard population
   std_pop_relevant <-
-    std_pop_data %>%
+    population_standard %>%
     filter(age_group %in% age_groups) %>%
     select(age_group, std_pop) %>%
     mutate(w = std_pop / sum(std_pop))
 
-  data <- left_join(data, std_pop_relevant, by = "age_group")
+  data <- dplyr::left_join(data, std_pop_relevant, by = "age_group")
+
+  if (keep_age) return(data)
 
   # Get groups from the data other than "age_group" because we'll be
   # summing over the "age_group" column
   data_groups <- group_vars(data) %>% setdiff("age_group") %>% rlang::syms()
 
   data %>%
-    ungroup() %>%
-    mutate(
-      rate = !!outcome_var / population * w
-    ) %>%
-    group_by(!!!data_groups) %>%
-    summarize_at(vars(n, population, rate), sum) %>%
-    # restore all groups
-    group_by(!!!data_groups) %>%
+    # Drop "age_group" from groups so that summarization is over ages
+    group_drop(age_group) %>%
+    with_ungroup(~ mutate(., rate = !!count / population * w)) %>%
+    with_retain_groups(~ dplyr::summarize_at(., quos(n, population, rate), sum)) %>%
     mutate(rate = rate * 100000)
 }
