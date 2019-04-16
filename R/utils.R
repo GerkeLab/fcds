@@ -6,7 +6,7 @@ check_package <- function(
   warn = TRUE
 ) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    if (is.null(fun)) fun <- "{fcds}"
+    if (is.null(needed_by)) needed_by <- "{fcds}"
     msg <- glue(
       "Package `{pkg}` is {if (warn) 'suggested' else 'required'} by {needed_by}.",
       "\n{how_to_install}"
@@ -17,19 +17,23 @@ check_package <- function(
 }
 
 requires_package <- function(pkg, needed_by = NULL, ...) {
+  res <- setNames(rep(FALSE, length(pkg)), pkg)
   for (package in pkg) {
-    check_package(package, needed_by, ..., warn = FALSE)
+    res[package] <- check_package(package, needed_by, ..., warn = FALSE)
   }
+  res
 }
 suggests_package <- function(pkg, needed_by = NULL, ...) {
+  res <- setNames(rep(FALSE, length(pkg)), pkg)
   for (package in pkg) {
-    check_package(package, needed_by, ..., warn = TRUE)
+    res[package] <- check_package(package, needed_by, ..., warn = TRUE)
   }
+  res
 }
 
 common_names <- function(x, y) intersect(names(x), names(y))
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
+`%||%` <- function(x, y) if (is.null(x)) y else x  # nocov
 
 is_neg_infinite <- function(x) {
   vapply(x, function(y) {

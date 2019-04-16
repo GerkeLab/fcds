@@ -127,3 +127,21 @@ test_that("validate_all_have_var", {
     validate_all_have_var("c", data1 = data1, data2 = data2, data3 = data3)
   )
 })
+
+test_that("check for packages", {
+  not_a_pkg <- "aqswdefrgthy"
+
+  expect_error(requires_package(not_a_pkg), "required.+fcds")
+  expect_error(requires_package(not_a_pkg, "test"), "required.+test")
+  expect_warning(suggests_package(not_a_pkg), "suggested.+fcds")
+  expect_warning(suggests_package(not_a_pkg, "test"), "suggested.+test")
+
+  expect_false(suppressWarnings(suggests_package(not_a_pkg)))
+  expect_true(requires_package("dplyr"))
+  expect_true(suggests_package("dplyr"))
+
+  expect_equal(
+    suppressWarnings(suggests_package(c("dplyr", not_a_pkg))),
+    setNames(c(TRUE, FALSE), c("dplyr", not_a_pkg))
+  )
+})
