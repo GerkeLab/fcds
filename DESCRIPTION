@@ -26,6 +26,7 @@ Imports:
     purrr,
     rlang,
     tidyr,
+    tidyselect,
     tools
 Suggests: 
     testthat,

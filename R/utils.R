@@ -50,14 +50,63 @@ seq2 <- function(x, y) {
   })
 }
 
-group_drop <- function(.data, ..., .remove = FALSE) {
-  group_var <- enquos(...)
-  group_var_name <- map_chr(group_var, quo_name)
-  are_in_groups <- map_lgl(group_var_name, ~ . %in% group_vars(.data))
-  if (!any(are_in_groups)) return(.data)
-  .groups <- groups(.data) %>% set_names(group_vars(.data))
-  .groups <- .groups[setdiff(names(.groups), group_var_name)]
-  .data <- .data %>% ungroup() %>% group_by(!!!.groups)
-  if (!.remove) return(.data)
-  select(.data, -group_var_name)
+# Group Utilities ---------------------------------------------------------
+
+#' Remove a Grouping Column from Groups
+#'
+#' Removes columns from the current list of groups, with the additional option
+#' to remove the columns from the data completely. In essence, the opposite of
+#' [dplyr::group_by()] with `add = TRUE`.
+#'
+#' @examples
+#' Remove "type" from the groups
+#' tidyr::table2 %>%
+#'   dplyr::group_by(country, year, type) %>%
+#'   group_drop(type)
+#'
+#' # Remove "type" from the groups and the output data frame
+#' tidyr::table2 %>%
+#'   dplyr::group_by(country, year, type) %>%
+#'   group_drop(type, .remove_dropped = TRUE)
+#'
+#' # Only columns that were dropped from groups will be removed
+#' tidyr::table2 %>%
+#'   dplyr::group_by(country, type) %>%
+#'   group_drop(year, type, .remove_dropped = TRUE)
+#'
+#' # Nothing happens if trying to drop a group that's not in the groups
+#' tidyr::table2 %>%
+#'   dplyr::group_by(country, year) %>%
+#'   group_drop(type)
+#'
+#' @param .data A grouped tbl, tibble, or data.frame
+#' @param ... Quoted or unquoted column names to be removed from the grouping
+#' @param .remove_dropped Should columns that are dropped from the grouping also
+#'   be removed from `.data`? Default is `FALSE`.
+#' @family Group Utilities
+#' @export
+group_drop <- function(.data, ..., .remove_dropped = FALSE) {
+  if (!inherits(.data, "grouped_df")) return(.data)
+
+  group_var_names <- tidyselect::vars_select(names(.data), ...) %>%
+    intersect(group_vars(.data))
+
+  if (!length(group_var_names)) {
+    # requested columns aren't in .data's groups
+    return(.data)
+  }
+
+  data_groups <- group_vars(.data) %>%
+    setdiff(group_var_names) %>%
+    rlang::syms()
+
+  .data <- .data %>% group_by(!!!data_groups)
+
+  if (.remove_dropped) {
+    select(.data, -group_var_names)
+  } else {
+    .data
+  }
+}
+
 }
