@@ -4,6 +4,9 @@ d_age_group <- data.frame(
 )
 
 
+# Age Helpers -------------------------------------------------------------
+
+
 test_that("expand_age_groups()", {
   r_age_group <- expand_age_groups(d_age_group)
 
@@ -74,7 +77,6 @@ test_that("complete_age_groups()", {
   expect_equal(r_age_group$n, c(10, 11, 0, 12, 0))
 })
 
-
 test_that("standardize_age_groups()", {
   # normal
   expected_age_group <- d_age_group %>%
@@ -91,6 +93,9 @@ test_that("standardize_age_groups()", {
 
   expect_equal(stdized_age_group, expected_age_group)
   expect_equal(levels(stdized_age_group$age_group), fcds_const("age_group"))
+})
+
+test_that("standardize_age_groups() with non-standard age groups", {
 
   expect_error(
     data.frame(age_group = "3 - 6") %>% standardize_age_groups(),
@@ -101,7 +106,9 @@ test_that("standardize_age_groups()", {
       standardize_age_groups(std_age_groups = "3 - 6"),
     data.frame(age_group = factor("3 - 6", ordered = TRUE))
   )
+})
 
+test_that("standardize_age_groups() with numeric-ish age inputs", {
   numeric_char_age <- tibble(age = c("1.245", "7.5", "11.3"))
   r_numeric_char_age <- numeric_char_age %>% standardize_age_groups(age)
 
@@ -109,4 +116,16 @@ test_that("standardize_age_groups()", {
   expect_equal(r_numeric_char_age$age, numeric_char_age$age)
   expect_equal(paste(r_numeric_char_age$age_group),
                paste(seq(0, 10, 5), "-", seq(4, 14, 5)))
+})
+
+test_that("standardize_age_groups() returns columns in same order", {
+  t_age_group <- tibble(col1 = 1, age_group = "0 - 4", col2 = 2)
+  expect_equal(
+     t_age_group %>% standardize_age_groups() %>% names(),
+     names(t_age_group)
+  )
+  expect_equal(
+    t_age_group[, c(2, 1, 3)] %>% standardize_age_groups() %>% names(),
+    names(t_age_group)[c(2, 1, 3)]
+  )
 })

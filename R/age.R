@@ -180,6 +180,7 @@ standardize_age_groups <- function(
 ) {
   age_var <- enquo(age_var)
   age_var_name <- quo_name(age_var)
+  data_cols <- names(data)
 
   std_ages <-
     tibble(age_group = std_age_groups) %>%
@@ -247,6 +248,7 @@ standardize_age_groups <- function(
   }
 
   data %>%
+    select(union(data_cols, "age_group")) %>%
     tidyr::replace_na(list(age_group = "Unknown")) %>%
     mutate(age_group = factor(age_group, std_age_groups, ordered = TRUE))
 }
