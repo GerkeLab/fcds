@@ -61,17 +61,3 @@ group_drop <- function(.data, ..., .remove = FALSE) {
   if (!.remove) return(.data)
   select(.data, -group_var_name)
 }
-
-get_data <- function(x) {
-  if (!exists(x)) {
-    rds_file <- here::here("data", paste0(x, ".rds"))
-    if (!file.exists(rds_file)) {
-      abort(
-        glue("Unable to find RDS data file for {x} in data/")
-      )
-    }
-    readRDS(rds_file)
-  } else {
-    get(x)
-  }
-}
