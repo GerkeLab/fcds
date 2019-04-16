@@ -7,11 +7,11 @@ check_package <- function(
 ) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     if (is.null(fun)) fun <- "{fcds}"
-    msg <- glue::glue(
+    msg <- glue(
       "Package `{pkg}` is {if (warn) 'suggested' else 'required'} by {needed_by}.",
       "\n{how_to_install}"
     )
-    if (warn) rlang::warn(msg) else rlang::stop(msg)
+    if (warn) warn(msg) else abort(msg)
     invisible(FALSE)
   } else invisible(TRUE)
 }
@@ -51,8 +51,8 @@ seq2 <- function(x, y) {
 }
 
 group_drop <- function(.data, ..., .remove = FALSE) {
-  group_var <- rlang::enquos(...)
-  group_var_name <- map_chr(group_var, rlang::quo_name)
+  group_var <- enquos(...)
+  group_var_name <- map_chr(group_var, quo_name)
   are_in_groups <- map_lgl(group_var_name, ~ . %in% group_vars(.data))
   if (!any(are_in_groups)) return(.data)
   .groups <- groups(.data) %>% set_names(group_vars(.data))
@@ -66,8 +66,8 @@ get_data <- function(x) {
   if (!exists(x)) {
     rds_file <- here::here("data", paste0(x, ".rds"))
     if (!file.exists(rds_file)) {
-      rlang::abort(
-        glue::glue("Unable to find RDS data file for {x} in data/")
+      abort(
+        glue("Unable to find RDS data file for {x} in data/")
       )
     }
     readRDS(rds_file)

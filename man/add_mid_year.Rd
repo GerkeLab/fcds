@@ -4,7 +4,7 @@
 \alias{add_mid_year}
 \title{Add Mid-Year Column}
 \usage{
-add_mid_year(.data, year_var = dx_year, sep = "-")
+add_mid_year(data, year_var = dx_year, sep = "-")
 }
 \description{
 Adds a new column containing the midpoint year of the range given in the

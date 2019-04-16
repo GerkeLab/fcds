@@ -31,10 +31,10 @@ expand_age_groups <- function(
   age_high_var = age_high
 ) {
   age_var           <- enquo(age_var)
-  age_low_var       <- rlang::enquo(age_low_var)
-  age_low_var_name  <- rlang::quo_name(age_low_var)
-  age_high_var      <- rlang::enquo(age_high_var)
-  age_high_var_name <- rlang::quo_name(age_high_var)
+  age_low_var       <- enquo(age_low_var)
+  age_low_var_name  <- quo_name(age_low_var)
+  age_high_var      <- enquo(age_high_var)
+  age_high_var_name <- quo_name(age_high_var)
 
   data %>%
     separate(!!age_var, into = c(age_low_var_name, age_high_var_name),
@@ -84,8 +84,8 @@ filter_age <- function(
   age_high = Inf,
   age_var = age_group
 ) {
-  age_var <- rlang::enquo(age_var)
-  age_var_name <- rlang::quo_name(age_var)
+  age_var <- enquo(age_var)
+  age_var_name <- quo_name(age_var)
   if (!"age_low" %in% names(data)) {
     stopifnot(age_var_name %in% names(data))
     data <- expand_age_groups(data, age_var = !!age_var)
@@ -125,8 +125,8 @@ complete_age_groups <- function(
   include_unknown = FALSE,
   std_age_groups = fcds_const("age_group")
 ) {
-  age_var <- rlang::enquo(age_var)
-  age_var_name <- rlang::quo_name(age_var)
+  age_var <- enquo(age_var)
+  age_var_name <- quo_name(age_var)
   stopifnot(age_var_name %in% names(data))
 
   ages <- tibble(age_group = std_age_groups)
@@ -179,7 +179,7 @@ standardize_age_groups <- function(
   ...
 ) {
   age_var <- enquo(age_var)
-  age_var_name <- rlang::quo_name(age_var)
+  age_var_name <- quo_name(age_var)
 
   std_ages <-
     tibble(age_group = std_age_groups) %>%
@@ -234,9 +234,9 @@ standardize_age_groups <- function(
 
     if (!identical(data_low$age_group, data_high$age_group)) {
       abort(
-        glue::glue("Age groupings in {age_var_name} ",
-                   "are not consistent with `std_age_groups`. ",
-                   "Try using actual age, if available.")
+        glue("Age groupings in {age_var_name} ",
+             "are not consistent with `std_age_groups`. ",
+             "Try using actual age, if available.")
       )
     }
 
@@ -283,10 +283,10 @@ age_adjust <- function(
   std_pop_data = get_data("seer_std_ages"),
   keep_age_group = FALSE
 ) {
-  outcome_var <- rlang::enquo(outcome_var)
-  outcome_var_name <- rlang::quo_name(outcome_var)
-  year_var <- rlang::enquo(year_var)
-  year_var_name <- rlang::quo_name(year_var)
+  outcome_var <- enquo(outcome_var)
+  outcome_var_name <- quo_name(outcome_var)
+  year_var <- enquo(year_var)
+  year_var_name <- quo_name(year_var)
 
   # Age and Year are required in source data
   stopifnot(year_var_name %in% names(data))
@@ -294,7 +294,7 @@ age_adjust <- function(
   data <- filter(data, age_group != "Unknown")
   data_groups <- groups(data)
 
-  #  Get groups from .data
+  #  Get groups from data
   #  Roll up FL and std pop data for those groups
   #  Merge into fcds
   #  Calculate age-adjusted rate
@@ -317,7 +317,7 @@ age_adjust_finalize <- function(
   outcome_var = n,
   std_pop_data = get_data("seer_std_ages")
 ) {
-  outcome_var <- rlang::enquo(outcome_var)
+  outcome_var <- enquo(outcome_var)
 
   age_groups <- unique(data$age_group)
 

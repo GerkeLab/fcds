@@ -4,7 +4,7 @@
 \alias{complete_year_groups}
 \title{Complete Year Groups}
 \usage{
-complete_year_groups(.data, start = NULL, end = NULL,
+complete_year_groups(data, start = NULL, end = NULL,
   year_var = "dx_year", fill = list(n = 0))
 }
 \description{

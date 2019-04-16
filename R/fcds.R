@@ -4,8 +4,8 @@ merge_fl_pop <- function(
   year_var = dx_year_mid,
   fl_pop = get_data("seer_pop_fl")
 ) {
-  year_var <- rlang::enquo(year_var)
-  year_var_name <- rlang::quo_name(year_var)
+  year_var <- enquo(year_var)
+  year_var_name <- quo_name(year_var)
   stopifnot(year_var_name %in% names(data))
 
   fl_pop <- fl_pop %>%

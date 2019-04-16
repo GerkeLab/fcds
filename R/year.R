@@ -37,16 +37,16 @@ complete_year_groups <- function(data, start = NULL, end = NULL, year_var = "dx_
 #' @family year processors
 #' @export
 add_mid_year <- function(data, year_var = dx_year, sep = "-") {
-  year_var <- rlang::enquo(year_var)
-  year_var_name <- paste0(rlang::quo_name(year_var), "_mid")
+  year_var <- enquo(year_var)
+  year_var_name <- glue("{quo_name(year_var)}_mid")
 
   if (year_var_name %in% names(data)) return(data)
-  stopifnot(rlang::quo_name(year_var) %in% names(data))
+  stopifnot(quo_name(year_var) %in% names(data))
 
   mutate(data, !!year_var_name := mid_year(!!year_var))
 }
 
 mid_year <- function(years, sep = "-", offset = 2) {
-  low_year_regex <- paste0("(\\d{2,4}).*", sep, ".*")
+  low_year_regex <- glue("(\\d{{2,4}}).*{sep}.*")
   paste(as.integer(sub(low_year_regex, "\\1", years)) + offset)
 }
