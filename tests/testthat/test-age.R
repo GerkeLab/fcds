@@ -263,18 +263,18 @@ test_that("age_adjust() with additional grouping", {
 
 test_that("age_adjust() with year", {
   d_incidence_y <- tidyr::crossing(
-    dx_year_mid = c("1990", "200"),
+    dx_year_mid = c("1990", "2000"),
     d_incidence
   ) %>%
     group_by(dx_year_mid)
 
   d_population_y <- tidyr::crossing(
-    year = c("1990", "200"),
+    year = c("1990", "2000"),
     d_population
   )
 
   e_age_adjusted <- tidyr::crossing(
-    dx_year_mid = c("1990", "200"),
+    dx_year_mid = c("1990", "2000"),
     age_adjust(d_incidence, population = d_population, by_year = NULL)
   ) %>%
     group_by(dx_year_mid)
@@ -283,7 +283,8 @@ test_that("age_adjust() with year", {
 
   expect_equal(group_vars(r_age_adjusted), group_vars(d_incidence_y))
   expect_equal(round(r_age_adjusted$rate, 1), rep(d_answer$rate, nrow(r_age_adjusted)))
-  expect_identical(r_age_adjusted, e_age_adjusted)
+  expect_equivalent(r_age_adjusted, e_age_adjusted)
+  expect_equal(group_vars(r_age_adjusted), group_vars(e_age_adjusted))
 })
 
 test_that("age_adjust() warns if no grouping provided but non-rate/age rows don't collapse to single row", {
