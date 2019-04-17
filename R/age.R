@@ -383,10 +383,12 @@ age_adjust <- function(
     }
   }
 
+  # store original groups for last step
+  data_groups <- group_vars(data) %>% rlang::syms()
+
   data <- filter(data, !!age != "Unknown") %>%
     # data needs age to be in the groups
     group_by(!!age, add = TRUE)
-  data_groups <- groups(data)
 
   data <- data %>%
     join_population(population, by_year = by_year) %>%
@@ -397,17 +399,13 @@ age_adjust <- function(
     }) %>%
     with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population), sum))
 
-  # Should keep_age_group exit here? Or should we add std pop data first?
-
-  # data_groups <- setdiff(dplyr::group_vars(data), year_var_name)
-  # data <- data %>% group_by(!!!rlang::syms(data_groups))
-
   age_adjust_finalize(
     data, !!count,
     population_standard = population_standard,
     age = !!age,
     keep_age = keep_age
-  )
+  ) %>%
+    group_by(!!!data_groups)
 }
 
 
