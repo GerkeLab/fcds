@@ -206,6 +206,12 @@ standardize_age_groups <- function(
     }
   }
 
+  if (!age_is_numeric) {
+    data_age_values <- unique(data[[age_var_name]])
+    not_in_fcds_const <- setdiff(data_age_values, fcds_const("age_group"))
+    age_is_same_as_fcds <- length(not_in_fcds_const) == 0
+  }
+
   if (age_is_numeric) {
     if (!"...age" %in% names(data)) data <- data %>% mutate(...age = !!age_var)
     data <- data %>%
@@ -220,6 +226,11 @@ standardize_age_groups <- function(
 
     data <- dplyr::left_join(data, std_ages, by = "...age") %>%
       select(-...age)
+  } else if (age_is_same_as_fcds) {
+    data <- mutate(
+      data,
+      !!age_var_name := factor(!!age_var, fcds_const("age_group"), ordered = TRUE)
+    )
   } else {
     # break apart groups
     # match on low, match on high:
