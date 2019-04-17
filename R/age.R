@@ -180,7 +180,10 @@ standardize_age_groups <- function(
 ) {
   age_var <- enquo(age_var)
   age_var_name <- quo_name(age_var)
+
   data_cols <- names(data)
+  data_groups <- group_vars(data) %>% rlang::syms()
+  data <- ungroup(data)
 
   std_ages <-
     tibble(age_group = std_age_groups) %>%
@@ -250,7 +253,8 @@ standardize_age_groups <- function(
   data %>%
     select(union(data_cols, "age_group")) %>%
     tidyr::replace_na(list(age_group = "Unknown")) %>%
-    mutate(age_group = factor(age_group, std_age_groups, ordered = TRUE))
+    mutate(age_group = factor(age_group, std_age_groups, ordered = TRUE)) %>%
+    group_by(!!!data_groups)
 }
 
 # nocov start

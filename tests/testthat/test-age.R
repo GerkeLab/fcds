@@ -130,6 +130,24 @@ test_that("standardize_age_groups() returns columns in same order", {
   )
 })
 
+test_that("standardize_age_groups() when input is grouped", {
+  # normal
+  expected_age_group <- d_age_group %>%
+    expand_age_groups() %>%
+    mutate(
+      age_group_low = if_else(age_low < 0, "0", paste(age_low)),
+      age_group_high = if_else(age_high > 0 & is.infinite(age_high), "+", paste(" -", age_high)),
+      age_group = paste0(age_group_low, age_group_high),
+      age_group = factor(age_group, fcds_const("age_group"), ordered = TRUE)
+    ) %>%
+    select(-dplyr::matches("(low|high)$"))
+
+  stdized_age_group <- d_age_group %>% group_by(age_group) %>%
+    standardize_age_groups()
+
+  expect_equal(stdized_age_group, expected_age_group)
+  expect_equal(levels(stdized_age_group$age_group), fcds_const("age_group"))
+})
 
 # Age Adjustment ----------------------------------------------------------
 
