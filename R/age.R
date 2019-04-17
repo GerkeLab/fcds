@@ -296,12 +296,78 @@ format_age_groups <- function(
 #' 3. The standard reference population that is used to weight incidence among
 #'    the observed age-specific count.
 #'
-#' Note that each input is required to have a column `age_group` containing
-#' matching age groups across all three inputs.
+#' Each input is required to store age information. The default data supplied
+#' with the package for `population` ([seer_pop_fl]) and `population_standard`
+#' ([seer_std_ages]) use the column name `age_group`. You can specify the name
+#' of the column containing age information with the `age` argument. If the
+#' column name in `data` is not present in the population data, `age_adjust()`
+#' will fall back to `age_group` for those data sets.
 #'
-#' @return A data frame with age-adjusted incidence rates. Note that `age_group`
-#'   will no longer be included in the output because the age-adjusted rate
-#'   summarizes the observed incidence across all ages.
+#' @return A data frame with age-adjusted incidence rates in the column `rate`.
+#'   Note that the `age` column will no longer be included in the output because
+#'   the age-adjusted rate summarizes the observed incidence across all ages.
+#'
+#'   If `keep_age` is `TRUE`, the age column is retained, but the final rate is
+#'   not calculated, adding the columns `population`, `std_pop`, and `w` for the
+#'   specific population, standard population and standardizing population
+#'   weight, respectively.
+#'
+#' @references https://seer.cancer.gov/seerstat/tutorials/aarates/
+#'
+#' @examples
+#'
+#' # This example is drawn from https://seer.cancer.gov/seerstat/tutorials/aarates/
+#' d_incidence <- tibble::tribble(
+#'   ~age_group,   ~n,
+#'      "0 - 4",  116,
+#'      "5 - 9",   67,
+#'    "10 - 14",   71,
+#'    "15 - 19",   87,
+#'    "20 - 24",  177,
+#'    "25 - 29",  290,
+#'    "30 - 34",  657,
+#'    "35 - 39", 1072,
+#'    "40 - 44", 1691,
+#'    "45 - 49", 2428,
+#'    "50 - 54", 2931,
+#'    "55 - 59", 2881,
+#'    "60 - 64", 2817,
+#'    "65 - 69", 2817,
+#'    "70 - 74", 2744,
+#'    "75 - 79", 2634,
+#'    "80 - 84", 1884,
+#'        "85+", 1705
+#' ) %>%
+#'   dplyr::mutate(dx_year_mid = 2013) %>%
+#'   standardize_age_groups()
+#'
+#' d_population <- tibble::tribble(
+#'   ~age_group, ~population,
+#'      "0 - 4",      693068,
+#'      "5 - 9",      736212,
+#'    "10 - 14",      770999,
+#'    "15 - 19",      651390,
+#'    "20 - 24",      639159,
+#'    "25 - 29",      676354,
+#'    "30 - 34",      736557,
+#'    "35 - 39",      724826,
+#'    "40 - 44",      700200,
+#'    "45 - 49",      617437,
+#'    "50 - 54",      516541,
+#'    "55 - 59",      361170,
+#'    "60 - 64",      259440,
+#'    "65 - 69",      206204,
+#'    "70 - 74",      172087,
+#'    "75 - 79",      142958,
+#'    "80 - 84",       99654,
+#'        "85+",       92692,
+#' ) %>%
+#'   dplyr::mutate(year = 2013) %>%
+#'   standardize_age_groups()
+#'
+#' age_adjust(d_incidence, population = d_population)
+#'
+#' age_adjust(d_incidence, population = d_population, keep_age = TRUE)
 #'
 #' @param data A data frame, containing counts
 #' @param count The unquoted column name containing raw event or outcome counts.
@@ -314,8 +380,8 @@ format_age_groups <- function(
 #'   calculate the age-adjusted rates. By default, uses the 2000 U.S. standard
 #'   population provided by SEER (see [seer_std_ages]).
 #' @param keep_age Age-adjustment by definition summarizes event or outcome
-#'   counts (incidence) over _all_ included ages. Set `keep_age` to join the
-#'   source data with all age-specific population without completing the age
+#'   counts (incidence) over _all_ included ages. Set `keep_age = TRUE` to join
+#'   the source data with all age-specific population without completing the age
 #'   adjustment calculation. This option is primarily provided for debugging
 #'   purposes.
 #' @export
