@@ -92,7 +92,8 @@
 
 #' @export
 fcds_const <- function(
-  const = c("year", "county_name", "sex", "race", "hispanic", "age_group")
+  const = c("year", "county_name", "sex", "race", "hispanic", "age_group",
+            "moffitt_catchment")
 ) {
   switch(
     match.arg(const),
@@ -194,7 +195,24 @@ fcds_const <- function(
       "75 - 79",
       "80 - 84",
       "85+",
-      "Unknown")
+      "Unknown"),
+    "moffitt_catchment" = c(
+      "Hillsborough",
+      "Pasco",
+      "Pinellas",
+      "Polk",
+      "Charlotte",
+      "Citrus",
+      "DeSoto",
+      "Hardee",
+      "Hernando",
+      "Highlands",
+      "Lake",
+      "Lee",
+      "Manatee",
+      "Sarasota",
+      "Sumter"
+    )
   )
 }
 
