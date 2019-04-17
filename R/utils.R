@@ -54,17 +54,24 @@ seq2 <- function(x, y) {
   })
 }
 
-validate_all_have_var <- function(var, ...) {
+validate_all_have_var <- function(var, ..., .abort = TRUE) {
   datasets <- purrr::map(
     list(...),
     ~ ifelse(var %in% names(.), "has", "missing")
   )
 
-  if (purrr::some(datasets, ~ . == "missing")) {
+  msg <- if (purrr::some(datasets, ~ . == "missing")) {
     missing <- purrr::keep(datasets, ~ . == "missing") %>%
       names() %>% glue::glue_collapse("`, `", last = "` and `")
 
-    abort(glue("'{var}' is missing from `{missing}`"))
+    msg <- glue("'{var}' is missing from `{missing}`")
+    if (.abort) abort(msg)
+    msg
+  }
+  x <- purrr::map_lgl(datasets, ~ . == "has")
+  attributes(x)$msg_missing <- msg
+  x
+}
   }
 }
 

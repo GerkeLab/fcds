@@ -123,8 +123,14 @@ test_that("validate_all_have_var", {
     "data1.+data2"
   )
 
-  expect_null(
-    validate_all_have_var("c", data1 = data1, data2 = data2, data3 = data3)
+  expect_true(
+    all(validate_all_have_var("c", data1 = data1, data2 = data2, data3 = data3))
+  )
+
+  expect_equal(
+    attr(validate_all_have_var("b", data3 = data3, .abort = FALSE),
+         "msg_missing"),
+    "'b' is missing from `data3`"
   )
 })
 
