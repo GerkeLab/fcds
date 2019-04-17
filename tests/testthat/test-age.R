@@ -405,3 +405,32 @@ test_that("age_adjust() with keep_age = TRUE", {
 
   expect_equal(r_age_adjusted, e_age_adjusted)
 })
+
+test_that("age_adjust() with subgroups", {
+  # idea: age_adjust() uses grouping to calculate final rate, so you should be
+  # able to calculate a lower-resolution incidence (e.g. within-county
+  # incidence) and sub-group incidence and population will be summarized prior
+  # to final age adjustment calculation.
+
+  d_incidence_split <- d_incidence %>%
+    mutate(
+      county1 = n - floor(n/2),
+      county2 = n - county1
+    ) %>%
+    select(-n) %>%
+    tidyr::gather(county, n, county1:county2) %>%
+    group_by(age_group)
+
+  d_pop_split <- d_population %>%
+    mutate(
+      county1 = population - floor(population/2),
+      county2 = population - county1
+    ) %>%
+    select(-population) %>%
+    tidyr::gather(county, population, county1:county2)
+
+  e_age_adjusted <- age_adjust(d_incidence, population = d_population, by_year = NULL)
+  r_age_adjusted <- age_adjust(d_incidence_split, population = d_pop_split, by_year = NULL)
+
+  expect_equal(r_age_adjusted, e_age_adjusted)
+})
