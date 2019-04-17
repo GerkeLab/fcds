@@ -1,3 +1,4 @@
+#' @export
 join_population <- function(
   data,
   population = fcds::seer_pop_fl,
@@ -36,6 +37,7 @@ join_population_by_year <- function(
   join_population(data, population, by_year = NULL)
 }
 
+#' @export
 summarize_fcds <- function(
   fcds,
   ...,
