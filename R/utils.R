@@ -72,6 +72,15 @@ validate_all_have_var <- function(var, ..., .abort = TRUE) {
   attributes(x)$msg_missing <- msg
   x
 }
+
+and_more <- function(x, wrap = "'", last = ", and ") {
+  n <- length(x)
+  if (n <= 3) {
+    glue::glue_collapse(glue("{wrap}{x}{wrap}"), ", ", last = last)
+  } else {
+    x <- x[1:2]
+    x_2 <- glue::glue_collapse(glue("{wrap}{x}{wrap}"), ", ")
+    glue("{x_2}, and {n - 2L} more...")
   }
 }
 

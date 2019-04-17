@@ -151,3 +151,8 @@ test_that("check for packages", {
     setNames(c(TRUE, FALSE), c("dplyr", not_a_pkg))
   )
 })
+
+test_that("and_more()", {
+  expect_equal(and_more(letters[1:5]), "'a', 'b', and 3 more...")
+  expect_equal(and_more(letters[1:3]), "'a', 'b', and 'c'")
+})
