@@ -22,7 +22,7 @@ join_population_by_year <- function(
   population = fcds::seer_pop_fl,
   by_year = c("dx_year_mid" = "year")
 ) {
-  if (length(by_year) != 1) {
+  if (!is.character(by_year) || length(by_year) != 1) {
     abort(glue(
       "`by_year` must be a length-1 character vector: ",
       "either the name of the year column in both `data` and `population`, or ",
