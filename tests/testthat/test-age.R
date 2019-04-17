@@ -213,13 +213,6 @@ d_answer <- tibble::tribble(
 
 # Age Adjustment Tests ----
 
-# Needs Tests
-#
-# * data should be at least grouped by {age}
-# * what if data is grouped by year?
-# * keep_age
-# * bad age groups that don't match standard population age groups
-
 test_that("age_adjust() SEER example using built-in standard population numbers", {
   # using built-in standard population numbers
   r_age_adjusted <- age_adjust(d_incidence, population = d_population, by_year = NULL)
@@ -374,4 +367,16 @@ test_that("age_adjust() errors or warns with mismatched age_groups", {
     suppressWarnings(age_adjust(d_incidence_gg, population = d_population, by_year = NULL)),
     "do not match any age groups"
   )
+})
+
+test_that("age_adjust() with keep_age = TRUE", {
+  r_age_adjusted <- age_adjust(d_incidence, population = d_population, by_year = NULL, keep_age = TRUE)
+
+  e_age_adjusted <- d_incidence %>%
+    dplyr::left_join(d_population) %>%
+    dplyr::left_join(d_std) %>%
+    select(age_group, n, population, std_pop) %>%
+    mutate(w = std_pop / sum(std_pop))
+
+  expect_equal(r_age_adjusted, e_age_adjusted)
 })
