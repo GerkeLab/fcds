@@ -1,10 +1,10 @@
+
+# Age Helpers -------------------------------------------------------------
+
 d_age_group <- data.frame(
   id = 1:4,
   age_group = c("0 - 4", "10-14", "65-69", "85+")
 )
-
-
-# Age Helpers -------------------------------------------------------------
 
 
 test_that("expand_age_groups()", {
@@ -206,9 +206,10 @@ d_std <- tibble::tribble(
   fcds::standardize_age_groups()
 
 d_answer <- tibble::tribble(
-  ~age_group,  ~std_pop, ~age_dist, ~rate,
-  "All Ages", 274633642,         1, 400.3
+     ~n, ~population, ~rate,
+  27069,     8796948, 400.3
 )
+
 
 # Age Adjustment Tests ----
 
@@ -216,18 +217,130 @@ d_answer <- tibble::tribble(
 #
 # * data should be at least grouped by {age}
 # * what if data is grouped by year?
+# * keep_age
+# * bad age groups that don't match standard population age groups
 
-test_that("age_adjust()", {
+test_that("age_adjust() SEER example using built-in standard population numbers", {
+  # using built-in standard population numbers
   r_age_adjusted <- age_adjust(d_incidence, population = d_population, by_year = NULL)
 
   expect_equal(round(r_age_adjusted$rate, 1), d_answer$rate)
   expect_equal(r_age_adjusted$population, sum(d_population$population))
   expect_equal(r_age_adjusted$n, sum(d_incidence$n))
+})
 
+test_that("age_adjust() SEER example using example standard population numbers", {
+  # using SEER example standard population numbers
+  r_age_adjusted <- age_adjust(d_incidence,
+                               population = d_population,
+                               population_standard = d_std,
+                               by_year = NULL)
+
+  expect_equal(round(r_age_adjusted$rate, 1), d_answer$rate)
+  expect_equal(r_age_adjusted$population, sum(d_population$population))
+  expect_equal(r_age_adjusted$n, sum(d_incidence$n))
+})
+
+test_that("age_adjust() with additional grouping", {
+  d_incidence_g <- tidyr::crossing(
+    sex = fcds_const("sex"),
+    race = fcds_const("race"),
+    d_incidence
+  ) %>%
+    group_by(sex, race)
+
+  d_population_g <- tidyr::crossing(
+    sex = fcds_const("sex"),
+    race = fcds_const("race"),
+    d_population
+  )
+
+  r_age_adjusted <- age_adjust(d_incidence_g, population = d_population_g, by_year = NULL)
+
+  expect_equal(group_vars(r_age_adjusted), group_vars(d_incidence_g))
+  expect_equal(round(r_age_adjusted$rate, 1), rep(d_answer$rate, nrow(r_age_adjusted)))
+})
+
+test_that("age_adjust() with year", {
+  d_incidence_y <- tidyr::crossing(
+    dx_year_mid = c("1990", "200"),
+    d_incidence
+  ) %>%
+    group_by(dx_year_mid)
+
+  d_population_y <- tidyr::crossing(
+    year = c("1990", "200"),
+    d_population
+  )
+
+  e_age_adjusted <- tidyr::crossing(
+    dx_year_mid = c("1990", "200"),
+    age_adjust(d_incidence, population = d_population, by_year = NULL)
+  ) %>%
+    group_by(dx_year_mid)
+
+  r_age_adjusted <- age_adjust(d_incidence_y, population = d_population_y)
+
+  expect_equal(group_vars(r_age_adjusted), group_vars(d_incidence_y))
+  expect_equal(round(r_age_adjusted$rate, 1), rep(d_answer$rate, nrow(r_age_adjusted)))
+  expect_identical(r_age_adjusted, e_age_adjusted)
+})
+
+test_that("age_adjust() warns if no grouping provided but non-rate/age rows don't collapse to single row", {
+  # incidence counts have potentially two undeclared groups
+  d_incidence_2 <- tidyr::crossing(
+    group = c("group 1", "group 2"),
+    d_incidence
+  )
+
+  d_population_2 <- tidyr::crossing(
+    group = c("group 1", "group 2"),
+    d_population
+  )
+
+  expect_warning(
+    age_adjust(d_incidence_2, population = d_population_2, by_year = NULL)
+  )
+})
+
+test_that("age_adjust() gives error when population doesn't have population column", {
   expect_error(
     age_adjust(d_incidence,
                by_year = NULL,
                population = d_population %>% dplyr::rename(pop = population)),
     "population.+is missing"
+  )
+})
+
+test_that("age_adjust() accepts non-default count and age arguments", {
+  d_incidence_nd <- d_incidence %>%
+    dplyr::rename(my_age = age_group, my_count = n)
+
+  d_answer_nd <- d_answer %>% dplyr::rename(my_count = n)
+
+  r_age_adjusted <- age_adjust(
+    d_incidence_nd,
+    my_count,
+    population = d_population,
+    age = my_age,
+    by_year = NULL
+  ) %>% mutate(rate = round(rate, 1))
+
+  expect_equal(r_age_adjusted, d_answer_nd)
+
+  expect_error(
+    age_adjust(d_incidence_nd,
+               count = my_count, age = my_age, by_year = NULL,
+               population = d_population %>% dplyr::rename(my_age = age_group)),
+    "my_age.+population_standard"
+  )
+})
+
+test_that("age_adjust() errors or warns with mismatched age_groups", {
+  d_std_sub <- d_std %>% dplyr::slice(-1:-5)
+
+  expect_error(
+    age_adjust(d_incidence, population = d_population, population_standard = d_std_sub, by_year = NULL),
+    "age groups"
   )
 })

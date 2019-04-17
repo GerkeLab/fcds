@@ -330,14 +330,58 @@ age_adjust <- function(
 ) {
   count <- enquo(count)
   age <- enquo(age)
-  age_var_name <- quo_name(age)
+  age_name <- quo_name(age)
 
   # All inputs need to have the age_grouping variable
-  validate_all_have_var(age_var_name, data = data, population = population,
-                        population_standard = population_standard)
+  # but allow matching to age_group in population defaults
+  have_age <- validate_all_have_var(
+    age_name, .abort = FALSE,
+    data = data,
+    population = population,
+    population_standard = population_standard
+  )
+  if (!all(have_age)) {
+    if (age_name == "age_group") {
+      abort(attr(have_age, "msg_missing"))
+    }
+
+    # Stop if age_group not in both population data frames
+    # (but use original error message)
+    pop_have_age_group <- validate_all_have_var(
+      "age_group", .abort = FALSE,
+      population = population,
+      population_standard = population_standard
+    )
+    if (!all(pop_have_age_group)) {
+      abort(attr(have_age, "msg_missing"))
+    }
+
+    # rename age_group in population data
+    population <- population %>%
+      dplyr::rename(!!age_name := age_group)
+
+    population_standard <- population_standard %>%
+      dplyr::rename(!!age_name := age_group)
+  }
 
   # `population` needs a "population" column
   validate_all_have_var("population", population = population)
+
+  if (is.null(groups(data))) {
+    # warn if no groups provided but non count/age columns have multiple values
+    data_meta <-
+      data %>%
+      select(-!!count, -!!age) %>%
+      dplyr::distinct()
+
+    if (ncol(data_meta) && nrow(data_meta) > 1) {
+      warn(glue(
+        "Incidence data appears to include {nrow(data_meta)} groups, ",
+        "but no groups were provided. Did you forget to declare groups ",
+        "with `group_by()`?"
+      ))
+    }
+  }
 
   data <- filter(data, !!age != "Unknown") %>%
     # data needs age to be in the groups
@@ -358,7 +402,12 @@ age_adjust <- function(
   # data_groups <- setdiff(dplyr::group_vars(data), year_var_name)
   # data <- data %>% group_by(!!!rlang::syms(data_groups))
 
-  data %>% age_adjust_finalize(!!count, population_standard, keep_age)
+  age_adjust_finalize(
+    data, !!count,
+    population_standard = population_standard,
+    age = !!age,
+    keep_age = keep_age
+  )
 }
 
 
@@ -366,28 +415,40 @@ age_adjust_finalize <- function(
   data,
   count = n,
   population_standard = get_data("seer_std_ages"),
+  age = age_group,
   keep_age = FALSE
 ) {
   count <- enquo(count)
+  age <- rlang::enquo(age)
+  age_name <- rlang::quo_name(age)
 
-  if (!"age_group" %in% names(population_standard)) {
-    abort("age_adjust() requires population_standard to have the column 'age_group'.")
+  if (!age_name %in% names(population_standard)) {
+    abort(glue(
+      "age_adjust() requires `population_standard` to have the column '{age_name}'."
+    ))
   }
 
-  age_groups <- unique(data$age_group)
-  pop_std_age_groups <- unique(population_standard$age_group)
+  age_groups <- data %>% dplyr::pull(!!age) %>% unique()
+  pop_std_age_groups <- population_standard %>% dplyr::pull(!!age) %>% unique()
   if (length(intersect(age_groups, pop_std_age_groups)) == 0) {
-    abort("The age groups in data do not match any age groups in population_standard.")
+    abort("The age groups in `data` do not match any age groups in `population_standard`.")
+  }
+  age_groups_missing <- setdiff(age_groups, pop_std_age_groups)
+  if (length(age_groups_missing) > 0) {
+    abort(glue(
+      "Not all age groups in `data` have corresponding age groups in `population_standard`. ",
+      "Missing age groups: {and_more(age_groups_missing)}"
+    ))
   }
 
   # Get standard population
   std_pop_relevant <-
     population_standard %>%
-    filter(age_group %in% age_groups) %>%
-    select(age_group, std_pop) %>%
+    filter(!!age %in% age_groups) %>%
+    select(!!age, std_pop) %>%
     mutate(w = std_pop / sum(std_pop))
 
-  data <- dplyr::left_join(data, std_pop_relevant, by = "age_group")
+  data <- dplyr::left_join(data, std_pop_relevant, by = age_name)
 
   if (keep_age) return(data)
 
@@ -397,8 +458,8 @@ age_adjust_finalize <- function(
 
   data %>%
     # Drop "age_group" from groups so that summarization is over ages
-    group_drop(age_group) %>%
+    group_drop(!!age) %>%
     with_ungroup(~ mutate(., rate = !!count / population * w)) %>%
-    with_retain_groups(~ dplyr::summarize_at(., quos(n, population, rate), sum)) %>%
+    with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population, rate), sum)) %>%
     mutate(rate = rate * 100000)
 }
