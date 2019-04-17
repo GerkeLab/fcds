@@ -414,7 +414,7 @@ age_adjust <- function(
 age_adjust_finalize <- function(
   data,
   count = n,
-  population_standard = get_data("seer_std_ages"),
+  population_standard = fcds::seer_std_ages,
   age = age_group,
   keep_age = FALSE
 ) {

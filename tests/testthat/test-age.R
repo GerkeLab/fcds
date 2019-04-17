@@ -328,11 +328,26 @@ test_that("age_adjust() accepts non-default count and age arguments", {
 
   expect_equal(r_age_adjusted, d_answer_nd)
 
+  # errors when `my_age` not in all datasets
   expect_error(
     age_adjust(d_incidence_nd,
                count = my_count, age = my_age, by_year = NULL,
                population = d_population %>% dplyr::rename(my_age = age_group)),
     "my_age.+population_standard"
+  )
+
+  # errors when age = age_group but one of population is different
+  expect_error(
+    age_adjust(d_incidence,
+               count = my_count, by_year = NULL,
+               population = d_population %>% dplyr::rename(my_age = age_group)),
+    "age_group.+population"
+  )
+
+  # errors if bad data somehow makes it to age_adjust_finalize()
+  expect_error(
+    age_adjust_finalize(d_incidence_nd, age = my_age),
+    "requires `population_standard`.+my_age"
   )
 })
 
@@ -342,5 +357,20 @@ test_that("age_adjust() errors or warns with mismatched age_groups", {
   expect_error(
     age_adjust(d_incidence, population = d_population, population_standard = d_std_sub, by_year = NULL),
     "age groups"
+  )
+
+  d_incidence_gg <- d_incidence %>%
+    dplyr::slice(1:10) %>%
+    expand_age_groups() %>%
+    mutate(
+      age_low = age_low + 2,
+      age_high = age_high + 2,
+      age_group = factor(glue("{age_low} - {age_high}"))
+    ) %>%
+    select(-age_low:-age_high)
+
+  expect_error(
+    suppressWarnings(age_adjust(d_incidence_gg, population = d_population, by_year = NULL)),
+    "do not match any age groups"
   )
 })
