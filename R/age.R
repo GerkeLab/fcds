@@ -450,7 +450,9 @@ age_adjust <- function(
   }
 
   # store original groups for last step
-  data_groups <- group_vars(data) %>% rlang::syms()
+  data_groups <- group_vars(data) %>%
+    setdiff(c(if (!keep_age) age_name)) %>%
+    rlang::syms()
 
   data <- filter(data, !!age != "Unknown") %>%
     # data needs age to be in the groups

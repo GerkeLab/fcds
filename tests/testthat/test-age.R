@@ -252,6 +252,13 @@ test_that("age_adjust() with additional grouping", {
 
   expect_equal(group_vars(r_age_adjusted), group_vars(d_incidence_g))
   expect_equal(round(r_age_adjusted$rate, 1), rep(d_answer$rate, nrow(r_age_adjusted)))
+
+  # age_group is removed from groups too
+  expect_equal(
+    age_adjust(d_incidence_g %>% group_by(age_group, add = TRUE),
+               population = d_population_g, by_year = NULL),
+    r_age_adjusted
+  )
 })
 
 test_that("age_adjust() with year", {
