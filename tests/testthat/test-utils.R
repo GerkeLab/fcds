@@ -156,3 +156,14 @@ test_that("and_more()", {
   expect_equal(and_more(letters[1:5]), "'a', 'b', and 3 more...")
   expect_equal(and_more(letters[1:3]), "'a', 'b', and 'c'")
 })
+
+test_that("seq2()", {
+  x <- c(1, 10, NA, 30.12)
+  y <- c(10, 19, 29, 39.99)
+
+  z <- seq2(x, y)
+  expect_equal(z[[1]], x[1]:y[1])
+  expect_equal(z[[2]], x[2]:y[2])
+  expect_equal(z[[4]], 30:39)
+  expect_equal(z[[3]], NA_integer_)
+})
