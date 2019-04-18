@@ -87,6 +87,21 @@
 #' }
 "seer_std_ages"
 
+#' SEER ICD-O-3 Histology Code and Behavior
+#'
+#' Contains the histology codes and behavior description provided by the
+#' [ICD-O-3 SEER Site/Histology Validation List](https://seer.cancer.gov/icd-o-3/).
+#'
+#' @references <https://seer.cancer.gov/icd-o-3/>
+#' @format A data frame with 12,084 rows and 4 columns
+#' \describe{
+#'   \item{\code{histology}}{Histology Code}
+#'   \item{\code{histology_description}}{Description of the Histology Code (all upper case)}
+#'   \item{\code{histology_behavior}}{Histology Behavior Code, e.g. "8000/3"}
+#'   \item{\code{histology_behavior_description}}{Descrtipion of the Histology Behavior Code}
+#' }
+"seer_icd_o_3"
+
 
 # Constants ---------------------------------------------------------------
 
