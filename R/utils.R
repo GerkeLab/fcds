@@ -84,6 +84,12 @@ and_more <- function(x, wrap = "'", last = ", and ") {
   }
 }
 
+to_snake_case <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^[:alnum:]]", " ", x)
+  x <- gsub("\\s+", " ", x)
+  gsub(" ", "_", x)
+}
 
 # Group Utilities ---------------------------------------------------------
 
