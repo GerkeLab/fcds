@@ -1,0 +1,40 @@
+Package: fcds
+Title: Process data from the Florida Cancer Data System
+Version: 0.0.1.9000
+Authors@R: 
+    c(person(given = "Garrick",
+             family = "Aden-Buie",
+             role = c("aut", "cre"),
+             email = "Garrick.Aden-Buie@moffitt.org"),
+      person(given = "Jordan",
+             family = "Creed",
+             role = "aut",
+             email = "Jordan.H.Creed@moffitt.org"),
+      person(given = "Travis",
+             family = "Gerke",
+             role = "aut",
+             email = "Travis.Gerke@moffitt.org"))
+Description: Helper functions for processing data from the
+    Florida Cancer Data System.
+License: MIT + file LICENSE
+URL: https://github.com/GerkeLab/fcds
+BugReports: https://github.com/GerkeLab/fcds/issues
+Imports: 
+    dplyr,
+    glue,
+    labelled,
+    magrittr,
+    purrr,
+    readr,
+    rlang,
+    tidyr,
+    tidyselect,
+    tools,
+    yaml
+Suggests: 
+    testthat,
+    USAboundaries
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

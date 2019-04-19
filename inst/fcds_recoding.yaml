@@ -1,0 +1,847 @@
+- name:
+    original: Patient_ID_N20
+    clean: patient_id
+  description: Patient ID Number
+  naaccr: 20
+  mutate: 'as.integer(Patient_ID_N20)'
+- name:
+    original: Date_of_Dx_Year_Recoded
+    clean: dx_year
+  description: Year of Diagnosis (5 year group)
+  naaccr: 390
+  recode:
+    - value: '1115'
+      label: '2011-2015'
+    - value: '0610'
+      label: '2006-2010'
+    - value: '0105'
+      label: '2001-2005'
+    - value: '9600'
+      label: '1996-2000'
+    - value: '9195'
+      label: '1991-1995'
+    - value: '8690'
+      label: '1986-1990'
+    - value: '8185'
+      label: '1981-1985'
+- name:
+    original: Date_of_Dx_Year_Recoded
+    clean: dx_year_mid
+  description: Year of Diagnosis (midpoint of 5 year group)
+  naaccr: 390
+  recode:
+    - value: '1115'
+      label: '2013'
+    - value: '0610'
+      label: '2008'
+    - value: '0105'
+      label: '2003'
+    - value: '9600'
+      label: '1998'
+    - value: '9195'
+      label: '1993'
+    - value: '8690'
+      label: '1988'
+    - value: '8185'
+      label: '1983'
+- name:
+    original: Cancer_Status_N1770
+    clean: cancer_status
+  description: Cancer Status at time abstract was completed
+  naaccr: 1770
+  recode:
+    - value: '1'
+      label: No evidence of tumor
+    - value: '2'
+      label: Evidence of tumor
+    - value: '9'
+      label: Unknown
+- name:
+    original: FCDS_Site_Group
+    clean: cancer_site_group
+  description: FCDS Site Group
+  naaccr: 2220
+  recode:
+    - value: '0110'
+      label: Oral Cavity and Pharynx
+    - value: '0011'
+      label: Esophagus
+    - value: '0012'
+      label: Stomach
+    - value: '0013'
+      label: Small Intestine
+    - value: '1422'
+      label: Colon excluding Rectum
+    - value: '2324'
+      label: Rectum and Rectosigmoid Junction
+    - value: '0025'
+      label: Anus, Anal Canal & Anorectum
+    - value: '2627'
+      label: Liver and Intrahepatic Bile Duct
+    - value: '0028'
+      label: Gall Bladder
+    - value: '0029'
+      label: Other Biliary
+    - value: '0030'
+      label: Pancreas
+    - value: '3133'
+      label: Retroperitoneum, Peritoneum, Omentum & Mesentery, Other Digestive Organs
+    - value: '0035'
+      label: Larynx
+    - value: '0036'
+      label: Lung and Bronchus
+    - value: '0039'
+      label: Bones and Joints
+    - value: '0040'
+      label: Soft Tissue including Heart
+    - value: '0041'
+      label: Melanoma of the Skin
+    - value: '0042'
+      label: Other Non-Epithelial Skin
+    - value: '0043'
+      label: Breast
+    - value: '0044'
+      label: Cervix Uteri
+    - value: '4546'
+      label: Corpus and Uterus, NOS
+    - value: '0047'
+      label: Ovary
+    - value: '4850'
+      label: Vagina, Vulva, Other Female Genital Organs
+    - value: '0051'
+      label: Prostate Gland
+    - value: '0052'
+      label: Testes
+    - value: '0055'
+      label: Urinary Bladder
+    - value: '0056'
+      label: Kidney & Renal Pelvis
+    - value: '5758'
+      label: Ureter, Other Urinary Organs
+    - value: '0059'
+      label: Eye and Orbit
+    - value: '6061'
+      label: Brain and Other Nervous System
+    - value: '0062'
+      label: Thyroid Gland
+    - value: '6465'
+      label: Hodgkin Lymphoma
+    - value: '6667'
+      label: Non-Hodgkin Lymphoma
+    - value: '0068'
+      label: Multiple Myeloma
+    - value: '6971'
+      label: Lymphocytic Leukemia
+    - value: '7275'
+      label: Myeloid and Monocytic Leukemia
+    - value: '7677'
+      label: Other Leukemia
+    - value: '0078'
+      label: Mesothelioma
+    - value: '0079'
+      label: Kaposi Sarcoma
+    - value: '0080'
+      label: Other
+    - value: '8183'
+      label: Benign/Borderline (Brain, Nervous System, Endocrine)
+- name:
+    original: FCDS_Site_Group
+    clean: cancer_site_specific
+  description: FCDS Site Group with specific within-group areas
+  naaccr: 2220
+  recode:
+    - value: '0110'
+      label: >
+        Lip, Tongue, Salivary Glands , Floor of Mouth, Gum & Other Mouth,
+        Nasopharynx, Tonsil, Oropharynx, Hypopharynx,
+        Other Buccal Cavity & Pharynx
+    - value: '0011'
+      label: Esophagus
+    - value: '0012'
+      label: Stomach
+    - value: '0013'
+      label: Small Intestine
+    - value: '1422'
+      label: >
+        Cecum, Appendix, Ascending Colon, Hepatic Flexure, Transverse Colon,
+        Splenic Flexure, Descending Colon, Sigmoid Colon, Large Intestine, NOS
+    - value: '2324'
+      label: Rectosigmoid Junction, Rectum
+    - value: '0025'
+      label: Anus, Anal Canal & Anorectum
+    - value: '2627'
+      label: Liver, Intrahepatic Bile Duct
+    - value: '0028'
+      label: Gall Bladder
+    - value: '0029'
+      label: Other Biliary
+    - value: '0030'
+      label: Pancreas
+    - value: '3133'
+      label: Retroperitoneum, Peritoneum, Omentum & Mesentery, Other Digestive Organs
+    - value: '0035'
+      label: Larynx
+    - value: '0036'
+      label: Lung & Bronchus
+    - value: '0039'
+      label: Bones & Joints
+    - value: '0040'
+      label: Soft Tissue (Including Heart)
+    - value: '0041'
+      label: Melanoma of the Skin
+    - value: '0042'
+      label: Other Non-Epithelial Skin
+    - value: '0043'
+      label: Breast
+    - value: '0044'
+      label: Cervix Uteri
+    - value: '4546'
+      label: Corpus Uteri, Uterus, NOS
+    - value: '0047'
+      label: Ovary
+    - value: '4850'
+      label: Vagina, Vulva, Other Female Genital Organs
+    - value: '0051'
+      label: Prostate Gland
+    - value: '0052'
+      label: Testes
+    - value: '0055'
+      label: Urinary Bladder
+    - value: '0056'
+      label: Kidney & Renal Pelvis
+    - value: '5758'
+      label: Ureter, Other Urinary Organs
+    - value: '0059'
+      label: Eye & Orbit
+    - value: '6061'
+      label: Brain, Other Nervous System
+    - value: '0062'
+      label: Thyroid Gland
+    - value: '6465'
+      label: Hodgkin's Disease Nodal, Hodgkin's Disease Extra Nodal
+    - value: '6667'
+      label: Non-Hodgkin's Nodal, Non-Hodgkin's Extra Nodal
+    - value: '0068'
+      label: Multiple Myeloma
+    - value: '6971'
+      label: >
+        Acute Lymphocytic Leukemia, Chronic Lymphocytic Leukemia,
+        Other Lymphocytic Leukemia
+    - value: '7275'
+      label: >
+        Acute Myeloid Leukemia, Chronic Myeloid Leukemia,
+        Other Myeloid/Monocytic Leukemia, Acute Monocytic Leukemia
+    - value: '7677'
+      label: Other Acute Leukemia, Aleukemic, Subleukemic & NOS
+    - value: '0078'
+      label: Mesothelioma
+    - value: '0079'
+      label: Kaposi Sarcoma
+    - value: '0080'
+      label: Other
+    - value: '8183'
+      label: >
+        Benign/Borderline- Brain, Cranial Nerves Other Nervous System, Other
+        Endocrine including Thymus (Benign/Border)
+- name:
+    original: Diagnostic_Confirmation_N490
+    clean: dx_confirmation
+  description: Diagnostic Confirmation at first diagnosis
+  naaccr: 490
+  recode:
+    - value: '1'
+      label: Positive histology
+    - value: '2'
+      label: Positive cytology
+    - value: '3'
+      label: Positive histology PLUS - positive immunophenotyping AND/OR positive
+        genetic studies
+    - value: '4'
+      label: Positive microscopic confirmation, method not specified
+    - value: '5'
+      label: Positive laboratory test/marker study
+    - value: '6'
+      label: Direct visualization without microscopic confirmation
+    - value: '7'
+      label: Radiography and/or other imaging techniques without microscopic confirmation
+    - value: '8'
+      label: Clinical diagnosis only
+    - value: '9'
+      label: Unknown whether or not microscopically confirmed; death certificate only
+- name:
+    original: FCDS_Age_Group
+    clean: age_group
+  description: FCDS Age Group
+  naaccr: 2220
+  recode:
+    - value: '4'
+      label: '0 - 4'
+    - value: '9'
+      label: '5 - 9'
+    - value: '14'
+      label: '10 - 14'
+    - value: '19'
+      label: '15 - 19'
+    - value: '24'
+      label: '20 - 24'
+    - value: '29'
+      label: '25 - 29'
+    - value: '34'
+      label: '30 - 34'
+    - value: '39'
+      label: '35 - 39'
+    - value: '44'
+      label: '40 - 44'
+    - value: '49'
+      label: '45 - 49'
+    - value: '54'
+      label: '50 - 54'
+    - value: '59'
+      label: '55 - 59'
+    - value: '64'
+      label: '60 - 64'
+    - value: '69'
+      label: '65 - 69'
+    - value: '74'
+      label: '70 - 74'
+    - value: '79'
+      label: '75 - 79'
+    - value: '84'
+      label: '80 - 84'
+    - value: '85'
+      label: '85+'
+    - value: '999'
+      label: Unknown
+- name:
+    original: Race_Recoded
+    clean: race
+  description: Race (recoded)
+  naaccr: 160
+  recode:
+    - value: '1'
+      label: White
+    - value: '2'
+      label: Black
+    - value: '3'
+      label: Other
+    - value: '9'
+      label: Unknown
+- name:
+    original: Sex_Recoded
+    clean: sex
+  description: Sex (recoded)
+  naaccr: 220
+  recode:
+
+    - value: '1'
+      label: Male
+    - value: '2'
+      label: Female
+    - value: '9'
+      label: Unknown
+- name:
+    original: Ethnicity_Recoded
+    clean: hispanic
+  description: Spanish/Hispanic Origin (recoded)
+  naaccr: 190
+  recode:
+    - value: '0'
+      label: Not Hispanic
+    - value: '8'
+      label: Hispanic
+    - value: '9'
+      label: Unknown
+- name:
+    original: Marital_Status_Recoded
+    clean: marital_status
+  description: Marital Status at diagnosis (recoded)
+  naaccr: 150
+  recode:
+    - value: '1'
+      label: Married; Unmarried or Domestic Partner
+    - value: '2'
+      label: Single, Separated, Divorced or Widowed
+    - value: '9'
+      label: Unknown
+- name:
+    original: County_at_DX_N90
+    clean: dx_county_name
+  description: >
+    County Name of patient's primary residence at the time tumor was diagnosed
+  naaccr: 90
+  recode:
+    - value: '1'
+      label: Alachua
+    - value: '3'
+      label: Baker
+    - value: '5'
+      label: Bay
+    - value: '7'
+      label: Bradford
+    - value: '9'
+      label: Brevard
+    - value: '11'
+      label: Broward
+    - value: '13'
+      label: Calhoun
+    - value: '15'
+      label: Charlotte
+    - value: '17'
+      label: Citrus
+    - value: '19'
+      label: Clay
+    - value: '21'
+      label: Collier
+    - value: '23'
+      label: Columbia
+    - value: '27'
+      label: DeSoto
+    - value: '29'
+      label: Dixie
+    - value: '31'
+      label: Duval
+    - value: '33'
+      label: Escambia
+    - value: '35'
+      label: Flagler
+    - value: '37'
+      label: Franklin
+    - value: '39'
+      label: Gadsden
+    - value: '41'
+      label: Gilchrist
+    - value: '43'
+      label: Glades
+    - value: '45'
+      label: Gulf
+    - value: '47'
+      label: Hamilton
+    - value: '49'
+      label: Hardee
+    - value: '51'
+      label: Hendry
+    - value: '53'
+      label: Hernando
+    - value: '55'
+      label: Highlands
+    - value: '57'
+      label: Hillsborough
+    - value: '59'
+      label: Holmes
+    - value: '61'
+      label: Indian River
+    - value: '63'
+      label: Jackson
+    - value: '65'
+      label: Jefferson
+    - value: '67'
+      label: Lafayette
+    - value: '69'
+      label: Lake
+    - value: '71'
+      label: Lee
+    - value: '73'
+      label: Leon
+    - value: '75'
+      label: Levy
+    - value: '77'
+      label: Liberty
+    - value: '79'
+      label: Madison
+    - value: '81'
+      label: Manatee
+    - value: '83'
+      label: Marion
+    - value: '85'
+      label: Martin
+    - value: '86'
+      label: Miami-Dade
+    - value: '87'
+      label: Monroe
+    - value: '89'
+      label: Nassau
+    - value: '91'
+      label: Okaloosa
+    - value: '93'
+      label: Okeechobee
+    - value: '95'
+      label: Orange
+    - value: '97'
+      label: Osceola
+    - value: '99'
+      label: Palm Beach
+    - value: '101'
+      label: Pasco
+    - value: '103'
+      label: Pinellas
+    - value: '105'
+      label: Polk
+    - value: '107'
+      label: Putnam
+    - value: '113'
+      label: Santa Rosa
+    - value: '115'
+      label: Sarasota
+    - value: '117'
+      label: Seminole
+    - value: '109'
+      label: St. Johns
+    - value: '111'
+      label: St. Lucie
+    - value: '119'
+      label: Sumter
+    - value: '121'
+      label: Suwannee
+    - value: '123'
+      label: Taylor
+    - value: '125'
+      label: Union
+    - value: '127'
+      label: Volusia
+    - value: '129'
+      label: Wakulla
+    - value: '131'
+      label: Walton
+    - value: '133'
+      label: Washington
+    - value: '999'
+      label: Unknown
+- name:
+    original: County_at_DX_N90
+    clean: dx_county_fips
+  description: >
+    County FIPS Code of patient's primary residence at the time
+    tumor was diagnosed
+  naaccr: 90
+- name:
+    original: Addr_at_DX_State_Recoded
+    clean: dx_state
+  description: State of patient's primary residence at the time of diagnosis (recoded)
+  naaccr: 80
+  recode:
+    - value: '00'
+      label: Florida
+    - value: '01'
+      label: Other US States and Territories
+    - value: '02'
+      label: Not Applicable
+- name:
+    original: Addr_at_DX_State_Recoded
+    clean: dx_florida_resident
+  description: Patient's primary state of residence was Florida at time of diagnosis
+  naaccr: 80
+  mutate: 'Addr_at_DX_State_Recoded == "00"'
+- name:
+    original: Addr_at_Dx_Country_Recoded
+    clean: dx_country
+  description: Country of patient's primary residence at time of diagnosis (recoded)
+  naaccr: 102
+  recode:
+    - value: '01'
+      label: US States and Territories
+    - value: '02'
+      label: Other Countries
+    - value: '99'
+      label: Unknown
+- name:
+    original: Birthplace_Country_Recoded
+    clean: birth_country
+  description: Country of Birthplace (recoded)
+  naaccr: 254
+  recode:
+    - value: '01'
+      label: US States and Territories
+    - value: '02'
+      label: Other Countries
+    - value: '99'
+      label: Unknown
+- name:
+    original: Birthplace_State_Abrv_Recoded
+    clean: birth_state
+  description: State of Birthplace (recoded)
+  naaccr: 254
+  recode:
+    - value: '00'
+      label: Florida
+    - value: '01'
+      label: Other US States and Territories
+    - value: '02'
+      label: Not Applicable
+- name:
+    original: Dx_Primary_Payor_Recoded
+    clean: primary_payer
+  description: Primary Payer at Diagnosis (recoded)
+  naaccr: 630
+  recode:
+    - value: '01'
+      label: Not insured
+    - value: '02'
+      label: Insurance
+    - value: '03'
+      label: Medicaid
+    - value: '04'
+      label: Medicare
+    - value: '05'
+      label: Tricare
+    - value: '99'
+      label: Unknown
+- name:
+    original: Type_of_Reporting_Source_N500
+    clean: cancer_reporting_source
+  description: Type of Reporting Source
+  naaccr: 500
+  recode:
+    - value: '1'
+      label: Hospital inpatient
+    - value: '2'
+      label: Radiation Treatment Centers or Medical Oncology Centers
+    - value: '3'
+      label: Laboratory only
+    - value: '4'
+      label: Physician's office/private medical practitioner
+    - value: '5'
+      label: Nursing/convalescent home/hospice
+    - value: '6'
+      label: Autopsy only
+    - value: '7'
+      label: Death certificate only
+    - value: '8'
+      label: Other hospital outpatient units/surgery centers
+- name:
+    original: ICDO3_Conversion_FL_N2116
+    clean: cancer_icd03_conversion
+  description: ICD-O-3 Conversion Flag
+  naaccr: 2116
+  recode:
+    - value: '0'
+      label: Originally coded in ICD-O-3
+    - value: '1'
+      label: Converted without review
+    - value: '3'
+      label: Converted with review
+- name:
+    original: Laterality_N410
+    clean: cancer_laterality
+  description: Laterality at Diagnosis
+  naaccr: 410
+  recode:
+    - value: '0'
+      label: Not paired
+    - value: '1'
+      label: Right
+      #label: "Right: origin of primary"
+    - value: '2'
+      label: Left
+      #label: "Left: origin of primary"
+    - value: '3'
+      label: Unspecified
+      #label: Only one side involved, right or left origin unspecified
+    - value: '4'
+      label: Bilateral
+      #label: >
+      #  Bilateral involvement at time of diagnosis, lateral origin unknown for
+      #  a single primary; or both ovaries involved simultaneously,
+      #  single histology; bilateral retinoblastomas; bilateral Wilms' tumors
+    - value: '5'
+      label: Midline
+      #label: 'Paired site: midline tumor'
+    - value: '9'
+      label: Unknown
+      #label: Paired site, but no information concerning laterality
+- name:
+    original: Grade_N440
+    clean: cancer_grade
+  description: Grade, Differentiation, or Cell Lineage Indicator (SEER/CCCR)
+  naaccr: 440
+  recode:
+    - value: '1'
+      label: Grade I
+    - value: '2'
+      label: Grade II
+    - value: '3'
+      label: Grade III
+    - value: '4'
+      label: Grade IV
+    - value: '5'
+      label: T-cell
+    - value: '6'
+      label: B-cell
+    - value: '7'
+      label: Null cell
+    - value: '8'
+      label: NK cell
+    - value: '9'
+      label: Unknown
+- name:
+    original: Histologic_Type_ICDO3_N522
+    clean: cancer_ICDO3_histology
+  description: Histologic Type ICD-O-3
+  naaccr: 522
+- name:
+    original: Behavior_Code_ICDO3_N523
+    clean: cancer_ICDO3_behavior
+  description: Behavior Code ICD-O-3
+  naaccr: 523
+  recode:
+    - value: '0'
+      label: Benign
+    - value: '1'
+      label: Borderline
+    - value: '2'
+      label: Insitu
+    - value: '3'
+      label: Invasive
+- name:
+    original: ["Histologic_Type_ICDO3_N522", "Behavior_Code_ICDO3_N523"]
+    clean: cancer_ICDO3_morphology
+  description: Morphology Code ICD-O-3 (Type and Behavior)
+  naaccr: 521
+  mutate: 'paste0(Histologic_Type_ICDO3_N522, "/", Behavior_Code_ICDO3_N523)'
+- name:
+    original: SEER_Summ_Stage_1977_N760
+    clean: seer_stage_1977
+  description: SEER Summary Stage 1977
+  naaccr: 760
+  recode:
+    - value: '0'
+      label: In Situ
+    - value: '1'
+      label: Local
+    - value: '2'
+      label: Regional/Direct extension
+    - value: '3'
+      label: Regional/Nodes only
+    - value: '4'
+      label: Regional/Direct extension & nodes
+    - value: '5'
+      label: Regional NOS
+    - value: '7'
+      label: Distant/Systemic Disease
+    - value: '8'
+      label: Benign/Borderline
+    - value: '9'
+      label: Unknown
+- name:
+    original: SEER_Summ_Stage_2000_N759
+    clean: seer_stage_2000
+  description: SEER Summary Stage 2000
+  naaccr: 759
+  recode:
+    - value: '0'
+      label: In Situ
+    - value: '1'
+      label: Local
+    - value: '2'
+      label: Regional/Direct extension
+    - value: '3'
+      label: Regional/Nodes only
+    - value: '4'
+      label: Regional/Direct extension & nodes
+    - value: '5'
+      label: Regional NOS
+    - value: '7'
+      label: Distant/Systemic Disease
+    - value: '8'
+      label: Benign/Borderline
+    - value: '9'
+      label: Unknown
+- name:
+    original: ["seer_stage_1977", "seer_stage_2000"]
+    clean: seer_stage
+  description: SEER Stage from 2000 falling back to 1977
+  naaccr: 759
+  mutate: 'dplyr::if_else(is.na(seer_stage_2000), seer_stage_1977, seer_stage_2000)'
+- name:
+    original: Derived_SS1977_FL_N3040
+    clean: seer_stage_derived_1977
+  description: Derivation of SEER Summary Stage 1977
+  naaccr: 3040
+  recode:
+    - value: '1'
+      label: Derived from Collaborative Stage
+    - value: '2'
+      label: Derived from EOD
+- name:
+    original: Derived_SS2000_FL_N3050
+    clean: seer_stage_derived_2000
+  description: Derivation of SEER Summary Stage 2000
+  naaccr: 3050
+  recode:
+    - value: '1'
+      label: Derived from Collaborative Stage
+    - value: '2'
+      label: Derived from EOD
+- name:
+    original: FCDS_Tob_Use_Cigarette_N1300
+    clean: tobacco_cigarette
+  description: Cigarette smoking
+  naaccr: 9965
+  recode:
+    - value: '0'
+      label: Never used
+    - value: '1'
+      label: Current user
+    - value: '2'
+      label: Former user, quit within 1 year of Dx
+    - value: '3'
+      label: Former user, quit more than 1 year of Dx
+    - value: '4'
+      label: Former user, unknown when quit
+    - value: '9'
+      label: Unknown
+- name:
+    original: FCDS_Tob_Use_OthSmoke_N1300
+    clean: tobacco_other
+  description: >
+    Smoking tobacco products other than cigarettes
+    (e.g., pipes, cigars, kreteks)
+  naaccr: 9966
+  recode:
+    - value: '0'
+      label: Never used
+    - value: '1'
+      label: Current user
+    - value: '2'
+      label: Former user, quit within 1 year of Dx
+    - value: '3'
+      label: Former user, quit more than 1 year of Dx
+    - value: '4'
+      label: Former user, unknown when quit
+    - value: '9'
+      label: Unknown
+- name:
+    original: FCDS_Tob_Use_Smokeless_Tob_N1300
+    clean: tobacco_smokeless
+  description: Smokeless tobacco products (e.g, chewing tobacco, snuff, etc.)
+  naaccr: 9967
+  recode:
+    - value: '0'
+      label: Never used
+    - value: '1'
+      label: Current user
+    - value: '2'
+      label: Former user, quit within 1 year of Dx
+    - value: '3'
+      label: Former user, quit more than 1 year of Dx
+    - value: '4'
+      label: Former user, unknown when quit
+    - value: '9'
+      label: Unknown
+- name:
+    original: FCDS_Tob_Use_NOS_N1300
+    clean: tobacco_nos
+  description: Tobacco NOS, includes use of e-cigarettes and vaporizers
+  naaccr: 9968
+  recode:
+    - value: '0'
+      label: Never used
+    - value: '1'
+      label: Current user
+    - value: '2'
+      label: Former user, quit within 1 year of Dx
+    - value: '3'
+      label: Former user, quit more than 1 year of Dx
+    - value: '4'
+      label: Former user, unknown when quit
+    - value: '9'
+      label: Unknown
