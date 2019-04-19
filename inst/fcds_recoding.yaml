@@ -609,7 +609,7 @@
       label: Other hospital outpatient units/surgery centers
 - name:
     original: ICDO3_Conversion_FL_N2116
-    clean: cancer_icd03_conversion
+    clean: cancer_ICD03_conversion
   description: ICD-O-3 Conversion Flag
   naaccr: 2116
   recode:

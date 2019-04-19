@@ -176,7 +176,7 @@ Derived from \code{Dx_Primary_Payor_Recoded}.
 \item \code{cancer_reporting_source}: Type of Reporting Source.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#500}{500}.
 Derived from \code{Type_of_Reporting_Source_N500}.
-\item \code{cancer_icd03_conversion}: ICD-O-3 Conversion Flag.
+\item \code{cancer_ICDO3_conversion}: ICD-O-3 Conversion Flag.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#2116}{2116}.
 Derived from \code{ICDO3_Conversion_FL_N2116}.
 \item \code{cancer_laterality}: Laterality at Diagnosis.

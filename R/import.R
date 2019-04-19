@@ -91,7 +91,7 @@
 #' - `cancer_reporting_source`: Type of Reporting Source.
 #'   NAACCR Item #[500](http://datadictionary.naaccr.org/default.aspx?c=10#500).
 #'   Derived from `Type_of_Reporting_Source_N500`.
-#' - `cancer_icd03_conversion`: ICD-O-3 Conversion Flag.
+#' - `cancer_ICDO3_conversion`: ICD-O-3 Conversion Flag.
 #'   NAACCR Item #[2116](http://datadictionary.naaccr.org/default.aspx?c=10#2116).
 #'   Derived from `ICDO3_Conversion_FL_N2116`.
 #' - `cancer_laterality`: Laterality at Diagnosis.
