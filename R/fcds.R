@@ -20,7 +20,7 @@ join_population <- function(
 join_population_by_year <- function(
   data,
   population = fcds::seer_pop_fl,
-  by_year = c("dx_year_mid" = "year")
+  by_year = c("year_mid" = "year")
 ) {
   if (!is.character(by_year) || length(by_year) != 1) {
     abort(glue(
@@ -46,23 +46,23 @@ summarize_fcds <- function(
   year = NULL,
   county_name = NULL,
   hispanic = NULL,
-  default_groups = c("dx_year", "age_group")
+  default_groups = c("year_mid", "age_group")
 ) {
 
   filters <- list(sex = sex, race = race, year = year,
                   county_name = county_name, hispanic = hispanic)
-  filters <- imap(filters, valid_fcds_const)
+  filters <- purrr::imap(filters, valid_fcds_const)
   for (var in names(filters)) {
     fcds <- filter_fcds(fcds, var, filters[[var]])
   }
 
-  if (!"dx_year_mid" %in% names(fcds)) {
+  if (!"year_mid" %in% names(fcds)) {
     fcds <- add_mid_year(fcds)
   }
 
   # Initial counting has to be by year and age_group
   groups <- group_vars(fcds)
-  default_groups <- union(default_groups, c("dx_year_mid", "age_group"))
+  default_groups <- union(default_groups, c("year_mid", "age_group"))
   groups <- union(default_groups, groups)
 
   fcds %>%

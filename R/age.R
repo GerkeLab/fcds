@@ -353,7 +353,7 @@ format_age_groups <- function(
 #'    "80 - 84", 1884,
 #'        "85+", 1705
 #' ) %>%
-#'   dplyr::mutate(dx_year_mid = 2013) %>%
+#'   dplyr::mutate(year_mid = 2013) %>%
 #'   standardize_age_groups()
 #'
 #' d_population <- tibble::tribble(
@@ -405,7 +405,7 @@ age_adjust <- function(
   count = n,
   population = fcds::seer_pop_fl,
   population_standard = fcds::seer_std_ages,
-  by_year = c("dx_year_mid" = "year"),
+  by_year = c("year_mid" = "year"),
   age = age_group,
   keep_age = FALSE
 ) {
