@@ -232,12 +232,23 @@ subsequently call \code{\link[=fcds_load]{fcds_load()}} to load the cached, pre-
 than repeating the importing process or needing to locate the original
 raw data. The data caching can be disabled by setting \code{output_file = NULL}.
 }
+\section{FCDS Data}{
+
+
+Users must request the data from FCDS directly, via the
+\href{https://fcds.med.miami.edu/inc/datarequest.shtml}{FCDS Data Request}
+webpage.
+}
+
 \section{FCDS Recoding}{
 
 
 This section will discuss the formatting for the FCDS recoding yaml file.
 }
 
+\references{
+\url{https://fcds.med.miami.edu/}
+}
 \seealso{
 Other FCDS Import Functions: \code{\link{fcds_default_data_path}},
   \code{\link{fcds_load}}

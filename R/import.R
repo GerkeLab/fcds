@@ -12,6 +12,14 @@
 #' than repeating the importing process or needing to locate the original
 #' raw data. The data caching can be disabled by setting `output_file = NULL`.
 #'
+#' @references <https://fcds.med.miami.edu/>
+#'
+#' @section FCDS Data:
+#'
+#' Users must request the data from FCDS directly, via the
+#' [FCDS Data Request](https://fcds.med.miami.edu/inc/datarequest.shtml)
+#' webpage.
+#'
 #' @section FCDS Recoding:
 #'
 #' This section will discuss the formatting for the FCDS recoding yaml file.
