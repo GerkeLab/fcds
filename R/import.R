@@ -31,10 +31,10 @@
 #' - `patient_id`: Patient ID Number.
 #'   NAACCR Item #[20](http://datadictionary.naaccr.org/default.aspx?c=10#20).
 #'   Derived from `Patient_ID_N20`.
-#' - `dx_year`: Year of Diagnosis (5 year group).
+#' - `year`: Year of Diagnosis (5 year group).
 #'   NAACCR Item #[390](http://datadictionary.naaccr.org/default.aspx?c=10#390).
 #'   Derived from `Date_of_Dx_Year_Recoded`.
-#' - `dx_year_mid`: Year of Diagnosis (midpoint of 5 year group).
+#' - `year_mid`: Year of Diagnosis (midpoint of 5 year group).
 #'   NAACCR Item #[390](http://datadictionary.naaccr.org/default.aspx?c=10#390).
 #'   Derived from `Date_of_Dx_Year_Recoded`.
 #' - `cancer_status`: Cancer Status at time abstract was completed.
@@ -46,7 +46,7 @@
 #' - `cancer_site_specific`: FCDS Site Group with specific within-group areas.
 #'   NAACCR Item #[2220](http://datadictionary.naaccr.org/default.aspx?c=10#2220).
 #'   Derived from `FCDS_Site_Group`.
-#' - `dx_confirmation`: Diagnostic Confirmation at first diagnosis.
+#' - `confirmation`: Diagnostic Confirmation at first diagnosis.
 #'   NAACCR Item #[490](http://datadictionary.naaccr.org/default.aspx?c=10#490).
 #'   Derived from `Diagnostic_Confirmation_N490`.
 #' - `age_group`: FCDS Age Group.
@@ -64,19 +64,19 @@
 #' - `marital_status`: Marital Status at diagnosis (recoded).
 #'   NAACCR Item #[150](http://datadictionary.naaccr.org/default.aspx?c=10#150).
 #'   Derived from `Marital_Status_Recoded`.
-#' - `dx_county_name`: County Name of patient's primary residence at the time tumor was diagnosed.
+#' - `county_name`: County Name of patient's primary residence at the time tumor was diagnosed.
 #'   NAACCR Item #[90](http://datadictionary.naaccr.org/default.aspx?c=10#90).
 #'   Derived from `County_at_DX_N90`.
-#' - `dx_county_fips`: County FIPS Code of patient's primary residence at the time tumor was diagnosed.
+#' - `county_fips`: County FIPS Code of patient's primary residence at the time tumor was diagnosed.
 #'   NAACCR Item #[90](http://datadictionary.naaccr.org/default.aspx?c=10#90).
 #'   Derived from `County_at_DX_N90`.
-#' - `dx_state`: State of patient's primary residence at the time of diagnosis (recoded).
+#' - `state`: State of patient's primary residence at the time of diagnosis (recoded).
 #'   NAACCR Item #[80](http://datadictionary.naaccr.org/default.aspx?c=10#80).
 #'   Derived from `Addr_at_DX_State_Recoded`.
-#' - `dx_florida_resident`: Patient's primary state of residence was Florida at time of diagnosis.
+#' - `florida_resident`: Patient's primary state of residence was Florida at time of diagnosis.
 #'   NAACCR Item #[80](http://datadictionary.naaccr.org/default.aspx?c=10#80).
 #'   Derived from `Addr_at_DX_State_Recoded`.
-#' - `dx_country`: Country of patient's primary residence at time of diagnosis (recoded).
+#' - `country`: Country of patient's primary residence at time of diagnosis (recoded).
 #'   NAACCR Item #[102](http://datadictionary.naaccr.org/default.aspx?c=10#102).
 #'   Derived from `Addr_at_Dx_Country_Recoded`.
 #' - `birth_country`: Country of Birthplace (recoded).

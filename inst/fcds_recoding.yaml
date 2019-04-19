@@ -6,7 +6,7 @@
   mutate: 'as.integer(Patient_ID_N20)'
 - name:
     original: Date_of_Dx_Year_Recoded
-    clean: dx_year
+    clean: year
   description: Year of Diagnosis (5 year group)
   naaccr: 390
   recode:
@@ -26,10 +26,10 @@
       label: '1981-1985'
 - name:
     original: Date_of_Dx_Year_Recoded
-    clean: dx_year_mid
+    clean: year_mid
   description: Year of Diagnosis (midpoint of 5 year group)
   naaccr: 390
-  mutate: mid_year(paste(dx_year))
+  mutate: mid_year(paste(year))
 - name:
     original: Cancer_Status_N1770
     clean: cancer_status
@@ -231,7 +231,7 @@
         Endocrine including Thymus (Benign/Border)
 - name:
     original: Diagnostic_Confirmation_N490
-    clean: dx_confirmation
+    clean: confirmation
   description: Diagnostic Confirmation at first diagnosis
   naaccr: 490
   recode:
@@ -351,7 +351,7 @@
       label: Unknown
 - name:
     original: County_at_DX_N90
-    clean: dx_county_name
+    clean: county_name
   description: >
     County Name of patient's primary residence at the time tumor was diagnosed
   naaccr: 90
@@ -494,14 +494,14 @@
       label: Unknown
 - name:
     original: County_at_DX_N90
-    clean: dx_county_fips
+    clean: county_fips
   description: >
     County FIPS Code of patient's primary residence at the time
     tumor was diagnosed
   naaccr: 90
 - name:
     original: Addr_at_DX_State_Recoded
-    clean: dx_state
+    clean: state
   description: State of patient's primary residence at the time of diagnosis (recoded)
   naaccr: 80
   recode:
@@ -513,13 +513,13 @@
       label: Not Applicable
 - name:
     original: Addr_at_DX_State_Recoded
-    clean: dx_florida_resident
+    clean: florida_resident
   description: Patient's primary state of residence was Florida at time of diagnosis
   naaccr: 80
   mutate: 'Addr_at_DX_State_Recoded == "00"'
 - name:
     original: Addr_at_Dx_Country_Recoded
-    clean: dx_country
+    clean: country
   description: Country of patient's primary residence at time of diagnosis (recoded)
   naaccr: 102
   recode:
@@ -595,7 +595,7 @@
       label: Other hospital outpatient units/surgery centers
 - name:
     original: ICDO3_Conversion_FL_N2116
-    clean: cancer_ICD03_conversion
+    clean: cancer_ICDO3_conversion
   description: ICD-O-3 Conversion Flag
   naaccr: 2116
   recode:

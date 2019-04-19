@@ -116,10 +116,10 @@ The pre-processing step provides the following columns.
 \item \code{patient_id}: Patient ID Number.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#20}{20}.
 Derived from \code{Patient_ID_N20}.
-\item \code{dx_year}: Year of Diagnosis (5 year group).
+\item \code{year}: Year of Diagnosis (5 year group).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#390}{390}.
 Derived from \code{Date_of_Dx_Year_Recoded}.
-\item \code{dx_year_mid}: Year of Diagnosis (midpoint of 5 year group).
+\item \code{year_mid}: Year of Diagnosis (midpoint of 5 year group).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#390}{390}.
 Derived from \code{Date_of_Dx_Year_Recoded}.
 \item \code{cancer_status}: Cancer Status at time abstract was completed.
@@ -131,7 +131,7 @@ Derived from \code{FCDS_Site_Group}.
 \item \code{cancer_site_specific}: FCDS Site Group with specific within-group areas.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#2220}{2220}.
 Derived from \code{FCDS_Site_Group}.
-\item \code{dx_confirmation}: Diagnostic Confirmation at first diagnosis.
+\item \code{confirmation}: Diagnostic Confirmation at first diagnosis.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#490}{490}.
 Derived from \code{Diagnostic_Confirmation_N490}.
 \item \code{age_group}: FCDS Age Group.
@@ -149,19 +149,19 @@ Derived from \code{Ethnicity_Recoded}.
 \item \code{marital_status}: Marital Status at diagnosis (recoded).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#150}{150}.
 Derived from \code{Marital_Status_Recoded}.
-\item \code{dx_county_name}: County Name of patient's primary residence at the time tumor was diagnosed.
+\item \code{county_name}: County Name of patient's primary residence at the time tumor was diagnosed.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#90}{90}.
 Derived from \code{County_at_DX_N90}.
-\item \code{dx_county_fips}: County FIPS Code of patient's primary residence at the time tumor was diagnosed.
+\item \code{county_fips}: County FIPS Code of patient's primary residence at the time tumor was diagnosed.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#90}{90}.
 Derived from \code{County_at_DX_N90}.
-\item \code{dx_state}: State of patient's primary residence at the time of diagnosis (recoded).
+\item \code{state}: State of patient's primary residence at the time of diagnosis (recoded).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#80}{80}.
 Derived from \code{Addr_at_DX_State_Recoded}.
-\item \code{dx_florida_resident}: Patient's primary state of residence was Florida at time of diagnosis.
+\item \code{florida_resident}: Patient's primary state of residence was Florida at time of diagnosis.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#80}{80}.
 Derived from \code{Addr_at_DX_State_Recoded}.
-\item \code{dx_country}: Country of patient's primary residence at time of diagnosis (recoded).
+\item \code{country}: Country of patient's primary residence at time of diagnosis (recoded).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#102}{102}.
 Derived from \code{Addr_at_Dx_Country_Recoded}.
 \item \code{birth_country}: Country of Birthplace (recoded).
@@ -176,7 +176,7 @@ Derived from \code{Dx_Primary_Payor_Recoded}.
 \item \code{cancer_reporting_source}: Type of Reporting Source.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#500}{500}.
 Derived from \code{Type_of_Reporting_Source_N500}.
-\item \code{cancer_ICDO3_conversion}: ICD-O-3 Conversion Flag.
+\item \code{cancer_ICD03_conversion}: ICD-O-3 Conversion Flag.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#2116}{2116}.
 Derived from \code{ICDO3_Conversion_FL_N2116}.
 \item \code{cancer_laterality}: Laterality at Diagnosis.
