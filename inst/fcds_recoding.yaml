@@ -29,21 +29,7 @@
     clean: dx_year_mid
   description: Year of Diagnosis (midpoint of 5 year group)
   naaccr: 390
-  recode:
-    - value: '1115'
-      label: '2013'
-    - value: '0610'
-      label: '2008'
-    - value: '0105'
-      label: '2003'
-    - value: '9600'
-      label: '1998'
-    - value: '9195'
-      label: '1993'
-    - value: '8690'
-      label: '1988'
-    - value: '8185'
-      label: '1983'
+  mutate: mid_year(paste(dx_year))
 - name:
     original: Cancer_Status_N1770
     clean: cancer_status
