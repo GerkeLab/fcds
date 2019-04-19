@@ -1,3 +1,25 @@
+fcds_file <- function(...) {
+  system.file(..., package = "fcds")
+}
+
+cat_line <- function(..., sep = "", symbol = "", indent = 0) {
+  symbol <- switch(
+    symbol,
+    "bullet" = "\u25cf ",
+    "tick" = "\u2714 ",
+    "dots" = "\u2026 ",
+    ""
+  )
+
+  cat(strrep(" ", indent), symbol, sep = "")
+  cat(..., sep = sep)
+  cat("\n")
+}
+
+cat_bullet <- function(...) cat_line(..., symbol = "bullet")
+cat_tick   <- function(...) cat_line(..., symbol = "tick")
+cat_dots   <- function(...) cat_line(..., symbol = "dots")
+
 # ---- Check for existing packages ----
 check_package <- function(
   pkg,
