@@ -328,10 +328,10 @@ fcds_recode_values <- function(
 
   recoding_misses <- list()
 
+  if (verbose) p <- dplyr::progress_estimated(length(fcds_recoding))
+
   for (action in fcds_recoding) {
     column <- action$name
-
-    if (verbose) cat_dots(column$clean, indent = 2)
 
     recoding_misses[[column$clean]] <- capture_init(column)
 
@@ -365,6 +365,13 @@ fcds_recode_values <- function(
     if ("description" %in% names(action)) {
       labelled::var_label(data[[column$clean]]) <- action$description
     }
+
+    if (verbose) p$tick()$print()
+  }
+
+  if (verbose) {
+    p$stop()
+    cat("\n")
   }
 
 
