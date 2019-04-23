@@ -19,6 +19,8 @@ Description: Helper functions for processing data from the
 License: MIT + file LICENSE
 URL: https://github.com/GerkeLab/fcds
 BugReports: https://github.com/GerkeLab/fcds/issues
+Depends: 
+    R (>= 3.2.3)
 Imports: 
     dplyr,
     glue,
