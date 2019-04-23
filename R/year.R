@@ -29,58 +29,75 @@ complete_year_groups <- function(data, start = NULL, end = NULL, year_var = "dx_
     select(colnames(data))
 }
 
-#' Add Mid-Year Column
+#' Add Mid-Year of Year Group
 #'
 #' Adds a new column containing the midpoint year of the range given in the
-#' column indicated by `year_var`.
+#' column indicated by the `year` argument, in a new column with "`_mid`"
+#' appended to the `year` column name. The `year` column is assumed to contain
+#' a _min_ year and a _max_ year, separated by `sep`. The midpoint is calculated
+#' as `floor((year_max - year_min) / 2)` unless `offset` is explicitly provided.
 #'
+#' @inheritParams complete_year_groups
+#' @param sep Characters separating years in `year`. Whitespace on either side
+#'   of `sep` will be automatically removed. Passed to [tidyr::separate()].
+#' @param offset If supplied, the number of years to be added to the lower bound
+#'   of the year group to calculate the mid-year value. By default uses
+#'   `floor((year_max - year_min) / 2)`.
 #' @family year processors
 #' @export
-add_mid_year <- function(data, year_var = dx_year, sep = "-") {
-  year_var <- enquo(year_var)
-  year_var_name <- glue("{quo_name(year_var)}_mid")
+add_mid_year_groups <- function(
+  data,
+  year = year,
+  sep = "-",
+  offset = NULL
+) {
+  year <- enquo(year)
+  year_name <- paste0(quo_name(year), "_mid")
 
-  if (year_var_name %in% names(data)) return(data)
-  stopifnot(quo_name(year_var) %in% names(data))
+  if (year_name %in% names(data)) return(data)
+  stopifnot(quo_name(year) %in% names(data))
 
-  mutate(data, !!year_var_name := mid_year(!!year_var))
+  mutate(data, !!year_name := mid_year(!!year, sep = sep, offset = offset))
 }
 
+#' Separate Year Groups
+#'
+#' Separates a column containing year groups, such as "`1983-1985`", into
+#' two separate columns with "`_min`" and "`_max`" appended to the column names.
+#'
+#' @inheritParams add_mid_year_groups
+#' @family year processors
+#' @export
+separate_year_groups <- function(
+  data,
+  year = year,
+  sep = "-"
+) {
+  year <- rlang::enquo(year)
+  year_name <- rlang::quo_name(year)
 
-mid_year <- function(years, sep = "-", offset = NULL) {
-  regex_years <- glue("(\\d{{2,4}})(\\s*{sep}\\s*(\\d{{2,4}}))?")
+  # remove any whitespace around separator
+  sep <- glue("\\s*{sep}\\s*")
 
-  years <- str_match_(years, regex_years) %>%
-    dplyr::mutate_at(dplyr::vars(dplyr::starts_with("g")), as.integer)
-
-  if (all(is.na(years$g3))) {
-    abort("Unable to extract two year values for all provided years")
-  }
-  if (any(is.na(years$g1) | is.na(years$g3))) {
-    n_not_found <- sum(is.na(years$g1) | is.na(years$g3))
-    warn(glue("Two year values were not found for {n_not_found} year(s), ",
-              "NA values were returned for the midpoint of these year(s)."))
-  }
-
-  offset <- offset %||% floor((years$g3 - years$g1) / 2)
-
-  # return mid year
-  ifelse(
-    is.na(years$g3),
-    NA_character_,
-    paste(years$g1 + offset)
+  tidyr::separate(
+    data,
+    col = !!year,
+    into = paste0(year_name, "_", c("min", "max")),
+    remove = FALSE
   )
 }
 
-str_match_ <- function(text, pattern, ..., perl = TRUE) {
-  r_matches <- regexec(pattern, text, ..., perl = TRUE)
-  ret <- regmatches(text, r_matches)
-  if (length(ret)) {
-    ret <- purrr::map_dfr(ret, ~ {
-      .x <- .x %>% as.matrix() %>% t() %>% as.data.frame(stringsAsFactors = FALSE)
-      names(.x) <- c("text", if (ncol(.x) > 1) paste0("g", 1:(ncol(.x) - 1L)))
-      .x
-    })
-  }
-  ret
+mid_year <- function(years, sep = "-", offset = NULL) {
+
+  years <- separate_year_groups(tibble(year = years), sep = sep) %>%
+    dplyr::mutate_at(quos(year_min, year_max), as.integer)
+
+  offset <- offset %||% floor((years$year_max - years$year_min) / 2)
+
+  # return mid year
+  ifelse(
+    is.na(years$year_max),
+    NA_character_,
+    paste(years$year_min + offset)
+  )
 }
