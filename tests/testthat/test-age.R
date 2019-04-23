@@ -7,8 +7,8 @@ d_age_group <- data.frame(
 )
 
 
-test_that("expand_age_groups()", {
-  r_age_group <- expand_age_groups(d_age_group)
+test_that("separate_age_groups()", {
+  r_age_group <- separate_age_groups(d_age_group)
 
   expect_equal(names(r_age_group), c("id", paste0("age_", c("group", "low", "high"))))
   expect_equal(r_age_group$age_low, c(0, 10, 65, 85))
@@ -16,7 +16,7 @@ test_that("expand_age_groups()", {
 
   names(d_age_group)[2] <- "age_variable"
   expect_equal(
-    d_age_group %>% expand_age_groups(age_group = age_variable) %>% names(),
+    d_age_group %>% separate_age_groups(age_group = age_variable) %>% names(),
     c("id", paste0("age_", c("variable", "low", "high")))
   )
 })
@@ -24,17 +24,17 @@ test_that("expand_age_groups()", {
 test_that("expanding NA age group gives NA", {
   d_age_group$age_group[2] <- NA_character_
 
-  r_age_group <- expand_age_groups(d_age_group)
+  r_age_group <- separate_age_groups(d_age_group)
 
   expect_equal(r_age_group$age_low[2], NA_real_)
   expect_equal(r_age_group$age_high[2], NA_real_)
 })
 
-test_that("expand_age_groups() allows renaming age_low and age_high", {
+test_that("separate_age_groups() allows renaming age_low and age_high", {
   r_age_group <- d_age_group %>%
-    expand_age_groups(age_low = low, age_high = high)
+    separate_age_groups(age_low = low, age_high = high)
 
-  r_age_group_default <- d_age_group %>% expand_age_groups()
+  r_age_group_default <- d_age_group %>% separate_age_groups()
 
   expect_equal(names(r_age_group), c("id", "age_group", "low", "high"))
   expect_equal(r_age_group$low, r_age_group_default$age_low)
@@ -57,14 +57,14 @@ test_that("filter_age_groups()", {
   expect_equal(d_age_group %>% filter_age_groups(10, 14) %>% .$id, 2)
   expect_equal(
     d_age_group %>% filter_age_groups(),
-    d_age_group %>% expand_age_groups() %>% select(-age_low, -age_high)
+    d_age_group %>% separate_age_groups() %>% select(-age_low, -age_high)
   )
 })
 
 test_that("filter_age_groups() doesn't add columns", {
   r_age_group_has <- d_age_group %>% filter_age_groups()
   r_age_group_doesnt <- d_age_group %>%
-    expand_age_groups() %>% filter_age_groups()
+    separate_age_groups() %>% filter_age_groups()
 
   expect_equal(names(r_age_group_has), names(d_age_group))
   expect_equal(
@@ -92,7 +92,7 @@ test_that("complete_age_groups()", {
 test_that("standardize_age_groups()", {
   # normal
   expected_age_group <- d_age_group %>%
-    expand_age_groups() %>%
+    separate_age_groups() %>%
     mutate(
       age_group_low = if_else(age_low < 0, "0", paste(age_low)),
       age_group_high = if_else(age_high > 0 & is.infinite(age_high), "+", paste(" -", age_high)),
@@ -145,7 +145,7 @@ test_that("standardize_age_groups() returns columns in same order", {
 test_that("standardize_age_groups() when input is grouped", {
   # normal
   expected_age_group <- d_age_group %>%
-    expand_age_groups() %>%
+    separate_age_groups() %>%
     mutate(
       age_group_low = if_else(age_low < 0, "0", paste(age_low)),
       age_group_high = if_else(age_high > 0 & is.infinite(age_high), "+", paste(" -", age_high)),
@@ -392,7 +392,7 @@ test_that("age_adjust() errors or warns with mismatched age_groups", {
 
   d_incidence_gg <- d_incidence %>%
     dplyr::slice(1:10) %>%
-    expand_age_groups() %>%
+    separate_age_groups() %>%
     mutate(
       age_low = age_low + 2,
       age_high = age_high + 2,

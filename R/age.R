@@ -1,11 +1,11 @@
 
 # Age Groups --------------------------------------------------------------
 
-#' Convert Age Group Column to Low and High Age Range
+#' Separate Age Group Column into Low and High Age of Range
 #'
 #' Takes the age group stored in `age_group` and creates two variables,
 #' `age_low` and `age_high` with the age boundaries of the group. By default,
-#' `expand_age_groups()` assumes that the age group definitions are separated
+#' `separate_age_groups()` assumes that the age group definitions are separated
 #' by a dash (`"-"`), possibly with whitespace on either side. The separator
 #' can be specified using the `sep` argument.
 #'
@@ -15,7 +15,7 @@
 #'   age_group = c("0 - 4", "10 - 14", "65 - 69", "85+")
 #' )
 #'
-#' expand_age_groups(d_age_group)
+#' separate_age_groups(d_age_group)
 #'
 #' @param data A data frame.
 #' @param age_group Unquoted column name containing the age grouping.
@@ -23,7 +23,7 @@
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
-expand_age_groups <- function(
+separate_age_groups <- function(
   data,
   age_group = age_group,
   sep = "\\s*-\\s*",
@@ -55,7 +55,7 @@ expand_age_groups <- function(
 #'
 #' Filters data to include persons with ages in the range between `age_low` and
 #' `age_high`. If `age_group` has not been expanded into low and high ages of
-#' the range, the input data is first passed to [expand_age_groups()]. If the
+#' the range, the input data is first passed to [separate_age_groups()]. If the
 #' boundary age lies within a group, that group is _not included_ in the output.
 #'
 #' @examples
@@ -74,7 +74,7 @@ expand_age_groups <- function(
 #' d_age_group %>%
 #'   filter_age_groups(age_high = 66)
 #'
-#' @inheritParams expand_age_groups
+#' @inheritParams separate_age_groups
 #' @param age_low Youngest age (inclusive).
 #' @param age_high Eldest age (inclusive).
 #' @family age processors
@@ -92,7 +92,7 @@ filter_age_groups <- function(
 
   if (!"age_low" %in% names(data)) {
     stopifnot(age_group_name %in% names(data))
-    data <- expand_age_groups(data, age_var = !!age_group)
+    data <- separate_age_groups(data, age_var = !!age_group)
   }
 
   stopifnot("age_low" %in% names(data))
@@ -108,7 +108,7 @@ filter_age_groups <- function(
 #' Completes age groups by adding missing age groups, either within the age
 #' range from `age_low` to `age_high` or using the full age list from
 #' [seer_std_ages]. If the columns `age_low` or `age_high` are missing from the
-#' input data, [expand_age_groups()] is first called to expand the age group
+#' input data, [separate_age_groups()] is first called to expand the age group
 #' variable.
 #'
 #' @examples
@@ -123,7 +123,7 @@ filter_age_groups <- function(
 #' @param include_unknown Should the "Unknown" age group be included?
 #' @param std_age_groups Character vector containing expected (or standard) age
 #'   groups.
-#' @inheritDotParams expand_age_groups
+#' @inheritDotParams separate_age_groups
 #' @family age processors
 #' @export
 complete_age_groups <- function(
@@ -142,7 +142,7 @@ complete_age_groups <- function(
 
   ages <- tibble(age_group = std_age_groups)
   if (!include_unknown) ages <- filter(ages, age_group != "Unknown")
-  ages <- suppressWarnings(expand_age_groups(ages))
+  ages <- suppressWarnings(separate_age_groups(ages))
 
   if (!is.null(age_low)) ages <- filter(ages, age_low >= !!age_low)
   if (!is.null(age_high)) ages <- filter(ages, age_high <= !!age_high)
@@ -165,7 +165,7 @@ complete_age_groups <- function(
 #' can be either an actual age or an age group. If the column is numeric, it
 #' assumed to be an actual age, otherwise if it contains any non-numeric
 #' characters it is assumed to be an age group that will be expanded using
-#' [expand_age_groups()]. If multiple standardized age groups match a given age,
+#' [separate_age_groups()]. If multiple standardized age groups match a given age,
 #' the function will throw an error.
 #'
 #' @examples
@@ -179,7 +179,7 @@ complete_age_groups <- function(
 #'   coerced to numeric, it is treated as actual age. Otherwise it is assumed to
 #'   contain age groups.
 #' @param std_age_groups Standard age groups, in the desired order.
-#' @inheritDotParams expand_age_groups
+#' @inheritDotParams separate_age_groups
 #' @inheritParams filter_age_groups
 #' @family age processors
 #' @export
@@ -199,7 +199,7 @@ standardize_age_groups <- function(
   std_ages <-
     tibble(age_group = std_age_groups) %>%
     filter(age_group != "Unknown") %>%
-    expand_age_groups() %>%
+    separate_age_groups() %>%
     mutate(
       age_low = if_else(is_neg_infinite(age_low), 0, age_low),
       age_high = if_else(is_pos_infinite(age_high), 125, age_high),
@@ -247,7 +247,7 @@ standardize_age_groups <- function(
     # match on low, match on high:
     #   - same answer? return first
     #   - different? error (non-overlapping groups)
-    data <- data %>% expand_age_groups(!!age_group, ...,
+    data <- data %>% separate_age_groups(!!age_group, ...,
                                        age_low  = ...age_low,
                                        age_high = ...age_high)
 

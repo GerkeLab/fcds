@@ -19,7 +19,7 @@ filter_age_groups(data, age_low = 0, age_high = Inf,
 \description{
 Filters data to include persons with ages in the range between \code{age_low} and
 \code{age_high}. If \code{age_group} has not been expanded into low and high ages of
-the range, the input data is first passed to \code{\link[=expand_age_groups]{expand_age_groups()}}. If the
+the range, the input data is first passed to \code{\link[=separate_age_groups]{separate_age_groups()}}. If the
 boundary age lies within a group, that group is \emph{not included} in the output.
 }
 \examples{
@@ -41,7 +41,7 @@ d_age_group \%>\%
 }
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
-  \code{\link{expand_age_groups}},
+  \code{\link{separate_age_groups}},
   \code{\link{standardize_age_groups}}
 }
 \concept{age processors}
