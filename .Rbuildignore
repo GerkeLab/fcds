@@ -3,3 +3,7 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^tic\.R$
+^data-raw$
+^pkgdown$
+^docs$
+^LICENSE\.md$
