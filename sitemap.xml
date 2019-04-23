@@ -19,9 +19,6 @@
     <loc>https://gerkelab.github.io/fcds/reference/county_fips_fl.html</loc>
   </url>
   <url>
-    <loc>https://gerkelab.github.io/fcds/reference/expand_age_groups.html</loc>
-  </url>
-  <url>
     <loc>https://gerkelab.github.io/fcds/reference/fcds-package.html</loc>
   </url>
   <url>
@@ -53,6 +50,9 @@
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/seer_std_ages.html</loc>
+  </url>
+  <url>
+    <loc>https://gerkelab.github.io/fcds/reference/separate_age_groups.html</loc>
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/separate_year_groups.html</loc>

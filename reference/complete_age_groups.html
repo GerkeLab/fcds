@@ -37,7 +37,7 @@
 <meta property="og:description" content="Completes age groups by adding missing age groups, either within the age
 range from age_low to age_high or using the full age list from
 seer_std_ages. If the columns age_low or age_high are missing from the
-input data, expand_age_groups() is first called to expand the age group
+input data, separate_age_groups() is first called to expand the age group
 variable." />
 <meta name="twitter:card" content="summary" />
 
@@ -125,7 +125,7 @@ variable." />
     <p>Completes age groups by adding missing age groups, either within the age
 range from <code>age_low</code> to <code>age_high</code> or using the full age list from
 <a href='seer_std_ages.html'>seer_std_ages</a>. If the columns <code>age_low</code> or <code>age_high</code> are missing from the
-input data, <code><a href='expand_age_groups.html'>expand_age_groups()</a></code> is first called to expand the age group
+input data, <code><a href='separate_age_groups.html'>separate_age_groups()</a></code> is first called to expand the age group
 variable.</p>
     
     </div>
@@ -186,7 +186,7 @@ groups.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments passed on to <code>expand_age_groups</code></p><dl class='dl-horizontal'>
+      <td><p>Arguments passed on to <code>separate_age_groups</code></p><dl class='dl-horizontal'>
   <dt>data</dt><dd><p>A data frame.</p></dd>
   <dt>age_group</dt><dd><p>Unquoted column name containing the age grouping.</p></dd>
   <dt>age_low</dt><dd><p>Youngest age (inclusive).</p></dd>
@@ -207,8 +207,8 @@ far-right of the string. The length of <code>sep</code> should be one less than
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other age processors: <code><a href='expand_age_groups.html'>expand_age_groups</a></code>,
-  <code><a href='filter_age_groups.html'>filter_age_groups</a></code>,
+    <div class='dont-index'><p>Other age processors: <code><a href='filter_age_groups.html'>filter_age_groups</a></code>,
+  <code><a href='separate_age_groups.html'>separate_age_groups</a></code>,
   <code><a href='standardize_age_groups.html'>standardize_age_groups</a></code></p></div>
     
 
