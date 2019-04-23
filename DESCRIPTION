@@ -29,6 +29,7 @@ Imports:
     purrr,
     readr,
     rlang,
+    tibble,
     tidyr,
     tidyselect,
     tools,
