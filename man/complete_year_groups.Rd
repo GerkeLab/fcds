@@ -39,7 +39,7 @@ d_year <- tidyr::crossing(
 # that should be completed.
 
 d_year \%>\%
-  group_by(sex, race) \%>\%
+  dplyr::group_by(sex, race) \%>\%
   complete_year_groups() \%>\%
   dplyr::arrange(sex, race, year)
 
