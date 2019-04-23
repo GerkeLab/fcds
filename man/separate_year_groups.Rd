@@ -18,6 +18,11 @@ of \code{sep} will be automatically removed. Passed to \code{\link[tidyr:separat
 Separates a column containing year groups, such as "\code{1983-1985}", into
 two separate columns with "\code{_min}" and "\code{_max}" appended to the column names.
 }
+\examples{
+dplyr::tibble(year = fcds_const("year")) \%>\%
+  separate_year_groups()
+
+}
 \seealso{
 Other year processors: \code{\link{add_mid_year_groups}},
   \code{\link{complete_year_groups}}

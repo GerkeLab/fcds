@@ -4,13 +4,52 @@
 \alias{complete_year_groups}
 \title{Complete Year Groups}
 \usage{
-complete_year_groups(data, start = NULL, end = NULL,
-  year_var = "dx_year", fill = list(n = 0))
+complete_year_groups(data, ..., year_min = NULL, year_max = NULL,
+  year = year, fill = list(n = 0))
+}
+\arguments{
+\item{data}{A data frame}
+
+\item{...}{Ignored if \code{data} is a grouped data frame. If not grouped,
+additional arguments are passed to \code{\link[tidyr:complete]{tidyr::complete()}}. Use these arguments
+specify which columns are included in the expansion and how. See
+\code{\link[tidyr:complete]{tidyr::complete()}} for more information.}
+
+\item{year_min}{Optional earliest year to include (inclusive)}
+
+\item{year_max}{Optional latest year to include (inclusive)}
+
+\item{year}{The column containing the \code{year_group}.}
+
+\item{fill}{Default values for rows in columns added to the data}
 }
 \description{
-Completes year groups with expected years.
+Completes year groups in the data frame with the expected year values,
+see \code{\link[=fcds_const]{fcds_const()}}.
+}
+\examples{
+d_year <- tidyr::crossing(
+  sex = "Female",
+  race = fcds_const("race"),
+  year = fcds_const("year")
+)
+
+# These two versions are equivalent. The first version completes all variables
+# included in the grouping and the second explicitly declares the variables
+# that should be completed.
+
+d_year \%>\%
+  group_by(sex, race) \%>\%
+  complete_year_groups() \%>\%
+  dplyr::arrange(sex, race, year)
+
+d_year \%>\%
+  complete_year_groups(sex, race) \%>\%
+  dplyr::arrange(sex, race, year)
+
 }
 \seealso{
-Other year processors: \code{\link{add_mid_year}}
+Other year processors: \code{\link{add_mid_year_groups}},
+  \code{\link{separate_year_groups}}
 }
 \concept{year processors}

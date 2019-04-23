@@ -25,6 +25,11 @@ appended to the \code{year} column name. The \code{year} column is assumed to co
 a \emph{min} year and a \emph{max} year, separated by \code{sep}. The midpoint is calculated
 as \code{floor((year_max - year_min) / 2)} unless \code{offset} is explicitly provided.
 }
+\examples{
+dplyr::tibble(year = fcds_const("year")) \%>\%
+  add_mid_year_groups()
+
+}
 \seealso{
 Other year processors: \code{\link{complete_year_groups}},
   \code{\link{separate_year_groups}}

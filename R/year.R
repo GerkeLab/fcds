@@ -1,32 +1,85 @@
 #' Complete Year Groups
 #'
-#' Completes year groups with expected years.
+#' Completes year groups in the data frame with the expected year values,
+#' see [fcds_const()].
 #'
+#' @examples
+#' d_year <- tidyr::crossing(
+#'   sex = "Female",
+#'   race = fcds_const("race"),
+#'   year = fcds_const("year")
+#' )
+#'
+#' # These two versions are equivalent. The first version completes all variables
+#' # included in the grouping and the second explicitly declares the variables
+#' # that should be completed.
+#'
+#' d_year %>%
+#'   group_by(sex, race) %>%
+#'   complete_year_groups() %>%
+#'   dplyr::arrange(sex, race, year)
+#'
+#' d_year %>%
+#'   complete_year_groups(sex, race) %>%
+#'   dplyr::arrange(sex, race, year)
+#'
+#' @param data A data frame
+#' @param year The column containing the `year_group`.
+#' @param year_min Optional earliest year to include (inclusive)
+#' @param year_max Optional latest year to include (inclusive)
+#' @param fill Default values for rows in columns added to the data
+#' @param ... Ignored if `data` is a grouped data frame. If not grouped,
+#'   additional arguments are passed to [tidyr::complete()]. Use these arguments
+#'   specify which columns are included in the expansion and how. See
+#'   [tidyr::complete()] for more information.
 #' @family year processors
 #' @export
-complete_year_groups <- function(data, start = NULL, end = NULL, year_var = "dx_year", fill = list(n = 0)) {
-  stopifnot(year_var %in% names(data))
+complete_year_groups <- function(
+  data,
+  ...,
+  year_min = NULL,
+  year_max = NULL,
+  year = year,
+  fill = list(n = 0)
+) {
+  year <- rlang::enquo(year)
+  year_name <- rlang::quo_name(year)
+
+  stopifnot(year_name %in% names(data))
+
+  # Get known years data set, and subset to requested yrs to get expected values
   years <- tibble(year = fcds_const("year")) %>%
-    separate(year, c("start", "end"), sep = "\\s*-\\s*", remove = FALSE) %>%
-    mutate_at(vars(start, end), as.integer)
+    separate_year_groups() %>%
+    mutate_at(quos(year_min, year_max), as.integer)
 
-  if (!is.null(start)) {
-    start <- as.integer(start)
-    years <- filter(years, start >= !!start)
+  if (!is.null(year_min)) {
+    year_min <- as.integer(year_min)
+    years <- filter(years, year_min >= !!year_min)
   }
-  if (!is.null(end)) {
-    end <- as.integer(end)
-    years <- filter(years, end >= !!end)
+  if (!is.null(year_max)) {
+    year_max <- as.integer(year_max)
+    years <- filter(years, year_max <= !!year_max)
   }
 
-  data_groups <- groups(data) %>% set_names(group_vars(data))
-  data_groups <- data_groups[setdiff(names(data_groups), year_var)]
 
-  data %>%
-    ungroup() %>%
-    complete(!!year_var := years$year, nesting(!!!data_groups), fill = fill) %>%
-    group_by(!!!data_groups) %>%
-    select(colnames(data))
+  if (!is.null(groups(data))) {
+    data_groups <- group_vars(data)
+    data_groups <- setdiff(data_groups, year_name)
+
+    data %>%
+      ungroup() %>%
+      with_ungroup(~ {
+        complete(.x,
+                 !!year_name := years$year,
+                 tidyr::nesting(!!!rlang::syms(data_groups)),
+                 fill = fill)
+      }) %>%
+      select(colnames(data))
+  } else {
+    data %>%
+      complete(!!year_name := years$year, ...) %>%
+      select(colnames(data))
+  }
 }
 
 #' Add Mid-Year of Year Group
@@ -36,6 +89,10 @@ complete_year_groups <- function(data, start = NULL, end = NULL, year_var = "dx_
 #' appended to the `year` column name. The `year` column is assumed to contain
 #' a _min_ year and a _max_ year, separated by `sep`. The midpoint is calculated
 #' as `floor((year_max - year_min) / 2)` unless `offset` is explicitly provided.
+#'
+#' @examples
+#' dplyr::tibble(year = fcds_const("year")) %>%
+#'   add_mid_year_groups()
 #'
 #' @inheritParams complete_year_groups
 #' @param sep Characters separating years in `year`. Whitespace on either side
@@ -54,7 +111,10 @@ add_mid_year_groups <- function(
   year <- enquo(year)
   year_name <- paste0(quo_name(year), "_mid")
 
-  if (year_name %in% names(data)) return(data)
+  if (year_name %in% names(data)) {
+    warn(glue("`{year_name}` already exists in data"))
+    return(data)
+  }
   stopifnot(quo_name(year) %in% names(data))
 
   mutate(data, !!year_name := mid_year(!!year, sep = sep, offset = offset))
@@ -64,6 +124,10 @@ add_mid_year_groups <- function(
 #'
 #' Separates a column containing year groups, such as "`1983-1985`", into
 #' two separate columns with "`_min`" and "`_max`" appended to the column names.
+#'
+#' @examples
+#' dplyr::tibble(year = fcds_const("year")) %>%
+#'   separate_year_groups()
 #'
 #' @inheritParams add_mid_year_groups
 #' @family year processors
