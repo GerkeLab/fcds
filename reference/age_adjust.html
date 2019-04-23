@@ -66,7 +66,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9002</span>
       </span>
     </div>
 
@@ -205,12 +205,17 @@ sex, race, year, and age.</p></li>
 <li><p>The standard reference population that is used to weight incidence among
 the observed age-specific count.</p></li>
 </ol>
-    <p>Each input is required to store age information. The default data supplied
-with the package for <code>population</code> (<a href='seer_pop_fl.html'>seer_pop_fl</a>) and <code>population_standard</code>
-(<a href='seer_std_ages.html'>seer_std_ages</a>) use the column name <code>age_group</code>. You can specify the name
-of the column containing age information with the <code>age</code> argument. If the
-column name in <code>data</code> is not present in the population data, <code>age_adjust()</code>
-will fall back to <code>age_group</code> for those data sets.</p>
+    <p>Each input is required to contain matching age information. The default data
+supplied with the package for <code>population</code> (<a href='seer_pop_fl.html'>seer_pop_fl</a>) and
+<code>population_standard</code> (<a href='seer_std_ages.html'>seer_std_ages</a>) use the column name <code>age_group</code>. You
+can specify the name of the column containing age information with the <code>age</code>
+argument. If the column name in <code>data</code> is not present in the population data,
+<code>age_adjust()</code> will fall back to <code>age_group</code> for those data sets.</p>
+<p>As described in the
+<a href='https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html'>SEER*Stat Tutorial: Calculating Age-adjusted Rates</a>:
+<em>The age-adjusted rate for an age group comprised of the ages x through y is
+calculated using the following formula</em>:</p>
+<p><img src='figures/seer_ar-aarate.png' alt='' /></p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
