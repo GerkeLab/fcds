@@ -1,0 +1,79 @@
+url: https://gerkelab.github.io/fcds
+
+authors:
+  Garrick Aden-Buie:
+    href: https://www.garrickadenbuie.com
+  Travis Gerke:
+    href: https://travisgerke.com
+
+template:
+  params:
+    bootswatch: lumen
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right:
+    - github
+    - gerkelab
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: Changelog
+      href: news/index.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/gerkelab/fcds
+    gerkelab:
+      icon: fa-flask fa-lg
+      href: https://gerkelab.com
+      text: GerkeLab
+
+reference:
+- title: Import and Load FCDS Data
+  desc: ~
+  contents:
+  - '`fcds_import`'
+  - '`fcds_load`'
+  - '`fcds_default_data_path`'
+- title: Age Adjust
+  desc: Perform Calculation of Age-Adjusted Rates
+  contents:
+  - '`age_adjust`'
+- title: Work with Age Groups
+  desc: Functions that help process FCDS age groups
+  contents:
+  - '`standardize_age_groups`'
+  - '`complete_age_groups`'
+  - '`expand_age_groups`'
+  - '`filter_age`'
+- title: Work with Years
+  desc: Functions that help process FCDS year groups
+  contents:
+  - '`add_mid_year`'
+  - '`complete_year_groups`'
+- title: Helper Functions
+  desc: ~
+  contents:
+  - '`group_drop`'
+  - '`with_retain_groups`'
+  - '`with_ungroup`'
+- title: Data Sets
+  desc: Additional data sets from FCDS or SEER
+  contents:
+  - '`seer_std_ages`'
+  - '`seer_pop_fl`'
+  - '`seer_pop_fl_exp_race`'
+  - '`seer_icd_o_3`'
+  - '`county_fips_fl`'
