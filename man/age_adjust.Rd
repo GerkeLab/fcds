@@ -71,12 +71,20 @@ sex, race, year, and age.
 the observed age-specific count.
 }
 
-Each input is required to store age information. The default data supplied
-with the package for \code{population} (\link{seer_pop_fl}) and \code{population_standard}
-(\link{seer_std_ages}) use the column name \code{age_group}. You can specify the name
-of the column containing age information with the \code{age} argument. If the
-column name in \code{data} is not present in the population data, \code{age_adjust()}
-will fall back to \code{age_group} for those data sets.
+Each input is required to contain matching age information. The default data
+supplied with the package for \code{population} (\link{seer_pop_fl}) and
+\code{population_standard} (\link{seer_std_ages}) use the column name \code{age_group}. You
+can specify the name of the column containing age information with the \code{age}
+argument. If the column name in \code{data} is not present in the population data,
+\code{age_adjust()} will fall back to \code{age_group} for those data sets.
+
+As described in the
+\href{https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html}{SEER*Stat Tutorial: Calculating Age-adjusted Rates}:
+\emph{The age-adjusted rate for an age group comprised of the ages x through y is
+calculated using the following formula}:
+
+\if{html}{\figure{seer_ar-aarate.png}}
+\if{latex}{\figure{seer_ar-aarate.png}{options: width=0.5in}}
 }
 
 \examples{

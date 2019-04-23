@@ -316,12 +316,20 @@ format_age_groups <- function(
 #' 3. The standard reference population that is used to weight incidence among
 #'    the observed age-specific count.
 #'
-#' Each input is required to store age information. The default data supplied
-#' with the package for `population` ([seer_pop_fl]) and `population_standard`
-#' ([seer_std_ages]) use the column name `age_group`. You can specify the name
-#' of the column containing age information with the `age` argument. If the
-#' column name in `data` is not present in the population data, `age_adjust()`
-#' will fall back to `age_group` for those data sets.
+#' Each input is required to contain matching age information. The default data
+#' supplied with the package for `population` ([seer_pop_fl]) and
+#' `population_standard` ([seer_std_ages]) use the column name `age_group`. You
+#' can specify the name of the column containing age information with the `age`
+#' argument. If the column name in `data` is not present in the population data,
+#' `age_adjust()` will fall back to `age_group` for those data sets.
+#'
+#' As described in the
+#' [SEER*Stat Tutorial: Calculating Age-adjusted Rates](https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html):
+#' _The age-adjusted rate for an age group comprised of the ages x through y is
+#' calculated using the following formula_:
+#'
+#' \if{html}{\figure{seer_ar-aarate.png}}
+#' \if{latex}{\figure{seer_ar-aarate.png}{options: width=0.5in}}
 #'
 #' @return A data frame with age-adjusted incidence rates in the column `rate`.
 #'   Note that the `age` column will no longer be included in the output because
