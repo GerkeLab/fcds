@@ -57,7 +57,19 @@ test_that("filter_age_groups()", {
   expect_equal(d_age_group %>% filter_age_groups(10, 14) %>% .$id, 2)
   expect_equal(
     d_age_group %>% filter_age_groups(),
-    d_age_group %>% expand_age_groups()
+    d_age_group %>% expand_age_groups() %>% select(-age_low, -age_high)
+  )
+})
+
+test_that("filter_age_groups() doesn't add columns", {
+  r_age_group_has <- d_age_group %>% filter_age_groups()
+  r_age_group_doesnt <- d_age_group %>%
+    expand_age_groups() %>% filter_age_groups()
+
+  expect_equal(names(r_age_group_has), names(d_age_group))
+  expect_equal(
+    names(r_age_group_doesnt),
+    c(names(d_age_group), paste0("age_", c("low", "high")))
   )
 })
 

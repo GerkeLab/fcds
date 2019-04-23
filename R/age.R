@@ -87,14 +87,20 @@ filter_age_groups <- function(
 ) {
   age_group <- enquo(age_group)
   age_group_name <- quo_name(age_group)
+
+  data_original_cols <- colnames(data)
+
   if (!"age_low" %in% names(data)) {
     stopifnot(age_group_name %in% names(data))
     data <- expand_age_groups(data, age_var = !!age_group)
   }
+
   stopifnot("age_low" %in% names(data))
   stopifnot("age_high" %in% names(data))
+
   data %>%
-    filter(age_low >= !!age_low, age_high <= !!age_high)
+    filter(age_low >= !!age_low, age_high <= !!age_high) %>%
+    select(data_original_cols)
 }
 
 #' Complete Age Groups
