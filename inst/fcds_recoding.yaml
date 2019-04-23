@@ -10,20 +10,20 @@
   description: Year of Diagnosis (5 year group)
   naaccr: 390
   recode:
-    - value: '1115'
-      label: '2011-2015'
-    - value: '0610'
-      label: '2006-2010'
-    - value: '0105'
-      label: '2001-2005'
-    - value: '9600'
-      label: '1996-2000'
-    - value: '9195'
-      label: '1991-1995'
-    - value: '8690'
-      label: '1986-1990'
     - value: '8185'
       label: '1981-1985'
+    - value: '8690'
+      label: '1986-1990'
+    - value: '9195'
+      label: '1991-1995'
+    - value: '9600'
+      label: '1996-2000'
+    - value: '0105'
+      label: '2001-2005'
+    - value: '0610'
+      label: '2006-2010'
+    - value: '1115'
+      label: '2011-2015'
 - name:
     original: Date_of_Dx_Year_Recoded
     clean: year_mid
