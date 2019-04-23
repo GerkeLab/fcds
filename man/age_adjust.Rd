@@ -81,7 +81,8 @@ will fall back to \code{age_group} for those data sets.
 
 \examples{
 
-# This example is drawn from https://seer.cancer.gov/seerstat/tutorials/aarates/
+# This example is drawn from the SEER*Stat Age-adjusted Rate Tutorial:
+# https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html
 d_incidence <- tibble::tribble(
   ~age_group,   ~n,
      "0 - 4",  116,
@@ -143,5 +144,5 @@ age_adjust(d_incidence,
 
 }
 \references{
-\url{https://seer.cancer.gov/seerstat/tutorials/aarates/}
+\url{https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html}
 }

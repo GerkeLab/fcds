@@ -332,11 +332,12 @@ format_age_groups <- function(
 #'   specific population, standard population and standardizing population
 #'   weight, respectively.
 #'
-#' @references <https://seer.cancer.gov/seerstat/tutorials/aarates/>
+#' @references <https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html>
 #'
 #' @examples
 #'
-#' # This example is drawn from https://seer.cancer.gov/seerstat/tutorials/aarates/
+#' # This example is drawn from the SEER*Stat Age-adjusted Rate Tutorial:
+#' # https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html
 #' d_incidence <- tibble::tribble(
 #'   ~age_group,   ~n,
 #'      "0 - 4",  116,
