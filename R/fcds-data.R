@@ -27,14 +27,22 @@
 #' @references <https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz>
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
-#' @format A data frame with 334273 rows and 11 variables: \describe{
-#'   \item{`year`}{Year} \item{`state`}{State postal abbreviation}
-#'   \item{`state_fips`}{State FIPS code} \item{`county_fips`}{County FIPS code}
-#'   \item{`registry`}{Registry} \item{`race`}{Race (White, Black, Other)}
+#' @format A data frame with 334273 rows and 11 variables:
+#' \describe{
+#'   \item{`year`}{Year}
+#'   \item{`state`}{State postal abbreviation}
+#'   \item{`state_fips`}{State FIPS code}
+#'   \item{`county_fips`}{County FIPS code}
+#'   \item{`registry`}{Registry}
+#'   \item{`race`}{Race (White, Black, Other)}
 #'   \item{`origin`}{Origin: Non-Hispanic, Hispanic. Not applicable for data
-#'   prior to 1990.} \item{`sex`}{Sex} \item{`age_group`}{Age: 18 groups from 0,
-#'   0- 4, 5 - 9, \dots 85+} \item{`population`}{Population}
-#'   \item{`county_name`}{County Name, see [county_fips_code()]} }
+#'                   prior to 1990.}
+#'   \item{`sex`}{Sex}
+#'   \item{`age_group`}{Age: 18 groups from 0,
+#'                      0- 4, 5 - 9, \dots 85+}
+#'   \item{`population`}{Population}
+#'   \item{`county_name`}{County Name, see [county_fips_fl]}
+#' }
 #' @family SEER Population Data
 "seer_pop_fl"
 
@@ -55,15 +63,22 @@
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
 #'
-#' @format A data frame with 334273 rows and 11 variables: \describe{
-#'   \item{`year`}{Year} \item{`state`}{State postal abbreviation}
-#'   \item{`state_fips`}{State FIPS code} \item{`county_fips`}{County FIPS code}
-#'   \item{`registry`}{Registry} \item{`race`}{Race: White, Black, American
-#'   Indian/Alaska Native, Asian or Pacific Islander} \item{`origin`}{Origin:
-#'   Non-Hispanic, Hispanic. Not applicable for data prior to 1990.}
-#'   \item{`sex`}{Sex} \item{`age_group`}{Age: 19 groups from 0, 1--4, 5--9,
-#'   \dots 85+} \item{`population`}{Population} \item{`county_name`}{County
-#'   Name, see [county_fips_code()]} }
+#' @format A data frame with 334273 rows and 11 variables:
+#' \describe{
+#'   \item{`year`}{Year}
+#'   \item{`state`}{State postal abbreviation}
+#'   \item{`state_fips`}{State FIPS code}
+#'   \item{`county_fips`}{County FIPS code}
+#'   \item{`registry`}{Registry}
+#'   \item{`race`}{Race: White, Black, American Indian/Alaska Native,
+#'                 Asian or Pacific Islander}
+#'   \item{`origin`}{Origin: Non-Hispanic, Hispanic.
+#'                   Not applicable for data prior to 1990.}
+#'   \item{`sex`}{Sex}
+#'   \item{`age_group`}{Age: 19 groups from 0, 1--4, 5--9, \dots 85+}
+#'   \item{`population`}{Population}
+#'   \item{`county_name`}{County Name, see [county_fips_fl]}
+#' }
 #' @family SEER Population Data
 "seer_pop_fl_exp_race"
 
@@ -73,7 +88,7 @@
 #' US. Standard populations, year 2000, for age-adjusted statistics. Downloaded
 #' from SEER on 2019-01-24 (see References for direct links). This data set is
 #' the *2000 U.S. Std Population (single ages to 84 - Census P25-1130)*, with
-#' ages agregated into 18 age groups: "`0 - 4`", ..., "`80 - 84`", [`85+`].
+#' ages agregated into 18 age groups: "`0 - 4`", ..., "`80 - 84`", "`85+`".
 #'
 #' @references <https://seer.cancer.gov/stdpopulations/>
 #' @references <https://seer.cancer.gov/stdpopulations/stdpop.singleagesthru84.txt>

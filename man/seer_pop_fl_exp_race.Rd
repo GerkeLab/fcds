@@ -4,15 +4,22 @@
 \name{seer_pop_fl_exp_race}
 \alias{seer_pop_fl_exp_race}
 \title{SEER Florida population data, expanded Race}
-\format{A data frame with 334273 rows and 11 variables: \describe{
-\item{\code{year}}{Year} \item{\code{state}}{State postal abbreviation}
-\item{\code{state_fips}}{State FIPS code} \item{\code{county_fips}}{County FIPS code}
-\item{\code{registry}}{Registry} \item{\code{race}}{Race: White, Black, American
-Indian/Alaska Native, Asian or Pacific Islander} \item{\code{origin}}{Origin:
-Non-Hispanic, Hispanic. Not applicable for data prior to 1990.}
-\item{\code{sex}}{Sex} \item{\code{age_group}}{Age: 19 groups from 0, 1--4, 5--9,
-\dots 85+} \item{\code{population}}{Population} \item{\code{county_name}}{County
-Name, see \code{\link[=county_fips_code]{county_fips_code()}}} }}
+\format{A data frame with 334273 rows and 11 variables:
+\describe{
+\item{\code{year}}{Year}
+\item{\code{state}}{State postal abbreviation}
+\item{\code{state_fips}}{State FIPS code}
+\item{\code{county_fips}}{County FIPS code}
+\item{\code{registry}}{Registry}
+\item{\code{race}}{Race: White, Black, American Indian/Alaska Native,
+Asian or Pacific Islander}
+\item{\code{origin}}{Origin: Non-Hispanic, Hispanic.
+Not applicable for data prior to 1990.}
+\item{\code{sex}}{Sex}
+\item{\code{age_group}}{Age: 19 groups from 0, 1--4, 5--9, \dots 85+}
+\item{\code{population}}{Population}
+\item{\code{county_name}}{County Name, see \link{county_fips_fl}}
+}}
 \usage{
 seer_pop_fl_exp_race
 }

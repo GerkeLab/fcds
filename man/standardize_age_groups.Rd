@@ -4,13 +4,13 @@
 \alias{standardize_age_groups}
 \title{Standardize Age Groups}
 \usage{
-standardize_age_groups(data = NULL, age_var = age_group,
+standardize_age_groups(data = NULL, age_group = age_group,
   std_age_groups = fcds_const("age_group"), ...)
 }
 \arguments{
 \item{data}{A data frame.}
 
-\item{age_var}{The column containing age or age group. This column will be
+\item{age_group}{The column containing age or age group. This column will be
 overwritten if named \code{age_group}. If the column is numeric or can be
 coerced to numeric, it is treated as actual age. Otherwise it is assumed to
 contain age groups.}
@@ -22,7 +22,6 @@ contain age groups.}
 \item{...}{Arguments passed on to \code{expand_age_groups}
 \describe{
   \item{data}{A data frame.}
-  \item{age_var}{Unquoted column name containing the age grouping.}
   \item{sep}{Separator between columns.
 
 If character, is interpreted as a regular expression. The default
@@ -53,6 +52,7 @@ tibble::tibble(
 }
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
-  \code{\link{expand_age_groups}}, \code{\link{filter_age}}
+  \code{\link{expand_age_groups}},
+  \code{\link{filter_age_groups}}
 }
 \concept{age processors}

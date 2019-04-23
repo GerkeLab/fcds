@@ -18,7 +18,7 @@ seer_std_ages
 US. Standard populations, year 2000, for age-adjusted statistics. Downloaded
 from SEER on 2019-01-24 (see References for direct links). This data set is
 the \emph{2000 U.S. Std Population (single ages to 84 - Census P25-1130)}, with
-ages agregated into 18 age groups: "\code{0 - 4}", ..., "\code{80 - 84}", \code{\link{85+}}.
+ages agregated into 18 age groups: "\code{0 - 4}", ..., "\code{80 - 84}", "\code{85+}".
 }
 \references{
 \url{https://seer.cancer.gov/stdpopulations/}
