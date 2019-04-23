@@ -68,7 +68,7 @@ boundary age lies within a group, that group is not included in the output." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9003</span>
       </span>
     </div>
 
@@ -166,24 +166,24 @@ boundary age lies within a group, that group is <em>not included</em> in the out
 )
 
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 4
-#&gt;      id age_group age_low age_high
-#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1     1 0 - 4           0        4
-#&gt; 2     2 10 - 14        10       14</div><div class='input'>
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;      id age_group
+#&gt;   &lt;int&gt; &lt;chr&gt;    
+#&gt; 1     1 0 - 4    
+#&gt; 2     2 10 - 14  </div><div class='input'>
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 4
-#&gt;      id age_group age_low age_high
-#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1     3 65 - 69        65       69
-#&gt; 2     4 85+            85      Inf</div><div class='input'>
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;      id age_group
+#&gt;   &lt;int&gt; &lt;chr&gt;    
+#&gt; 1     3 65 - 69  
+#&gt; 2     4 85+      </div><div class='input'>
 <span class='co'># Notice that the "65 - 69" group is *not* included</span>
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>66</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 4
-#&gt;      id age_group age_low age_high
-#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1     1 0 - 4           0        4
-#&gt; 2     2 10 - 14        10       14</div><div class='input'>
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>66</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;      id age_group
+#&gt;   &lt;int&gt; &lt;chr&gt;    
+#&gt; 1     1 0 - 4    
+#&gt; 2     2 10 - 14  </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
