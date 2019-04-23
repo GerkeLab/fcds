@@ -67,11 +67,11 @@ expand_age_groups <- function(
 #'   filter_age(age_low = 0, age_high = 15)
 #'
 #' d_age_group %>%
-#'   filter_age(age_low = 65)
+#'   filter_age(age_low == 65)
 #'
 #' # Notice that the "65 - 69" group is *not* included
 #' d_age_group %>%
-#'   filter(age_high = 66)
+#'   filter(age_high == 66)
 #'
 #' @inheritParams expand_age_groups
 #' @param age_low Youngest age (inclusive).
@@ -103,7 +103,7 @@ filter_age <- function(
 #' [seer_std_ages].
 #'
 #' @examples
-#' d_age_group <- tibble::tibble(
+#' tibble::tibble(
 #'   age_group = c("10 - 14", "15 - 19", "25 - 29"),
 #'   n = 10:12
 #' ) %>%
@@ -327,7 +327,7 @@ format_age_groups <- function(
 #'   specific population, standard population and standardizing population
 #'   weight, respectively.
 #'
-#' @references https://seer.cancer.gov/seerstat/tutorials/aarates/
+#' @references <https://seer.cancer.gov/seerstat/tutorials/aarates/>
 #'
 #' @examples
 #'
@@ -380,9 +380,16 @@ format_age_groups <- function(
 #'   dplyr::mutate(year = 2013) %>%
 #'   standardize_age_groups()
 #'
-#' age_adjust(d_incidence, population = d_population)
+#' # Because the example data do not include the year of observation, we set
+#' # by_year = NULL so that age_adjust() does not attempt to join
+#' # d_incidence with d_population by a year column.
 #'
-#' age_adjust(d_incidence, population = d_population, keep_age = TRUE)
+#' age_adjust(d_incidence, population = d_population, by_year = NULL)
+#'
+#' age_adjust(d_incidence,
+#'            population = d_population,
+#'            by_year = NULL,
+#'            keep_age = TRUE)
 #'
 #' @param data A data frame, containing counts
 #' @param count The unquoted column name containing raw event or outcome counts.

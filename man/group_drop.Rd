@@ -20,7 +20,7 @@ to remove the columns from the data completely. In essence, the opposite of
 \code{\link[dplyr:group_by]{dplyr::group_by()}} with \code{add = TRUE}.
 }
 \examples{
-Remove "type" from the groups
+# Remove "type" from the groups
 tidyr::table2 \%>\%
   dplyr::group_by(country, year, type) \%>\%
   group_drop(type)

@@ -18,10 +18,10 @@
 #' with races "white", "black", and "other". Downloaded from SEER on 2019-01-24
 #' (see references for direct links). Recoding of column values was performed
 #' according to the guidelines available at
-#' <https://seer.cancer.gov/popdata/popdic.html>. For general consistency, all
-#' variables are stored as `character` vectors. The original data includes 19
-#' age groups, but age `0` is included with ages `1 - 4` in the `0 - 4` group
-#' in this data.
+#' <https://seer.cancer.gov/popdata/popdic.html>. The original SEER data
+#' includes 19 age groups, but the data set provided by this package includes
+#' age "`0`" with ages "`1 - 4`" in the "`0 - 4`" group to match the coding in
+#' the FCDS data.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
 #' @references <https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz>
@@ -45,10 +45,10 @@
 #' with 4 expanded races by origin. Downloaded from SEER on 2019-01-24 (see
 #' references for direct links). Recoding of column values was performed
 #' according to the guidelines available at
-#' <https://seer.cancer.gov/popdata/popdic.html>. For general consistency, all
-#' variables are stored as `character` vectors. The original data includes 19
-#' age groups, but age `0` is included with ages `1 - 4` in the `0 - 4` group
-#' in this data.
+#' <https://seer.cancer.gov/popdata/popdic.html>. The original SEER data
+#' includes 19 age groups, but the data set provided by this package includes
+#' age "`0`" with ages "`1 - 4`" in the "`0 - 4`" group to match the coding in
+#' the FCDS data.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
 #' @references <https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz>
@@ -73,7 +73,7 @@
 #' US. Standard populations, year 2000, for age-adjusted statistics. Downloaded
 #' from SEER on 2019-01-24 (see References for direct links). This data set is
 #' the *2000 U.S. Std Population (single ages to 84 - Census P25-1130)*, with
-#' ages agregated into 18 age groups: `0 - 4`, ..., `80 - 84`, `85+`.
+#' ages agregated into 18 age groups: "`0 - 4`", ..., "`80 - 84`", [`85+`].
 #'
 #' @references <https://seer.cancer.gov/stdpopulations/>
 #' @references <https://seer.cancer.gov/stdpopulations/stdpop.singleagesthru84.txt>

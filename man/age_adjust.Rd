@@ -5,7 +5,7 @@
 \title{Age-Adjust Rates}
 \usage{
 age_adjust(data, count = n, population = fcds::seer_pop_fl,
-  population_standard = fcds::seer_std_ages, by_year = c(dx_year_mid =
+  population_standard = fcds::seer_std_ages, by_year = c(year_mid =
   "year"), age = age_group, keep_age = FALSE)
 }
 \arguments{
@@ -90,7 +90,7 @@ d_incidence <- tibble::tribble(
    "80 - 84", 1884,
        "85+", 1705
 ) \%>\%
-  dplyr::mutate(dx_year_mid = 2013) \%>\%
+  dplyr::mutate(year_mid = 2013) \%>\%
   standardize_age_groups()
 
 d_population <- tibble::tribble(
@@ -117,11 +117,18 @@ d_population <- tibble::tribble(
   dplyr::mutate(year = 2013) \%>\%
   standardize_age_groups()
 
-age_adjust(d_incidence, population = d_population)
+# Because the example data do not include the year of observation, we set
+# by_year = NULL so that age_adjust() does not attempt to join
+# d_incidence with d_population by a year column.
 
-age_adjust(d_incidence, population = d_population, keep_age = TRUE)
+age_adjust(d_incidence, population = d_population, by_year = NULL)
+
+age_adjust(d_incidence,
+           population = d_population,
+           by_year = NULL,
+           keep_age = TRUE)
 
 }
 \references{
-https://seer.cancer.gov/seerstat/tutorials/aarates/
+\url{https://seer.cancer.gov/seerstat/tutorials/aarates/}
 }

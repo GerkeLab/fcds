@@ -31,11 +31,11 @@ d_age_group \%>\%
   filter_age(age_low = 0, age_high = 15)
 
 d_age_group \%>\%
-  filter_age(age_low = 65)
+  filter_age(age_low == 65)
 
 # Notice that the "65 - 69" group is *not* included
 d_age_group \%>\%
-  filter(age_high = 66)
+  filter(age_high == 66)
 
 }
 \seealso{

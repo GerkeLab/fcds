@@ -201,11 +201,12 @@ fcds_import <- function(
 #' look for cached, preprocessed FCDS data in the typical locations (see
 #' [fcds_default_data_path()]). If `file` is a directory (as is the default),
 #' then `fcds_load()` will look for files with names starting with  "`fcds_`"
-#' and will sort the files by name. When used in conjunction with
-#' [fcds_import()], the filename will contain the date of importing, so the
-#' typical behavior of this function is to load the most recently imported FCDS
-#' data set. You can override this behavior by providing a path to a specific
-#' RDS file.
+#' within the directory and will choose the first file when sorted in descending
+#' order by name. When used in conjunction with [fcds_import()], the filename
+#' will contain the date of importing — with names like "`fcds_2019-04-23.rds`"
+#' — so the typical behavior of this function is to load the most recently
+#' imported FCDS data set. You can override this behavior by providing a path to
+#' a specific RDS file.
 #'
 #' @param file The pre-processed FCDS data file, or a directory containing files
 #'   with names starting with "`fcds_`". See [fcds_default_data_path()].

@@ -21,10 +21,10 @@ Florida county-level population estimates from 1990--2016 in 19 age groups,
 with 4 expanded races by origin. Downloaded from SEER on 2019-01-24 (see
 references for direct links). Recoding of column values was performed
 according to the guidelines available at
-\url{https://seer.cancer.gov/popdata/popdic.html}. For general consistency, all
-variables are stored as \code{character} vectors. The original data includes 19
-age groups, but age \code{0} is included with ages \code{1 - 4} in the \code{0 - 4} group
-in this data.
+\url{https://seer.cancer.gov/popdata/popdic.html}. The original SEER data
+includes 19 age groups, but the data set provided by this package includes
+age "\code{0}" with ages "\code{1 - 4}" in the "\code{0 - 4}" group to match the coding in
+the FCDS data.
 }
 \references{
 \url{https://seer.cancer.gov/popdata/}

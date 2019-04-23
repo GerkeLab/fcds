@@ -30,7 +30,7 @@ range from \code{age_low} to \code{age_high} or using the full age list from
 \link{seer_std_ages}.
 }
 \examples{
-d_age_group <- tibble::tibble(
+tibble::tibble(
   age_group = c("10 - 14", "15 - 19", "25 - 29"),
   n = 10:12
 ) \%>\%

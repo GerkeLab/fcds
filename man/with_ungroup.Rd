@@ -40,13 +40,13 @@ applies the function \code{.f} to \code{.data} (as \code{.f(.data)}) and then re
 the original grouping.
 }
 \examples{
-# with_ungroup() applies inner function to ungrouped data frame
+# with_ungroup() ungroups the input data frame, applies the inner function,
 # and restores grouping on output
 tidyr::table1 \%>\%
   dplyr::group_by(country, year) \%>\%
   with_ungroup(~ dplyr::mutate(., r = cases / population))
 
-# groups that "disappear" are implicitly dropped, with a warning
+# Groups that "disappear" are implicitly dropped, with a warning
 tidyr::table1 \%>\%
   dplyr::group_by(country, year) \%>\%
   with_ungroup(~ {
@@ -54,7 +54,7 @@ tidyr::table1 \%>\%
       dplyr::select(-year)
   })
 
-# works like "normal" if no groupings are present
+# Works like "normal" if no groupings are present
 tidyr::table1 \%>\%
   with_ungroup(~ dplyr::mutate(., r = cases/population))
 

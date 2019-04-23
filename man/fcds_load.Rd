@@ -18,11 +18,12 @@ Loads preprocessed FCDS data. If called using defaults, \code{fcds_load()} will
 look for cached, preprocessed FCDS data in the typical locations (see
 \code{\link[=fcds_default_data_path]{fcds_default_data_path()}}). If \code{file} is a directory (as is the default),
 then \code{fcds_load()} will look for files with names starting with  "\code{fcds_}"
-and will sort the files by name. When used in conjunction with
-\code{\link[=fcds_import]{fcds_import()}}, the filename will contain the date of importing, so the
-typical behavior of this function is to load the most recently imported FCDS
-data set. You can override this behavior by providing a path to a specific
-RDS file.
+within the directory and will choose the first file when sorted in descending
+order by name. When used in conjunction with \code{\link[=fcds_import]{fcds_import()}}, the filename
+will contain the date of importing — with names like "\code{fcds_2019-04-23.rds}"
+— so the typical behavior of this function is to load the most recently
+imported FCDS data set. You can override this behavior by providing a path to
+a specific RDS file.
 }
 \seealso{
 Other FCDS Import Functions: \code{\link{fcds_default_data_path}},
