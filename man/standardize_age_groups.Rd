@@ -17,7 +17,7 @@ contain age groups.}
 
 \item{std_age_groups}{Standard age groups, in the desired order.}
 
-\item{...}{Arguments passed on to \code{expand_age_groups}
+\item{...}{Arguments passed on to \code{separate_age_groups}
 \describe{
   \item{data}{A data frame.}
   \item{age_group}{Unquoted column name containing the age grouping.}
@@ -41,7 +41,7 @@ or overwites the existing \code{age_group} column if present. The \code{age_var}
 can be either an actual age or an age group. If the column is numeric, it
 assumed to be an actual age, otherwise if it contains any non-numeric
 characters it is assumed to be an age group that will be expanded using
-\code{\link[=expand_age_groups]{expand_age_groups()}}. If multiple standardized age groups match a given age,
+\code{\link[=separate_age_groups]{separate_age_groups()}}. If multiple standardized age groups match a given age,
 the function will throw an error.
 }
 \examples{
@@ -53,7 +53,7 @@ tibble::tibble(
 }
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
-  \code{\link{expand_age_groups}},
-  \code{\link{filter_age_groups}}
+  \code{\link{filter_age_groups}},
+  \code{\link{separate_age_groups}}
 }
 \concept{age processors}

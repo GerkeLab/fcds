@@ -44,7 +44,7 @@ use instead of \code{NA} for missing combinations.}
 \item{std_age_groups}{Character vector containing expected (or standard) age
 groups.}
 
-\item{...}{Arguments passed on to \code{expand_age_groups}
+\item{...}{Arguments passed on to \code{separate_age_groups}
 \describe{
   \item{data}{A data frame.}
   \item{age_group}{Unquoted column name containing the age grouping.}
@@ -66,7 +66,7 @@ far-right of the string. The length of \code{sep} should be one less than
 Completes age groups by adding missing age groups, either within the age
 range from \code{age_low} to \code{age_high} or using the full age list from
 \link{seer_std_ages}. If the columns \code{age_low} or \code{age_high} are missing from the
-input data, \code{\link[=expand_age_groups]{expand_age_groups()}} is first called to expand the age group
+input data, \code{\link[=separate_age_groups]{separate_age_groups()}} is first called to expand the age group
 variable.
 }
 \examples{
@@ -78,8 +78,8 @@ tibble::tibble(
 
 }
 \seealso{
-Other age processors: \code{\link{expand_age_groups}},
-  \code{\link{filter_age_groups}},
+Other age processors: \code{\link{filter_age_groups}},
+  \code{\link{separate_age_groups}},
   \code{\link{standardize_age_groups}}
 }
 \concept{age processors}
