@@ -57,7 +57,7 @@ reference:
   - '`standardize_age_groups`'
   - '`complete_age_groups`'
   - '`expand_age_groups`'
-  - '`filter_age`'
+  - '`filter_age_groups`'
 - title: Work with Years
   desc: Functions that help process FCDS year groups
   contents:

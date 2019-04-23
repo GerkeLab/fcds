@@ -16,7 +16,7 @@ test_that("expand_age_groups()", {
 
   names(d_age_group)[2] <- "age_variable"
   expect_equal(
-    d_age_group %>% expand_age_groups(age_var = age_variable) %>% names(),
+    d_age_group %>% expand_age_groups(age_group = age_variable) %>% names(),
     c("id", paste0("age_", c("variable", "low", "high")))
   )
 })
@@ -32,7 +32,7 @@ test_that("expanding NA age group gives NA", {
 
 test_that("expand_age_groups() allows renaming age_low and age_high", {
   r_age_group <- d_age_group %>%
-    expand_age_groups(age_low_var = low, age_high_var = high)
+    expand_age_groups(age_low = low, age_high = high)
 
   r_age_group_default <- d_age_group %>% expand_age_groups()
 
@@ -42,21 +42,21 @@ test_that("expand_age_groups() allows renaming age_low and age_high", {
   expect_equal(r_age_group, r_age_group_default)
 })
 
-test_that("filter_age()", {
+test_that("filter_age_groups()", {
   expect_equal(
-    d_age_group %>% filter_age(age_low = 5) %>% .$id,
+    d_age_group %>% filter_age_groups(age_low = 5) %>% .$id,
     2:4
   )
 
   expect_equal(
     # 65 - 69 not included if age_high = 66
-    d_age_group %>% filter_age(age_high = 66) %>% .$id,
+    d_age_group %>% filter_age_groups(age_high = 66) %>% .$id,
     1:2
   )
 
-  expect_equal(d_age_group %>% filter_age(10, 14) %>% .$id, 2)
+  expect_equal(d_age_group %>% filter_age_groups(10, 14) %>% .$id, 2)
   expect_equal(
-    d_age_group %>% filter_age(),
+    d_age_group %>% filter_age_groups(),
     d_age_group %>% expand_age_groups()
   )
 })

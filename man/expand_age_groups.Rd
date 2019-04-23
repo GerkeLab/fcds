@@ -4,13 +4,13 @@
 \alias{expand_age_groups}
 \title{Convert Age Group Column to Low and High Age Range}
 \usage{
-expand_age_groups(data, age_var = age_group, sep = "\\\\s*-\\\\s*",
-  ..., age_low_var = age_low, age_high_var = age_high)
+expand_age_groups(data, age_group = age_group, sep = "\\\\s*-\\\\s*",
+  ..., age_low = age_low, age_high = age_high)
 }
 \arguments{
 \item{data}{A data frame.}
 
-\item{age_var}{Unquoted column name containing the age grouping.}
+\item{age_group}{Unquoted column name containing the age grouping.}
 
 \item{sep}{Separator between columns.
 
@@ -24,9 +24,13 @@ far-right of the string. The length of \code{sep} should be one less than
 \code{into}.}
 
 \item{...}{Additional arguments passed on to methods.}
+
+\item{age_low}{Youngest age (inclusive).}
+
+\item{age_high}{Eldest age (inclusive).}
 }
 \description{
-Takes the age group stored in \code{age_var} and creates two variables,
+Takes the age group stored in \code{age_group} and creates two variables,
 \code{age_low} and \code{age_high} with the age boundaries of the group. By default,
 \code{expand_age_groups()} assumes that the age group definitions are separated
 by a dash (\code{"-"}), possibly with whitespace on either side. The separator
@@ -43,7 +47,7 @@ expand_age_groups(d_age_group)
 }
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
-  \code{\link{filter_age}},
+  \code{\link{filter_age_groups}},
   \code{\link{standardize_age_groups}}
 }
 \concept{age processors}

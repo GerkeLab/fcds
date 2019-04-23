@@ -3,7 +3,7 @@
 
 #' Convert Age Group Column to Low and High Age Range
 #'
-#' Takes the age group stored in `age_var` and creates two variables,
+#' Takes the age group stored in `age_group` and creates two variables,
 #' `age_low` and `age_high` with the age boundaries of the group. By default,
 #' `expand_age_groups()` assumes that the age group definitions are separated
 #' by a dash (`"-"`), possibly with whitespace on either side. The separator
@@ -18,43 +18,44 @@
 #' expand_age_groups(d_age_group)
 #'
 #' @param data A data frame.
-#' @param age_var Unquoted column name containing the age grouping.
+#' @param age_group Unquoted column name containing the age grouping.
+#' @inheritParams filter_age_groups
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
 expand_age_groups <- function(
   data,
-  age_var = age_group,
+  age_group = age_group,
   sep = "\\s*-\\s*",
   ...,
-  age_low_var = age_low,
-  age_high_var = age_high
+  age_low = age_low,
+  age_high = age_high
 ) {
-  age_var           <- enquo(age_var)
-  age_low_var       <- enquo(age_low_var)
-  age_low_var_name  <- quo_name(age_low_var)
-  age_high_var      <- enquo(age_high_var)
-  age_high_var_name <- quo_name(age_high_var)
+  age_group     <- enquo(age_group)
+  age_low       <- enquo(age_low)
+  age_low_name  <- quo_name(age_low)
+  age_high      <- enquo(age_high)
+  age_high_name <- quo_name(age_high)
 
   data %>%
-    separate(!!age_var, into = c(age_low_var_name, age_high_var_name),
+    separate(!!age_group, into = c(age_low_name, age_high_name),
              sep = sep, remove = FALSE, fill = "right") %>%
     mutate(
-      !!age_low_var_name := sub("+", "", !!age_low_var, fixed = TRUE),
-      !!age_low_var_name := ifelse(
-        (is.na(!!age_low_var) | !!age_low_var == "") & !is.na(!!age_high_var),
-        "0", !!age_low_var)
+      !!age_low_name := sub("+", "", !!age_low, fixed = TRUE),
+      !!age_low_name := ifelse(
+        (is.na(!!age_low) | !!age_low == "") & !is.na(!!age_high),
+        "0", !!age_low)
     ) %>%
-    mutate_at(c(age_low_var_name, age_high_var_name), as.numeric) %>%
-    mutate(!!age_high_var_name := if_else(
-      is.na(!!age_high_var) & !is.na(!!age_low_var), Inf, !!age_high_var))
+    mutate_at(c(age_low_name, age_high_name), as.numeric) %>%
+    mutate(!!age_high_name := if_else(
+      is.na(!!age_high) & !is.na(!!age_low), Inf, !!age_high))
 }
 
 #' Filter Data by Age Range
 #'
 #' Filters data to include persons with ages in the range between `age_low` and
-#' `age_high`. If `age_var` has not been expanded into low and high ages of the
-#' range, the input data is first passed to [expand_age_groups()]. If the
+#' `age_high`. If `age_group` has not been expanded into low and high ages of
+#' the range, the input data is first passed to [expand_age_groups()]. If the
 #' boundary age lies within a group, that group is _not included_ in the output.
 #'
 #' @examples
@@ -64,31 +65,31 @@ expand_age_groups <- function(
 #' )
 #'
 #' d_age_group %>%
-#'   filter_age(age_low = 0, age_high = 15)
+#'   filter_age_groups(age_low = 0, age_high = 15)
 #'
 #' d_age_group %>%
-#'   filter_age(age_low == 65)
+#'   filter_age_groups(age_low = 65)
 #'
 #' # Notice that the "65 - 69" group is *not* included
 #' d_age_group %>%
-#'   filter(age_high == 66)
+#'   filter_age_groups(age_high = 66)
 #'
 #' @inheritParams expand_age_groups
 #' @param age_low Youngest age (inclusive).
 #' @param age_high Eldest age (inclusive).
 #' @family age processors
 #' @export
-filter_age <- function(
+filter_age_groups <- function(
   data,
   age_low = 0,
   age_high = Inf,
-  age_var = age_group
+  age_group = age_group
 ) {
-  age_var <- enquo(age_var)
-  age_var_name <- quo_name(age_var)
+  age_group <- enquo(age_group)
+  age_group_name <- quo_name(age_group)
   if (!"age_low" %in% names(data)) {
-    stopifnot(age_var_name %in% names(data))
-    data <- expand_age_groups(data, age_var = !!age_var)
+    stopifnot(age_group_name %in% names(data))
+    data <- expand_age_groups(data, age_var = !!age_group)
   }
   stopifnot("age_low" %in% names(data))
   stopifnot("age_high" %in% names(data))
@@ -100,7 +101,9 @@ filter_age <- function(
 #'
 #' Completes age groups by adding missing age groups, either within the age
 #' range from `age_low` to `age_high` or using the full age list from
-#' [seer_std_ages].
+#' [seer_std_ages]. If the columns `age_low` or `age_high` are missing from the
+#' input data, [expand_age_groups()] is first called to expand the age group
+#' variable.
 #'
 #' @examples
 #' tibble::tibble(
@@ -109,10 +112,12 @@ filter_age <- function(
 #' ) %>%
 #'   complete_age_groups(10, 35)
 #'
-#' @inheritParams filter_age
+#' @inheritParams filter_age_groups
 #' @inheritParams tidyr::complete
 #' @param include_unknown Should the "Unknown" age group be included?
-#' @param ... If `age_low` and `age_high` are missing from
+#' @param std_age_groups Character vector containing expected (or standard) age
+#'   groups.
+#' @inheritDotParams expand_age_groups
 #' @family age processors
 #' @export
 complete_age_groups <- function(
@@ -120,14 +125,14 @@ complete_age_groups <- function(
   age_low = NULL,
   age_high = NULL,
   ...,
-  age_var = age_group,
+  age_group = age_group,
   fill = list(n = 0),
   include_unknown = FALSE,
   std_age_groups = fcds_const("age_group")
 ) {
-  age_var <- enquo(age_var)
-  age_var_name <- quo_name(age_var)
-  stopifnot(age_var_name %in% names(data))
+  age_group <- enquo(age_group)
+  age_group_name <- quo_name(age_group)
+  stopifnot(age_group_name %in% names(data))
 
   ages <- tibble(age_group = std_age_groups)
   if (!include_unknown) ages <- filter(ages, age_group != "Unknown")
@@ -136,14 +141,14 @@ complete_age_groups <- function(
   if (!is.null(age_low)) ages <- filter(ages, age_low >= !!age_low)
   if (!is.null(age_high)) ages <- filter(ages, age_high <= !!age_high)
 
-  common_age_groups <- union(ages$age_group, paste(data[[age_var_name]]))
+  common_age_groups <- union(ages$age_group, paste(data[[age_group_name]]))
 
   data %>%
     mutate(
-      !!age_var_name := paste(!!age_var),
-      !!age_var_name := factor(!!age_var, common_age_groups, ordered = TRUE)
+      !!age_group_name := paste(!!age_group),
+      !!age_group_name := factor(!!age_group, common_age_groups, ordered = TRUE)
     ) %>%
-    complete(!!age_var, fill = fill) %>%
+    complete(!!age_group, fill = fill) %>%
     select(colnames(data))
 }
 
@@ -163,23 +168,23 @@ complete_age_groups <- function(
 #'   age_group = c("0 - 4", "10-14", "65-69", "85+")
 #' ) %>%
 #'   standardize_age_groups()
-#' @inheritParams expand_age_groups
-#' @param age_var The column containing age or age group. This column will be
+#' @param age_group The column containing age or age group. This column will be
 #'   overwritten if named `age_group`. If the column is numeric or can be
 #'   coerced to numeric, it is treated as actual age. Otherwise it is assumed to
 #'   contain age groups.
 #' @param std_age_groups Standard age groups, in the desired order.
 #' @inheritDotParams expand_age_groups
+#' @inheritParams filter_age_groups
 #' @family age processors
 #' @export
 standardize_age_groups <- function(
   data = NULL,
-  age_var = age_group,
+  age_group = age_group,
   std_age_groups = fcds_const("age_group"),
   ...
 ) {
-  age_var <- enquo(age_var)
-  age_var_name <- quo_name(age_var)
+  age_group <- enquo(age_group)
+  age_group_name <- quo_name(age_group)
 
   data_cols <- names(data)
   data_groups <- group_vars(data) %>% rlang::syms()
@@ -197,23 +202,23 @@ standardize_age_groups <- function(
     tidyr::unnest() %>%
     select(-age_low, -age_high)
 
-  age_is_numeric <- is.numeric(data[[age_var_name]])
+  age_is_numeric <- is.numeric(data[[age_group_name]])
   if (!age_is_numeric) {
-    if (!any(grepl("[^0-9.]", data[[age_var_name]]))) {
-      # probably numeric because only digits and
-      data[["...age"]] <- as.numeric(data[[age_var_name]])
+    if (!any(grepl("[^0-9.]", data[[age_group_name]]))) {
+      # probably numeric because only contains digits and dots
+      data[["...age"]] <- as.numeric(data[[age_group_name]])
       age_is_numeric <- TRUE
     }
   }
 
   if (!age_is_numeric) {
-    data_age_values <- unique(data[[age_var_name]])
+    data_age_values <- unique(data[[age_group_name]])
     not_in_fcds_const <- setdiff(data_age_values, fcds_const("age_group"))
     age_is_same_as_fcds <- length(not_in_fcds_const) == 0
   }
 
   if (age_is_numeric) {
-    if (!"...age" %in% names(data)) data <- data %>% mutate(...age = !!age_var)
+    if (!"...age" %in% names(data)) data <- data %>% mutate(...age = !!age_group)
     data <- data %>%
       mutate(
         ...age = floor(...age),
@@ -229,16 +234,16 @@ standardize_age_groups <- function(
   } else if (age_is_same_as_fcds) {
     data <- mutate(
       data,
-      !!age_var_name := factor(!!age_var, fcds_const("age_group"), ordered = TRUE)
+      !!age_group_name := factor(!!age_group, fcds_const("age_group"), ordered = TRUE)
     )
   } else {
     # break apart groups
     # match on low, match on high:
     #   - same answer? return first
     #   - different? error (non-overlapping groups)
-    data <- data %>% expand_age_groups(!!age_var, ...,
-                                       age_low_var = ...age_low,
-                                       age_high_var = ...age_high)
+    data <- data %>% expand_age_groups(!!age_group, ...,
+                                       age_low  = ...age_low,
+                                       age_high = ...age_high)
 
     data_low <- data %>%
       select(age_group = ...age_low) %>%
@@ -249,7 +254,7 @@ standardize_age_groups <- function(
 
     if (!identical(data_low$age_group, data_high$age_group)) {
       abort(
-        glue("Age groupings in {age_var_name} ",
+        glue("Age groupings in {age_group_name} ",
              "are not consistent with `std_age_groups`. ",
              "Try using actual age, if available.")
       )
@@ -406,6 +411,17 @@ format_age_groups <- function(
 #'   the source data with all age-specific population without completing the age
 #'   adjustment calculation. This option is primarily provided for debugging
 #'   purposes.
+#' @param by_year The column or columns by which `data` and `population` should
+#'   be joined, by default `c("year_mid" = "year")`. The syntax follows from
+#'   the `by` argument of [dplyr::left_join()], where the name of each entry is
+#'   the column name in `data` and the value is the column name in `population`.
+#'   If both are the same, a single value is sufficient.
+#' @param age The unquoted column name containing the age or age group. The
+#'   default expects that the column `age_group` exists in `data`, `population`,
+#'   and `population_standard`. If the `age` column used in `data` does not
+#'   exist in the population data sets, `age_adjust()` will fall back to use the
+#'   columns `age_group` from the population data but the custom column from
+#'   `data`.
 #' @export
 age_adjust <- function(
   data,

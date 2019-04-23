@@ -5,7 +5,7 @@
 \title{Complete Age Groups}
 \usage{
 complete_age_groups(data, age_low = NULL, age_high = NULL, ...,
-  age_var = age_group, fill = list(n = 0), include_unknown = FALSE,
+  age_group = age_group, fill = list(n = 0), include_unknown = FALSE,
   std_age_groups = fcds_const("age_group"))
 }
 \arguments{
@@ -15,19 +15,59 @@ complete_age_groups(data, age_low = NULL, age_high = NULL, ...,
 
 \item{age_high}{Eldest age (inclusive).}
 
-\item{...}{If \code{age_low} and \code{age_high} are missing from}
+\item{...}{Specification of columns to expand. Columns can be atomic vectors
+or lists.
 
-\item{age_var}{Unquoted column name containing the age grouping.}
+To find all unique combinations of x, y and z, including those not
+found in the data, supply each variable as a separate argument.
+To find only the combinations that occur in the data, use nest:
+\code{expand(df, nesting(x, y, z))}.
+
+You can combine the two forms. For example,
+\code{expand(df, nesting(school_id, student_id), date)} would produce
+a row for every student for each date.
+
+For factors, the full set of levels (not just those that appear in the
+data) are used. For continuous variables, you may need to fill in values
+that don't appear in the data: to do so use expressions like
+\code{year = 2010:2020} or \code{year = \link{full_seq}(year,1)}.
+
+Length-zero (empty) elements are automatically dropped.}
+
+\item{age_group}{Unquoted column name containing the age grouping.}
 
 \item{fill}{A named list that for each variable supplies a single value to
 use instead of \code{NA} for missing combinations.}
 
 \item{include_unknown}{Should the "Unknown" age group be included?}
+
+\item{std_age_groups}{Character vector containing expected (or standard) age
+groups.}
+
+\item{...}{Arguments passed on to \code{expand_age_groups}
+\describe{
+  \item{data}{A data frame.}
+  \item{age_group}{Unquoted column name containing the age grouping.}
+  \item{age_low}{Youngest age (inclusive).}
+  \item{age_high}{Eldest age (inclusive).}
+  \item{sep}{Separator between columns.
+
+If character, is interpreted as a regular expression. The default
+value is a regular expression that matches any sequence of
+non-alphanumeric values.
+
+If numeric, interpreted as positions to split at. Positive values start
+at 1 at the far-left of the string; negative value start at -1 at the
+far-right of the string. The length of \code{sep} should be one less than
+\code{into}.}
+}}
 }
 \description{
 Completes age groups by adding missing age groups, either within the age
 range from \code{age_low} to \code{age_high} or using the full age list from
-\link{seer_std_ages}.
+\link{seer_std_ages}. If the columns \code{age_low} or \code{age_high} are missing from the
+input data, \code{\link[=expand_age_groups]{expand_age_groups()}} is first called to expand the age group
+variable.
 }
 \examples{
 tibble::tibble(
@@ -39,7 +79,7 @@ tibble::tibble(
 }
 \seealso{
 Other age processors: \code{\link{expand_age_groups}},
-  \code{\link{filter_age}},
+  \code{\link{filter_age_groups}},
   \code{\link{standardize_age_groups}}
 }
 \concept{age processors}

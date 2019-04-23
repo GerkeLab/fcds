@@ -21,6 +21,19 @@ provided by SEER (see \link{seer_pop_fl}).}
 calculate the age-adjusted rates. By default, uses the 2000 U.S. standard
 population provided by SEER (see \link{seer_std_ages}).}
 
+\item{by_year}{The column or columns by which \code{data} and \code{population} should
+be joined, by default \code{c("year_mid" = "year")}. The syntax follows from
+the \code{by} argument of \code{\link[dplyr:left_join]{dplyr::left_join()}}, where the name of each entry is
+the column name in \code{data} and the value is the column name in \code{population}.
+If both are the same, a single value is sufficient.}
+
+\item{age}{The unquoted column name containing the age or age group. The
+default expects that the column \code{age_group} exists in \code{data}, \code{population},
+and \code{population_standard}. If the \code{age} column used in \code{data} does not
+exist in the population data sets, \code{age_adjust()} will fall back to use the
+columns \code{age_group} from the population data but the custom column from
+\code{data}.}
+
 \item{keep_age}{Age-adjustment by definition summarizes event or outcome
 counts (incidence) over \emph{all} included ages. Set \code{keep_age = TRUE} to join
 the source data with all age-specific population without completing the age

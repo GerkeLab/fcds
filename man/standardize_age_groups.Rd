@@ -17,11 +17,12 @@ contain age groups.}
 
 \item{std_age_groups}{Standard age groups, in the desired order.}
 
-\item{...}{Additional arguments passed on to methods.}
-
 \item{...}{Arguments passed on to \code{expand_age_groups}
 \describe{
   \item{data}{A data frame.}
+  \item{age_group}{Unquoted column name containing the age grouping.}
+  \item{age_low}{Youngest age (inclusive).}
+  \item{age_high}{Eldest age (inclusive).}
   \item{sep}{Separator between columns.
 
 If character, is interpreted as a regular expression. The default
