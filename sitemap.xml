@@ -4,7 +4,7 @@
     <loc>https://gerkelab.github.io/fcds/index.html</loc>
   </url>
   <url>
-    <loc>https://gerkelab.github.io/fcds/reference/add_mid_year.html</loc>
+    <loc>https://gerkelab.github.io/fcds/reference/add_mid_year_groups.html</loc>
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/age_adjust.html</loc>
@@ -53,6 +53,9 @@
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/seer_std_ages.html</loc>
+  </url>
+  <url>
+    <loc>https://gerkelab.github.io/fcds/reference/separate_year_groups.html</loc>
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/standardize_age_groups.html</loc>
