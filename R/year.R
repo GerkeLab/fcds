@@ -46,7 +46,41 @@ add_mid_year <- function(data, year_var = dx_year, sep = "-") {
   mutate(data, !!year_var_name := mid_year(!!year_var))
 }
 
-mid_year <- function(years, sep = "-", offset = 2) {
-  low_year_regex <- glue("(\\d{{2,4}}).*{sep}.*")
-  paste(as.integer(sub(low_year_regex, "\\1", years)) + offset)
+
+mid_year <- function(years, sep = "-", offset = NULL) {
+  regex_years <- glue("(\\d{{2,4}})(\\s*{sep}\\s*(\\d{{2,4}}))?")
+
+  years <- str_match_(years, regex_years) %>%
+    dplyr::mutate_at(dplyr::vars(dplyr::starts_with("g")), as.integer)
+
+  if (all(is.na(years$g3))) {
+    abort("Unable to extract two year values for all provided years")
+  }
+  if (any(is.na(years$g1) | is.na(years$g3))) {
+    n_not_found <- sum(is.na(years$g1) | is.na(years$g3))
+    warn(glue("Two year values were not found for {n_not_found} year(s), ",
+              "NA values were returned for the midpoint of these year(s)."))
+  }
+
+  offset <- offset %||% floor((years$g3 - years$g1) / 2)
+
+  # return mid year
+  ifelse(
+    is.na(years$g3),
+    NA_character_,
+    paste(years$g1 + offset)
+  )
+}
+
+str_match_ <- function(text, pattern, ..., perl = TRUE) {
+  r_matches <- regexec(pattern, text, ..., perl = TRUE)
+  ret <- regmatches(text, r_matches)
+  if (length(ret)) {
+    ret <- purrr::map_dfr(ret, ~ {
+      .x <- .x %>% as.matrix() %>% t() %>% as.data.frame(stringsAsFactors = FALSE)
+      names(.x) <- c("text", if (ncol(.x) > 1) paste0("g", 1:(ncol(.x) - 1L)))
+      .x
+    })
+  }
+  ret
 }
