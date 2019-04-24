@@ -231,7 +231,7 @@
         Endocrine including Thymus (Benign/Border)
 - name:
     original: Diagnostic_Confirmation_N490
-    clean: confirmation
+    clean: cancer_confirmation
   description: Diagnostic Confirmation at first diagnosis
   naaccr: 490
   recode:
