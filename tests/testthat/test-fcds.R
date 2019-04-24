@@ -1,3 +1,6 @@
+
+# fcds_vars() -------------------------------------------------------------
+
 test_that("fcds_vars()", {
   expect_equal(
     fcds_vars("id"),
@@ -44,4 +47,56 @@ test_that("fcds_vars() with a data frame", {
   r_fcds_vars <- fcds_vars(.data = fcds_data, "id", "pop", "demo")
 
   expect_equal(names(r_fcds_vars), names(fcds_data))
+})
+
+
+# count_fcds() ------------------------------------------------------------
+
+test_that("count_fcds()", {
+  r_count_fcds <- fcds::fcds_example %>%
+    group_by(county_name) %>%
+    count_fcds(sex = "Male", race = "White", hispanic = "Not Hispanic")
+
+  expect_equal(
+    unique(r_count_fcds$sex) %>% paste(),
+    "Male"
+  )
+  expect_equal(
+    unique(r_count_fcds$race) %>% paste(),
+    "White"
+  )
+  expect_equal(
+    unique(r_count_fcds$hispanic) %>% paste(),
+    "Not Hispanic"
+  )
+  expect_equal(
+    dplyr::group_vars(r_count_fcds),
+    c("county_name", "sex", "race", "hispanic", "year", "year_mid", "age_group")
+  )
+
+  expect_known_hash(r_count_fcds, "625a9bcbbf")
+
+  r_count_fcds_default <- fcds::fcds_example %>%
+    count_fcds()
+
+  expect_equal(
+    dplyr::group_vars(r_count_fcds_default),
+    c("year", "year_mid", "age_group")
+  )
+  expect_known_hash(r_count_fcds_default, "a618a12148")
+
+  expect_error(
+    fcds::fcds_example %>% count_fcds(race = "Banana")
+  )
+
+  # Check that `year_mid` is calculated if needed.
+  # Coercion to data.frame is used to drop var_labels that are present in
+  # the example processed FCDS data.
+  expect_equivalent(
+    fcds::fcds_example %>%
+      select(-year_mid) %>%
+      count_fcds() %>%
+      as.data.frame(),
+    fcds::fcds_example %>% count_fcds() %>% as.data.frame()
+  )
 })
