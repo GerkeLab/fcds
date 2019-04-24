@@ -37,37 +37,57 @@ join_population_by_year <- function(
   join_population(data, population, by_year = NULL)
 }
 
+#' Count FCDS Cases
+#'
+#' Helper function to count cancer cases in the FCDS data by year and age group,
+#' in addition to any groups already present in the data. For convenience, you
+#' may additionally filter to include particular values of sex, race, year,
+#' county name and hispanic ethnicity. See [fcds_const()] for more information
+#' about possible values for these variables. By default, `count_fcds()` ensures
+#' that `year`, `year_mid`, and `age_group` are included in the grouping
+#' variables. If they are not, or if they are not present in the FCDS data, then
+#' it would be better to use [dplyr::count()] directly.
+#'
+#' @param data A data frame
+#' @param ... Used only to require users to provide named arguments
+#' @param sex Character vector of values of `sex` to be included in count
+#' @param race Character vector of values of `race` to be included in count
+#' @param hispanic Character vector of values of `hispanic` to be included in
+#'   count
+#' @param default_groups Variables that should be included in the grouping,
+#'   prior to counting cancer cases. Set to `NULL` to use only the groups
+#'   already present in the input data.
 #' @export
-summarize_fcds <- function(
-  fcds,
+count_fcds <- function(
+  data,
   ...,
   sex = NULL,
   race = NULL,
-  year = NULL,
   county_name = NULL,
   hispanic = NULL,
-  default_groups = c("year_mid", "age_group")
+  default_groups = c("year", "year_mid", "age_group")
 ) {
-
-  filters <- list(sex = sex, race = race, year = year,
-                  county_name = county_name, hispanic = hispanic)
+  filters <- list(
+    sex = sex,
+    race = race,
+    county_name = county_name,
+    hispanic = hispanic
+  )
   filters <- purrr::imap(filters, valid_fcds_const)
   for (var in names(filters)) {
-    fcds <- filter_fcds(fcds, var, filters[[var]])
+    data <- filter_fcds(data, var, filters[[var]])
   }
 
-  if (!"year_mid" %in% names(fcds)) {
-    fcds <- add_mid_year(fcds)
+  if (!"year_mid" %in% names(data)) {
+    data <- add_mid_year_groups(data)
   }
 
   # Initial counting has to be by year and age_group
-  groups <- group_vars(fcds)
-  default_groups <- union(default_groups, c("year_mid", "age_group"))
-  groups <- union(default_groups, groups)
+  groups <- union(group_vars(data), default_groups)
 
-  fcds %>%
+  data %>%
     group_by(!!!rlang::syms(groups)) %>%
-    count()
+    dplyr::count()
 }
 
 filter_fcds <- function(fcds, var_name, values) {
