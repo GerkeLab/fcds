@@ -108,12 +108,13 @@
 #' [ICD-O-3 SEER Site/Histology Validation List](https://seer.cancer.gov/icd-o-3/).
 #'
 #' @references <https://seer.cancer.gov/icd-o-3/>
-#' @format A data frame with 12,084 rows and 4 columns
+#' @format A data frame with 12,084 rows and 5 variables:
 #' \describe{
-#'   \item{\code{histology}}{Histology Code}
-#'   \item{\code{histology_description}}{Description of the Histology Code (all upper case)}
-#'   \item{\code{histology_behavior}}{Histology Behavior Code, e.g. "8000/3"}
-#'   \item{\code{histology_behavior_description}}{Descrtipion of the Histology Behavior Code}
+#'   \item{\code{site_group}}{integer. Site group, e.g. "`Esophagus`"}
+#'   \item{\code{histology}}{character. Four-digit ICD-O-3 histology code, e.g. "`8262`"}
+#'   \item{\code{histology_description}}{integer. Description of histology, e.g. "`Papillary Adenocarcinoma, NOS`"}
+#'   \item{\code{morphology}}{character. Five-digit ICD-O-3 morphology code, e.g. "`8262/3`"}
+#'   \item{\code{morphology_description}}{integer. Description of morphology, e.g. "`Villous Adenocarcinoma`"}
 #' }
 "seer_icd_o_3"
 

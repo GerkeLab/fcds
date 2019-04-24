@@ -14,6 +14,7 @@ seer_icdo3_xls <-
   grep("icdo3.+xlsx?$", ., value = TRUE) %>%
   file.path(seer_icdo3_base_url, .)
 
+# seer_icdo3_xls <- "sitetype.icdo3.20180323.xls"
 seer_icdo3_file <- here::here("data-raw", basename(seer_icdo3_xls))
 download.file(seer_icdo3_xls, seer_icdo3_file)
 
@@ -22,7 +23,23 @@ seer_icd_o_3_raw <- read_excel(seer_icdo3_file)
 seer_icd_o_3 <-
   seer_icd_o_3_raw %>%
   rename_all(fcds:::to_snake_case) %>%
-  select(-contains("site_")) %>%
-  mutate_at(vars(histology:histology_behavior_description), factor)
+  select(-site_recode) %>%
+  # Rename columns to match FCDS data names
+  rename(
+    site_group = site_description,
+    morphology = histology_behavior,
+    morphology_description = histology_behavior_description
+  ) %>%
+  mutate(
+    histology_detail = substr(morphology, 4, 4),
+    histology = paste0(histology, histology_detail)
+  ) %>%
+  select(-histology_detail) %>%
+  mutate_at(quos(site_group, contains("description")), ~ {
+    x <- tolower(setNames(nm = unique(.x)))
+    x <- tools::toTitleCase(x)
+    x <- sub("\\b[Nn]os", "NOS", x)
+    factor(x[.x])
+  })
 
 usethis::use_data(seer_icd_o_3, compress = "xz", overwrite = TRUE)
