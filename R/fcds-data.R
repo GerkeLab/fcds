@@ -119,6 +119,21 @@
 "seer_icd_o_3"
 
 
+#' FCDS Example Data
+#'
+#' Example data similar to the processed FCDS data that is returned by
+#' [fcds_import()]. The values contained within are only representative of the
+#' types of values that appear in the final data set, but have **no overlap**
+#' whatsoever with the published data.
+#'
+#' @format A data frame with 7,951 rows and 36 variables. Note that the official
+#'   data contains more than 3 million rows. This example, while representative
+#'   of the offical data, contains simulated data for only 15 counties in
+#'   Florida, may not include all cancer types or all possible values seen in
+#'   the data and has absolutely no overlap (i.e. no row-wise matches, excluding
+#'   `patient_id`) with the published data.
+"fcds_example"
+
 # Constants ---------------------------------------------------------------
 
 #' @export
