@@ -94,3 +94,134 @@ merge_fl_counties <- function(data) {
 
   left_join(data, florida_counties, by = "fips_code")
 }
+
+
+# FCDS Variable Names -----------------------------------------------------
+
+#' Select Common FCDS Variable Groups
+#'
+#' The FCDS data set includes a number of thematically-groups variables. This
+#' function helps select those groups by returning variable names.
+#'
+#' @examples
+#' fcds_vars("demo")
+#' fcds_vars("demographics")
+#'
+#' fcds_vars("id", "demo", "pop")
+#'
+#' fcds_vars("seer", "tobacco", "seer")
+#'
+#' tibble(
+#'   patient_id = 1:5,
+#'   year = 2000,
+#'   county_name = "Pinellas",
+#'   age_group = c("65 - 69", "10 - 14", "25 - 29", "70 - 74", "40 - 44"),
+#'   cancer_status = c("Evidence of tumor", "Unknown", "No evidence of tumor",
+#'                     "No evidence of tumor", "No evidence of tumor")
+#' ) %>%
+#'   fcds_vars(.data = ., "id", "pop", "demo")
+#'
+#' @param ... Variable group names, as characters. Partial matching is allowed
+#'   and the matching is not case-sensitive. Possible variable groups include
+#'   `"id"`, `"demographics"`, `"cancer"`, `"icdo3"`, `"population"`, `"seer"`,
+#'   `"tobacco"`.
+#'
+#'   A group may be input multiple times, but only the first appearance will be
+#'   used. The final variable list is ordered by the requested group, unless
+#'   `.data` is supplied.
+#' @param .data If `.data`` is included, then the variables in the input data
+#'   are subset to only those appearing in the selected groups, in the order
+#'   they appear in the original data.
+#' @return A character vector of column names, or, if `.data` is provided, a
+#'   data frame subset to include columns matching the requested groups.
+#' @export
+fcds_vars <- function(..., .data = NULL) {
+  choices <- c("id", "demographics", "cancer", "icdo3",
+               "population", "seer", "tobacco")
+  group <- tolower(c(...))
+  group_match <- purrr::map_chr(group, ~ {
+    tryCatch({
+      match.arg(.x, several.ok = TRUE, choices = choices)
+    }, error = function(e) abort(glue(
+      "'{.x}' doesn't match any valid variable groups. ",
+      "Valid groups include: ",
+      "{paste(choices, collapse = ', ')}"
+    )))
+  })
+
+  var_names <-
+    purrr::map(unique(group_match), fcds_var_group) %>%
+    purrr::reduce(union)
+
+  if (is.null(.data)) {
+    return(var_names)
+  } else {
+    .data[, intersect(names(.data), var_names)]
+  }
+}
+
+fcds_var_group <- function(
+  group = c("id", "demographics", "cancer", "icdo3",
+            "population", "seer", "tobacco")
+) {
+  switch(
+    match.arg(group),
+    id = c(
+      "patient_id",
+      "year",
+      "year_mid"
+    ),
+    demographics = c(
+      "age_group",
+      "race",
+      "sex",
+      "hispanic",
+      "marital_status",
+      "birth_country",
+      "birth_state",
+      "primary_payer"
+    ),
+    cancer = c(
+      "cancer_status",
+      "cancer_site_group",
+      "cancer_site_specific",
+      "cancer_confirmation",
+      "cancer_reporting_source",
+      "cancer_laterality",
+      "cancer_grade",
+      "cancer_ICDO3_histology",
+      "cancer_ICDO3_behavior",
+      "cancer_ICDO3_morphology",
+      "cancer_ICDO3_conversion"
+    ),
+    icdo3 = c(
+      "cancer_ICDO3_histology",
+      "cancer_ICDO3_behavior",
+      "cancer_ICDO3_morphology",
+      "cancer_ICDO3_conversion"
+    ),
+    population = c(
+      "year",
+      "year_mid",
+      "county_name",
+      "county_fips",
+      "state",
+      "florida_resident",
+      "country"
+    ),
+    seer = c(
+      "seer_stage_1977",
+      "seer_stage_2000",
+      "seer_stage",
+      "seer_stage_derived_1977",
+      "seer_stage_derived_2000"
+    ),
+    tobacco = c(
+      "tobacco_cigarette",
+      "tobacco_other",
+      "tobacco_smokeless",
+      "tobacco_nos"
+    )
+  )
+}
+
