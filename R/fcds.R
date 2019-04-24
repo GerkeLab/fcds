@@ -111,7 +111,7 @@ merge_fl_counties <- function(data) {
 #'
 #' fcds_vars("seer", "tobacco", "seer")
 #'
-#' tibble(
+#' dplyr::tibble(
 #'   patient_id = 1:5,
 #'   year = 2000,
 #'   county_name = "Pinellas",
