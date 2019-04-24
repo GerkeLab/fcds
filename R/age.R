@@ -149,13 +149,23 @@ complete_age_groups <- function(
 
   common_age_groups <- union(ages$age_group, paste(data[[age_group_name]]))
 
-  data %>%
+  add_age_group <- age_group_name %in% group_vars(data)
+
+  original_columns <- colnames(data)
+
+  data <- data %>%
+    group_drop(age_group_name) %>%
     mutate(
       !!age_group_name := paste(!!age_group),
       !!age_group_name := factor(!!age_group, common_age_groups, ordered = TRUE)
     ) %>%
-    complete(!!age_group, fill = fill) %>%
-    select(colnames(data))
+    complete(!!age_group, fill = fill)
+
+  if (add_age_group) {
+    data <- group_by(data, !!age_group, add = TRUE)
+  }
+
+  data[, original_columns]
 }
 
 #' Standardize Age Groups

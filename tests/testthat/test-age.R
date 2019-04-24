@@ -73,12 +73,12 @@ test_that("filter_age_groups() doesn't add columns", {
   )
 })
 
-test_that("complete_age_groups()", {
-  d_age_group <- tibble(
-    age_group = c("10 - 14", "15 - 19", "25 - 29"),
-    n = 10:12
-  )
+d_age_group <- tibble(
+  age_group = c("10 - 14", "15 - 19", "25 - 29"),
+  n = 10:12
+)
 
+test_that("complete_age_groups()", {
   r_age_group <- d_age_group %>%
     complete_age_groups(10, 35)
 
@@ -87,6 +87,13 @@ test_that("complete_age_groups()", {
     paste(seq(10, 30, 5), "-", seq(14, 34, 5))
   )
   expect_equal(r_age_group$n, c(10, 11, 0, 12, 0))
+})
+
+test_that("complete_age_groups() handles age_group being a grouping variable", {
+  expect_equal(
+    d_age_group %>% group_by(age_group) %>% complete_age_groups(),
+    d_age_group %>% complete_age_groups()
+  )
 })
 
 test_that("standardize_age_groups()", {
