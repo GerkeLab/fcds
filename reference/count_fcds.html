@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Standardize Age Groups — standardize_age_groups • fcds</title>
+<title>Count FCDS Cases — count_fcds • fcds</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,15 +32,16 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Standardize Age Groups — standardize_age_groups" />
+<meta property="og:title" content="Count FCDS Cases — count_fcds" />
 
-<meta property="og:description" content="Standardizes age groups to match seer_std_ages. Adds an age_group column,
-or overwites the existing age_group column if present. The age_var column
-can be either an actual age or an age group. If the column is numeric, it
-assumed to be an actual age, otherwise if it contains any non-numeric
-characters it is assumed to be an age group that will be expanded using
-separate_age_groups(). If multiple standardized age groups match a given age,
-the function will throw an error." />
+<meta property="og:description" content="Helper function to count cancer cases in the FCDS data by year and age group,
+in addition to any groups already present in the data. For convenience, you
+may additionally filter to include particular values of sex, race, year,
+county name and hispanic ethnicity. See fcds_const() for more information
+about possible values for these variables. By default, count_fcds() ensures
+that year, year_mid, and age_group are included in the grouping
+variables. If they are not, or if they are not present in the FCDS data, then
+it would be better to use dplyr::count() directly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,94 +118,66 @@ the function will throw an error." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Standardize Age Groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/age.R'><code>R/age.R</code></a></small>
-    <div class="hidden name"><code>standardize_age_groups.Rd</code></div>
+    <h1>Count FCDS Cases</h1>
+    <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/fcds.R'><code>R/fcds.R</code></a></small>
+    <div class="hidden name"><code>count_fcds.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Standardizes age groups to match <a href='seer_std_ages.html'>seer_std_ages</a>. Adds an <code>age_group</code> column,
-or overwites the existing <code>age_group</code> column if present. The <code>age_var</code> column
-can be either an actual age or an age group. If the column is numeric, it
-assumed to be an actual age, otherwise if it contains any non-numeric
-characters it is assumed to be an age group that will be expanded using
-<code><a href='separate_age_groups.html'>separate_age_groups()</a></code>. If multiple standardized age groups match a given age,
-the function will throw an error.</p>
+    <p>Helper function to count cancer cases in the FCDS data by year and age group,
+in addition to any groups already present in the data. For convenience, you
+may additionally filter to include particular values of sex, race, year,
+county name and hispanic ethnicity. See <code>fcds_const()</code> for more information
+about possible values for these variables. By default, <code>count_fcds()</code> ensures
+that <code>year</code>, <code>year_mid</code>, and <code>age_group</code> are included in the grouping
+variables. If they are not, or if they are not present in the FCDS data, then
+it would be better to use <code><a href='https://dplyr.tidyverse.org/reference/tally.html'>dplyr::count()</a></code> directly.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>standardize_age_groups</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>,
-  <span class='kw'>std_age_groups</span> <span class='kw'>=</span> <span class='fu'>fcds_const</span>(<span class='st'>"age_group"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>count_fcds</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>race</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>county_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hispanic</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year"</span>, <span class='st'>"year_mid"</span>, <span class='st'>"age_group"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame.</p></td>
-    </tr>
-    <tr>
-      <th>age_group</th>
-      <td><p>The column containing age or age group. This column will be
-overwritten if named <code>age_group</code>. If the column is numeric or can be
-coerced to numeric, it is treated as actual age. Otherwise it is assumed to
-contain age groups.</p></td>
-    </tr>
-    <tr>
-      <th>std_age_groups</th>
-      <td><p>Standard age groups, in the desired order.</p></td>
+      <td><p>A data frame</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments passed on to <code>separate_age_groups</code></p><dl class='dl-horizontal'>
-  <dt>data</dt><dd><p>A data frame.</p></dd>
-  <dt>age_group</dt><dd><p>Unquoted column name containing the age grouping.</p></dd>
-  <dt>age_low</dt><dd><p>Youngest age (inclusive).</p></dd>
-  <dt>age_high</dt><dd><p>Eldest age (inclusive).</p></dd>
-  <dt>sep</dt><dd><p>Separator between columns.
-
-If character, is interpreted as a regular expression. The default
-value is a regular expression that matches any sequence of
-non-alphanumeric values.
-
-If numeric, interpreted as positions to split at. Positive values start
-at 1 at the far-left of the string; negative value start at -1 at the
-far-right of the string. The length of <code>sep</code> should be one less than
-<code>into</code>.</p></dd>
-</dl></td>
+      <td><p>Used only to require users to provide named arguments</p></td>
+    </tr>
+    <tr>
+      <th>sex</th>
+      <td><p>Character vector of values of <code>sex</code> to be included in count</p></td>
+    </tr>
+    <tr>
+      <th>race</th>
+      <td><p>Character vector of values of <code>race</code> to be included in count</p></td>
+    </tr>
+    <tr>
+      <th>hispanic</th>
+      <td><p>Character vector of values of <code>hispanic</code> to be included in
+count</p></td>
+    </tr>
+    <tr>
+      <th>default_groups</th>
+      <td><p>Variables that should be included in the grouping,
+prior to counting cancer cases. Set to <code>NULL</code> to use only the groups
+already present in the input data.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other age processors: <code><a href='complete_age_groups.html'>complete_age_groups</a></code>,
-  <code><a href='filter_age_groups.html'>filter_age_groups</a></code>,
-  <code><a href='separate_age_groups.html'>separate_age_groups</a></code></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
-  <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0 - 4"</span>, <span class='st'>"10-14"</span>, <span class='st'>"65-69"</span>, <span class='st'>"85+"</span>)
-) <span class='kw'>%&gt;%</span>
-  <span class='fu'>standardize_age_groups</span>()</div><div class='output co'>#&gt; # A tibble: 4 x 2
-#&gt;      id age_group
-#&gt;   &lt;int&gt; &lt;ord&gt;    
-#&gt; 1     1 0 - 4    
-#&gt; 2     2 10 - 14  
-#&gt; 3     3 65 - 69  
-#&gt; 4     4 85+      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
