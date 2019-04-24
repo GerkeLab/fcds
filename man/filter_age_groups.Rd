@@ -23,7 +23,7 @@ the range, the input data is first passed to \code{\link[=separate_age_groups]{s
 boundary age lies within a group, that group is \emph{not included} in the output.
 }
 \examples{
-d_age_group <- tibble::tibble(
+d_age_group <- dplyr::tibble(
   id = 1:4,
   age_group = c("0 - 4", "10 - 14", "65 - 69", "85+")
 )

@@ -1,6 +1,6 @@
 context("test-year")
 
-d_year <- tibble::tribble(
+d_year <- dplyr::tribble(
         ~year,
   "1981-1985",
   "1986-1990",

@@ -10,7 +10,7 @@
 #' can be specified using the `sep` argument.
 #'
 #' @examples
-#' d_age_group <- tibble::tibble(
+#' d_age_group <- dplyr::tibble(
 #'   id = 1:4,
 #'   age_group = c("0 - 4", "10 - 14", "65 - 69", "85+")
 #' )
@@ -59,7 +59,7 @@ separate_age_groups <- function(
 #' boundary age lies within a group, that group is _not included_ in the output.
 #'
 #' @examples
-#' d_age_group <- tibble::tibble(
+#' d_age_group <- dplyr::tibble(
 #'   id = 1:4,
 #'   age_group = c("0 - 4", "10 - 14", "65 - 69", "85+")
 #' )
@@ -112,7 +112,7 @@ filter_age_groups <- function(
 #' variable.
 #'
 #' @examples
-#' tibble::tibble(
+#' dplyr::tibble(
 #'   age_group = c("10 - 14", "15 - 19", "25 - 29"),
 #'   n = 10:12
 #' ) %>%
@@ -169,7 +169,7 @@ complete_age_groups <- function(
 #' the function will throw an error.
 #'
 #' @examples
-#' tibble::tibble(
+#' dplyr::tibble(
 #'   id = 1:4,
 #'   age_group = c("0 - 4", "10-14", "65-69", "85+")
 #' ) %>%
@@ -352,7 +352,7 @@ format_age_groups <- function(
 #'
 #' # This example is drawn from the SEER*Stat Age-adjusted Rate Tutorial:
 #' # https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html
-#' d_incidence <- tibble::tribble(
+#' d_incidence <- dplyr::tribble(
 #'   ~age_group,   ~n,
 #'      "0 - 4",  116,
 #'      "5 - 9",   67,
@@ -376,7 +376,7 @@ format_age_groups <- function(
 #'   dplyr::mutate(year_mid = 2013) %>%
 #'   standardize_age_groups()
 #'
-#' d_population <- tibble::tribble(
+#' d_population <- dplyr::tribble(
 #'   ~age_group, ~population,
 #'      "0 - 4",      693068,
 #'      "5 - 9",      736212,

@@ -70,7 +70,7 @@ input data, \code{\link[=separate_age_groups]{separate_age_groups()}} is first c
 variable.
 }
 \examples{
-tibble::tibble(
+dplyr::tibble(
   age_group = c("10 - 14", "15 - 19", "25 - 29"),
   n = 10:12
 ) \%>\%

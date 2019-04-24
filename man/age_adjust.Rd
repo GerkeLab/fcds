@@ -91,7 +91,7 @@ calculated using the following formula}:
 
 # This example is drawn from the SEER*Stat Age-adjusted Rate Tutorial:
 # https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html
-d_incidence <- tibble::tribble(
+d_incidence <- dplyr::tribble(
   ~age_group,   ~n,
      "0 - 4",  116,
      "5 - 9",   67,
@@ -115,7 +115,7 @@ d_incidence <- tibble::tribble(
   dplyr::mutate(year_mid = 2013) \%>\%
   standardize_age_groups()
 
-d_population <- tibble::tribble(
+d_population <- dplyr::tribble(
   ~age_group, ~population,
      "0 - 4",      693068,
      "5 - 9",      736212,

@@ -166,7 +166,7 @@ test_that("standardize_age_groups() when input is grouped", {
 
 # Age Adjustment Example Data ----
 # Example modified from https://seer.cancer.gov/seerstat/tutorials/aarates/
-d_incidence <- tibble::tribble(
+d_incidence <- dplyr::tribble(
   ~age_group,   ~n,
      "0 - 4",  116,
      "5 - 9",   67,
@@ -189,7 +189,7 @@ d_incidence <- tibble::tribble(
 ) %>%
   fcds::standardize_age_groups()
 
-d_population <- tibble::tribble(
+d_population <- dplyr::tribble(
   ~age_group, ~population, ~crude_rate,
      "0 - 4",      693068,        16.7,
      "5 - 9",      736212,         9.1,
@@ -212,7 +212,7 @@ d_population <- tibble::tribble(
   ) %>%
   fcds::standardize_age_groups()
 
-d_std <- tibble::tribble(
+d_std <- dplyr::tribble(
   ~age_group,  ~std_pop, ~age_dist, ~rate,
      "0 - 4",  18986520,  0.069134,  1.16,
      "5 - 9",  19919840,  0.072532,  0.66,
@@ -235,7 +235,7 @@ d_std <- tibble::tribble(
   ) %>%
   fcds::standardize_age_groups()
 
-d_answer <- tibble::tribble(
+d_answer <- dplyr::tribble(
      ~n, ~population, ~rate,
   27069,     8796948, 400.3
 )

@@ -45,7 +45,7 @@ characters it is assumed to be an age group that will be expanded using
 the function will throw an error.
 }
 \examples{
-tibble::tibble(
+dplyr::tibble(
   id = 1:4,
   age_group = c("0 - 4", "10-14", "65-69", "85+")
 ) \%>\%

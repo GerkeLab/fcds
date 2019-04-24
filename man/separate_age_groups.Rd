@@ -37,7 +37,7 @@ by a dash (\code{"-"}), possibly with whitespace on either side. The separator
 can be specified using the \code{sep} argument.
 }
 \examples{
-d_age_group <- tibble::tibble(
+d_age_group <- dplyr::tibble(
   id = 1:4,
   age_group = c("0 - 4", "10 - 14", "65 - 69", "85+")
 )
