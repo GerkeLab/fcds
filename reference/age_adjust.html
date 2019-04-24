@@ -66,7 +66,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9016</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9018</span>
       </span>
     </div>
 
@@ -226,7 +226,7 @@ calculated using the following formula</em>:</p>
     <pre class="examples"><div class='input'>
 <span class='co'># This example is drawn from the SEER*Stat Age-adjusted Rate Tutorial:</span>
 <span class='co'># https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html</span>
-<span class='no'>d_incidence</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+<span class='no'>d_incidence</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(
   ~<span class='no'>age_group</span>,   ~<span class='no'>n</span>,
      <span class='st'>"0 - 4"</span>,  <span class='fl'>116</span>,
      <span class='st'>"5 - 9"</span>,   <span class='fl'>67</span>,
@@ -250,7 +250,7 @@ calculated using the following formula</em>:</p>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year_mid</span> <span class='kw'>=</span> <span class='fl'>2013</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='standardize_age_groups.html'>standardize_age_groups</a></span>()
 
-<span class='no'>d_population</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+<span class='no'>d_population</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(
   ~<span class='no'>age_group</span>, ~<span class='no'>population</span>,
      <span class='st'>"0 - 4"</span>,      <span class='fl'>693068</span>,
      <span class='st'>"5 - 9"</span>,      <span class='fl'>736212</span>,
