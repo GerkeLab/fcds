@@ -318,7 +318,6 @@
   description: Sex (recoded)
   naaccr: 220
   recode:
-
     - value: '1'
       label: Male
     - value: '2'
@@ -327,12 +326,12 @@
       label: Unknown
 - name:
     original: Ethnicity_Recoded
-    clean: hispanic
+    clean: origin
   description: Spanish/Hispanic Origin (recoded)
   naaccr: 190
   recode:
     - value: '0'
-      label: Not Hispanic
+      label: Non-Hispanic
     - value: '8'
       label: Hispanic
     - value: '9'

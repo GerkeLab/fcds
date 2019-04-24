@@ -1,3 +1,5 @@
+# Join FCDS with Data -----------------------------------------------------
+
 #' @export
 join_population <- function(
   data,
@@ -52,7 +54,7 @@ join_population_by_year <- function(
 #' @param ... Used only to require users to provide named arguments
 #' @param sex Character vector of values of `sex` to be included in count
 #' @param race Character vector of values of `race` to be included in count
-#' @param hispanic Character vector of values of `hispanic` to be included in
+#' @param origin Character vector of values of `origin` to be included in
 #'   count
 #' @param default_groups Variables that should be included in the grouping,
 #'   prior to counting cancer cases. Set to `NULL` to use only the groups
@@ -64,14 +66,14 @@ count_fcds <- function(
   sex = NULL,
   race = NULL,
   county_name = NULL,
-  hispanic = NULL,
+  origin = NULL,
   default_groups = c("year", "year_mid", "age_group")
 ) {
   filters <- list(
     sex = sex,
     race = race,
     county_name = county_name,
-    hispanic = hispanic
+    origin = origin
   )
   filters <- purrr::imap(filters, valid_fcds_const)
   for (var in names(filters)) {
@@ -195,7 +197,7 @@ fcds_var_group <- function(
       "age_group",
       "race",
       "sex",
-      "hispanic",
+      "origin",
       "marital_status",
       "birth_country",
       "birth_state",

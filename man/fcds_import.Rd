@@ -143,7 +143,7 @@ Derived from \code{Race_Recoded}.
 \item \code{sex}: Sex (recoded).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#220}{220}.
 Derived from \code{Sex_Recoded}.
-\item \code{hispanic}: Spanish/Hispanic Origin (recoded).
+\item \code{origin}: Spanish/Hispanic Origin (recoded).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#190}{190}.
 Derived from \code{Ethnicity_Recoded}.
 \item \code{marital_status}: Marital Status at diagnosis (recoded).

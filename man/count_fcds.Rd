@@ -5,7 +5,7 @@
 \title{Count FCDS Cases}
 \usage{
 count_fcds(data, ..., sex = NULL, race = NULL, county_name = NULL,
-  hispanic = NULL, default_groups = c("year", "year_mid", "age_group"))
+  origin = NULL, default_groups = c("year", "year_mid", "age_group"))
 }
 \arguments{
 \item{data}{A data frame}
@@ -16,7 +16,7 @@ count_fcds(data, ..., sex = NULL, race = NULL, county_name = NULL,
 
 \item{race}{Character vector of values of \code{race} to be included in count}
 
-\item{hispanic}{Character vector of values of \code{hispanic} to be included in
+\item{origin}{Character vector of values of \code{origin} to be included in
 count}
 
 \item{default_groups}{Variables that should be included in the grouping,

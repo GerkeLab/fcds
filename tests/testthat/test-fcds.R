@@ -55,7 +55,7 @@ test_that("fcds_vars() with a data frame", {
 test_that("count_fcds()", {
   r_count_fcds <- fcds::fcds_example %>%
     group_by(county_name) %>%
-    count_fcds(sex = "Male", race = "White", hispanic = "Not Hispanic")
+    count_fcds(sex = "Male", race = "White", origin = "Non-Hispanic")
 
   expect_equal(
     unique(r_count_fcds$sex) %>% paste(),
@@ -66,15 +66,15 @@ test_that("count_fcds()", {
     "White"
   )
   expect_equal(
-    unique(r_count_fcds$hispanic) %>% paste(),
-    "Not Hispanic"
+    unique(r_count_fcds$origin) %>% paste(),
+    "Non-Hispanic"
   )
   expect_equal(
     dplyr::group_vars(r_count_fcds),
-    c("county_name", "sex", "race", "hispanic", "year", "year_mid", "age_group")
+    c("county_name", "sex", "race", "origin", "year", "year_mid", "age_group")
   )
 
-  expect_known_hash(r_count_fcds, "625a9bcbbf")
+  expect_known_hash(r_count_fcds, "30fc9b78e1")
 
   r_count_fcds_default <- fcds::fcds_example %>%
     count_fcds()
@@ -83,10 +83,13 @@ test_that("count_fcds()", {
     dplyr::group_vars(r_count_fcds_default),
     c("year", "year_mid", "age_group")
   )
-  expect_known_hash(r_count_fcds_default, "a618a12148")
+  expect_known_hash(r_count_fcds_default, "5fe92053d0")
 
   expect_error(
     fcds::fcds_example %>% count_fcds(race = "Banana")
+  )
+  expect_error(
+    fcds::fcds_example %>% count_fcds(origin = "Not Hispanic")
   )
 
   # Check that `year_mid` is calculated if needed.

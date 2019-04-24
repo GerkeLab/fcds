@@ -138,7 +138,7 @@
 
 #' @export
 fcds_const <- function(
-  const = c("year", "county_name", "sex", "race", "hispanic", "age_group",
+  const = c("year", "county_name", "sex", "race", "origin", "age_group",
             "moffitt_catchment")
 ) {
   switch(
@@ -221,7 +221,7 @@ fcds_const <- function(
       "Washington"),
     "sex" = c("Female", "Male", "Unknown"),
     "race" = c("Black", "Other", "Unknown", "White"),
-    "hispanic" = c("Hispanic", "Not Hispanic", "Unknown"),
+    "origin" = c("Hispanic", "Non-Hispanic", "Unknown"),
     "age_group" = c(
       "0 - 4",
       "5 - 9",

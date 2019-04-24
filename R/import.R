@@ -58,7 +58,7 @@
 #' - `sex`: Sex (recoded).
 #'   NAACCR Item #[220](http://datadictionary.naaccr.org/default.aspx?c=10#220).
 #'   Derived from `Sex_Recoded`.
-#' - `hispanic`: Spanish/Hispanic Origin (recoded).
+#' - `origin`: Spanish/Hispanic Origin (recoded).
 #'   NAACCR Item #[190](http://datadictionary.naaccr.org/default.aspx?c=10#190).
 #'   Derived from `Ethnicity_Recoded`.
 #' - `marital_status`: Marital Status at diagnosis (recoded).
