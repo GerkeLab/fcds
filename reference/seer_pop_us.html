@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SEER Florida population data, expanded Race — seer_pop_fl_exp_race • fcds</title>
+<title>SEER U.S. Population — seer_pop_us • fcds</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,16 +32,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="SEER Florida population data, expanded Race — seer_pop_fl_exp_race" />
+<meta property="og:title" content="SEER U.S. Population — seer_pop_us" />
 
-<meta property="og:description" content="Florida county-level population estimates from 1990--2016 in 19 age groups,
-with 4 expanded races by origin. Downloaded from SEER on 2019-01-24 (see
-references for direct links). Recoding of column values was performed
-according to the guidelines available at
-https://seer.cancer.gov/popdata/popdic.html. The original SEER data
-includes 19 age groups, but the data set provided by this package includes
-age &quot;0&quot; with ages &quot;1 - 4&quot; in the &quot;0 - 4&quot; group to match the coding in
-the FCDS data." />
+<meta property="og:description" content="Contains the SEER All States Combined, Adjusted data, using 4 expanded
+races by origin. Downloaded from
+SEER Population Data.
+This data set is minimally processed to join ages &quot;0&quot; with &quot;1 - 4&quot; to
+match the FCDS data format." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,53 +115,38 @@ the FCDS data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SEER Florida population data, expanded Race</h1>
+    <h1>SEER U.S. Population</h1>
     <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/fcds-data.R'><code>R/fcds-data.R</code></a></small>
-    <div class="hidden name"><code>seer_pop_fl_exp_race.Rd</code></div>
+    <div class="hidden name"><code>seer_pop_us.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Florida county-level population estimates from 1990--2016 in 19 age groups,
-with 4 expanded races by origin. Downloaded from SEER on 2019-01-24 (see
-references for direct links). Recoding of column values was performed
-according to the guidelines available at
-<a href='https://seer.cancer.gov/popdata/popdic.html'>https://seer.cancer.gov/popdata/popdic.html</a>. The original SEER data
-includes 19 age groups, but the data set provided by this package includes
-age "<code>0</code>" with ages "<code>1 - 4</code>" in the "<code>0 - 4</code>" group to match the coding in
-the FCDS data.</p>
+    <p>Contains the SEER <em>All States Combined, Adjusted</em> data, using 4 expanded
+races by origin. Downloaded from
+<a href='https://seer.cancer.gov/popdata/download.html'>SEER Population Data</a>.
+This data set is minimally processed to join ages "<code>0</code>" with "<code>1 - 4</code>" to
+match the FCDS data format.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>seer_pop_fl_exp_race</span></pre>
+    <pre class="usage"><span class='no'>seer_pop_us</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 334273 rows and 11 variables:</p><dl class='dl-horizontal'>
-<dt><code>year</code></dt><dd><p>Year</p></dd>
-<dt><code>state</code></dt><dd><p>State postal abbreviation</p></dd>
-<dt><code>state_fips</code></dt><dd><p>State FIPS code</p></dd>
-<dt><code>county_fips</code></dt><dd><p>County FIPS code</p></dd>
-<dt><code>registry</code></dt><dd><p>Registry</p></dd>
-<dt><code>race</code></dt><dd><p>Race: White, Black, American Indian/Alaska Native,
-Asian or Pacific Islander</p></dd>
-<dt><code>origin</code></dt><dd><p>Origin: Non-Hispanic, Hispanic.
-Not applicable for data prior to 1990.</p></dd>
-<dt><code>sex</code></dt><dd><p>Sex</p></dd>
-<dt><code>age_group</code></dt><dd><p>Age: 19 groups from 0, 1--4, 5--9, &#8230; 85+</p></dd>
-<dt><code>population</code></dt><dd><p>Population</p></dd>
-<dt><code>county_name</code></dt><dd><p>County Name, see <a href='county_fips_fl.html'>county_fips_fl</a></p></dd>
+    <p>A data frame with 8,064 rows and 6 variables:</p><dl class='dl-horizontal'>
+<dt><code>year</code></dt><dd><p>character. Year</p></dd>
+<dt><code>race</code></dt><dd><p>factor. Race: "White", "Black", "American Indian/Alaska Native", or "Asian or Pacific Islander"</p></dd>
+<dt><code>origin</code></dt><dd><p>factor. Hispanic Origin: "Hispanic", "Non-Hispanic"</p></dd>
+<dt><code>sex</code></dt><dd><p>factor. Sex: "Male", "Female"</p></dd>
+<dt><code>age_group</code></dt><dd><p>factor. Five-year age group from "<code>0 - 4</code>" to "<code>85+</code>"</p></dd>
+<dt><code>population</code></dt><dd><p>integer. Number of persons in U.S. population matching demographics</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://seer.cancer.gov/popdata/'>https://seer.cancer.gov/popdata/</a></p>
-<p><a href='https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz'>https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz</a></p>
-<p><a href='https://seer.cancer.gov/popdata/popdic.html'>https://seer.cancer.gov/popdata/popdic.html</a></p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other SEER Population Data: <code><a href='seer_pop_fl.html'>seer_pop_fl</a></code></p></div>
+<p><a href='https://seer.cancer.gov/popdata/download.html'>https://seer.cancer.gov/popdata/download.html</a></p>
     
 
   </div>
@@ -175,8 +157,6 @@ Not applicable for data prior to 1990.</p></dd>
       <li><a href="#format">Format</a></li>
 
       <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

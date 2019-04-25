@@ -28,6 +28,9 @@
     <loc>https://gerkelab.github.io/fcds/reference/fcds_cache.html</loc>
   </url>
   <url>
+    <loc>https://gerkelab.github.io/fcds/reference/fcds_const.html</loc>
+  </url>
+  <url>
     <loc>https://gerkelab.github.io/fcds/reference/fcds_default_data_path.html</loc>
   </url>
   <url>
@@ -59,6 +62,9 @@
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/seer_pop_fl_exp_race.html</loc>
+  </url>
+  <url>
+    <loc>https://gerkelab.github.io/fcds/reference/seer_pop_us.html</loc>
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/seer_std_ages.html</loc>

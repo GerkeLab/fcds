@@ -69,7 +69,7 @@ as floor((year_max - year_min) / 2) unless offset is explicitly provided." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9022</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9002</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@ of the year group to calculate the mid-year value. By default uses
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'>fcds_const</span>(<span class='st'>"year"</span>)) <span class='kw'>%&gt;%</span>
+    <pre class="examples"><div class='input'><span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"year"</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'>add_mid_year_groups</span>()</div><div class='output co'>#&gt; # A tibble: 7 x 2
 #&gt;   year      year_mid
 #&gt;   &lt;chr&gt;     &lt;chr&gt;   

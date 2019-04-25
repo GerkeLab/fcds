@@ -72,7 +72,7 @@ it would be better to use dplyr::count() directly." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9022</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9002</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@ it would be better to use dplyr::count() directly." />
     <p>Helper function to count cancer cases in the FCDS data by year and age group,
 in addition to any groups already present in the data. For convenience, you
 may additionally filter to include particular values of sex, race, year,
-county name and hispanic ethnicity. See <code>fcds_const()</code> for more information
+county name and hispanic ethnicity. See <code><a href='fcds_const.html'>fcds_const()</a></code> for more information
 about possible values for these variables. By default, <code>count_fcds()</code> ensures
 that <code>year</code>, <code>year_mid</code>, and <code>age_group</code> are included in the grouping
 variables. If they are not, or if they are not present in the FCDS data, then
@@ -136,8 +136,9 @@ it would be better to use <code><a href='https://dplyr.tidyverse.org/reference/t
     
     </div>
 
-    <pre class="usage"><span class='fu'>count_fcds</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>race</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>county_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year"</span>, <span class='st'>"year_mid"</span>, <span class='st'>"age_group"</span>))</pre>
+    <pre class="usage"><span class='fu'>count_fcds</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>race</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>moffitt_catchment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year"</span>, <span class='st'>"year_mid"</span>,
+  <span class='st'>"age_group"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,6 +163,11 @@ it would be better to use <code><a href='https://dplyr.tidyverse.org/reference/t
       <th>origin</th>
       <td><p>Character vector of values of <code>origin</code> to be included in
 count</p></td>
+    </tr>
+    <tr>
+      <th>moffitt_catchment</th>
+      <td><p>Limit counties to those in the catchment area of
+the <a href='https://moffitt.org'>Moffitt Cancer Center</a>.</p></td>
     </tr>
     <tr>
       <th>default_groups</th>

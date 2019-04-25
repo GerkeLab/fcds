@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Default Path for FCDS Data — fcds_default_data_path • fcds</title>
+<title>List Expected or Valid FCDS Constants — fcds_const • fcds</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,12 +32,11 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Default Path for FCDS Data — fcds_default_data_path" />
+<meta property="og:title" content="List Expected or Valid FCDS Constants — fcds_const" />
 
-<meta property="og:description" content="Returns the default data path for FCDS data. You can globally set the path
-using the fcds.default_data_path option, or by providing a path to
-fcds_default_data_path(). Restore the FCDS package default cache by setting
-the default to NULL." />
+<meta property="og:description" content="Lists the expected values in the processed, cached FCDS data using the
+built-in recoding, or alternatively returns a tibble containing information
+about the cleaned column and value labels and the original data values." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,48 +113,75 @@ the default to NULL." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Default Path for FCDS Data</h1>
+    <h1>List Expected or Valid FCDS Constants</h1>
     <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/import.R'><code>R/import.R</code></a></small>
-    <div class="hidden name"><code>fcds_default_data_path.Rd</code></div>
+    <div class="hidden name"><code>fcds_const.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Returns the default data path for FCDS data. You can globally set the path
-using the <code>fcds.default_data_path</code> option, or by providing a path to
-<code>fcds_default_data_path()</code>. Restore the FCDS package default cache by setting
-the default to <code>NULL</code>.</p>
+    <p>Lists the expected values in the processed, cached FCDS data using the
+built-in recoding, or alternatively returns a tibble containing information
+about the cleaned column and value labels and the original data values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fcds_default_data_path</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fcds_const</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"year"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fcds_recoding_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>Set the default path for storing or looking for cached FCDS data.</p></td>
+      <th>var</th>
+      <td><p>An FCDS variable or a package constant. Set to <code>NULL</code> for a list
+of valid variables.</p></td>
+    </tr>
+    <tr>
+      <th>full</th>
+      <td><p>If <code>FALSE</code>, returns only the values that are expected in the
+cleaned FCDS data. If <code>TRUE</code>, returns information regarding the original
+variable name (<code>name_original</code>) and value (<code>value</code>) and the cleaned
+variable name (<code>name_clean</code>) and value label (<code>label</code>).</p></td>
+    </tr>
+    <tr>
+      <th>fcds_recoding_file</th>
+      <td><p>The path to the recoding specification yaml file.
+Set to <code>NULL</code> to use the default recoding as used in <code><a href='fcds_import.html'>fcds_import()</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the current global setting for the path to the FCDS data
-cache.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other FCDS Import Functions: <code><a href='fcds_cache.html'>fcds_cache</a></code>,
-  <code><a href='fcds_import.html'>fcds_import</a></code>, <code><a href='fcds_load.html'>fcds_load</a></code></p></div>
+    <p>A character vector of valid FCDS values, or a tibble with information
+about the original and recoded FCDS data values.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>fcds_default_data_path</span>()</div><div class='output co'>#&gt; [1] "/home/travis/.fcds"</div><div class='input'>
-<span class='co'># Set to ~/tmp</span>
-<span class='fu'>fcds_default_data_path</span>(<span class='st'>"~/tmp"</span>)</div><div class='output co'>#&gt; [1] "~/tmp"</div><div class='input'><span class='fu'>fcds_default_data_path</span>()</div><div class='output co'>#&gt; [1] "~/tmp"</div><div class='input'>
-<span class='co'># Restore global default</span>
-<span class='fu'>fcds_default_data_path</span>(<span class='kw'>NULL</span>)</div><div class='output co'>#&gt; [1] "/home/travis/.fcds"</div><div class='input'><span class='fu'>fcds_default_data_path</span>()</div><div class='output co'>#&gt; [1] "/home/travis/.fcds"</div><div class='input'>
+    <pre class="examples"><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"year"</span>)</div><div class='output co'>#&gt; [1] "1981-1985" "1986-1990" "1991-1995" "1996-2000" "2001-2005" "2006-2010"
+#&gt; [7] "2011-2015"</div><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"year"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 4
+#&gt;   name_clean name_original           value label    
+#&gt;   &lt;chr&gt;      &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;    
+#&gt; 1 year       Date_of_Dx_Year_Recoded 8185  1981-1985
+#&gt; 2 year       Date_of_Dx_Year_Recoded 8690  1986-1990
+#&gt; 3 year       Date_of_Dx_Year_Recoded 9195  1991-1995
+#&gt; 4 year       Date_of_Dx_Year_Recoded 9600  1996-2000
+#&gt; 5 year       Date_of_Dx_Year_Recoded 0105  2001-2005
+#&gt; 6 year       Date_of_Dx_Year_Recoded 0610  2006-2010
+#&gt; 7 year       Date_of_Dx_Year_Recoded 1115  2011-2015</div><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"cancer_site_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 4
+#&gt;   name_clean        name_original   value label                           
+#&gt;   &lt;chr&gt;             &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;                           
+#&gt; 1 cancer_site_group FCDS_Site_Group 0110  Oral Cavity and Pharynx         
+#&gt; 2 cancer_site_group FCDS_Site_Group 0011  Esophagus                       
+#&gt; 3 cancer_site_group FCDS_Site_Group 0012  Stomach                         
+#&gt; 4 cancer_site_group FCDS_Site_Group 0013  Small Intestine                 
+#&gt; 5 cancer_site_group FCDS_Site_Group 1422  Colon excluding Rectum          
+#&gt; 6 cancer_site_group FCDS_Site_Group 2324  Rectum and Rectosigmoid Junction</div><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"moffitt_catchment"</span>)</div><div class='output co'>#&gt;  [1] "Hillsborough" "Pasco"        "Pinellas"     "Polk"         "Charlotte"   
+#&gt;  [6] "Citrus"       "DeSoto"       "Hardee"       "Hernando"     "Highlands"   
+#&gt; [11] "Lake"         "Lee"          "Manatee"      "Sarasota"     "Sumter"      </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -164,8 +190,6 @@ cache.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
