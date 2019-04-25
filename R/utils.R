@@ -39,14 +39,14 @@ check_package <- function(
 }
 
 requires_package <- function(pkg, needed_by = NULL, ...) {
-  res <- setNames(rep(FALSE, length(pkg)), pkg)
+  res <- set_names(rep(FALSE, length(pkg)), pkg)
   for (package in pkg) {
     res[package] <- check_package(package, needed_by, ..., warn = FALSE)
   }
   res
 }
 suggests_package <- function(pkg, needed_by = NULL, ...) {
-  res <- setNames(rep(FALSE, length(pkg)), pkg)
+  res <- set_names(rep(FALSE, length(pkg)), pkg)
   for (package in pkg) {
     res[package] <- check_package(package, needed_by, ..., warn = TRUE)
   }

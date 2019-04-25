@@ -148,7 +148,7 @@ test_that("check for packages", {
 
   expect_equal(
     suppressWarnings(suggests_package(c("dplyr", not_a_pkg))),
-    setNames(c(TRUE, FALSE), c("dplyr", not_a_pkg))
+    set_names(c(TRUE, FALSE), c("dplyr", not_a_pkg))
   )
 })
 

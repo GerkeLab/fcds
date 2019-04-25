@@ -36,7 +36,7 @@ seer_icd_o_3 <-
   ) %>%
   select(-histology_detail) %>%
   mutate_at(quos(site_group, contains("description")), ~ {
-    x <- tolower(setNames(nm = unique(.x)))
+    x <- tolower(purrr::set_names(unique(.x)))
     x <- tools::toTitleCase(x)
     x <- sub("\\b[Nn]os", "NOS", x)
     factor(x[.x])

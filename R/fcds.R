@@ -31,7 +31,7 @@ join_population_by_year <- function(
       "a named vector where the name provides the year column name in `data`."
     ))
   }
-  if (is.null(names(by_year))) by_year <- setNames(nm = by_year)
+  if (is.null(names(by_year))) by_year <- set_names(by_year)
   validate_all_have_var(names(by_year), data = data)
   validate_all_have_var(unname(by_year), population = population)
 
