@@ -83,9 +83,9 @@
 "seer_pop_fl_exp_race"
 
 
-#' SEER Standard Population for Age-Adjustment
+#' SEER U.S. Standard Population for Age-Adjustment
 #'
-#' US. Standard populations, year 2000, for age-adjusted statistics. Downloaded
+#' U.S. Standard populations, year 2000, for age-adjusted statistics. Downloaded
 #' from SEER on 2019-01-24 (see References for direct links). This data set is
 #' the *2000 U.S. Std Population (single ages to 84 - Census P25-1130)*, with
 #' ages agregated into 18 age groups: "`0 - 4`", ..., "`80 - 84`", "`85+`".
@@ -133,3 +133,27 @@
 #'   the data and has absolutely no overlap (i.e. no row-wise matches, excluding
 #'   `patient_id`) with the published data.
 "fcds_example"
+
+
+#' SEER U.S. Population
+#'
+#' Contains the SEER _All States Combined, Adjusted_ data, using 4 expanded
+#' races by origin. Downloaded from
+#' [SEER Population Data](https://seer.cancer.gov/popdata/download.html).
+#' This data set is minimally processed to join ages "`0`" with "`1 - 4`" to
+#' match the FCDS data format.
+#'
+#'
+#' @references <https://seer.cancer.gov/popdata/>
+#' @references <https://seer.cancer.gov/popdata/download.html>
+#'
+#' @format A data frame with 8,064 rows and 6 variables:
+#' \describe{
+#'   \item{\code{year}}{character. Year}
+#'   \item{\code{race}}{factor. Race: "White", "Black", "American Indian/Alaska Native", or "Asian or Pacific Islander"}
+#'   \item{\code{origin}}{factor. Hispanic Origin: "Hispanic", "Non-Hispanic"}
+#'   \item{\code{sex}}{factor. Sex: "Male", "Female"}
+#'   \item{\code{age_group}}{factor. Five-year age group from "`0 - 4`" to "`85+`"}
+#'   \item{\code{population}}{integer. Number of persons in U.S. population matching demographics}
+#' }
+"seer_pop_us"
