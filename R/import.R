@@ -329,8 +329,8 @@ fcds_cache_info <- function(path = NULL, ...) {
   fi <- dplyr::bind_cols(fi, file.info(fcds_cache_ls(path, ...)))
   fi$size_mb <- fi$size * 10^-6
   fi %>%
-    dplyr::select(path, size_mb, dplyr::ends_with("time"), mode) %>%
-    dplyr::arrange(dplyr::desc(path))
+    dplyr::select("path", "size_mb", dplyr::ends_with("time"), "mode") %>%
+    dplyr::arrange(dplyr::desc(.data$path))
 }
 
 #' @describeIn fcds_cache Clean outdated cached fcds data files

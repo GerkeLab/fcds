@@ -80,9 +80,10 @@ reference:
 - title: Data Sets
   desc: Additional data sets from FCDS or SEER
   contents:
+  - '`fcds_example`'
+  - '`seer_icd_o_3`'
   - '`seer_std_ages`'
   - '`seer_pop_fl`'
   - '`seer_pop_fl_exp_race`'
-  - '`seer_icd_o_3`'
+  - '`seer_pop_use`'
   - '`county_fips_fl`'
-  - '`fcds_example`'

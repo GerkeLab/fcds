@@ -152,6 +152,9 @@ separate_year_groups <- function(
 }
 
 mid_year <- function(years, sep = "-", offset = NULL) {
+  # rcmdcheck
+  year_min <- NULL
+  year_max <- NULL
 
   years <- separate_year_groups(tibble(year = years), sep = sep) %>%
     dplyr::mutate_at(quos(year_min, year_max), as.integer)

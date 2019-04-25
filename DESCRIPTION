@@ -1,6 +1,6 @@
 Package: fcds
 Title: Process data from the Florida Cancer Data System
-Version: 0.0.1.9024
+Version: 0.0.2.9000
 Authors@R: 
     c(person(given = "Garrick",
              family = "Aden-Buie",
@@ -23,12 +23,12 @@ Depends:
     R (>= 3.2.3)
 Imports: 
     dplyr,
-    glue,
+    glue (>= 1.2.0),
     labelled,
     magrittr,
     purrr,
     readr,
-    rlang,
+    rlang (>= 0.1.2),
     tidyr,
     tidyselect,
     tools,

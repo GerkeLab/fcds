@@ -1,3 +1,7 @@
+# Declare tidy eval default arguments as global variables
+if(getRversion() >= "2.15.1") utils::globalVariables(c(
+  "n", "age_group", "age_low", "age_high"
+))
 
 # Age Groups --------------------------------------------------------------
 
@@ -238,16 +242,16 @@ standardize_age_groups <- function(
     if (!"...age" %in% names(data)) data <- data %>% mutate(...age = !!age_group)
     data <- data %>%
       mutate(
-        ...age = floor(...age),
-        ...age := if_else(is_neg_infinite(...age), 0, ...age),
-        ...age := if_else(is_pos_infinite(...age), 125, ...age)
+        ...age = floor(.data$...age),
+        ...age = if_else(is_neg_infinite(.data$...age), 0, .data$...age),
+        ...age = if_else(is_pos_infinite(.data$...age), 125, .data$...age)
       )
 
     # age_group will be replaced if it exists
-    if ("age_group" %in% names(data)) data <- data %>% select(-age_group)
+    if ("age_group" %in% names(data)) data <- data %>% select(-"age_group")
 
     data <- dplyr::left_join(data, std_ages, by = "...age") %>%
-      select(-...age)
+      select(-"...age")
   } else if (age_is_same_as_fcds) {
     data <- mutate(
       data,
@@ -259,14 +263,14 @@ standardize_age_groups <- function(
     #   - same answer? return first
     #   - different? error (non-overlapping groups)
     data <- data %>% separate_age_groups(!!age_group, ...,
-                                       age_low  = ...age_low,
-                                       age_high = ...age_high)
+                                       age_low  = .data$...age_low,
+                                       age_high = .data$...age_high)
 
     data_low <- data %>%
-      select(age_group = ...age_low) %>%
+      select(age_group = .data$...age_low) %>%
       standardize_age_groups(std_age_groups = std_age_groups)
     data_high <- data %>%
-      select(age_group = ...age_high) %>%
+      select(age_group = .data$...age_high) %>%
       standardize_age_groups(std_age_groups = std_age_groups)
 
     if (!identical(data_low$age_group, data_high$age_group)) {
@@ -277,16 +281,16 @@ standardize_age_groups <- function(
       )
     }
 
-    if ("age_group" %in% names(data)) data <- data %>% select(-age_group)
+    if ("age_group" %in% names(data)) data <- data %>% select(-"age_group")
     data <- data %>%
       mutate(age_group = paste(data_low$age_group)) %>%
-      select(-...age_low, -...age_high)
+      select(-"...age_low", -"...age_high")
   }
 
   data %>%
     select(union(data_cols, "age_group")) %>%
     tidyr::replace_na(list(age_group = "Unknown")) %>%
-    mutate(age_group = factor(age_group, std_age_groups, ordered = TRUE)) %>%
+    mutate(age_group = factor(.data$age_group, std_age_groups, ordered = TRUE)) %>%
     group_by(!!!data_groups)
 }
 
@@ -306,10 +310,10 @@ format_age_groups <- function(
         !!age_high_var > 0 & is.infinite(!!age_high_var),
         "+",
         paste(" -", !!age_high_var)),
-      age_group = paste0(age_group_low, age_group_high),
-      age_group = factor(age_group, fcds_const("age_group"), ordered = TRUE)
+      age_group = paste0(.data$age_group_low, .data$age_group_high),
+      age_group = factor(.data$age_group, fcds_const("age_group"), ordered = TRUE)
     ) %>%
-    select(-age_group_low, -age_group_high)
+    select(-"age_group_low", -"age_group_high")
 }
 # nocov end
 
@@ -575,8 +579,8 @@ age_adjust_finalize <- function(
   std_pop_relevant <-
     population_standard %>%
     filter(!!age %in% age_groups) %>%
-    select(!!age, std_pop) %>%
-    mutate(w = std_pop / sum(std_pop))
+    select(!!age, "std_pop") %>%
+    mutate(w = .data$std_pop / sum(.data$std_pop))
 
   data <- dplyr::left_join(data, std_pop_relevant, by = age_name)
 
@@ -589,7 +593,7 @@ age_adjust_finalize <- function(
   data %>%
     # Drop "age_group" from groups so that summarization is over ages
     group_drop(!!age) %>%
-    with_ungroup(~ mutate(., rate = !!count / population * w)) %>%
+    with_ungroup(~ mutate(., rate = !!count / .data$population * .data$w)) %>%
     with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population, rate), sum)) %>%
-    mutate(rate = rate * 100000)
+    mutate(rate = .data$rate * 100000)
 }
