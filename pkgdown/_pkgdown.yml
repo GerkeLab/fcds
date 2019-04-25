@@ -47,6 +47,7 @@ reference:
   - '`fcds_import`'
   - '`fcds_load`'
   - '`fcds_default_data_path`'
+  - '`fcds_cache`'
 - title: Age Adjust
   desc: Perform Calculation of Age-Adjusted Rates
   contents:

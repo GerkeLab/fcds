@@ -232,7 +232,7 @@ fcds_resolve_data_file <- function(file) {
     abort(glue("{file} does not exist, please run `fcds_import()` first."))
   }
 
-  if (file.info(file)$isdir) {
+  if (is_dir(file)) {
     # file is a directory, find the most recent fcds_ data files
     files <- dir(file, "^fcds_", full.names = TRUE)
     if (!length(files)) {
@@ -243,6 +243,10 @@ fcds_resolve_data_file <- function(file) {
   }
 
   file
+}
+
+is_dir <- function(path) {
+  purrr::map_lgl(purrr::set_names(path), ~ isTRUE(file.info(.x)$isdir))
 }
 
 # Default Paths -----------------------------------------------------------
@@ -294,6 +298,73 @@ fcds_default_data_path_set <- function(path) {
 }
 
 
+# Cache -------------------------------------------------------------------
+
+#' List or Clean Cached FCDS Data Files
+#'
+#' Helper functions to list cached processed **fcds** data files or to clean
+#' outdated cached files.
+#'
+#' @param path The path to the fcds cached data, defaults to
+#'   [fcds_default_data_path()]
+#' @name fcds_cache
+#' @family FCDS Import Functions
+NULL
+
+#' @describeIn fcds_cache List cached fcds data files
+#' @param pattern The file pattern used to identify fcds cached data files,
+#'   by default these are expected to be `.rds` files whose names start with
+#'   `fcds_`.
+#' @export
+fcds_cache_ls <- function(path = NULL, pattern = "^fcds_.+\\.[Rr][Dd][Ss]$") {
+  path <- path %||% fcds_default_data_path()
+  dir(path, full.names = TRUE, pattern = pattern)
+}
+
+#' @describeIn fcds_cache Report information about cached fcds data files
+#' @inheritDotParams fcds_cache_ls pattern
+#' @export
+fcds_cache_info <- function(path = NULL, ...) {
+  fi <- dplyr::tibble(path = fcds_cache_ls(path))
+  fi <- dplyr::bind_cols(fi, file.info(fcds_cache_ls(path, ...)))
+  fi$size_mb <- fi$size * 10^-6
+  fi %>%
+    dplyr::select(path, size_mb, dplyr::ends_with("time"), mode) %>%
+    dplyr::arrange(dplyr::desc(path))
+}
+
+#' @describeIn fcds_cache Clean outdated cached fcds data files
+#' @inheritParams fcds_cache_info
+#' @param all Should all cached data files be removed? If `FALSE`, the default
+#'   value, the most recent file is kept. Recency is determined by sorting file
+#'   names in reverse order rather than by file system modification times. If in
+#'   doubt, use `dry_run = TRUE` to check behavior.
+#' @param dry_run If `TRUE`, `fcds_cache_clean()` reports planned actions
+#'   without removing any files.
+#' @export
+fcds_cache_clean <- function(path = NULL, ..., all = FALSE, dry_run = FALSE) {
+  path <- path %||% fcds_default_data_path()
+  files <- fcds_cache_ls(path, ...)
+  files <- rev(sort(files))
+  file_keep <- if (!all) files[1]
+  files <- setdiff(files, file_keep)
+
+  if (!length(files)) {
+    cat_tick("fcds cache is clean (", path, ")")
+    if (!is.null(file_keep)) cat_tick("Kept  ", file_keep)
+    return(invisible())
+  }
+  cat_line("Cleaning fcds cache at ", path)
+  if (!is.null(file_keep)) {
+    cat_tick("Keeping  ", file_keep)
+  }
+  for (file in files) {
+    cat_bullet("Removing ", file)
+    if (!dry_run) unlink(file)
+  }
+  cat_tick("fcds cache is clean")
+  return(invisible())
+}
 
 # Recode FCDS Values ------------------------------------------------------
 

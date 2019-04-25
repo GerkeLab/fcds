@@ -26,7 +26,8 @@ imported FCDS data set. You can override this behavior by providing a path to
 a specific RDS file.
 }
 \seealso{
-Other FCDS Import Functions: \code{\link{fcds_default_data_path}},
+Other FCDS Import Functions: \code{\link{fcds_cache}},
+  \code{\link{fcds_default_data_path}},
   \code{\link{fcds_import}}
 }
 \concept{FCDS Import Functions}

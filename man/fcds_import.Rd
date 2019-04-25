@@ -250,7 +250,8 @@ This section will discuss the formatting for the FCDS recoding yaml file.
 \url{https://fcds.med.miami.edu/}
 }
 \seealso{
-Other FCDS Import Functions: \code{\link{fcds_default_data_path}},
+Other FCDS Import Functions: \code{\link{fcds_cache}},
+  \code{\link{fcds_default_data_path}},
   \code{\link{fcds_load}}
 }
 \concept{FCDS Import Functions}
