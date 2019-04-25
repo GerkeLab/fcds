@@ -1,6 +1,5 @@
 # Join FCDS with Data -----------------------------------------------------
 
-#' @export
 join_population <- function(
   data,
   population = fcds::seer_pop_fl,
