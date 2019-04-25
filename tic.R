@@ -1,4 +1,4 @@
-do_package_checks(error_on = "error")
+do_package_checks()
 
 if (Sys.getenv("id_rsa") != "" && !ci()$is_tag()) {
   # pkgdown documentation can be built optionally. Other example criteria:
