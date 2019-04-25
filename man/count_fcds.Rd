@@ -5,7 +5,8 @@
 \title{Count FCDS Cases}
 \usage{
 count_fcds(data, ..., sex = NULL, race = NULL, county_name = NULL,
-  origin = NULL, default_groups = c("year", "year_mid", "age_group"))
+  origin = NULL, moffitt_catchment = FALSE,
+  default_groups = c("year", "year_mid", "age_group"))
 }
 \arguments{
 \item{data}{A data frame}
@@ -18,6 +19,9 @@ count_fcds(data, ..., sex = NULL, race = NULL, county_name = NULL,
 
 \item{origin}{Character vector of values of \code{origin} to be included in
 count}
+
+\item{moffitt_catchment}{Limit counties to those in the catchment area of
+the \href{https://moffitt.org}{Moffitt Cancer Center}.}
 
 \item{default_groups}{Variables that should be included in the grouping,
 prior to counting cancer cases. Set to \code{NULL} to use only the groups

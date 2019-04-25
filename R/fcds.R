@@ -56,6 +56,8 @@ join_population_by_year <- function(
 #' @param race Character vector of values of `race` to be included in count
 #' @param origin Character vector of values of `origin` to be included in
 #'   count
+#' @param moffitt_catchment Limit counties to those in the catchment area of
+#'   the [Moffitt Cancer Center](https://moffitt.org).
 #' @param default_groups Variables that should be included in the grouping,
 #'   prior to counting cancer cases. Set to `NULL` to use only the groups
 #'   already present in the input data.
@@ -67,6 +69,7 @@ count_fcds <- function(
   race = NULL,
   county_name = NULL,
   origin = NULL,
+  moffitt_catchment = FALSE,
   default_groups = c("year", "year_mid", "age_group")
 ) {
   filters <- list(
@@ -75,6 +78,8 @@ count_fcds <- function(
     county_name = county_name,
     origin = origin
   )
+  if (moffitt_catchment) filters$county_name <- fcds_const("moffitt_catchment")
+
   filters <- purrr::compact(filters)
 
   for (var in names(filters)) {

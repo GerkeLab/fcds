@@ -85,6 +85,10 @@ test_that("count_fcds()", {
   )
   expect_known_hash(r_count_fcds_default, "5fe92053d0")
 
+  r_count_fcds_moffitt <- fcds::fcds_example %>%
+    count_fcds(moffitt_catchment = TRUE)
+  expect_known_hash(r_count_fcds_moffitt, "d146051312")
+
   expect_error(
     fcds::fcds_example %>% count_fcds(race = "Banana")
   )
