@@ -84,6 +84,14 @@ test_that("fcds_const(): full only applies to recoding values", {
   )
 })
 
+test_that("fcds_const(): using path to fcds_recoding.yaml", {
+  expect_equal(
+    fcds_const("moffitt_catchment",
+               fcds_recoding_file = fcds_file("fdcs_recoding.yaml")),
+    fcds_const("moffitt_catchment")
+  )
+})
+
 test_that("fcds_const(): age groups consistent with SEER ages", {
   expect_equal(
     fcds_const("age_group"),
@@ -126,4 +134,19 @@ test_that("valid_fcds_const(): Gives an error when values are invalid", {
   expect_error(valid_fcds_const("age_group", "12"), "age_group")
   expect_error(valid_fcds_const("county_name", "Ohio"))
   expect_error(valid_fcds_const("patient_id", "Ohio"))
+})
+
+test_that("get_fcds_recoding()", {
+  expect_error(get_fcds_recoding("taco"), "[Nn]o recoding found")
+
+  bad_recoding <- list(
+    list(
+      name = list(clean = "taco")
+    ),
+    list(
+      name = list(clean = "taco")
+    )
+  )
+
+  expect_error(get_fcds_recoding("taco", bad_recoding), "[Mm]ore than one")
 })

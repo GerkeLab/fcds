@@ -107,3 +107,44 @@ test_that("count_fcds()", {
     fcds::fcds_example %>% count_fcds() %>% as.data.frame()
   )
 })
+
+test_that("filter_fcds()", {
+  r_filter_fcds <- fcds::fcds_example %>%
+    filter_fcds("county_name", c("Pinellas", "Hillsborough"))
+
+  expect_equal(
+    r_filter_fcds$county_name %>% paste() %>% unique() %>% sort(),
+    c("Hillsborough", "Pinellas")
+  )
+
+  expect_error(
+    fcds::fcds_example %>% filter_fcds("taco", "soft")
+  )
+  expect_error(
+    fcds::fcds_example %>% filter_fcds("county_name", "taco")
+  )
+
+  expect_equal(
+    fcds::fcds_example %>% filter_fcds("county_name", NULL),
+    fcds::fcds_example
+  )
+})
+
+
+test_that("join_population_by_year() handles by_year edge cases", {
+  expect_error(join_population_by_year(fcds::fcds_example, by_year = c("year1", "year2")))
+  expect_error(join_population_by_year(fcds::fcds_example, by_year = 2015))
+
+  sub_fcds_example <- fcds::fcds_example[1:10, ]
+  r_joined_pop <-
+    suppressWarnings(join_population_by_year(
+      sub_fcds_example,
+      fcds::seer_pop_fl %>% dplyr::rename(year_mid = year),
+      by_year = "year_mid"
+    ))
+  expect_known_hash(r_joined_pop, "e75c8af54a")
+  expect_known_hash(
+    suppressWarnings(join_population_by_year(sub_fcds_example)),
+    "e75c8af54a"
+  )
+})

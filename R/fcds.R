@@ -13,7 +13,9 @@ join_population <- function(
   pop_vars <- setdiff(names(population), common_names_)
 
   # Nest population specific variables
-  population <- population %>% tidyr::nest(pop_vars, .key = "population")
+  population <- population %>%
+    dplyr::semi_join(data, by = setdiff(common_names_, pop_vars)) %>%
+    tidyr::nest(pop_vars, .key = "population")
 
   dplyr::left_join(data, population, by = common_names_)
 }

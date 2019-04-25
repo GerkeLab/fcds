@@ -179,4 +179,11 @@ test_that("string helpers", {
 
   expect_equal(single_quote(x), "'a', 'b', 'c'")
   expect_equal(double_quote(x), '"a", "b", "c"')
+  expect_equal(single_quote(x, sep = ""), c("'a'", "'b'", "'c'"))
+  expect_equal(double_quote(x, sep = ""), c('"a"', '"b"', '"c"'))
+})
+
+test_that("to_snake_case()", {
+  expect_equal(to_snake_case("A---Really really Very.;'Bad string"),
+               "a_really_really_very_bad_string")
 })

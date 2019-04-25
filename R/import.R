@@ -506,6 +506,7 @@ validate_fcds_recoding <- function(recoding) {
   invisible(TRUE)
 }
 
+# nocov start
 document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
   document_item <- function(item) {
     glue(
@@ -518,6 +519,7 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
   }
   purrr::map_chr(recoding, document_item)
 }
+# nocov end
 
 # Inspect Recoding Values -------------------------------------------------
 
