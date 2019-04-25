@@ -19,6 +19,7 @@
 #'
 #' @param data A data frame.
 #' @param age_group Unquoted column name containing the age grouping.
+#' @param ... Not used other than to require explicit naming of arguments.
 #' @inheritParams filter_age_groups
 #' @inheritParams tidyr::separate
 #' @family age processors
@@ -118,12 +119,12 @@ filter_age_groups <- function(
 #' ) %>%
 #'   complete_age_groups(10, 35)
 #'
-#' @inheritParams filter_age_groups
-#' @inheritParams tidyr::complete
 #' @param include_unknown Should the "Unknown" age group be included?
 #' @param std_age_groups Character vector containing expected (or standard) age
 #'   groups.
-#' @inheritDotParams separate_age_groups
+#' @param ... Not used other than to require explicit naming of arguments.
+#' @inheritParams separate_age_groups
+#' @inheritParams tidyr::complete
 #' @family age processors
 #' @export
 complete_age_groups <- function(

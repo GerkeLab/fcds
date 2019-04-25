@@ -15,24 +15,7 @@ complete_age_groups(data, age_low = NULL, age_high = NULL, ...,
 
 \item{age_high}{Eldest age (inclusive).}
 
-\item{...}{Specification of columns to expand. Columns can be atomic vectors
-or lists.
-
-To find all unique combinations of x, y and z, including those not
-found in the data, supply each variable as a separate argument.
-To find only the combinations that occur in the data, use nest:
-\code{expand(df, nesting(x, y, z))}.
-
-You can combine the two forms. For example,
-\code{expand(df, nesting(school_id, student_id), date)} would produce
-a row for every student for each date.
-
-For factors, the full set of levels (not just those that appear in the
-data) are used. For continuous variables, you may need to fill in values
-that don't appear in the data: to do so use expressions like
-\code{year = 2010:2020} or \code{year = \link{full_seq}(year,1)}.
-
-Length-zero (empty) elements are automatically dropped.}
+\item{...}{Not used other than to require explicit naming of arguments.}
 
 \item{age_group}{Unquoted column name containing the age grouping.}
 
@@ -43,24 +26,6 @@ use instead of \code{NA} for missing combinations.}
 
 \item{std_age_groups}{Character vector containing expected (or standard) age
 groups.}
-
-\item{...}{Arguments passed on to \code{separate_age_groups}
-\describe{
-  \item{data}{A data frame.}
-  \item{age_group}{Unquoted column name containing the age grouping.}
-  \item{age_low}{Youngest age (inclusive).}
-  \item{age_high}{Eldest age (inclusive).}
-  \item{sep}{Separator between columns.
-
-If character, is interpreted as a regular expression. The default
-value is a regular expression that matches any sequence of
-non-alphanumeric values.
-
-If numeric, interpreted as positions to split at. Positive values start
-at 1 at the far-left of the string; negative value start at -1 at the
-far-right of the string. The length of \code{sep} should be one less than
-\code{into}.}
-}}
 }
 \description{
 Completes age groups by adding missing age groups, either within the age
