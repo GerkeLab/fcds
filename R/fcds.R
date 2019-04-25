@@ -66,7 +66,6 @@ count_fcds <- function(
   ...,
   sex = NULL,
   race = NULL,
-  county_name = NULL,
   origin = NULL,
   moffitt_catchment = FALSE,
   default_groups = c("year", "year_mid", "age_group")
@@ -74,7 +73,6 @@ count_fcds <- function(
   filters <- list(
     sex = sex,
     race = race,
-    county_name = county_name,
     origin = origin
   )
   if (moffitt_catchment) filters$county_name <- fcds_const("moffitt_catchment")

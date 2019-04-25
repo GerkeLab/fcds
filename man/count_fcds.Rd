@@ -4,9 +4,9 @@
 \alias{count_fcds}
 \title{Count FCDS Cases}
 \usage{
-count_fcds(data, ..., sex = NULL, race = NULL, county_name = NULL,
-  origin = NULL, moffitt_catchment = FALSE,
-  default_groups = c("year", "year_mid", "age_group"))
+count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
+  moffitt_catchment = FALSE, default_groups = c("year", "year_mid",
+  "age_group"))
 }
 \arguments{
 \item{data}{A data frame}
