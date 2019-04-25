@@ -167,3 +167,16 @@ test_that("seq2()", {
   expect_equal(z[[4]], 30:39)
   expect_equal(z[[3]], NA_integer_)
 })
+
+test_that("string helpers", {
+  x <- letters[1:3]
+  expect_equal(collapse(x), "a, b, c")
+  expect_equal(collapse(x, last = ", and "), "a, b, and c")
+
+  expect_equal(backtick(x), "`a`, `b`, `c`")
+  expect_equal(backtick(x, sep = ""), c("`a`", "`b`", "`c`"))
+  expect_equal(backtick(x, last = ", and "), "`a`, `b`, and `c`")
+
+  expect_equal(single_quote(x), "'a', 'b', 'c'")
+  expect_equal(double_quote(x), '"a", "b", "c"')
+})

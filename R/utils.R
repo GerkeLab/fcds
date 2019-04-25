@@ -24,7 +24,7 @@ cat_dots   <- function(...) cat_line(..., symbol = "dots")
 check_package <- function(
   pkg,
   needed_by = NULL,
-  how_to_install = paste0("install.packages('", pkg, "')"),
+  how_to_install = glue("install.packages({double_quote(pkg)})"),
   warn = TRUE
 ) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
@@ -111,6 +111,25 @@ to_snake_case <- function(x) {
   x <- gsub("[^[:alnum:]]", " ", x)
   x <- gsub("\\s+", " ", x)
   gsub(" ", "_", x)
+}
+
+collapse <- function(x, sep = ", ", last = "") {
+  glue::glue_collapse(x, sep = sep, last = last)
+}
+
+backtick <- function(x, sep = ", ", last = "") {
+  x <- glue::backtick(x)
+  if (sep != "") collapse(x, sep, last) else x
+}
+
+single_quote <- function(x, sep = ", ", last = "") {
+  x <- glue::single_quote(x)
+  if (sep != "") collapse(x, sep, last) else x
+}
+
+double_quote <- function(x, sep = ", ", last = "") {
+  x <- glue::double_quote(x)
+  if (sep != "") collapse(x, sep, last) else x
 }
 
 # Group Utilities ---------------------------------------------------------

@@ -388,7 +388,7 @@ fcds_recode_values <- function(
   capture_init <- function(column) {
     tibble(
       clean = column$clean,
-      original = paste(column$original, collapse = ", "),
+      original = collapse(column$original),
       n_unique = if (length(column$original) == 1) {
         length(unique(data[[column$original]]))
       } else NA_integer_,
@@ -495,7 +495,7 @@ validate_fcds_recoding <- function(recoding) {
   )
   if (any(has_multiple_exclusive_actions > 1)) {
     first_with_multiple <- which(has_multiple_exclusive_actions > 1)
-    exclusive_actions <- paste(exclusive_actions, collapse = ", ")
+    exclusive_actions <- collapse(exclusive_actions)
     abort(glue(
       "Recoding items actions may contain only one of {exclusive_actions}. ",
       "Action {first_with_multiple} has ",
@@ -512,7 +512,7 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
       "
 - `{item$name$clean}`: {sub('\n', '', item$description)}.
   NAACCR Item #[{item$naaccr}](http://datadictionary.naaccr.org/default.aspx?c=10#{item$naaccr}).
-  Derived from {paste0('`', item$name$original, '`', collapse = ', ')}.
+  Derived from {backtick(item$name$original)}.
 "
     )
   }
@@ -570,7 +570,7 @@ fcds_const <- function(
   if (is.null(var)) {
     message(glue(
       "Valid fcds_const() variables include: ",
-      "{paste0('\"', valid_choices, '\"', collapse = ', ')}"
+      "{double_quote(valid_choices)}"
     ))
     return(invisible(valid_choices))
   }
@@ -581,7 +581,7 @@ fcds_const <- function(
       abort(glue(
         "'{var}' does not uniquely match a valid variable.\n",
         "Valid fcds_const() variables include: ",
-        "{paste0('\"', valid_choices, '\"', collapse = ', ')}"
+        "{double_quote(valid_choices)}"
       ))
     }
   )

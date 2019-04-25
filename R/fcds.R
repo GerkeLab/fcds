@@ -172,7 +172,7 @@ fcds_vars <- function(..., .data = NULL) {
     }, error = function(e) abort(glue(
       "'{.x}' doesn't match any valid variable groups. ",
       "Valid groups include: ",
-      "{paste(choices, collapse = ', ')}"
+      "{double_quote(choices)}"
     )))
   })
 
