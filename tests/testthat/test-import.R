@@ -114,3 +114,16 @@ test_that("fcds_const(): Get an error when duplicate matching", {
 test_that("fcds_const(): Get an error when requesting a non-recoding constant", {
   expect_error(fcds_const("patient_id"), "does not.+match")
 })
+
+test_that("valid_fcds_const(): Returns valid values when valid", {
+  expect_equal(valid_fcds_const("age_group", "10 - 14"), "10 - 14")
+  expect_equal(valid_fcds_const("county_name", fcds_const("moffitt_catchment")),
+               fcds_const("moffitt_catchment"))
+  expect_null(valid_fcds_const("race", NULL))
+})
+
+test_that("valid_fcds_const(): Gives an error when values are invalid", {
+  expect_error(valid_fcds_const("age_group", "12"), "age_group")
+  expect_error(valid_fcds_const("county_name", "Ohio"))
+  expect_error(valid_fcds_const("patient_id", "Ohio"))
+})

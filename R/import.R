@@ -572,7 +572,7 @@ fcds_const <- function(
       "Valid fcds_const() variables include: ",
       "{paste0('\"', valid_choices, '\"', collapse = ', ')}"
     ))
-    return()
+    return(invisible(valid_choices))
   }
 
   var <- tryCatch(
@@ -630,3 +630,14 @@ get_fcds_recoding <- function(name_clean, recoding = load_fcds_recoding(), full 
   ret[, c("name_clean", "name_original", "value", "label")]
 }
 
+valid_fcds_const <- function(var, values, ...) {
+  if (is.null(values)) return(NULL)
+  valid_values <- fcds_const(var)
+  is_valid <- purrr::map_lgl(values, ~ .x %in% valid_values)
+  if (!all(is_valid)) {
+    abort(glue(
+      "Invalid values requested for `{var}`: {and_more(values[!is_valid])}"
+    ))
+  }
+  values
+}

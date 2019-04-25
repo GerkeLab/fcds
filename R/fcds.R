@@ -75,7 +75,8 @@ count_fcds <- function(
     county_name = county_name,
     origin = origin
   )
-  filters <- purrr::imap(filters, valid_fcds_const)
+  filters <- purrr::compact(filters)
+
   for (var in names(filters)) {
     data <- filter_fcds(data, var, filters[[var]])
   }
@@ -93,7 +94,7 @@ count_fcds <- function(
 }
 
 filter_fcds <- function(fcds, var_name, values) {
-  values <- valid_fcds_const(values, var_name)
+  values <- valid_fcds_const(var_name, values)
   if (is.null(values) || !length(values)) return(fcds)
   var <- rlang::sym(var_name)
   fcds %>%
