@@ -18,12 +18,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Garrick Aden-Buie \email{Garrick.Aden-Buie@moffitt.org}
+\strong{Maintainer}: Garrick Aden-Buie \email{Garrick.Aden-Buie@moffitt.org} (0000-0002-7111-0077)
 
 Authors:
 \itemize{
   \item Jordan Creed \email{Jordan.H.Creed@moffitt.org}
-  \item Travis Gerke \email{Travis.Gerke@moffitt.org}
+  \item Travis Gerke \email{Travis.Gerke@moffitt.org} (0000-0002-9500-8907)
 }
 
 }

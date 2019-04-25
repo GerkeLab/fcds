@@ -5,7 +5,8 @@ Authors@R:
     c(person(given = "Garrick",
              family = "Aden-Buie",
              role = c("aut", "cre"),
-             email = "Garrick.Aden-Buie@moffitt.org"),
+             email = "Garrick.Aden-Buie@moffitt.org",
+             comment = c(ORCID = "0000-0002-7111-0077")),
       person(given = "Jordan",
              family = "Creed",
              role = "aut",
@@ -13,7 +14,8 @@ Authors@R:
       person(given = "Travis",
              family = "Gerke",
              role = "aut",
-             email = "Travis.Gerke@moffitt.org"))
+             email = "Travis.Gerke@moffitt.org",
+             comment = c(ORCID = "0000-0002-9500-8907")))
 Description: Helper functions for processing data from the
     Florida Cancer Data System.
 License: MIT + file LICENSE
