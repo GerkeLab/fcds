@@ -57,6 +57,7 @@ reference:
   contents:
   - '`count_fcds`'
   - '`fcds_vars`'
+  - '`fcds_const`'
 - title: Work with Age Groups
   desc: Functions that help process FCDS age groups
   contents:

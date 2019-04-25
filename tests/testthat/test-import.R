@@ -66,3 +66,51 @@ test_that("fcds_cache", {
 teardown({
   unlink(fake_cache, recursive = TRUE)
 })
+
+
+# Constants ---------------------------------------------------------------
+
+test_that("fcds_const(): partial matching", {
+  expect_equal(
+    fcds_const("moffitt"),
+    fcds_const("moffitt_catchment")
+  )
+})
+
+test_that("fcds_const(): full only applies to recoding values", {
+  expect_equal(
+    fcds_const("moffitt_catchment", full = TRUE),
+    fcds_const("moffitt_catchment")
+  )
+})
+
+test_that("fcds_const(): age groups consistent with SEER ages", {
+  expect_equal(
+    fcds_const("age_group"),
+    levels(fcds::seer_std_ages$age_group)
+  )
+})
+
+test_that("fcds_const(): Get a tibble when requesting full = TRUE", {
+  r_const_age_group <- fcds_const("age_group", full = TRUE)
+  expect_known_hash(r_const_age_group, "0df87b19da")
+  expect_true(inherits(r_const_age_group, "data.frame"))
+  expect_equal(
+    names(r_const_age_group),
+    c("name_clean", "name_original", "value", "label")
+  )
+  expect_equal(r_const_age_group$label, fcds_const("age_group"))
+})
+
+test_that("fcds_const(): Get a message when var = NULL", {
+  expect_message(fcds_const(NULL))
+})
+
+test_that("fcds_const(): Get an error when duplicate matching", {
+  expect_error(fcds_const("cancer"), "does not.+match")
+
+})
+
+test_that("fcds_const(): Get an error when requesting a non-recoding constant", {
+  expect_error(fcds_const("patient_id"), "does not.+match")
+})

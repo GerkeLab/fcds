@@ -518,3 +518,115 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
   }
   purrr::map_chr(recoding, document_item)
 }
+
+# Inspect Recoding Values -------------------------------------------------
+
+#' List Expected or Valid FCDS Constants
+#'
+#' Lists the expected values in the processed, cached FCDS data using the
+#' built-in recoding, or alternatively returns a tibble containing information
+#' about the cleaned column and value labels and the original data values.
+#'
+#' @examples
+#'
+#' fcds_const("year")
+#'
+#' fcds_const("year", full = TRUE)
+#'
+#' fcds_const("cancer_site_group", full = TRUE) %>% head()
+#'
+#' fcds_const("moffitt_catchment")
+#'
+#' @return A character vector of valid FCDS values, or a tibble with information
+#'   about the original and recoded FCDS data values.
+#'
+#' @param var An FCDS variable or a package constant. Set to `NULL` for a list
+#'   of valid variables.
+#' @param full If `FALSE`, returns only the values that are expected in the
+#'   cleaned FCDS data. If `TRUE`, returns information regarding the original
+#'   variable name (`name_original`) and value (`value`) and the cleaned
+#'   variable name (`name_clean`) and value label (`label`).
+#' @param fcds_recoding_file The path to the recoding specification yaml file.
+#'   Set to `NULL` to use the default recoding as used in [fcds_import()].
+#' @export
+fcds_const <- function(
+  var = "year",
+  full = FALSE,
+  fcds_recoding_file = NULL
+) {
+
+  fcds_recoding <- if (!is.null(fcds_recoding_file)) {
+    load_fcds_recoding(fcds_recoding_file)
+  } else load_fcds_recoding()
+
+  recoding_clean_names <- fcds_recoding %>%
+    purrr::keep(~ "recode" %in% names(.x)) %>%
+    purrr::map("name") %>% purrr::map_chr("clean")
+
+  additional_args <- c("moffitt_catchment")
+
+  valid_choices <- c(recoding_clean_names, additional_args)
+
+  if (is.null(var)) {
+    message(glue(
+      "Valid fcds_const() variables include: ",
+      "{paste0('\"', valid_choices, '\"', collapse = ', ')}"
+    ))
+    return()
+  }
+
+  var <- tryCatch(
+    match.arg(var, valid_choices),
+    error = function(e) {
+      abort(glue(
+        "'{var}' does not uniquely match a valid variable.\n",
+        "Valid fcds_const() variables include: ",
+        "{paste0('\"', valid_choices, '\"', collapse = ', ')}"
+      ))
+    }
+  )
+
+  switch(
+    var,
+    moffitt_catchment = c(
+      "Hillsborough",
+      "Pasco",
+      "Pinellas",
+      "Polk",
+      "Charlotte",
+      "Citrus",
+      "DeSoto",
+      "Hardee",
+      "Hernando",
+      "Highlands",
+      "Lake",
+      "Lee",
+      "Manatee",
+      "Sarasota",
+      "Sumter"
+    ),
+    get_fcds_recoding(name_clean = var, recoding = fcds_recoding, full = full)
+  )
+}
+
+get_fcds_recoding <- function(name_clean, recoding = load_fcds_recoding(), full = FALSE) {
+  rec_clean <- recoding %>% purrr::keep(~ .$name$clean == name_clean)
+  if (length(rec_clean) < 1) abort(glue(
+    "No recoding found for cleaned column name '{name_clean}'"
+  ))
+  if (length(rec_clean) > 1) abort(glue(
+    "More than one recoding found for cleaned column '{name_clean}', ",
+    "please check validity of the recoding spec."
+  ))
+  ret <-
+    rec_clean[[1]] %>%
+    purrr::pluck("recode") %>%
+    purrr::map_dfr(~ .x)
+
+  if (!full) return(ret$label)
+
+  ret$name_clean <- name_clean
+  ret$name_original <- rec_clean[[1]]$name$original
+  ret[, c("name_clean", "name_original", "value", "label")]
+}
+
