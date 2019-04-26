@@ -34,8 +34,8 @@
   
 <meta property="og:title" content="Filter Data by Age Range — filter_age_groups" />
 
-<meta property="og:description" content="Filters data to include persons with ages in the range between age_low and
-age_high. If age_group has not been expanded into low and high ages of
+<meta property="og:description" content="Filters data to include persons with ages in the range between age_gt and
+age_lt. If age_group has not been expanded into low and high ages of
 the range, the input data is first passed to separate_age_groups(). If the
 boundary age lies within a group, that group is not included in the output." />
 <meta name="twitter:card" content="summary" />
@@ -68,7 +68,7 @@ boundary age lies within a group, that group is not included in the output." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
       </span>
     </div>
 
@@ -121,14 +121,14 @@ boundary age lies within a group, that group is not included in the output." />
 
     <div class="ref-description">
     
-    <p>Filters data to include persons with ages in the range between <code>age_low</code> and
-<code>age_high</code>. If <code>age_group</code> has not been expanded into low and high ages of
+    <p>Filters data to include persons with ages in the range between <code>age_gt</code> and
+<code>age_lt</code>. If <code>age_group</code> has not been expanded into low and high ages of
 the range, the input data is first passed to <code><a href='separate_age_groups.html'>separate_age_groups()</a></code>. If the
 boundary age lies within a group, that group is <em>not included</em> in the output.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>filter_age_groups</span>(<span class='no'>data</span>, <span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+    <pre class="usage"><span class='fu'>filter_age_groups</span>(<span class='no'>data</span>, <span class='kw'>age_gt</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_lt</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
   <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -139,11 +139,11 @@ boundary age lies within a group, that group is <em>not included</em> in the out
       <td><p>A data frame.</p></td>
     </tr>
     <tr>
-      <th>age_low</th>
+      <th>age_gt</th>
       <td><p>Youngest age (inclusive).</p></td>
     </tr>
     <tr>
-      <th>age_high</th>
+      <th>age_lt</th>
       <td><p>Eldest age (inclusive).</p></td>
     </tr>
     <tr>
@@ -166,20 +166,20 @@ boundary age lies within a group, that group is <em>not included</em> in the out
 )
 
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_gt</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>age_lt</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      id age_group
 #&gt;   &lt;int&gt; &lt;chr&gt;    
 #&gt; 1     1 0 - 4    
 #&gt; 2     2 10 - 14  </div><div class='input'>
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_low</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_gt</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      id age_group
 #&gt;   &lt;int&gt; &lt;chr&gt;    
 #&gt; 1     3 65 - 69  
 #&gt; 2     4 85+      </div><div class='input'>
 <span class='co'># Notice that the "65 - 69" group is *not* included</span>
 <span class='no'>d_age_group</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_high</span> <span class='kw'>=</span> <span class='fl'>66</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+  <span class='fu'>filter_age_groups</span>(<span class='kw'>age_lt</span> <span class='kw'>=</span> <span class='fl'>66</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      id age_group
 #&gt;   &lt;int&gt; &lt;chr&gt;    
 #&gt; 1     1 0 - 4    
