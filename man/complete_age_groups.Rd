@@ -4,16 +4,16 @@
 \alias{complete_age_groups}
 \title{Complete Age Groups}
 \usage{
-complete_age_groups(data, age_low = NULL, age_high = NULL, ...,
+complete_age_groups(data, age_gt = NULL, age_lt = NULL, ...,
   age_group = age_group, fill = list(n = 0), include_unknown = FALSE,
   std_age_groups = fcds_const("age_group"))
 }
 \arguments{
 \item{data}{A data frame.}
 
-\item{age_low}{Youngest age (inclusive).}
+\item{age_gt}{Youngest age (inclusive).}
 
-\item{age_high}{Eldest age (inclusive).}
+\item{age_lt}{Eldest age (inclusive).}
 
 \item{...}{Not used other than to require explicit naming of arguments.}
 
@@ -29,7 +29,7 @@ groups.}
 }
 \description{
 Completes age groups by adding missing age groups, either within the age
-range from \code{age_low} to \code{age_high} or using the full age list from
+range from \code{age_gt} to \code{age_lt} or using the full age list from
 \link{seer_std_ages}. If the columns \code{age_low} or \code{age_high} are missing from the
 input data, \code{\link[=separate_age_groups]{separate_age_groups()}} is first called to expand the age group
 variable.

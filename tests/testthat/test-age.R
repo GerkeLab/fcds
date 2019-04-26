@@ -44,13 +44,13 @@ test_that("separate_age_groups() allows renaming age_low and age_high", {
 
 test_that("filter_age_groups()", {
   expect_equal(
-    d_age_group %>% filter_age_groups(age_low = 5) %>% .$id,
+    d_age_group %>% filter_age_groups(age_gt = 5) %>% .$id,
     2:4
   )
 
   expect_equal(
     # 65 - 69 not included if age_high = 66
-    d_age_group %>% filter_age_groups(age_high = 66) %>% .$id,
+    d_age_group %>% filter_age_groups(age_lt = 66) %>% .$id,
     1:2
   )
 

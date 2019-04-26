@@ -4,21 +4,21 @@
 \alias{filter_age_groups}
 \title{Filter Data by Age Range}
 \usage{
-filter_age_groups(data, age_low = 0, age_high = Inf,
+filter_age_groups(data, age_gt = 0, age_lt = Inf,
   age_group = age_group)
 }
 \arguments{
 \item{data}{A data frame.}
 
-\item{age_low}{Youngest age (inclusive).}
+\item{age_gt}{Youngest age (inclusive).}
 
-\item{age_high}{Eldest age (inclusive).}
+\item{age_lt}{Eldest age (inclusive).}
 
 \item{age_group}{Unquoted column name containing the age grouping.}
 }
 \description{
-Filters data to include persons with ages in the range between \code{age_low} and
-\code{age_high}. If \code{age_group} has not been expanded into low and high ages of
+Filters data to include persons with ages in the range between \code{age_gt} and
+\code{age_lt}. If \code{age_group} has not been expanded into low and high ages of
 the range, the input data is first passed to \code{\link[=separate_age_groups]{separate_age_groups()}}. If the
 boundary age lies within a group, that group is \emph{not included} in the output.
 }
@@ -29,14 +29,14 @@ d_age_group <- dplyr::tibble(
 )
 
 d_age_group \%>\%
-  filter_age_groups(age_low = 0, age_high = 15)
+  filter_age_groups(age_gt = 0, age_lt = 15)
 
 d_age_group \%>\%
-  filter_age_groups(age_low = 65)
+  filter_age_groups(age_gt = 65)
 
 # Notice that the "65 - 69" group is *not* included
 d_age_group \%>\%
-  filter_age_groups(age_high = 66)
+  filter_age_groups(age_lt = 66)
 
 }
 \seealso{

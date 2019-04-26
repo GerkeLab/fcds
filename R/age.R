@@ -58,8 +58,8 @@ separate_age_groups <- function(
 
 #' Filter Data by Age Range
 #'
-#' Filters data to include persons with ages in the range between `age_low` and
-#' `age_high`. If `age_group` has not been expanded into low and high ages of
+#' Filters data to include persons with ages in the range between `age_gt` and
+#' `age_lt`. If `age_group` has not been expanded into low and high ages of
 #' the range, the input data is first passed to [separate_age_groups()]. If the
 #' boundary age lies within a group, that group is _not included_ in the output.
 #'
@@ -70,24 +70,24 @@ separate_age_groups <- function(
 #' )
 #'
 #' d_age_group %>%
-#'   filter_age_groups(age_low = 0, age_high = 15)
+#'   filter_age_groups(age_gt = 0, age_lt = 15)
 #'
 #' d_age_group %>%
-#'   filter_age_groups(age_low = 65)
+#'   filter_age_groups(age_gt = 65)
 #'
 #' # Notice that the "65 - 69" group is *not* included
 #' d_age_group %>%
-#'   filter_age_groups(age_high = 66)
+#'   filter_age_groups(age_lt = 66)
 #'
 #' @inheritParams separate_age_groups
-#' @param age_low Youngest age (inclusive).
-#' @param age_high Eldest age (inclusive).
+#' @param age_gt Youngest age (inclusive).
+#' @param age_lt Eldest age (inclusive).
 #' @family age processors
 #' @export
 filter_age_groups <- function(
   data,
-  age_low = 0,
-  age_high = Inf,
+  age_gt = 0,
+  age_lt = Inf,
   age_group = age_group
 ) {
   age_group <- enquo(age_group)
@@ -104,14 +104,14 @@ filter_age_groups <- function(
   stopifnot("age_high" %in% names(data))
 
   data %>%
-    filter(age_low >= !!age_low, age_high <= !!age_high) %>%
+    filter(age_low >= age_gt, age_high <= age_lt) %>%
     select(data_original_cols)
 }
 
 #' Complete Age Groups
 #'
 #' Completes age groups by adding missing age groups, either within the age
-#' range from `age_low` to `age_high` or using the full age list from
+#' range from `age_gt` to `age_lt` or using the full age list from
 #' [seer_std_ages]. If the columns `age_low` or `age_high` are missing from the
 #' input data, [separate_age_groups()] is first called to expand the age group
 #' variable.
@@ -128,13 +128,14 @@ filter_age_groups <- function(
 #'   groups.
 #' @param ... Not used other than to require explicit naming of arguments.
 #' @inheritParams separate_age_groups
+#' @inheritParams filter_age_groups
 #' @inheritParams tidyr::complete
 #' @family age processors
 #' @export
 complete_age_groups <- function(
   data,
-  age_low = NULL,
-  age_high = NULL,
+  age_gt = NULL,
+  age_lt = NULL,
   ...,
   age_group = age_group,
   fill = list(n = 0),
@@ -149,8 +150,8 @@ complete_age_groups <- function(
   if (!include_unknown) ages <- filter(ages, age_group != "Unknown")
   ages <- suppressWarnings(separate_age_groups(ages))
 
-  if (!is.null(age_low)) ages <- filter(ages, age_low >= !!age_low)
-  if (!is.null(age_high)) ages <- filter(ages, age_high <= !!age_high)
+  if (!is.null(age_gt)) ages <- filter(ages, age_low >= !!age_gt)
+  if (!is.null(age_lt)) ages <- filter(ages, age_high <= !!age_lt)
 
   common_age_groups <- union(ages$age_group, paste(data[[age_group_name]]))
 
