@@ -19,8 +19,6 @@ contain age groups.}
 
 \item{...}{Arguments passed on to \code{separate_age_groups}
 \describe{
-  \item{data}{A data frame.}
-  \item{age_group}{Unquoted column name containing the age grouping.}
   \item{sep}{Separator between columns.
 
 If character, is interpreted as a regular expression. The default

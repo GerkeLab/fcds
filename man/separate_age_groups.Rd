@@ -24,6 +24,10 @@ far-right of the string. The length of \code{sep} should be one less than
 \code{into}.}
 
 \item{...}{Not used other than to require explicit naming of arguments.}
+
+\item{age_low}{Unquoted column name for lower bondary of age group}
+
+\item{age_high}{Unquoted column name for upper boundary of age group}
 }
 \description{
 Takes the age group stored in \code{age_group} and creates two variables,

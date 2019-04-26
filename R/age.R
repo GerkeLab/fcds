@@ -24,7 +24,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c(
 #' @param data A data frame.
 #' @param age_group Unquoted column name containing the age grouping.
 #' @param ... Not used other than to require explicit naming of arguments.
-#' @inheritParams filter_age_groups
+#' @param age_low Unquoted column name for lower bondary of age group
+#' @param age_high Unquoted column name for upper boundary of age group
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
@@ -195,7 +196,7 @@ complete_age_groups <- function(
 #'   coerced to numeric, it is treated as actual age. Otherwise it is assumed to
 #'   contain age groups.
 #' @param std_age_groups Standard age groups, in the desired order.
-#' @inheritDotParams separate_age_groups
+#' @inheritDotParams separate_age_groups sep
 #' @inheritParams filter_age_groups
 #' @family age processors
 #' @export
