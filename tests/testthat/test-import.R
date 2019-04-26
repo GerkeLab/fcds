@@ -87,7 +87,7 @@ test_that("fcds_const(): full only applies to recoding values", {
 test_that("fcds_const(): using path to fcds_recoding.yaml", {
   expect_equal(
     fcds_const("moffitt_catchment",
-               fcds_recoding_file = fcds_file("fdcs_recoding.yaml")),
+               fcds_recoding_file = fcds_file("fcds_recoding.yaml")),
     fcds_const("moffitt_catchment")
   )
 })
