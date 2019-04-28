@@ -74,7 +74,7 @@ test_that("count_fcds()", {
     c("county_name", "sex", "race", "origin", "year_group", "year", "age_group")
   )
 
-  expect_known_hash(r_count_fcds, "30fc9b78e1")
+  expect_known_hash(r_count_fcds, "5432290af8")
 
   r_count_fcds_default <- fcds::fcds_example %>%
     count_fcds()
@@ -83,11 +83,11 @@ test_that("count_fcds()", {
     dplyr::group_vars(r_count_fcds_default),
     c("year_group", "year", "age_group")
   )
-  expect_known_hash(r_count_fcds_default, "5fe92053d0")
+  expect_known_hash(r_count_fcds_default, "702cf9ee8a")
 
   r_count_fcds_moffitt <- fcds::fcds_example %>%
     count_fcds(moffitt_catchment = TRUE)
-  expect_known_hash(r_count_fcds_moffitt, "d146051312")
+  expect_known_hash(r_count_fcds_moffitt, "ff07191452")
 
   expect_error(
     fcds::fcds_example %>% count_fcds(race = "Banana")
@@ -141,10 +141,11 @@ test_that("join_population_by_year() handles by_year edge cases", {
       sub_fcds_example %>% dplyr::rename(year_mid = year),
       fcds::seer_pop_fl %>% dplyr::rename(year_mid = year),
       by_year = "year_mid"
-    ))
-  expect_known_hash(r_joined_pop, "e75c8af54a")
+    )) %>%
+    dplyr::rename(year = year_mid)
+  expect_known_hash(r_joined_pop, "377a018e64")
   expect_known_hash(
     suppressWarnings(join_population_by_year(sub_fcds_example)),
-    "e75c8af54a"
+    "377a018e64"
   )
 })
