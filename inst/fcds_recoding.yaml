@@ -498,6 +498,7 @@
     County FIPS Code of patient's primary residence at the time
     tumor was diagnosed
   naaccr: 90
+  mutate: sprintf("%03d", as.integer(County_at_DX_N90))
 - name:
     original: Addr_at_DX_State_Recoded
     clean: state

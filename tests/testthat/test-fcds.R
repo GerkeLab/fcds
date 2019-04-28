@@ -135,7 +135,10 @@ test_that("join_population_by_year() handles by_year edge cases", {
   expect_error(join_population_by_year(fcds::fcds_example, by_year = c("year1", "year2")))
   expect_error(join_population_by_year(fcds::fcds_example, by_year = 2015))
 
-  sub_fcds_example <- fcds::fcds_example[1:10, ]
+  overlapping_columns <- common_names(fcds::fcds_example, fcds::seer_pop_fl)
+
+  sub_fcds_example <- fcds::fcds_example[1:10, overlapping_columns]
+
   r_joined_pop <-
     suppressWarnings(join_population_by_year(
       sub_fcds_example %>% dplyr::rename(year_mid = year),
@@ -143,9 +146,10 @@ test_that("join_population_by_year() handles by_year edge cases", {
       by_year = "year_mid"
     )) %>%
     dplyr::rename(year = year_mid)
-  expect_known_hash(r_joined_pop, "377a018e64")
+
+  expect_known_hash(r_joined_pop, "fe898dfd4c")
   expect_known_hash(
     suppressWarnings(join_population_by_year(sub_fcds_example)),
-    "377a018e64"
+    "fe898dfd4c"
   )
 })

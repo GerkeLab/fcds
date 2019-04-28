@@ -289,7 +289,7 @@ split_and_clean <- function(x, by = "\n") {
 
 county_fips_fl <- tibble(
   county_name = tools::toTitleCase(tolower(split_and_clean(county_name))),
-  fips_code = str_remove(split_and_clean(fips_code), "^0+")
+  fips_code = split_and_clean(fips_code)
 ) %>%
   mutate(county_name = recode(county_name, "Desoto" = "DeSoto"))
 
