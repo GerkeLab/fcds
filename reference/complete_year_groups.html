@@ -66,7 +66,7 @@ see fcds_const()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4.9000</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ see <code><a href='fcds_const.html'>fcds_const()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>complete_year_groups</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>year_min</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>year_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>complete_year_groups</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>year_gt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>year_lt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_group</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -142,11 +142,11 @@ specify which columns are included in the expansion and how. See
 <code><a href='https://tidyr.tidyverse.org/reference/complete.html'>tidyr::complete()</a></code> for more information.</p></td>
     </tr>
     <tr>
-      <th>year_min</th>
+      <th>year_gt</th>
       <td><p>Optional earliest year to include (inclusive)</p></td>
     </tr>
     <tr>
-      <th>year_max</th>
+      <th>year_lt</th>
       <td><p>Optional latest year to include (inclusive)</p></td>
     </tr>
     <tr>
@@ -209,6 +209,36 @@ specify which columns are included in the expansion and how. See
 #&gt;  9 Female Other 1986-1990 
 #&gt; 10 Female Other 1991-1995 
 #&gt; # … with 18 more rows</div><div class='input'>
+<span class='co'># If you have previously filtered the data to include a subset of years, you</span>
+<span class='co'># will likely want to exclude those years from the group completion.</span>
+<span class='co'># You can use `year_gt` and `year_lt` to exclude years beyond the boundaries.</span>
+
+<span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='no'>year_group</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1981-1985"</span>, <span class='st'>"1986-1990"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>complete_year_groups</span>(<span class='kw'>year_gt</span> <span class='kw'>=</span> <span class='fl'>1990</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; # A tibble: 20 x 3
+#&gt;    sex    race    year_group
+#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;     
+#&gt;  1 Female Black   1991-1995 
+#&gt;  2 Female Black   1996-2000 
+#&gt;  3 Female Black   2001-2005 
+#&gt;  4 Female Black   2006-2010 
+#&gt;  5 Female Black   2011-2015 
+#&gt;  6 Female Other   1991-1995 
+#&gt;  7 Female Other   1996-2000 
+#&gt;  8 Female Other   2001-2005 
+#&gt;  9 Female Other   2006-2010 
+#&gt; 10 Female Other   2011-2015 
+#&gt; 11 Female Unknown 1991-1995 
+#&gt; 12 Female Unknown 1996-2000 
+#&gt; 13 Female Unknown 2001-2005 
+#&gt; 14 Female Unknown 2006-2010 
+#&gt; 15 Female Unknown 2011-2015 
+#&gt; 16 Female White   1991-1995 
+#&gt; 17 Female White   1996-2000 
+#&gt; 18 Female White   2001-2005 
+#&gt; 19 Female White   2006-2010 
+#&gt; 20 Female White   2011-2015 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
