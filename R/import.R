@@ -180,6 +180,8 @@ fcds_import <- function(
     verbose = verbose
   )
 
+  attributes(data)$fcds_version <- packageVersion("fcds")
+
   if (!is.null(output_file)) {
     output_file <- strftime(Sys.time(), output_file)
     if (!dir.exists(output_dir)) dir.create(output_dir)
@@ -221,6 +223,14 @@ fcds_load <- function(file = fcds_default_data_path(), check_data = TRUE) {
   data <- readRDS(file)
 
   if (check_data) {
+    data_fcds_version <- attr(data, "fcds_version")
+    fcds_version <- packageVersion("fcds")
+    if (!is.null(data_fcds_version) && data_fcds_version != fcds_version) {
+      warn(glue(
+        "Cached data was imported with {{fcds}} version {data_fcds_version}, ",
+        "but the current version of {{fcds}} package is {fcds_version}."
+      ))
+    }
     message("FCDS data checks are not yet implemented.")
   }
 
