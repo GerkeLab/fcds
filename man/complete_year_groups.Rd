@@ -5,7 +5,7 @@
 \title{Complete Year Groups}
 \usage{
 complete_year_groups(data, ..., year_min = NULL, year_max = NULL,
-  year = year, fill = list(n = 0))
+  year_group = year_group, fill = list(n = 0))
 }
 \arguments{
 \item{data}{A data frame}
@@ -19,7 +19,7 @@ specify which columns are included in the expansion and how. See
 
 \item{year_max}{Optional latest year to include (inclusive)}
 
-\item{year}{The column containing the \code{year_group}.}
+\item{year_group}{The unquoted column containing the \code{year_group}.}
 
 \item{fill}{Default values for rows in columns added to the data}
 }
@@ -31,7 +31,7 @@ see \code{\link[=fcds_const]{fcds_const()}}.
 d_year <- tidyr::crossing(
   sex = "Female",
   race = fcds_const("race"),
-  year = fcds_const("year")
+  year_group = fcds_const("year_group")
 )
 
 # These two versions are equivalent. The first version completes all variables

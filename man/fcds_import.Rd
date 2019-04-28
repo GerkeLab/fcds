@@ -116,10 +116,10 @@ The pre-processing step provides the following columns.
 \item \code{patient_id}: Patient ID Number.
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#20}{20}.
 Derived from \code{Patient_ID_N20}.
-\item \code{year}: Year of Diagnosis (5 year group).
+\item \code{year_group}: Year of Diagnosis (5 year group).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#390}{390}.
 Derived from \code{Date_of_Dx_Year_Recoded}.
-\item \code{year_mid}: Year of Diagnosis (midpoint of 5 year group).
+\item \code{year}: Year of Diagnosis (midpoint of 5 year group).
 NAACCR Item #\href{http://datadictionary.naaccr.org/default.aspx?c=10#390}{390}.
 Derived from \code{Date_of_Dx_Year_Recoded}.
 \item \code{cancer_status}: Cancer Status at time abstract was completed.

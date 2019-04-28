@@ -5,7 +5,7 @@
 \title{Count FCDS Cases}
 \usage{
 count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
-  moffitt_catchment = FALSE, default_groups = c("year", "year_mid",
+  moffitt_catchment = FALSE, default_groups = c("year_group", "year",
   "age_group"))
 }
 \arguments{
@@ -17,11 +17,10 @@ count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
 
 \item{race}{Character vector of values of \code{race} to be included in count}
 
-\item{origin}{Character vector of values of \code{origin} to be included in
-count}
+\item{origin}{Character vector of values of \code{origin} to be included in count}
 
-\item{moffitt_catchment}{Limit counties to those in the catchment area of
-the \href{https://moffitt.org}{Moffitt Cancer Center}.}
+\item{moffitt_catchment}{Limit counties to those in the catchment area of the
+\href{https://moffitt.org}{Moffitt Cancer Center}.}
 
 \item{default_groups}{Variables that should be included in the grouping,
 prior to counting cancer cases. Set to \code{NULL} to use only the groups
@@ -33,7 +32,8 @@ in addition to any groups already present in the data. For convenience, you
 may additionally filter to include particular values of sex, race, year,
 county name and hispanic ethnicity. See \code{\link[=fcds_const]{fcds_const()}} for more information
 about possible values for these variables. By default, \code{count_fcds()} ensures
-that \code{year}, \code{year_mid}, and \code{age_group} are included in the grouping
-variables. If they are not, or if they are not present in the FCDS data, then
-it would be better to use \code{\link[dplyr:count]{dplyr::count()}} directly.
+that \code{age_group}, \code{year_group}, and \code{year} are included in the grouping
+variables if they are present in the data. If they are not, or if they are
+not present in the FCDS data, then it would be better to use \code{\link[dplyr:count]{dplyr::count()}}
+directly.
 }

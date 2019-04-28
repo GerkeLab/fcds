@@ -4,7 +4,7 @@
 test_that("fcds_vars()", {
   expect_equal(
     fcds_vars("id"),
-    c("patient_id", "year", "year_mid")
+    c("patient_id", "year_group", "year")
   )
   expect_equal(
     fcds_vars("pop"),
@@ -71,7 +71,7 @@ test_that("count_fcds()", {
   )
   expect_equal(
     dplyr::group_vars(r_count_fcds),
-    c("county_name", "sex", "race", "origin", "year", "year_mid", "age_group")
+    c("county_name", "sex", "race", "origin", "year_group", "year", "age_group")
   )
 
   expect_known_hash(r_count_fcds, "30fc9b78e1")
@@ -81,7 +81,7 @@ test_that("count_fcds()", {
 
   expect_equal(
     dplyr::group_vars(r_count_fcds_default),
-    c("year", "year_mid", "age_group")
+    c("year_group", "year", "age_group")
   )
   expect_known_hash(r_count_fcds_default, "5fe92053d0")
 
@@ -96,12 +96,12 @@ test_that("count_fcds()", {
     fcds::fcds_example %>% count_fcds(origin = "Not Hispanic")
   )
 
-  # Check that `year_mid` is calculated if needed.
+  # Check that `year` (year midpoint) is calculated if needed.
   # Coercion to data.frame is used to drop var_labels that are present in
   # the example processed FCDS data.
   expect_equivalent(
     fcds::fcds_example %>%
-      select(-year_mid) %>%
+      select(-year) %>%
       count_fcds() %>%
       as.data.frame(),
     fcds::fcds_example %>% count_fcds() %>% as.data.frame()
@@ -138,7 +138,7 @@ test_that("join_population_by_year() handles by_year edge cases", {
   sub_fcds_example <- fcds::fcds_example[1:10, ]
   r_joined_pop <-
     suppressWarnings(join_population_by_year(
-      sub_fcds_example,
+      sub_fcds_example %>% dplyr::rename(year_mid = year),
       fcds::seer_pop_fl %>% dplyr::rename(year_mid = year),
       by_year = "year_mid"
     ))

@@ -8,7 +8,7 @@ fcds <- fcds::fcds_load()
 fcds_example <-
   fcds %>%
   filter(county_name %in% fcds::fcds_const("moffitt_catchment")) %>%
-  group_by(year, year_mid, sex, race, origin, county_name) %>%
+  group_by(year_group, year, sex, race, origin, county_name) %>%
   mutate(i = sample(row_number())) %>%
   filter(i <= 5) %>%
   ungroup() %>%
@@ -37,7 +37,7 @@ if (n_diff) {
 
 fcds_example <-
   fcds_example %>%
-  arrange(year_mid, age_group, county_name, cancer_ICDO3_morphology) %>%
+  arrange(year, age_group, county_name, cancer_ICDO3_morphology) %>%
   mutate(patient_id = row_number() + 10000) %>%
   select(patient_id, everything())
 

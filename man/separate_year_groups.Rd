@@ -4,22 +4,28 @@
 \alias{separate_year_groups}
 \title{Separate Year Groups}
 \usage{
-separate_year_groups(data, year = year, sep = "-")
+separate_year_groups(data, year_group = year_group,
+  into = c("year_min", "year_max"), sep = "-")
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{year}{The column containing the \code{year_group}.}
+\item{year_group}{The unquoted column containing the \code{year_group}.}
+
+\item{into}{The names of the min year and max year columns (respectively)
+into which the minimum and maximum year from \code{year_group} are added. Set
+to \code{NULL} to use the \code{year_group} column name as a prefix with \code{_min} and
+\code{_max} appended.}
 
 \item{sep}{Characters separating years in \code{year}. Whitespace on either side
 of \code{sep} will be automatically removed. Passed to \code{\link[tidyr:separate]{tidyr::separate()}}.}
 }
 \description{
 Separates a column containing year groups, such as "\code{1983-1985}", into
-two separate columns with "\code{_min}" and "\code{_max}" appended to the column names.
+two separate columns named \code{year_min} and \code{year_max} by default.
 }
 \examples{
-dplyr::tibble(year = fcds_const("year")) \%>\%
+dplyr::tibble(year_group = fcds_const("year_group")) \%>\%
   separate_year_groups()
 
 }

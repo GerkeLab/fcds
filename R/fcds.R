@@ -23,7 +23,7 @@ join_population <- function(
 join_population_by_year <- function(
   data,
   population = fcds::seer_pop_fl,
-  by_year = c("year_mid" = "year")
+  by_year = "year"
 ) {
   if (!is.character(by_year) || length(by_year) != 1) {
     abort(glue(
@@ -47,18 +47,18 @@ join_population_by_year <- function(
 #' may additionally filter to include particular values of sex, race, year,
 #' county name and hispanic ethnicity. See [fcds_const()] for more information
 #' about possible values for these variables. By default, `count_fcds()` ensures
-#' that `year`, `year_mid`, and `age_group` are included in the grouping
-#' variables. If they are not, or if they are not present in the FCDS data, then
-#' it would be better to use [dplyr::count()] directly.
+#' that `age_group`, `year_group`, and `year` are included in the grouping
+#' variables if they are present in the data. If they are not, or if they are
+#' not present in the FCDS data, then it would be better to use [dplyr::count()]
+#' directly.
 #'
 #' @param data A data frame
 #' @param ... Used only to require users to provide named arguments
 #' @param sex Character vector of values of `sex` to be included in count
 #' @param race Character vector of values of `race` to be included in count
-#' @param origin Character vector of values of `origin` to be included in
-#'   count
-#' @param moffitt_catchment Limit counties to those in the catchment area of
-#'   the [Moffitt Cancer Center](https://moffitt.org).
+#' @param origin Character vector of values of `origin` to be included in count
+#' @param moffitt_catchment Limit counties to those in the catchment area of the
+#'   [Moffitt Cancer Center](https://moffitt.org).
 #' @param default_groups Variables that should be included in the grouping,
 #'   prior to counting cancer cases. Set to `NULL` to use only the groups
 #'   already present in the input data.
@@ -70,7 +70,7 @@ count_fcds <- function(
   race = NULL,
   origin = NULL,
   moffitt_catchment = FALSE,
-  default_groups = c("year", "year_mid", "age_group")
+  default_groups = c("year_group", "year", "age_group")
 ) {
   filters <- list(
     sex = sex,
@@ -85,12 +85,12 @@ count_fcds <- function(
     data <- filter_fcds(data, var, filters[[var]])
   }
 
-  if (!"year_mid" %in% names(data)) {
+  if (!"year" %in% names(data)) {
     data <- add_mid_year_groups(data)
   }
 
   # Initial counting has to be by year and age_group
-  groups <- union(group_vars(data), default_groups)
+  groups <- union(group_vars(data), intersect(default_groups, names(data)))
 
   data %>%
     group_by(!!!rlang::syms(groups)) %>%
@@ -197,8 +197,8 @@ fcds_var_group <- function(
     match.arg(group),
     id = c(
       "patient_id",
-      "year",
-      "year_mid"
+      "year_group",
+      "year"
     ),
     demographics = c(
       "age_group",
@@ -230,8 +230,8 @@ fcds_var_group <- function(
       "cancer_ICDO3_conversion"
     ),
     population = c(
+      "year_group",
       "year",
-      "year_mid",
       "county_name",
       "county_fips",
       "state",

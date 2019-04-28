@@ -4,7 +4,8 @@
 \alias{fcds_const}
 \title{List Expected or Valid FCDS Constants}
 \usage{
-fcds_const(var = "year", full = FALSE, fcds_recoding_file = NULL)
+fcds_const(var = "year_group", full = FALSE,
+  fcds_recoding_file = NULL)
 }
 \arguments{
 \item{var}{An FCDS variable or a package constant. Set to \code{NULL} for a list
@@ -29,9 +30,9 @@ about the cleaned column and value labels and the original data values.
 }
 \examples{
 
-fcds_const("year")
+fcds_const("year_group")
 
-fcds_const("year", full = TRUE)
+fcds_const("year_group", full = TRUE)
 
 fcds_const("cancer_site_group", full = TRUE) \%>\% head()
 

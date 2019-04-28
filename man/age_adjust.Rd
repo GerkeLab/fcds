@@ -5,8 +5,8 @@
 \title{Age-Adjust Rates}
 \usage{
 age_adjust(data, count = n, population = fcds::seer_pop_fl,
-  population_standard = fcds::seer_std_ages, by_year = c(year_mid =
-  "year"), age = age_group, keep_age = FALSE)
+  population_standard = fcds::seer_std_ages, by_year = "year",
+  age = age_group, keep_age = FALSE)
 }
 \arguments{
 \item{data}{A data frame, containing counts}
@@ -22,10 +22,10 @@ calculate the age-adjusted rates. By default, uses the 2000 U.S. standard
 population provided by SEER (see \link{seer_std_ages}).}
 
 \item{by_year}{The column or columns by which \code{data} and \code{population} should
-be joined, by default \code{c("year_mid" = "year")}. The syntax follows from
-the \code{by} argument of \code{\link[dplyr:left_join]{dplyr::left_join()}}, where the name of each entry is
-the column name in \code{data} and the value is the column name in \code{population}.
-If both are the same, a single value is sufficient.}
+be joined, by default \code{"year"}. The syntax follows from the \code{by} argument
+of \code{\link[dplyr:left_join]{dplyr::left_join()}}, where the name of each entry is the column name in
+\code{data} and the value is the column name in \code{population}. If both are the
+same, a single value is sufficient.}
 
 \item{age}{The unquoted column name containing the age or age group. The
 default expects that the column \code{age_group} exists in \code{data}, \code{population},
@@ -65,25 +65,26 @@ Calculating age-adjusted rates requires three primary inputs:
 \item Raw age-specific count of event or outcome, possibly observed or
 summarized at repeated, consistent time intervals.
 \item Population data with the same demographic resolution as the age-specific
-counts, as in, for example, the population for the same geographic region,
-sex, race, year, and age.
+counts, as in, for example, the population for the same geographic
+region, sex, race, year, and age.
 \item The standard reference population that is used to weight incidence among
 the observed age-specific count.
 }
 
-Each input is required to contain matching age information. The default data
-supplied with the package for \code{population} (\link{seer_pop_fl}) and
-\code{population_standard} (\link{seer_std_ages}) use the column name \code{age_group}. You
-can specify the name of the column containing age information with the \code{age}
-argument. If the column name in \code{data} is not present in the population data,
-\code{age_adjust()} will fall back to \code{age_group} for those data sets.
+Each input is required to contain matching age information. The default
+data supplied with the package for \code{population} (\link{seer_pop_fl}) and
+\code{population_standard} (\link{seer_std_ages}) use the column name \code{age_group}.
+You can specify the name of the column containing age information with the
+\code{age} argument. If the column name in \code{data} is not present in the
+population data, \code{age_adjust()} will fall back to \code{age_group} for those
+data sets.
 
 As described in the
 \href{https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html}{SEER*Stat Tutorial: Calculating Age-adjusted Rates}:
-\emph{The age-adjusted rate for an age group comprised of the ages x through y is
-calculated using the following formula}:
+\emph{The age-adjusted rate for an age group comprised of the ages x through y
+is calculated using the following formula}:
 
-\if{html}{\figure{seer_ar-aarate.png}}
+\if{html}{\figure{seer_ar-aarate.png}{}}
 \if{latex}{\figure{seer_ar-aarate.png}{options: width=0.5in}}
 }
 
@@ -112,7 +113,7 @@ d_incidence <- dplyr::tribble(
    "80 - 84", 1884,
        "85+", 1705
 ) \%>\%
-  dplyr::mutate(year_mid = 2013) \%>\%
+  dplyr::mutate(year = 2013) \%>\%
   standardize_age_groups()
 
 d_population <- dplyr::tribble(

@@ -6,7 +6,7 @@
   mutate: 'as.integer(Patient_ID_N20)'
 - name:
     original: Date_of_Dx_Year_Recoded
-    clean: year
+    clean: year_group
   description: Year of Diagnosis (5 year group)
   naaccr: 390
   recode:
@@ -26,10 +26,10 @@
       label: '2011-2015'
 - name:
     original: Date_of_Dx_Year_Recoded
-    clean: year_mid
+    clean: year
   description: Year of Diagnosis (midpoint of 5 year group)
   naaccr: 390
-  mutate: mid_year(paste(year))
+  mutate: mid_year(paste(year_group))
 - name:
     original: Cancer_Status_N1770
     clean: cancer_status

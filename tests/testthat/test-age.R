@@ -300,10 +300,10 @@ test_that("age_adjust() with additional grouping", {
 
 test_that("age_adjust() with year", {
   d_incidence_y <- tidyr::crossing(
-    year_mid = c("1990", "2000"),
+    year = c("1990", "2000"),
     d_incidence
   ) %>%
-    group_by(year_mid)
+    group_by(year)
 
   d_population_y <- tidyr::crossing(
     year = c("1990", "2000"),
@@ -311,10 +311,10 @@ test_that("age_adjust() with year", {
   )
 
   e_age_adjusted <- tidyr::crossing(
-    year_mid = c("1990", "2000"),
+    year = c("1990", "2000"),
     age_adjust(d_incidence, population = d_population, by_year = NULL)
   ) %>%
-    group_by(year_mid)
+    group_by(year)
 
   r_age_adjusted <- age_adjust(d_incidence_y, population = d_population_y)
 

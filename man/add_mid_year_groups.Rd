@@ -4,12 +4,16 @@
 \alias{add_mid_year_groups}
 \title{Add Mid-Year of Year Group}
 \usage{
-add_mid_year_groups(data, year = year, sep = "-", offset = NULL)
+add_mid_year_groups(data, year_group = year_group, into = "year",
+  sep = "-", offset = NULL)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{year}{The column containing the \code{year_group}.}
+\item{year_group}{The unquoted column containing the \code{year_group}.}
+
+\item{into}{Character name of the column that will contain the mid year
+exctracted from \code{year_group}.}
 
 \item{sep}{Characters separating years in \code{year}. Whitespace on either side
 of \code{sep} will be automatically removed. Passed to \code{\link[tidyr:separate]{tidyr::separate()}}.}
@@ -20,13 +24,13 @@ of the year group to calculate the mid-year value. By default uses
 }
 \description{
 Adds a new column containing the midpoint year of the range given in the
-column indicated by the \code{year} argument, in a new column with "\code{_mid}"
-appended to the \code{year} column name. The \code{year} column is assumed to contain
+column indicated by the \code{year_group} argument, in a new column named
+according to the \code{into} argument. The \code{year} column is assumed to contain
 a \emph{min} year and a \emph{max} year, separated by \code{sep}. The midpoint is calculated
 as \code{floor((year_max - year_min) / 2)} unless \code{offset} is explicitly provided.
 }
 \examples{
-dplyr::tibble(year = fcds_const("year")) \%>\%
+dplyr::tibble(year = fcds_const("year_group")) \%>\%
   add_mid_year_groups()
 
 }

@@ -31,10 +31,10 @@
 #' - `patient_id`: Patient ID Number.
 #'   NAACCR Item #[20](http://datadictionary.naaccr.org/default.aspx?c=10#20).
 #'   Derived from `Patient_ID_N20`.
-#' - `year`: Year of Diagnosis (5 year group).
+#' - `year_group`: Year of Diagnosis (5 year group).
 #'   NAACCR Item #[390](http://datadictionary.naaccr.org/default.aspx?c=10#390).
 #'   Derived from `Date_of_Dx_Year_Recoded`.
-#' - `year_mid`: Year of Diagnosis (midpoint of 5 year group).
+#' - `year`: Year of Diagnosis (midpoint of 5 year group).
 #'   NAACCR Item #[390](http://datadictionary.naaccr.org/default.aspx?c=10#390).
 #'   Derived from `Date_of_Dx_Year_Recoded`.
 #' - `cancer_status`: Cancer Status at time abstract was completed.
@@ -531,9 +531,9 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
 #'
 #' @examples
 #'
-#' fcds_const("year")
+#' fcds_const("year_group")
 #'
-#' fcds_const("year", full = TRUE)
+#' fcds_const("year_group", full = TRUE)
 #'
 #' fcds_const("cancer_site_group", full = TRUE) %>% head()
 #'
@@ -552,7 +552,7 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
 #'   Set to `NULL` to use the default recoding as used in [fcds_import()].
 #' @export
 fcds_const <- function(
-  var = "year",
+  var = "year_group",
   full = FALSE,
   fcds_recoding_file = NULL
 ) {
