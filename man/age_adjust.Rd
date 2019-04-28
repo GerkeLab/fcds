@@ -84,7 +84,7 @@ As described in the
 \emph{The age-adjusted rate for an age group comprised of the ages x through y
 is calculated using the following formula}:
 
-\if{html}{\figure{seer_ar-aarate.png}{}}
+\if{html}{\figure{seer_ar-aarate.png}{ }}
 \if{latex}{\figure{seer_ar-aarate.png}{options: width=0.5in}}
 }
 

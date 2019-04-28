@@ -354,7 +354,7 @@ format_age_groups <- function(
 #'   _The age-adjusted rate for an age group comprised of the ages x through y
 #'   is calculated using the following formula_:
 #'
-#'   \if{html}{\figure{seer_ar-aarate.png}{}}
+#'   \if{html}{\figure{seer_ar-aarate.png}{ }}
 #'   \if{latex}{\figure{seer_ar-aarate.png}{options: width=0.5in}}
 #'
 #' @return A data frame with age-adjusted incidence rates in the column `rate`.
