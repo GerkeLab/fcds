@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Separate Age Group Column into Low and High Age of Range — separate_age_groups • fcds</title>
+<title>Separate Age Group Column into Min and Max Age of Range — separate_age_groups • fcds</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Separate Age Group Column into Low and High Age of Range — separate_age_groups" />
+<meta property="og:title" content="Separate Age Group Column into Min and Max Age of Range — separate_age_groups" />
 
 <meta property="og:description" content="Takes the age group stored in age_group and creates two variables,
-age_low and age_high with the age boundaries of the group. By default,
+age_min and age_max with the age boundaries of the group. By default,
 separate_age_groups() assumes that the age group definitions are separated
 by a dash (&quot;-&quot;), possibly with whitespace on either side. The separator
 can be specified using the sep argument." />
@@ -69,7 +69,7 @@ can be specified using the sep argument." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ can be specified using the sep argument." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Separate Age Group Column into Low and High Age of Range</h1>
+    <h1>Separate Age Group Column into Min and Max Age of Range</h1>
     <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/age.R'><code>R/age.R</code></a></small>
     <div class="hidden name"><code>separate_age_groups.Rd</code></div>
     </div>
@@ -123,7 +123,7 @@ can be specified using the sep argument." />
     <div class="ref-description">
     
     <p>Takes the age group stored in <code>age_group</code> and creates two variables,
-<code>age_low</code> and <code>age_high</code> with the age boundaries of the group. By default,
+<code>age_min</code> and <code>age_max</code> with the age boundaries of the group. By default,
 <code>separate_age_groups()</code> assumes that the age group definitions are separated
 by a dash (<code>"-"</code>), possibly with whitespace on either side. The separator
 can be specified using the <code>sep</code> argument.</p>
@@ -131,7 +131,7 @@ can be specified using the <code>sep</code> argument.</p>
     </div>
 
     <pre class="usage"><span class='fu'>separate_age_groups</span>(<span class='no'>data</span>, <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\\s*-\\s*"</span>,
-  <span class='no'>...</span>, <span class='kw'>age_low</span> <span class='kw'>=</span> <span class='no'>age_low</span>, <span class='kw'>age_high</span> <span class='kw'>=</span> <span class='no'>age_high</span>)</pre>
+  <span class='no'>...</span>, <span class='kw'>age_min</span> <span class='kw'>=</span> <span class='no'>age_min</span>, <span class='kw'>age_max</span> <span class='kw'>=</span> <span class='no'>age_max</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,11 +160,11 @@ far-right of the string. The length of <code>sep</code> should be one less than
       <td><p>Not used other than to require explicit naming of arguments.</p></td>
     </tr>
     <tr>
-      <th>age_low</th>
+      <th>age_min</th>
       <td><p>Unquoted column name for lower bondary of age group</p></td>
     </tr>
     <tr>
-      <th>age_high</th>
+      <th>age_max</th>
       <td><p>Unquoted column name for upper boundary of age group</p></td>
     </tr>
     </table>
@@ -183,12 +183,12 @@ far-right of the string. The length of <code>sep</code> should be one less than
 )
 
 <span class='fu'>separate_age_groups</span>(<span class='no'>d_age_group</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
-#&gt;      id age_group age_low age_high
-#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1     1 0 - 4           0        4
-#&gt; 2     2 10 - 14        10       14
-#&gt; 3     3 65 - 69        65       69
-#&gt; 4     4 85+            85      Inf</div><div class='input'>
+#&gt;      id age_group age_min age_max
+#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1     1 0 - 4           0       4
+#&gt; 2     2 10 - 14        10      14
+#&gt; 3     3 65 - 69        65      69
+#&gt; 4     4 85+            85     Inf</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -66,7 +66,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
       </span>
     </div>
 
@@ -125,8 +125,8 @@ by default <a href='seer_std_ages.html'>seer_std_ages</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>age_adjust</span>(<span class='no'>data</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>population</span> <span class='kw'>=</span> <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/fcds/topics/seer_pop_fl'>seer_pop_fl</a></span>,
-  <span class='kw'>population_standard</span> <span class='kw'>=</span> <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/fcds/topics/seer_std_ages'>seer_std_ages</a></span>, <span class='kw'>by_year</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>year_mid</span> <span class='kw'>=</span>
-  <span class='st'>"year"</span>), <span class='kw'>age</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='kw'>keep_age</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>population_standard</span> <span class='kw'>=</span> <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/fcds/topics/seer_std_ages'>seer_std_ages</a></span>, <span class='kw'>by_year</span> <span class='kw'>=</span> <span class='st'>"year"</span>,
+  <span class='kw'>age</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='kw'>keep_age</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,10 +154,10 @@ population provided by SEER (see <a href='seer_std_ages.html'>seer_std_ages</a>)
     <tr>
       <th>by_year</th>
       <td><p>The column or columns by which <code>data</code> and <code>population</code> should
-be joined, by default <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("year_mid" = "year")</a></code>. The syntax follows from
-the <code>by</code> argument of <code><a href='https://dplyr.tidyverse.org/reference/join.html'>dplyr::left_join()</a></code>, where the name of each entry is
-the column name in <code>data</code> and the value is the column name in <code>population</code>.
-If both are the same, a single value is sufficient.</p></td>
+be joined, by default <code>"year"</code>. The syntax follows from the <code>by</code> argument
+of <code><a href='https://dplyr.tidyverse.org/reference/join.html'>dplyr::left_join()</a></code>, where the name of each entry is the column name in
+<code>data</code> and the value is the column name in <code>population</code>. If both are the
+same, a single value is sufficient.</p></td>
     </tr>
     <tr>
       <th>age</th>
@@ -200,22 +200,23 @@ weight, respectively.</p>
 <li><p>Raw age-specific count of event or outcome, possibly observed or
 summarized at repeated, consistent time intervals.</p></li>
 <li><p>Population data with the same demographic resolution as the age-specific
-counts, as in, for example, the population for the same geographic region,
-sex, race, year, and age.</p></li>
+counts, as in, for example, the population for the same geographic
+region, sex, race, year, and age.</p></li>
 <li><p>The standard reference population that is used to weight incidence among
 the observed age-specific count.</p></li>
 </ol>
-    <p>Each input is required to contain matching age information. The default data
-supplied with the package for <code>population</code> (<a href='seer_pop_fl.html'>seer_pop_fl</a>) and
-<code>population_standard</code> (<a href='seer_std_ages.html'>seer_std_ages</a>) use the column name <code>age_group</code>. You
-can specify the name of the column containing age information with the <code>age</code>
-argument. If the column name in <code>data</code> is not present in the population data,
-<code>age_adjust()</code> will fall back to <code>age_group</code> for those data sets.</p>
+    <p>Each input is required to contain matching age information. The default
+data supplied with the package for <code>population</code> (<a href='seer_pop_fl.html'>seer_pop_fl</a>) and
+<code>population_standard</code> (<a href='seer_std_ages.html'>seer_std_ages</a>) use the column name <code>age_group</code>.
+You can specify the name of the column containing age information with the
+<code>age</code> argument. If the column name in <code>data</code> is not present in the
+population data, <code>age_adjust()</code> will fall back to <code>age_group</code> for those
+data sets.</p>
 <p>As described in the
 <a href='https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html'>SEER*Stat Tutorial: Calculating Age-adjusted Rates</a>:
-<em>The age-adjusted rate for an age group comprised of the ages x through y is
-calculated using the following formula</em>:</p>
-<p><img src='figures/seer_ar-aarate.png' alt='' /></p>
+<em>The age-adjusted rate for an age group comprised of the ages x through y
+is calculated using the following formula</em>:</p>
+<p><img src='figures/seer_ar-aarate.png' alt=' ' /></p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -247,7 +248,7 @@ calculated using the following formula</em>:</p>
    <span class='st'>"80 - 84"</span>, <span class='fl'>1884</span>,
        <span class='st'>"85+"</span>, <span class='fl'>1705</span>
 ) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year_mid</span> <span class='kw'>=</span> <span class='fl'>2013</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2013</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='standardize_age_groups.html'>standardize_age_groups</a></span>()
 
 <span class='no'>d_population</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(

@@ -35,8 +35,8 @@
 <meta property="og:title" content="Add Mid-Year of Year Group — add_mid_year_groups" />
 
 <meta property="og:description" content="Adds a new column containing the midpoint year of the range given in the
-column indicated by the year argument, in a new column with &quot;_mid&quot;
-appended to the year column name. The year column is assumed to contain
+column indicated by the year_group argument, in a new column named
+according to the into argument. The year column is assumed to contain
 a min year and a max year, separated by sep. The midpoint is calculated
 as floor((year_max - year_min) / 2) unless offset is explicitly provided." />
 <meta name="twitter:card" content="summary" />
@@ -69,7 +69,7 @@ as floor((year_max - year_min) / 2) unless offset is explicitly provided." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
       </span>
     </div>
 
@@ -123,14 +123,15 @@ as floor((year_max - year_min) / 2) unless offset is explicitly provided." />
     <div class="ref-description">
     
     <p>Adds a new column containing the midpoint year of the range given in the
-column indicated by the <code>year</code> argument, in a new column with "<code>_mid</code>"
-appended to the <code>year</code> column name. The <code>year</code> column is assumed to contain
+column indicated by the <code>year_group</code> argument, in a new column named
+according to the <code>into</code> argument. The <code>year</code> column is assumed to contain
 a <em>min</em> year and a <em>max</em> year, separated by <code>sep</code>. The midpoint is calculated
 as <code><a href='https://www.rdocumentation.org/packages/base/topics/Round'>floor((year_max - year_min) / 2)</a></code> unless <code>offset</code> is explicitly provided.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>add_mid_year_groups</span>(<span class='no'>data</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='no'>year</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>add_mid_year_groups</span>(<span class='no'>data</span>, <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_group</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='st'>"year"</span>,
+  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,8 +141,13 @@ as <code><a href='https://www.rdocumentation.org/packages/base/topics/Round'>flo
       <td><p>A data frame</p></td>
     </tr>
     <tr>
-      <th>year</th>
-      <td><p>The column containing the <code>year_group</code>.</p></td>
+      <th>year_group</th>
+      <td><p>The unquoted column containing the <code>year_group</code>.</p></td>
+    </tr>
+    <tr>
+      <th>into</th>
+      <td><p>Character name of the column that will contain the mid year
+exctracted from <code>year_group</code>.</p></td>
     </tr>
     <tr>
       <th>sep</th>
@@ -163,17 +169,17 @@ of the year group to calculate the mid-year value. By default uses
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"year"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_mid_year_groups</span>()</div><div class='output co'>#&gt; # A tibble: 7 x 2
-#&gt;   year      year_mid
-#&gt;   &lt;chr&gt;     &lt;chr&gt;   
-#&gt; 1 1981-1985 1983    
-#&gt; 2 1986-1990 1988    
-#&gt; 3 1991-1995 1993    
-#&gt; 4 1996-2000 1998    
-#&gt; 5 2001-2005 2003    
-#&gt; 6 2006-2010 2008    
-#&gt; 7 2011-2015 2013    </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"year_group"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_mid_year_groups</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: `year` already exists in data</span></div><div class='output co'>#&gt; # A tibble: 7 x 1
+#&gt;   year     
+#&gt;   &lt;chr&gt;    
+#&gt; 1 1981-1985
+#&gt; 2 1986-1990
+#&gt; 3 1991-1995
+#&gt; 4 1996-2000
+#&gt; 5 2001-2005
+#&gt; 6 2006-2010
+#&gt; 7 2011-2015</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

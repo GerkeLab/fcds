@@ -67,7 +67,7 @@ about the cleaned column and value labels and the original data values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
       </span>
     </div>
 
@@ -126,7 +126,8 @@ about the cleaned column and value labels and the original data values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fcds_const</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"year"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fcds_recoding_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fcds_const</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"year_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fcds_recoding_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,18 +159,18 @@ about the original and recoded FCDS data values.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>fcds_const</span>(<span class='st'>"year"</span>)</div><div class='output co'>#&gt; [1] "1981-1985" "1986-1990" "1991-1995" "1996-2000" "2001-2005" "2006-2010"
+<span class='fu'>fcds_const</span>(<span class='st'>"year_group"</span>)</div><div class='output co'>#&gt; [1] "1981-1985" "1986-1990" "1991-1995" "1996-2000" "2001-2005" "2006-2010"
 #&gt; [7] "2011-2015"</div><div class='input'>
-<span class='fu'>fcds_const</span>(<span class='st'>"year"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 4
+<span class='fu'>fcds_const</span>(<span class='st'>"year_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 4
 #&gt;   name_clean name_original           value label    
 #&gt;   &lt;chr&gt;      &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;    
-#&gt; 1 year       Date_of_Dx_Year_Recoded 8185  1981-1985
-#&gt; 2 year       Date_of_Dx_Year_Recoded 8690  1986-1990
-#&gt; 3 year       Date_of_Dx_Year_Recoded 9195  1991-1995
-#&gt; 4 year       Date_of_Dx_Year_Recoded 9600  1996-2000
-#&gt; 5 year       Date_of_Dx_Year_Recoded 0105  2001-2005
-#&gt; 6 year       Date_of_Dx_Year_Recoded 0610  2006-2010
-#&gt; 7 year       Date_of_Dx_Year_Recoded 1115  2011-2015</div><div class='input'>
+#&gt; 1 year_group Date_of_Dx_Year_Recoded 8185  1981-1985
+#&gt; 2 year_group Date_of_Dx_Year_Recoded 8690  1986-1990
+#&gt; 3 year_group Date_of_Dx_Year_Recoded 9195  1991-1995
+#&gt; 4 year_group Date_of_Dx_Year_Recoded 9600  1996-2000
+#&gt; 5 year_group Date_of_Dx_Year_Recoded 0105  2001-2005
+#&gt; 6 year_group Date_of_Dx_Year_Recoded 0610  2006-2010
+#&gt; 7 year_group Date_of_Dx_Year_Recoded 1115  2011-2015</div><div class='input'>
 <span class='fu'>fcds_const</span>(<span class='st'>"cancer_site_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 4
 #&gt;   name_clean        name_original   value label                           
 #&gt;   &lt;chr&gt;             &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;                           

@@ -66,7 +66,7 @@ function helps select those groups by returning variable names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3.9001</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@ data frame subset to include columns matching the requested groups.</p>
     <pre class="examples"><div class='input'><span class='fu'>fcds_vars</span>(<span class='st'>"demo"</span>)</div><div class='output co'>#&gt; [1] "age_group"      "race"           "sex"            "origin"        
 #&gt; [5] "marital_status" "birth_country"  "birth_state"    "primary_payer" </div><div class='input'><span class='fu'>fcds_vars</span>(<span class='st'>"demographics"</span>)</div><div class='output co'>#&gt; [1] "age_group"      "race"           "sex"            "origin"        
 #&gt; [5] "marital_status" "birth_country"  "birth_state"    "primary_payer" </div><div class='input'>
-<span class='fu'>fcds_vars</span>(<span class='st'>"id"</span>, <span class='st'>"demo"</span>, <span class='st'>"pop"</span>)</div><div class='output co'>#&gt;  [1] "patient_id"       "year"             "year_mid"         "age_group"       
+<span class='fu'>fcds_vars</span>(<span class='st'>"id"</span>, <span class='st'>"demo"</span>, <span class='st'>"pop"</span>)</div><div class='output co'>#&gt;  [1] "patient_id"       "year_group"       "year"             "age_group"       
 #&gt;  [5] "race"             "sex"              "origin"           "marital_status"  
 #&gt;  [9] "birth_country"    "birth_state"      "primary_payer"    "county_name"     
 #&gt; [13] "county_fips"      "state"            "florida_resident" "country"         </div><div class='input'>
