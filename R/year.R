@@ -17,11 +17,11 @@
 #' d_year %>%
 #'   dplyr::group_by(sex, race) %>%
 #'   complete_year_groups() %>%
-#'   dplyr::arrange(sex, race, year)
+#'   dplyr::arrange(sex, race, year_group)
 #'
 #' d_year %>%
 #'   complete_year_groups(sex, race) %>%
-#'   dplyr::arrange(sex, race, year)
+#'   dplyr::arrange(sex, race, year_group)
 #'
 #' @param data A data frame
 #' @param year_group The unquoted column containing the `year_group`.

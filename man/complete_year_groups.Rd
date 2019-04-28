@@ -41,11 +41,11 @@ d_year <- tidyr::crossing(
 d_year \%>\%
   dplyr::group_by(sex, race) \%>\%
   complete_year_groups() \%>\%
-  dplyr::arrange(sex, race, year)
+  dplyr::arrange(sex, race, year_group)
 
 d_year \%>\%
   complete_year_groups(sex, race) \%>\%
-  dplyr::arrange(sex, race, year)
+  dplyr::arrange(sex, race, year_group)
 
 }
 \seealso{
