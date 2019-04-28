@@ -2,10 +2,10 @@
 % Please edit documentation in R/age.R
 \name{separate_age_groups}
 \alias{separate_age_groups}
-\title{Separate Age Group Column into Low and High Age of Range}
+\title{Separate Age Group Column into Min and Max Age of Range}
 \usage{
 separate_age_groups(data, age_group = age_group, sep = "\\\\s*-\\\\s*",
-  ..., age_low = age_low, age_high = age_high)
+  ..., age_min = age_min, age_max = age_max)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -25,13 +25,13 @@ far-right of the string. The length of \code{sep} should be one less than
 
 \item{...}{Not used other than to require explicit naming of arguments.}
 
-\item{age_low}{Unquoted column name for lower bondary of age group}
+\item{age_min}{Unquoted column name for lower bondary of age group}
 
-\item{age_high}{Unquoted column name for upper boundary of age group}
+\item{age_max}{Unquoted column name for upper boundary of age group}
 }
 \description{
 Takes the age group stored in \code{age_group} and creates two variables,
-\code{age_low} and \code{age_high} with the age boundaries of the group. By default,
+\code{age_min} and \code{age_max} with the age boundaries of the group. By default,
 \code{separate_age_groups()} assumes that the age group definitions are separated
 by a dash (\code{"-"}), possibly with whitespace on either side. The separator
 can be specified using the \code{sep} argument.

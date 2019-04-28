@@ -18,7 +18,7 @@ filter_age_groups(data, age_gt = 0, age_lt = Inf,
 }
 \description{
 Filters data to include persons with ages in the range between \code{age_gt} and
-\code{age_lt}. If \code{age_group} has not been expanded into low and high ages of
+\code{age_lt}. If \code{age_group} has not been expanded into min and max ages of
 the range, the input data is first passed to \code{\link[=separate_age_groups]{separate_age_groups()}}. If the
 boundary age lies within a group, that group is \emph{not included} in the output.
 }

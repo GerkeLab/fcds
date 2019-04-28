@@ -30,7 +30,7 @@ groups.}
 \description{
 Completes age groups by adding missing age groups, either within the age
 range from \code{age_gt} to \code{age_lt} or using the full age list from
-\link{seer_std_ages}. If the columns \code{age_low} or \code{age_high} are missing from the
+\link{seer_std_ages}. If the columns \code{age_min} or \code{age_max} are missing from the
 input data, \code{\link[=separate_age_groups]{separate_age_groups()}} is first called to expand the age group
 variable.
 }

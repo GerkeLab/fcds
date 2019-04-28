@@ -10,14 +10,14 @@ d_age_group <- data.frame(
 test_that("separate_age_groups()", {
   r_age_group <- separate_age_groups(d_age_group)
 
-  expect_equal(names(r_age_group), c("id", paste0("age_", c("group", "low", "high"))))
-  expect_equal(r_age_group$age_low, c(0, 10, 65, 85))
-  expect_equal(r_age_group$age_high, c(4, 14, 69, Inf))
+  expect_equal(names(r_age_group), c("id", paste0("age_", c("group", "min", "max"))))
+  expect_equal(r_age_group$age_min, c(0, 10, 65, 85))
+  expect_equal(r_age_group$age_max, c(4, 14, 69, Inf))
 
   names(d_age_group)[2] <- "age_variable"
   expect_equal(
     d_age_group %>% separate_age_groups(age_group = age_variable) %>% names(),
-    c("id", paste0("age_", c("variable", "low", "high")))
+    c("id", paste0("age_", c("variable", "min", "max")))
   )
 })
 
@@ -26,19 +26,20 @@ test_that("expanding NA age group gives NA", {
 
   r_age_group <- separate_age_groups(d_age_group)
 
-  expect_equal(r_age_group$age_low[2], NA_real_)
-  expect_equal(r_age_group$age_high[2], NA_real_)
+  expect_equal(r_age_group$age_min[2], NA_real_)
+  expect_equal(r_age_group$age_max[2], NA_real_)
 })
 
-test_that("separate_age_groups() allows renaming age_low and age_high", {
+test_that("separate_age_groups() allows renaming age_min and age_max", {
   r_age_group <- d_age_group %>%
-    separate_age_groups(age_low = low, age_high = high)
+    separate_age_groups(age_min = low, age_max = high)
 
   r_age_group_default <- d_age_group %>% separate_age_groups()
 
   expect_equal(names(r_age_group), c("id", "age_group", "low", "high"))
-  expect_equal(r_age_group$low, r_age_group_default$age_low)
-  names(r_age_group)[3:4] <- paste0("age_", names(r_age_group)[3:4])
+  expect_equal(r_age_group$low, r_age_group_default$age_min)
+
+  names(r_age_group)[3:4] <- names(r_age_group_default)[3:4]
   expect_equal(r_age_group, r_age_group_default)
 })
 
@@ -49,7 +50,7 @@ test_that("filter_age_groups()", {
   )
 
   expect_equal(
-    # 65 - 69 not included if age_high = 66
+    # 65 - 69 not included if age_max = 66
     d_age_group %>% filter_age_groups(age_lt = 66) %>% .$id,
     1:2
   )
@@ -57,7 +58,7 @@ test_that("filter_age_groups()", {
   expect_equal(d_age_group %>% filter_age_groups(10, 14) %>% .$id, 2)
   expect_equal(
     d_age_group %>% filter_age_groups(),
-    d_age_group %>% separate_age_groups() %>% select(-age_low, -age_high)
+    d_age_group %>% separate_age_groups() %>% select(-age_min, -age_max)
   )
 })
 
@@ -69,7 +70,7 @@ test_that("filter_age_groups() doesn't add columns", {
   expect_equal(names(r_age_group_has), names(d_age_group))
   expect_equal(
     names(r_age_group_doesnt),
-    c(names(d_age_group), paste0("age_", c("low", "high")))
+    c(names(d_age_group), paste0("age_", c("min", "max")))
   )
 })
 
@@ -101,12 +102,12 @@ test_that("standardize_age_groups()", {
   expected_age_group <- d_age_group %>%
     separate_age_groups() %>%
     mutate(
-      age_group_low = if_else(age_low < 0, "0", paste(age_low)),
-      age_group_high = if_else(age_high > 0 & is.infinite(age_high), "+", paste(" -", age_high)),
-      age_group = paste0(age_group_low, age_group_high),
+      age_group_min = if_else(age_min < 0, "0", paste(age_min)),
+      age_group_max = if_else(age_max > 0 & is.infinite(age_max), "+", paste(" -", age_max)),
+      age_group = paste0(age_group_min, age_group_max),
       age_group = factor(age_group, fcds_const("age_group"), ordered = TRUE)
     ) %>%
-    select(-dplyr::matches("(low|high)$"))
+    select(-dplyr::matches("(min|max)$"))
 
   stdized_age_group <- d_age_group %>% standardize_age_groups()
 
@@ -154,12 +155,12 @@ test_that("standardize_age_groups() when input is grouped", {
   expected_age_group <- d_age_group %>%
     separate_age_groups() %>%
     mutate(
-      age_group_low = if_else(age_low < 0, "0", paste(age_low)),
-      age_group_high = if_else(age_high > 0 & is.infinite(age_high), "+", paste(" -", age_high)),
-      age_group = paste0(age_group_low, age_group_high),
+      age_group_min = if_else(age_min < 0, "0", paste(age_min)),
+      age_group_max = if_else(age_max > 0 & is.infinite(age_max), "+", paste(" -", age_max)),
+      age_group = paste0(age_group_min, age_group_max),
       age_group = factor(age_group, fcds_const("age_group"), ordered = TRUE)
     ) %>%
-    select(-dplyr::matches("(low|high)$"))
+    select(-dplyr::matches("(min|max)$"))
 
   stdized_age_group <- d_age_group %>% group_by(age_group) %>%
     standardize_age_groups()
@@ -401,11 +402,11 @@ test_that("age_adjust() errors or warns with mismatched age_groups", {
     dplyr::slice(1:10) %>%
     separate_age_groups() %>%
     mutate(
-      age_low = age_low + 2,
-      age_high = age_high + 2,
-      age_group = factor(glue("{age_low} - {age_high}"))
+      age_min = age_min + 2,
+      age_max = age_max + 2,
+      age_group = factor(glue("{age_min} - {age_max}"))
     ) %>%
-    select(-age_low:-age_high)
+    select(-age_min:-age_max)
 
   expect_error(
     suppressWarnings(age_adjust(d_incidence_gg, population = d_population, by_year = NULL)),

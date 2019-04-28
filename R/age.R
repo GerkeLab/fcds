@@ -1,14 +1,14 @@
 # Declare tidy eval default arguments as global variables
 if(getRversion() >= "2.15.1") utils::globalVariables(c(
-  "n", "age_group", "age_low", "age_high"
+  "n", "age_group", "age_min", "age_max"
 ))
 
 # Age Groups --------------------------------------------------------------
 
-#' Separate Age Group Column into Low and High Age of Range
+#' Separate Age Group Column into Min and Max Age of Range
 #'
 #' Takes the age group stored in `age_group` and creates two variables,
-#' `age_low` and `age_high` with the age boundaries of the group. By default,
+#' `age_min` and `age_max` with the age boundaries of the group. By default,
 #' `separate_age_groups()` assumes that the age group definitions are separated
 #' by a dash (`"-"`), possibly with whitespace on either side. The separator
 #' can be specified using the `sep` argument.
@@ -24,8 +24,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c(
 #' @param data A data frame.
 #' @param age_group Unquoted column name containing the age grouping.
 #' @param ... Not used other than to require explicit naming of arguments.
-#' @param age_low Unquoted column name for lower bondary of age group
-#' @param age_high Unquoted column name for upper boundary of age group
+#' @param age_min Unquoted column name for lower bondary of age group
+#' @param age_max Unquoted column name for upper boundary of age group
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
@@ -34,33 +34,33 @@ separate_age_groups <- function(
   age_group = age_group,
   sep = "\\s*-\\s*",
   ...,
-  age_low = age_low,
-  age_high = age_high
+  age_min = age_min,
+  age_max = age_max
 ) {
-  age_group     <- enquo(age_group)
-  age_low       <- enquo(age_low)
-  age_low_name  <- quo_name(age_low)
-  age_high      <- enquo(age_high)
-  age_high_name <- quo_name(age_high)
+  age_group    <- enquo(age_group)
+  age_min      <- enquo(age_min)
+  age_min_name <- quo_name(age_min)
+  age_max      <- enquo(age_max)
+  age_max_name <- quo_name(age_max)
 
   data %>%
-    separate(!!age_group, into = c(age_low_name, age_high_name),
+    separate(!!age_group, into = c(age_min_name, age_max_name),
              sep = sep, remove = FALSE, fill = "right") %>%
     mutate(
-      !!age_low_name := sub("+", "", !!age_low, fixed = TRUE),
-      !!age_low_name := ifelse(
-        (is.na(!!age_low) | !!age_low == "") & !is.na(!!age_high),
-        "0", !!age_low)
+      !!age_min_name := sub("+", "", !!age_min, fixed = TRUE),
+      !!age_min_name := ifelse(
+        (is.na(!!age_min) | !!age_min == "") & !is.na(!!age_max),
+        "0", !!age_min)
     ) %>%
-    mutate_at(c(age_low_name, age_high_name), as.numeric) %>%
-    mutate(!!age_high_name := if_else(
-      is.na(!!age_high) & !is.na(!!age_low), Inf, !!age_high))
+    mutate_at(c(age_min_name, age_max_name), as.numeric) %>%
+    mutate(!!age_max_name := if_else(
+      is.na(!!age_max) & !is.na(!!age_min), Inf, !!age_max))
 }
 
 #' Filter Data by Age Range
 #'
 #' Filters data to include persons with ages in the range between `age_gt` and
-#' `age_lt`. If `age_group` has not been expanded into low and high ages of
+#' `age_lt`. If `age_group` has not been expanded into min and max ages of
 #' the range, the input data is first passed to [separate_age_groups()]. If the
 #' boundary age lies within a group, that group is _not included_ in the output.
 #'
@@ -96,16 +96,16 @@ filter_age_groups <- function(
 
   data_original_cols <- colnames(data)
 
-  if (!"age_low" %in% names(data)) {
+  if (!"age_min" %in% names(data)) {
     stopifnot(age_group_name %in% names(data))
     data <- separate_age_groups(data, age_var = !!age_group)
   }
 
-  stopifnot("age_low" %in% names(data))
-  stopifnot("age_high" %in% names(data))
+  stopifnot("age_min" %in% names(data))
+  stopifnot("age_max" %in% names(data))
 
   data %>%
-    filter(age_low >= age_gt, age_high <= age_lt) %>%
+    filter(age_min >= age_gt, age_max <= age_lt) %>%
     select(data_original_cols)
 }
 
@@ -113,7 +113,7 @@ filter_age_groups <- function(
 #'
 #' Completes age groups by adding missing age groups, either within the age
 #' range from `age_gt` to `age_lt` or using the full age list from
-#' [seer_std_ages]. If the columns `age_low` or `age_high` are missing from the
+#' [seer_std_ages]. If the columns `age_min` or `age_max` are missing from the
 #' input data, [separate_age_groups()] is first called to expand the age group
 #' variable.
 #'
@@ -151,8 +151,8 @@ complete_age_groups <- function(
   if (!include_unknown) ages <- filter(ages, age_group != "Unknown")
   ages <- suppressWarnings(separate_age_groups(ages))
 
-  if (!is.null(age_gt)) ages <- filter(ages, age_low >= !!age_gt)
-  if (!is.null(age_lt)) ages <- filter(ages, age_high <= !!age_lt)
+  if (!is.null(age_gt)) ages <- filter(ages, age_min >= !!age_gt)
+  if (!is.null(age_lt)) ages <- filter(ages, age_max <= !!age_lt)
 
   common_age_groups <- union(ages$age_group, paste(data[[age_group_name]]))
 
@@ -218,12 +218,12 @@ standardize_age_groups <- function(
     filter(age_group != "Unknown") %>%
     separate_age_groups() %>%
     mutate(
-      age_low = if_else(is_neg_infinite(age_low), 0, age_low),
-      age_high = if_else(is_pos_infinite(age_high), 125, age_high),
-      ...age = seq2(age_low, age_high)
+      age_min = if_else(is_neg_infinite(age_min), 0, age_min),
+      age_max = if_else(is_pos_infinite(age_max), 125, age_max),
+      ...age = seq2(age_min, age_max)
     ) %>%
     tidyr::unnest() %>%
-    select(-age_low, -age_high)
+    select(-age_min, -age_max)
 
   age_is_numeric <- is.numeric(data[[age_group_name]])
   if (!age_is_numeric) {
@@ -261,21 +261,21 @@ standardize_age_groups <- function(
     )
   } else {
     # break apart groups
-    # match on low, match on high:
+    # match on min, match on max:
     #   - same answer? return first
     #   - different? error (non-overlapping groups)
     data <- data %>% separate_age_groups(!!age_group, ...,
-                                       age_low  = .data$...age_low,
-                                       age_high = .data$...age_high)
+                                       age_min  = .data$...age_min,
+                                       age_max = .data$...age_max)
 
-    data_low <- data %>%
-      select(age_group = .data$...age_low) %>%
+    data_age_min <- data %>%
+      select(age_group = .data$...age_min) %>%
       standardize_age_groups(std_age_groups = std_age_groups)
-    data_high <- data %>%
-      select(age_group = .data$...age_high) %>%
+    data_age_max <- data %>%
+      select(age_group = .data$...age_max) %>%
       standardize_age_groups(std_age_groups = std_age_groups)
 
-    if (!identical(data_low$age_group, data_high$age_group)) {
+    if (!identical(data_age_min$age_group, data_age_max$age_group)) {
       abort(
         glue("Age groupings in {age_group_name} ",
              "are not consistent with `std_age_groups`. ",
@@ -285,8 +285,8 @@ standardize_age_groups <- function(
 
     if ("age_group" %in% names(data)) data <- data %>% select(-"age_group")
     data <- data %>%
-      mutate(age_group = paste(data_low$age_group)) %>%
-      select(-"...age_low", -"...age_high")
+      mutate(age_group = paste(data_age_min$age_group)) %>%
+      select(-"...age_min", -"...age_max")
   }
 
   data %>%
@@ -299,23 +299,23 @@ standardize_age_groups <- function(
 # nocov start
 format_age_groups <- function(
   data,
-  age_low_var = age_low,
-  age_high_var = age_high
+  age_min_var = age_min,
+  age_max_var = age_max
 ) {
-  age_low_var  <- enquo(age_low_var)
-  age_high_var <- enquo(age_high_var)
+  age_min_var  <- enquo(age_min_var)
+  age_max_var <- enquo(age_max_var)
 
   data %>%
     mutate(
-      age_group_low = if_else(!!age_low_var < 0, "0", paste(!!age_low_var)),
-      age_group_high = if_else(
-        !!age_high_var > 0 & is.infinite(!!age_high_var),
+      age_group_min = if_else(!!age_min_var < 0, "0", paste(!!age_min_var)),
+      age_group_max = if_else(
+        !!age_max_var > 0 & is.infinite(!!age_max_var),
         "+",
-        paste(" -", !!age_high_var)),
-      age_group = paste0(.data$age_group_low, .data$age_group_high),
+        paste(" -", !!age_max_var)),
+      age_group = paste0(.data$age_group_min, .data$age_group_max),
       age_group = factor(.data$age_group, fcds_const("age_group"), ordered = TRUE)
     ) %>%
-    select(-"age_group_low", -"age_group_high")
+    select(-"age_group_min", -"age_group_max")
 }
 # nocov end
 
