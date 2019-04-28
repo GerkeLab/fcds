@@ -106,11 +106,11 @@ test_that("complete_year_groups() when filtering years", {
 
   r_year_grouped <- d_year %>%
     group_by(sex, race) %>%
-    complete_year_groups(year_min = 2001, year_max = 2015) %>%
+    complete_year_groups(year_gt = 2001, year_lt = 2015) %>%
     dplyr::arrange(sex, race, year_group)
 
   r_year_ungrouped <- d_year %>%
-    complete_year_groups(sex, race, year_min = 2001, year_max = 2015) %>%
+    complete_year_groups(sex, race, year_gt = 2001, year_lt = 2015) %>%
     dplyr::arrange(sex, race, year_group)
 
   expect_equal(r_year_grouped, e_year)

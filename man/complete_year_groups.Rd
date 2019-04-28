@@ -4,7 +4,7 @@
 \alias{complete_year_groups}
 \title{Complete Year Groups}
 \usage{
-complete_year_groups(data, ..., year_min = NULL, year_max = NULL,
+complete_year_groups(data, ..., year_gt = NULL, year_lt = NULL,
   year_group = year_group, fill = list(n = 0))
 }
 \arguments{
@@ -15,9 +15,9 @@ additional arguments are passed to \code{\link[tidyr:complete]{tidyr::complete()
 specify which columns are included in the expansion and how. See
 \code{\link[tidyr:complete]{tidyr::complete()}} for more information.}
 
-\item{year_min}{Optional earliest year to include (inclusive)}
+\item{year_gt}{Optional earliest year to include (inclusive)}
 
-\item{year_max}{Optional latest year to include (inclusive)}
+\item{year_lt}{Optional latest year to include (inclusive)}
 
 \item{year_group}{The unquoted column containing the \code{year_group}.}
 
@@ -45,6 +45,15 @@ d_year \%>\%
 
 d_year \%>\%
   complete_year_groups(sex, race) \%>\%
+  dplyr::arrange(sex, race, year_group)
+
+# If you have previously filtered the data to include a subset of years, you
+# will likely want to exclude those years from the group completion.
+# You can use `year_gt` and `year_lt` to exclude years beyond the boundaries.
+
+d_year \%>\%
+  dplyr::filter(!year_group \%in\% c("1981-1985", "1986-1990")) \%>\%
+  complete_year_groups(year_gt = 1990) \%>\%
   dplyr::arrange(sex, race, year_group)
 
 }

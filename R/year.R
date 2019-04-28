@@ -23,10 +23,19 @@
 #'   complete_year_groups(sex, race) %>%
 #'   dplyr::arrange(sex, race, year_group)
 #'
+#' # If you have previously filtered the data to include a subset of years, you
+#' # will likely want to exclude those years from the group completion.
+#' # You can use `year_gt` and `year_lt` to exclude years beyond the boundaries.
+#'
+#' d_year %>%
+#'   dplyr::filter(!year_group %in% c("1981-1985", "1986-1990")) %>%
+#'   complete_year_groups(year_gt = 1990) %>%
+#'   dplyr::arrange(sex, race, year_group)
+#'
 #' @param data A data frame
 #' @param year_group The unquoted column containing the `year_group`.
-#' @param year_min Optional earliest year to include (inclusive)
-#' @param year_max Optional latest year to include (inclusive)
+#' @param year_gt Optional earliest year to include (inclusive)
+#' @param year_lt Optional latest year to include (inclusive)
 #' @param fill Default values for rows in columns added to the data
 #' @param ... Ignored if `data` is a grouped data frame. If not grouped,
 #'   additional arguments are passed to [tidyr::complete()]. Use these arguments
@@ -37,28 +46,31 @@
 complete_year_groups <- function(
   data,
   ...,
-  year_min = NULL,
-  year_max = NULL,
+  year_gt = NULL,
+  year_lt = NULL,
   year_group = year_group,
   fill = list(n = 0)
 ) {
   year_group <- rlang::enquo(year_group)
   year_group_name <- rlang::quo_name(year_group)
-
   stopifnot(year_group_name %in% names(data))
+
+  # rcmd check (used in NSE settings below)
+  year_min <- NULL
+  year_max <- NULL
 
   # Get known years data set, and subset to requested yrs to get expected values
   years <- tibble(year_group = fcds_const("year_group")) %>%
     separate_year_groups(year_group = year_group) %>%
     mutate_at(quos(year_min, year_max), as.integer)
 
-  if (!is.null(year_min)) {
-    year_min <- as.integer(year_min)
-    years <- filter(years, year_min >= !!year_min)
+  if (!is.null(year_gt)) {
+    year_gt <- as.integer(year_gt)
+    years <- filter(years, year_min >= !!year_gt)
   }
-  if (!is.null(year_max)) {
-    year_max <- as.integer(year_max)
-    years <- filter(years, year_max <= !!year_max)
+  if (!is.null(year_lt)) {
+    year_lt <- as.integer(year_lt)
+    years <- filter(years, year_max <= !!year_lt)
   }
 
 
