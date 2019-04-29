@@ -1,6 +1,6 @@
 Package: fcds
 Title: Process data from the Florida Cancer Data System
-Version: 0.0.5.9006
+Version: 0.0.5.9007
 Authors@R: 
     c(person(given = "Garrick",
              family = "Aden-Buie",
@@ -37,8 +37,13 @@ Imports:
     utils,
     yaml
 Suggests: 
+    ggplot2,
+    knitr,
+    rmarkdown,
     testthat (>= 2.1.0),
     USAboundaries
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

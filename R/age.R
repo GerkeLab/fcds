@@ -636,6 +636,13 @@ validate_same_number_of_age_groups <- function(data) {
     abort("No age groups found in data")
   }
 
+  if (any(d_age_groups$n == 0)) {
+    d_age_groups$n_complete <- purrr::map_int(
+      d_age_groups$data, ~ sum(complete.cases(.))
+    )
+    d_age_groups <- d_age_groups[d_age_groups$n + d_age_groups$n_complete > 0, ]
+  }
+
   if (nrow(d_age_groups) > 1) {
     d_age_groups$n_groups <- purrr::map_int(d_age_groups$data, nrow)
     max_n <- d_age_groups$n[[1]]
