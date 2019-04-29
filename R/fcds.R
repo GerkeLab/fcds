@@ -14,10 +14,10 @@ join_population <- function(
 
   # Nest population specific variables
   population <- population %>%
-    dplyr::semi_join(data, by = setdiff(common_names_, pop_vars)) %>%
+    quiet_semi_join(data, by = setdiff(common_names_, pop_vars)) %>%
     tidyr::nest(pop_vars, .key = "population")
 
-  dplyr::left_join(data, population, by = common_names_)
+  quiet_left_join(data, population, by = common_names_)
 }
 
 join_population_by_year <- function(

@@ -20,6 +20,19 @@ cat_bullet <- function(...) cat_line(..., symbol = "bullet")
 cat_tick   <- function(...) cat_line(..., symbol = "tick")
 cat_dots   <- function(...) cat_line(..., symbol = "dots")
 
+
+quietly <- function(.f) {
+  function(...) {
+    suppressWarnings(.f(...))
+  }
+}
+
+quiet_left_join  <- quietly(dplyr::left_join)
+quiet_semi_join  <- quietly(dplyr::semi_join)
+quiet_anti_join  <- quietly(dplyr::anti_join)
+quiet_inner_join <- quietly(dplyr::inner_join)
+quiet_complete   <- quietly(tidyr::complete)
+
 # ---- Check for existing packages ----
 check_package <- function(
   pkg,

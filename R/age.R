@@ -160,13 +160,15 @@ complete_age_groups <- function(
 
   original_columns <- colnames(data)
 
+  quiet_complete <- quietly(complete)
+
   data <- data %>%
     group_drop(age_group_name) %>%
     mutate(
       !!age_group_name := paste(!!age_group),
       !!age_group_name := factor(!!age_group, common_age_groups, ordered = TRUE)
     ) %>%
-    complete(!!age_group, fill = fill)
+    quiet_complete(!!age_group, fill = fill)
 
   if (add_age_group) {
     data <- group_by(data, !!age_group, add = TRUE)
@@ -252,7 +254,7 @@ standardize_age_groups <- function(
     # age_group will be replaced if it exists
     if ("age_group" %in% names(data)) data <- data %>% select(-"age_group")
 
-    data <- dplyr::left_join(data, std_ages, by = "...age") %>%
+    data <- quiet_left_join(data, std_ages, by = "...age") %>%
       select(-"...age")
   } else if (age_is_same_as_fcds) {
     data <- mutate(
@@ -605,7 +607,7 @@ age_adjust_finalize <- function(
     select(!!age, "std_pop") %>%
     mutate(w = .data$std_pop / sum(.data$std_pop))
 
-  data <- dplyr::left_join(data, std_pop_relevant, by = age_name)
+  data <- quiet_left_join(data, std_pop_relevant, by = age_name)
 
   if (keep_age) return(data)
 
