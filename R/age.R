@@ -649,8 +649,8 @@ validate_same_number_of_age_groups <- function(data) {
       and_more()
 
     warn(glue(
-      "Mismatched number of age_groups in data. ",
-      "{max_group_labels} ",
+      "Mismatched number of age_groups in data, you may need to use ",
+      "complete_age_groups() first.\n{max_group_labels} ",
       "{ifelse(d_age_groups$n_groups[1] > 1, 'have', 'has')} ",
       "{max_n} age groups, but ",
       "{not_max_group_labels} ",
