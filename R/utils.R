@@ -33,6 +33,11 @@ quiet_anti_join  <- quietly(dplyr::anti_join)
 quiet_inner_join <- quietly(dplyr::inner_join)
 quiet_complete   <- quietly(tidyr::complete)
 
+fcds_version <- function(drop_dev = TRUE) {
+  v <- utils::packageVersion("fcds")
+  if (drop_dev) sub("\\.9\\d\\d\\d$", "", v) else v
+}
+
 # ---- Check for existing packages ----
 check_package <- function(
   pkg,
