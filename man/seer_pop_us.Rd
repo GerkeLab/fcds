@@ -4,10 +4,10 @@
 \name{seer_pop_us}
 \alias{seer_pop_us}
 \title{SEER U.S. Population}
-\format{A data frame with 8,064 rows and 6 variables:
+\format{A data frame with 1,140 rows and 6 variables:
 \describe{
 \item{\code{year}}{character. Year}
-\item{\code{race}}{factor. Race: "White", "Black", "American Indian/Alaska Native", or "Asian or Pacific Islander"}
+\item{\code{race}}{factor. Race: "White", "Black", "Other"}
 \item{\code{origin}}{factor. Hispanic Origin: "Hispanic", "Non-Hispanic"}
 \item{\code{sex}}{factor. Sex: "Male", "Female"}
 \item{\code{age_group}}{factor. Five-year age group from "\code{0 - 4}" to "\code{85+}"}
@@ -17,9 +17,10 @@
 seer_pop_us
 }
 \description{
-Contains the SEER \emph{All States Combined, Adjusted} data, using 4 expanded
-races by origin. Downloaded from
-\href{https://seer.cancer.gov/popdata/download.html}{SEER Population Data}.
+Contains the SEER \emph{All States Combined, Adjusted} data, with Spanish/Hispanic
+origin. The SEER data included expanded race groups, but these were collapsed
+to match the FCDS race grouping of "White", "Black", or "Other". Downloaded
+from \href{https://seer.cancer.gov/popdata/download.html}{SEER Population Data}.
 This data set is minimally processed to join ages "\code{0}" with "\code{1 - 4}" to
 match the FCDS data format.
 }

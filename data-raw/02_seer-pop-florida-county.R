@@ -69,8 +69,10 @@ recode_race_1969 <- c("1" = "White",
                       "3" = "Other")
 recode_race_1990 <- c("1" = "White",
                       "2" = "Black",
-                      "3" = "American Indian/Alaska Native",
-                      "4" = "Asian or Pacific Islander")
+                      "3" = "Other",
+                      "4" = "Other")
+                      # "3" = "American Indian/Alaska Native",
+                      # "4" = "Asian or Pacific Islander")
 recode_origin_1990 <- c("0" = "Non-Hispanic",
                         "1" = "Hispanic",
                         "9" = NA_character_)
@@ -107,6 +109,39 @@ read_seer_fwf <- function(file, ...) {
   )
 }
 
+# Complete age groups -----------------------------------------------------
+
+fast_complete_age_groups <- function(data, fill = list(), .refactor = TRUE, .progress = TRUE) {
+  fill_groups <- tibble(
+    age_group = fcds::fcds_const("age_group"),
+    !!!fill
+  )
+
+  data$age_group <- paste(data$age_group)
+
+  fill_names <- names(fill_groups)
+
+  data <- data %>% tidyr::nest(fill_names)
+
+  if (.progress) .pb <- dplyr::progress_estimated(nrow(data))
+
+  data$data <- purrr::map(data$data, ~ {
+    missing_groups <- dplyr::anti_join(fill_groups, .x, by = "age_group")
+    .x <- dplyr::full_join(.x, missing_groups, by = fill_names)
+    if (.progress) .pb$tick()$print()
+    .x
+  })
+
+  data <- tidyr::unnest(data)
+
+  if (.refactor) {
+    data <- data %>%
+      mutate(age_group = factor(age_group, levels = fcds::fcds_const("age_group")))
+  }
+
+  data
+}
+
 # Load Data ---------------------------------------------------------------
 
 # ---- SEER Florida Population ----
@@ -130,7 +165,9 @@ seer_pop_fl <-
     by = "county_fips"
   ) %>%
   mutate(county_name = factor(county_name, levels = county_fips_fl$county_name)) %>%
-  fcds::standardize_age_groups()
+  filter(year %in% fcds:::mid_year(fcds::fcds_const("year_group"))) %>%
+  fcds::standardize_age_groups() %>%
+  fast_complete_age_groups(fill = list(population = 0L))
 
 use_data(seer_pop_fl)
 
@@ -138,6 +175,7 @@ use_data(seer_pop_fl)
 seer_pop_fl_exp_race <-
   read_seer_fwf(seer_pop_fl_exp_race_file) %>%
   mutate(
+    race      = recode_fct(race, recode_race_1990),
     age_group = recode(age_group, "00" = "01")
   ) %>%
   group_by(year, state, state_fips, county_fips, registry, race, origin, sex, age_group) %>%
@@ -145,7 +183,6 @@ seer_pop_fl_exp_race <-
   ungroup() %>%
   mutate(
     registry  = factor(recode_registry[registry]),
-    race      = recode_fct(race, recode_race_1990),
     origin    = recode_fct(origin, recode_origin_1990),
     sex       = recode_fct(sex, recode_sex),
     age_group = recode_age_groups[age_group]
@@ -155,9 +192,13 @@ seer_pop_fl_exp_race <-
     by = "county_fips"
   ) %>%
   mutate(county_name = factor(county_name, levels = county_fips_fl$county_name)) %>%
-  fcds::standardize_age_groups()
+  filter(year %in% fcds:::mid_year(fcds::fcds_const("year_group"))) %>%
+  fcds::standardize_age_groups() %>%
+  fast_complete_age_groups(fill = list(population = 0L))
 
-use_data(seer_pop_fl_exp_race)
+# Rename seer_pop_fl_exp_race as seer_pop_fl_1990
+seer_pop_fl_1990 <- seer_pop_fl_exp_race
+use_data(seer_pop_fl_1990)
 
 # ---- SEER US Population ----
 read_seer_pop_us <- function(txt, ...) {
@@ -175,17 +216,19 @@ read_seer_pop_us <- function(txt, ...) {
 seer_pop_us <-
   read_seer_pop_us(seer_pop_us_file) %>%
   mutate(
+    race      = recode_fct(race, recode_race_1990),
     age_group = recode(age_group, "00" = "01")
   ) %>%
   group_by(year, race, origin, sex, age_group) %>%
   summarize(population = sum(population)) %>%
   ungroup() %>%
   mutate(
-    race      = recode_fct(race, recode_race_1990),
     origin    = recode_fct(origin, recode_origin_1990),
     sex       = recode_fct(sex, recode_sex),
     age_group = recode_age_groups[age_group]
   ) %>%
-  fcds::standardize_age_groups()
+  filter(year %in% fcds:::mid_year(fcds::fcds_const("year_group"))) %>%
+  fcds::standardize_age_groups() %>%
+  fast_complete_age_groups(fill = list(population = 0L))
 
 use_data(seer_pop_us)

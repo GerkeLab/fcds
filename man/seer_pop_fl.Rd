@@ -4,7 +4,7 @@
 \name{seer_pop_fl}
 \alias{seer_pop_fl}
 \title{SEER Florida population data}
-\format{A data frame with 334273 rows and 11 variables:
+\format{A data frame with 53,466 rows and 11 variables:
 \describe{
 \item{\code{year}}{Year}
 \item{\code{state}}{State postal abbreviation}
@@ -31,7 +31,7 @@ according to the guidelines available at
 \url{https://seer.cancer.gov/popdata/popdic.html}. The original SEER data
 includes 19 age groups, but the data set provided by this package includes
 age "\code{0}" with ages "\code{1 - 4}" in the "\code{0 - 4}" group to match the coding in
-the FCDS data.
+the FCDS data. Only years matching the FCDS 5-year mid year are included.
 }
 \references{
 \url{https://seer.cancer.gov/popdata/}
@@ -41,7 +41,7 @@ the FCDS data.
 \url{https://seer.cancer.gov/popdata/popdic.html}
 }
 \seealso{
-Other SEER Population Data: \code{\link{seer_pop_fl_exp_race}}
+Other SEER Population Data: \code{\link{seer_pop_fl_1990}}
 }
 \concept{SEER Population Data}
 \keyword{datasets}

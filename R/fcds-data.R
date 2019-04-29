@@ -21,13 +21,13 @@
 #' <https://seer.cancer.gov/popdata/popdic.html>. The original SEER data
 #' includes 19 age groups, but the data set provided by this package includes
 #' age "`0`" with ages "`1 - 4`" in the "`0 - 4`" group to match the coding in
-#' the FCDS data.
+#' the FCDS data. Only years matching the FCDS 5-year mid year are included.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
 #' @references <https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz>
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
-#' @format A data frame with 334273 rows and 11 variables:
+#' @format A data frame with 53,466 rows and 11 variables:
 #' \describe{
 #'   \item{`year`}{Year}
 #'   \item{`state`}{State postal abbreviation}
@@ -47,40 +47,40 @@
 "seer_pop_fl"
 
 
-#' SEER Florida population data, expanded Race
+#' SEER Florida population data, with origin, post-1990
 #'
 #' Florida county-level population estimates from 1990--2016 in 19 age groups,
-#' with 4 expanded races by origin. Downloaded from SEER on 2019-01-24 (see
+#' with Spanish/Hispanic origin. Downloaded from SEER on 2019-01-24 (see
 #' references for direct links). Recoding of column values was performed
 #' according to the guidelines available at
 #' <https://seer.cancer.gov/popdata/popdic.html>. The original SEER data
 #' includes 19 age groups, but the data set provided by this package includes
 #' age "`0`" with ages "`1 - 4`" in the "`0 - 4`" group to match the coding in
-#' the FCDS data.
+#' the FCDS data. The SEER data was also modified to match the FCDS race
+#' recoding by collapsing the expanded race variable into "White", "Black" and
+#' "Other". Only years matching the FCDS 5-year mid year are included.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
 #' @references <https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz>
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
 #'
-#' @format A data frame with 334273 rows and 11 variables:
+#' @format A data frame with 75,335 rows and 11 variables:
 #' \describe{
 #'   \item{`year`}{Year}
 #'   \item{`state`}{State postal abbreviation}
 #'   \item{`state_fips`}{State FIPS code}
 #'   \item{`county_fips`}{County FIPS code}
 #'   \item{`registry`}{Registry}
-#'   \item{`race`}{Race: White, Black, American Indian/Alaska Native,
-#'                 Asian or Pacific Islander}
-#'   \item{`origin`}{Origin: Non-Hispanic, Hispanic.
-#'                   Not applicable for data prior to 1990.}
+#'   \item{`race`}{Race: White, Black, Other}
+#'   \item{`origin`}{Origin: Non-Hispanic, Hispanic}
 #'   \item{`sex`}{Sex}
 #'   \item{`age_group`}{Age: 19 groups from 0, 1--4, 5--9, \dots 85+}
 #'   \item{`population`}{Population}
 #'   \item{`county_name`}{County Name, see [county_fips_fl]}
 #' }
 #' @family SEER Population Data
-"seer_pop_fl_exp_race"
+"seer_pop_fl_1990"
 
 
 #' SEER U.S. Standard Population for Age-Adjustment
@@ -137,20 +137,20 @@
 
 #' SEER U.S. Population
 #'
-#' Contains the SEER _All States Combined, Adjusted_ data, using 4 expanded
-#' races by origin. Downloaded from
-#' [SEER Population Data](https://seer.cancer.gov/popdata/download.html).
+#' Contains the SEER _All States Combined, Adjusted_ data, with Spanish/Hispanic
+#' origin. The SEER data included expanded race groups, but these were collapsed
+#' to match the FCDS race grouping of "White", "Black", or "Other". Downloaded
+#' from [SEER Population Data](https://seer.cancer.gov/popdata/download.html).
 #' This data set is minimally processed to join ages "`0`" with "`1 - 4`" to
 #' match the FCDS data format.
-#'
 #'
 #' @references <https://seer.cancer.gov/popdata/>
 #' @references <https://seer.cancer.gov/popdata/download.html>
 #'
-#' @format A data frame with 8,064 rows and 6 variables:
+#' @format A data frame with 1,140 rows and 6 variables:
 #' \describe{
 #'   \item{\code{year}}{character. Year}
-#'   \item{\code{race}}{factor. Race: "White", "Black", "American Indian/Alaska Native", or "Asian or Pacific Islander"}
+#'   \item{\code{race}}{factor. Race: "White", "Black", "Other"}
 #'   \item{\code{origin}}{factor. Hispanic Origin: "Hispanic", "Non-Hispanic"}
 #'   \item{\code{sex}}{factor. Sex: "Male", "Female"}
 #'   \item{\code{age_group}}{factor. Five-year age group from "`0 - 4`" to "`85+`"}
