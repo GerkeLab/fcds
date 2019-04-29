@@ -180,7 +180,7 @@ fcds_import <- function(
     verbose = verbose
   )
 
-  attributes(data)$fcds_version <- packageVersion("fcds")
+  attributes(data)$fcds_version <- utils::packageVersion("fcds")
 
   if (!is.null(output_file)) {
     output_file <- strftime(Sys.time(), output_file)
@@ -224,7 +224,7 @@ fcds_load <- function(file = fcds_default_data_path(), check_data = TRUE) {
 
   if (check_data) {
     data_fcds_version <- attr(data, "fcds_version")
-    fcds_version <- packageVersion("fcds")
+    fcds_version <- utils::packageVersion("fcds")
     if (!is.null(data_fcds_version) && data_fcds_version != fcds_version) {
       warn(glue(
         "Cached data was imported with {{fcds}} version {data_fcds_version}, ",
