@@ -482,3 +482,35 @@ test_that("age_adjust() throws error if count column is missing from data", {
     "does not contain .count. column"
   )
 })
+
+test_that("choose_seer_data() throws error if origin in data but year < 1990", {
+  d_bad_origin_year <- tidyr::crossing(
+    origin = fcds_const("origin"),
+    year_group = fcds_const("year_group")
+  )
+
+  expect_error(choose_seer_population(d_bad_origin_year), "prior to 1990")
+
+  d_bad_origin_year <- tidyr::crossing(
+    origin = fcds_const("origin"),
+    year = paste(1989:1991)
+  )
+
+  expect_error(choose_seer_population(d_bad_origin_year), "prior to 1990")
+})
+
+test_that("choose_seer_data() chooses correct data set", {
+  d_seer_fl <- tidyr::crossing(
+    sex = fcds_const("sex"),
+    year_group = fcds_const("year_group")
+  )
+
+  expect_equal(choose_seer_population(d_seer_fl), fcds::seer_pop_fl)
+
+  d_seer_fl_1990 <- tidyr::crossing(
+    sex = fcds_const('sex'),
+    year = "1993"
+  )
+
+  expect_equal(choose_seer_population(d_seer_fl_1990), fcds::seer_pop_fl_1990)
+})

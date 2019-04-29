@@ -4,7 +4,7 @@
 \alias{age_adjust}
 \title{Age-Adjust Rates}
 \usage{
-age_adjust(data, count = n, population = fcds::seer_pop_fl,
+age_adjust(data, count = n, population = NULL,
   population_standard = fcds::seer_std_ages, by_year = "year",
   age = age_group, keep_age = FALSE)
 }
@@ -15,7 +15,13 @@ age_adjust(data, count = n, population = fcds::seer_pop_fl,
 
 \item{population}{Population data specific to the population described by
 \code{data}. By default, uses the county-specific Florida population data
-provided by SEER (see \link{seer_pop_fl}).}
+provided by SEER (see \link{seer_pop_fl_1990}). If \code{data} describes years
+prior to 1990, then \link{seer_pop_fl} is used instead.
+
+Note that \code{origin} (Spanish/Hispanic Origin) is not avaiable for years
+prior to 1990 and an error will occur if \code{origin} is included in the input
+\code{data} but the data appear to cover years before 1990. You can override
+this error by explicitly setting \code{population = fcds::seer_pop_fl_1990}.}
 
 \item{population_standard}{The standard age-specific population used to
 calculate the age-adjusted rates. By default, uses the 2000 U.S. standard

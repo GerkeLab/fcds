@@ -438,7 +438,13 @@ format_age_groups <- function(
 #'   to the population data.
 #' @param population Population data specific to the population described by
 #'   `data`. By default, uses the county-specific Florida population data
-#'   provided by SEER (see [seer_pop_fl]).
+#'   provided by SEER (see [seer_pop_fl_1990]). If `data` describes years
+#'   prior to 1990, then [seer_pop_fl] is used instead.
+#'
+#'   Note that `origin` (Spanish/Hispanic Origin) is not avaiable for years
+#'   prior to 1990 and an error will occur if `origin` is included in the input
+#'   `data` but the data appear to cover years before 1990. You can override
+#'   this error by explicitly setting `population = fcds::seer_pop_fl_1990`.
 #' @param population_standard The standard age-specific population used to
 #'   calculate the age-adjusted rates. By default, uses the 2000 U.S. standard
 #'   population provided by SEER (see [seer_std_ages]).
@@ -462,7 +468,7 @@ format_age_groups <- function(
 age_adjust <- function(
   data,
   count = n,
-  population = fcds::seer_pop_fl,
+  population = NULL,
   population_standard = fcds::seer_std_ages,
   by_year = "year",
   age = age_group,
@@ -475,6 +481,8 @@ age_adjust <- function(
   if (!quo_name(count) %in% names(data)) {
     abort(glue("`data` does not contain `count` column '{quo_name(count)}'"))
   }
+
+  population <- population %||% choose_seer_population(data)
 
   # All inputs need to have the age_grouping variable
   # but allow matching to age_group in population defaults
@@ -541,11 +549,12 @@ age_adjust <- function(
     group_by(!!age, add = TRUE)
 
   data <- data %>%
-    join_population(population, by_year = by_year) %>%
     with_ungroup(~ {
-      mutate(
-        .x, population = purrr::map(population, "population") %>% purrr::map_dbl(sum)
-      )
+      join_population(.x, population, by_year = by_year) %>%
+        mutate(
+          population = purrr::map(population, "population") %>%
+            purrr::map_dbl(sum)
+        )
     }) %>%
     with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population), sum))
 
@@ -649,4 +658,28 @@ validate_same_number_of_age_groups <- function(data) {
   }
 
   invisible(TRUE)
+}
+
+choose_seer_population <- function(data) {
+  guess_year_var <- c("year", "year_group")
+  guess_year_var <- guess_year_var[guess_year_var %in% names(data)]
+  if (!length(guess_year_var)) {
+    abort("Please manually specify the reference `population`.")
+  }
+
+  years <- data[[guess_year_var[1]]] %>% unique() %>% paste()
+  years <- grep("\\d{4}", years, value = TRUE)
+  years <- sub("(\\d{4}).+", "\\1", years)
+
+  if (min(as.integer(years), na.rm = TRUE) < 1990) {
+    if ("origin" %in% names(data)) {
+      abort(glue(
+        "`origin` is included in input data, but SEER population data prior to ",
+        "1990 does not contain Spanish/Hispanic origin. You may set ",
+        "`population = fcds::seer_pop_fl_1990` manually to override this check."
+      ))
+    }
+    return(fcds::seer_pop_fl)
+  }
+  fcds::seer_pop_fl_1990
 }
