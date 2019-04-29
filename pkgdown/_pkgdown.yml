@@ -84,6 +84,6 @@ reference:
   - '`seer_icd_o_3`'
   - '`seer_std_ages`'
   - '`seer_pop_fl`'
-  - '`seer_pop_fl_exp_race`'
+  - '`seer_pop_fl_1990`'
   - '`seer_pop_us`'
   - '`county_fips_fl`'
