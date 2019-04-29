@@ -472,6 +472,10 @@ age_adjust <- function(
   age <- enquo(age)
   age_name <- quo_name(age)
 
+  if (!quo_name(count) %in% names(data)) {
+    abort(glue("`data` does not contain `count` column '{quo_name(count)}'"))
+  }
+
   # All inputs need to have the age_grouping variable
   # but allow matching to age_group in population defaults
   have_age <- validate_all_have_var(
@@ -527,6 +531,10 @@ age_adjust <- function(
   data_groups <- group_vars(data) %>%
     setdiff(c(if (!keep_age) age_name)) %>%
     rlang::syms()
+
+  if (length(data_groups)) {
+    validate_same_number_of_age_groups(data)
+  }
 
   data <- filter(data, !!age != "Unknown") %>%
     # data needs age to be in the groups
@@ -602,4 +610,43 @@ age_adjust_finalize <- function(
     with_ungroup(~ mutate(., rate = !!count / .data$population * .data$w)) %>%
     with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population, rate), sum)) %>%
     mutate(rate = .data$rate * 100000)
+}
+
+validate_same_number_of_age_groups <- function(data) {
+  # validate that all groups have same number of age groups
+  d_age_groups <- data %>%
+    dplyr::count(sort = TRUE) %>%
+    ungroup() %>%
+    tidyr::nest(-n)
+
+  if (nrow(d_age_groups) == 0) {
+    abort("No age groups found in data")
+  }
+
+  if (nrow(d_age_groups) > 1) {
+    d_age_groups$n_groups <- purrr::map_int(d_age_groups$data, nrow)
+    max_n <- d_age_groups$n[[1]]
+    max_group_labels <- d_age_groups$data[[1]] %>%
+      apply(1, collapse) %>%
+      and_more()
+
+    not_max_group_labels <- d_age_groups[-1, ]$data %>%
+      dplyr::bind_rows() %>%
+      apply(1, collapse) %>%
+      and_more()
+
+    warn(glue(
+      "Mismatched number of age_groups in data. ",
+      "{max_group_labels} ",
+      "{ifelse(d_age_groups$n_groups[1] > 1, 'have', 'has')} ",
+      "{max_n} age groups, but ",
+      "{not_max_group_labels} ",
+      "{ifelse(sum(d_age_groups$n_groups[-1]) > 1, 'have', 'has')} ",
+      "fewer age groups."
+    ))
+
+    return(invisible(FALSE))
+  }
+
+  invisible(TRUE)
 }

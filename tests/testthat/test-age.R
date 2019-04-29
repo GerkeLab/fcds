@@ -378,7 +378,7 @@ test_that("age_adjust() accepts non-default count and age arguments", {
   # errors when age = age_group but one of population is different
   expect_error(
     age_adjust(d_incidence,
-               count = my_count, by_year = NULL,
+               by_year = NULL,
                population = d_population %>% dplyr::rename(my_age = age_group)),
     "age_group.+population"
   )
@@ -453,4 +453,32 @@ test_that("age_adjust() with subgroups", {
   r_age_adjusted <- age_adjust(d_incidence_split, population = d_pop_split, by_year = NULL)
 
   expect_equal(r_age_adjusted, e_age_adjusted)
+})
+
+test_that("age_adjust() throws warning with unequal numbers of age_groups", {
+  d_mismatch_age_groups <- tidyr::crossing(
+    county_name = "Pinellas",
+    year = "2013",
+    sex = c("Female", "Male"),
+    age_group = fcds_const("age_group")[1:3],
+    n = 5:10
+  ) %>%
+    group_by(county_name, sex)
+
+  removed_age_group <- d_mismatch_age_groups[3, ]
+  d_mismatch_age_groups <- d_mismatch_age_groups[-3, ]
+
+  expect_warning(
+    d_mismatch_age_groups %>% age_adjust()
+  )
+})
+
+test_that("age_adjust() throws error if count column is missing from data", {
+  d_no_count <- d_incidence[, -2]
+  d_no_count$year <- "2013"
+
+  expect_error(
+    d_no_count %>% age_adjust(),
+    "does not contain .count. column"
+  )
 })
