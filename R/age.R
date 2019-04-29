@@ -164,6 +164,7 @@ complete_age_groups <- function(
 
   data <- data %>%
     group_drop(age_group_name) %>%
+    refactor_single_level_groups() %>%
     mutate(
       !!age_group_name := paste(!!age_group),
       !!age_group_name := factor(!!age_group, common_age_groups, ordered = TRUE)
@@ -685,4 +686,17 @@ choose_seer_population <- function(data) {
     return(fcds::seer_pop_fl)
   }
   fcds::seer_pop_fl_1990
+}
+
+refactor_single_level_groups <- function(data) {
+  factor_cols <- names(data)[purrr::map_lgl(data, is.factor)]
+
+  for (f_col in factor_cols) {
+    n_fct_levels_present <- data[[f_col]] %>% unique() %>% length()
+    if (n_fct_levels_present == 1) {
+      data[[f_col]] <- factor(data[[f_col]], paste(data[[f_col]][1]))
+    }
+  }
+
+  data
 }
