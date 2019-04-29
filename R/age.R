@@ -625,7 +625,8 @@ age_adjust_finalize <- function(
 
 validate_same_number_of_age_groups <- function(data) {
   # validate that all groups have same number of age groups
-  d_age_groups <- data %>%
+  d_age_groups <- data[, union("age_group", group_vars(data))] %>%
+    group_drop(age_group) %>%
     dplyr::count(sort = TRUE) %>%
     ungroup() %>%
     tidyr::nest(-n)
