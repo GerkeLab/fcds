@@ -66,7 +66,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5.9000</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ by default <a href='seer_std_ages.html'>seer_std_ages</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>age_adjust</span>(<span class='no'>data</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>population</span> <span class='kw'>=</span> <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/fcds/topics/seer_pop_fl'>seer_pop_fl</a></span>,
+    <pre class="usage"><span class='fu'>age_adjust</span>(<span class='no'>data</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>population</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>population_standard</span> <span class='kw'>=</span> <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/fcds/topics/seer_std_ages'>seer_std_ages</a></span>, <span class='kw'>by_year</span> <span class='kw'>=</span> <span class='st'>"year"</span>,
   <span class='kw'>age</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='kw'>keep_age</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
@@ -143,7 +143,12 @@ by default <a href='seer_std_ages.html'>seer_std_ages</a>.</p>
       <th>population</th>
       <td><p>Population data specific to the population described by
 <code>data</code>. By default, uses the county-specific Florida population data
-provided by SEER (see <a href='seer_pop_fl.html'>seer_pop_fl</a>).</p></td>
+provided by SEER (see <a href='seer_pop_fl_1990.html'>seer_pop_fl_1990</a>). If <code>data</code> describes years
+prior to 1990, then <a href='seer_pop_fl.html'>seer_pop_fl</a> is used instead.</p>
+<p>Note that <code>origin</code> (Spanish/Hispanic Origin) is not avaiable for years
+prior to 1990 and an error will occur if <code>origin</code> is included in the input
+<code>data</code> but the data appear to cover years before 1990. You can override
+this error by explicitly setting <code>population = fcds::seer_pop_fl_1990</code>.</p></td>
     </tr>
     <tr>
       <th>population_standard</th>

@@ -34,9 +34,10 @@
   
 <meta property="og:title" content="SEER U.S. Population — seer_pop_us" />
 
-<meta property="og:description" content="Contains the SEER All States Combined, Adjusted data, using 4 expanded
-races by origin. Downloaded from
-SEER Population Data.
+<meta property="og:description" content="Contains the SEER All States Combined, Adjusted data, with Spanish/Hispanic
+origin. The SEER data included expanded race groups, but these were collapsed
+to match the FCDS race grouping of &quot;White&quot;, &quot;Black&quot;, or &quot;Other&quot;. Downloaded
+from SEER Population Data.
 This data set is minimally processed to join ages &quot;0&quot; with &quot;1 - 4&quot; to
 match the FCDS data format." />
 <meta name="twitter:card" content="summary" />
@@ -69,7 +70,7 @@ match the FCDS data format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5.9000</span>
       </span>
     </div>
 
@@ -122,9 +123,10 @@ match the FCDS data format." />
 
     <div class="ref-description">
     
-    <p>Contains the SEER <em>All States Combined, Adjusted</em> data, using 4 expanded
-races by origin. Downloaded from
-<a href='https://seer.cancer.gov/popdata/download.html'>SEER Population Data</a>.
+    <p>Contains the SEER <em>All States Combined, Adjusted</em> data, with Spanish/Hispanic
+origin. The SEER data included expanded race groups, but these were collapsed
+to match the FCDS race grouping of "White", "Black", or "Other". Downloaded
+from <a href='https://seer.cancer.gov/popdata/download.html'>SEER Population Data</a>.
 This data set is minimally processed to join ages "<code>0</code>" with "<code>1 - 4</code>" to
 match the FCDS data format.</p>
     
@@ -134,9 +136,9 @@ match the FCDS data format.</p>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 8,064 rows and 6 variables:</p><dl class='dl-horizontal'>
+    <p>A data frame with 1,140 rows and 6 variables:</p><dl class='dl-horizontal'>
 <dt><code>year</code></dt><dd><p>character. Year</p></dd>
-<dt><code>race</code></dt><dd><p>factor. Race: "White", "Black", "American Indian/Alaska Native", or "Asian or Pacific Islander"</p></dd>
+<dt><code>race</code></dt><dd><p>factor. Race: "White", "Black", "Other"</p></dd>
 <dt><code>origin</code></dt><dd><p>factor. Hispanic Origin: "Hispanic", "Non-Hispanic"</p></dd>
 <dt><code>sex</code></dt><dd><p>factor. Sex: "Male", "Female"</p></dd>
 <dt><code>age_group</code></dt><dd><p>factor. Five-year age group from "<code>0 - 4</code>" to "<code>85+</code>"</p></dd>
