@@ -1,0 +1,138 @@
+---
+title: "Getting Started with the fcds Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fcds}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+[fcds-miami]: https://fcds.med.miami.edu/
+[fcds-request]: https://fcds.med.miami.edu/inc/datarequest.shtml
+
+## Installation
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("GerkeLab/fcds")
+```
+
+## Setup
+
+```{r setup, message=FALSE}
+library(dplyr)
+library(fcds)
+```
+
+The **fcds** package doesn't include data from the [FCDS Florida Cancer Registry][fcds-miami].
+Please visit the [FCDS Data Request][fcds-request] page to request the most recent Florida Statewide Cancer Registry data.
+
+Once you have downloaded the data, you can use **fcds** to pre-process and import the FCDS data into R.
+
+```{r eval=FALSE}
+fcds <- fcds_import("STAT_dataset_2018.dat")
+```
+
+The imported, pre-processed data is automatically cached in the `.fcds` directory in your home directory for later use.
+Calling `fcds_load()` will re-load the cached data.
+
+```{r eval=FALSE}
+fcds <- fcds_load()
+```
+
+You can customize the folder where the cached data files are stored; see `?fcds_default_data_path` for more information.
+
+You can also list the files currently stored in the data cache with `fcds_cache_ls()` and you can clean outdated files with `fcds_cache_clean()`, which by default retains the most recently imported FCDS data file.
+
+### Example Data
+
+If you don't have access to the FCDS data, we have provided a small example data set with similar properties to the FCDS data, but without any overlap in the attributes of cases.
+
+```{r}
+fcds <- fcds::fcds_example
+
+fcds[1:5, ]
+```
+
+## Looking up FCDS Values
+
+### FCDS Constants
+
+Lookup the values of variables in the imported data (referred to as a `labels` of the original data `value`) with `fcds_const()`
+
+```{r}
+fcds_const(NULL)
+
+fcds_const("year_group")
+```
+
+If you supply `full = TRUE`, the original column name (`name_original`) and `value` from the FCDS data will be reported alongsize the cleaned column name (`name_clean`) and the value `label` used by the **fcds** package.
+
+```{r}
+fcds_const("cancer_site_group", full = TRUE)
+```
+
+### FCDS Variables
+
+All of the variables in the imported FCDS data are documented in `?fcds_import`.
+You can also list common groups of `fcds` variables using `fcds_vars()`.
+
+```{r}
+fcds_vars("demo")
+
+fcds_vars("cancer")
+```
+
+These column names can be used in conjunction with `dplyr::select()`, or you can supply FCDS data to `fcds_vars()` using the `.data` argument to select matching columns.
+
+```{r}
+fcds %>% select(fcds_vars("id", "demo"))
+
+fcds_vars(.data = fcds, "id", "icdo3")
+```
+
+## A Worked Example: Prostate Cancer
+
+**Note:** This data uses the `fcds_example` data and therefore bears no resemblance to reality.
+The examples herein are only relevant to the demonstration of the functions of the **fcds** package.
+
+```{r}
+fcds_prostate <- 
+  fcds %>% 
+  # Filter to Prostate Cancer in two Florida counties
+  filter(
+    cancer_site_group == "Prostate Gland",
+    county_name %in% c("Hillsborough", "Pinellas"),
+    sex == "Male"
+  ) %>% 
+  # Declare group variables
+  group_by(cancer_site_group, county_name) %>% 
+  # Count incidences of Prostate Cancer
+  count_fcds() %>% 
+  # Fill in missing age groups
+  complete_age_groups() %>% 
+  # Calculate age-adjusted rate from incidence
+  age_adjust() %>% 
+  # Compute average yearly age-adjusted rate over 5 year range
+  mutate(rate = rate / 5)
+
+fcds_prostate
+```
+
+This data can readily be passed to `ggplot2` for visualization.
+
+```{r fig.height=3, fig.width=7}
+library(ggplot2)
+
+ggplot(fcds_prostate) +
+  aes(year_group, rate, color = county_name, group = county_name) +
+  geom_line() +
+  geom_point()
+```

@@ -18,8 +18,8 @@ navbar:
     - reference
     - articles
     - tutorials
-    - news
     right:
+    - news
     - github
     - gerkelab
   components:
@@ -30,7 +30,7 @@ navbar:
       text: Reference
       href: reference/index.html
     news:
-      text: Changelog
+      icon: fa fa-newspaper-o fa-lg
       href: news/index.html
     github:
       icon: fa-github fa-lg
