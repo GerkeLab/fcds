@@ -27,7 +27,7 @@ for (group in shuffle_groups) {
 n_example <- nrow(fcds_example)
 
 # make sure no comparable "real" cases remain
-fcds_safe <- anti_join(fcds_example, fcds[, -1])
+fcds_safe <- suppressWarnings(anti_join(fcds_example, fcds[, -1]))
 
 n_diff <- n_example - nrow(fcds_safe)
 if (n_diff) {
@@ -39,6 +39,6 @@ fcds_example <-
   fcds_example %>%
   arrange(year, age_group, county_name, cancer_ICDO3_morphology) %>%
   mutate(patient_id = row_number() + 10000) %>%
-  select(patient_id, everything())
+  select(patient_id, everything(), -i)
 
 usethis::use_data(fcds_example, overwrite = TRUE, compress = "gzip")
