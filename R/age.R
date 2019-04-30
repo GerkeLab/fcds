@@ -547,7 +547,7 @@ age_adjust <- function(
     validate_same_number_of_age_groups(data)
   }
 
-  data <- filter(data, !!age != "Unknown") %>%
+  data <- with_ungroup(data, ~ filter(.x, !!age != "Unknown")) %>%
     # data needs age to be in the groups
     group_by(!!age, add = TRUE)
 
