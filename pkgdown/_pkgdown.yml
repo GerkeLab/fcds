@@ -52,6 +52,11 @@ reference:
   desc: Perform Calculation of Age-Adjusted Rates
   contents:
   - '`age_adjust`'
+- title: Map FCDS Data
+  desc: Functions to spatially visualize rates and incidence
+  contents:
+  - '`fcds_map`'
+  - '`join_boundaries_fl`'
 - title: Work with FCDS Data
   desc: Functions to help analyze and work with the FCDS data
   contents:
