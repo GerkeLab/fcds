@@ -106,25 +106,6 @@ filter_fcds <- function(fcds, var_name, values) {
     group_by(!!var, add = TRUE)
 }
 
-# nocov start
-merge_fl_counties <- function(data) {
-  requires_package("USAboundaries", "merge_fl_counties()")
-  florida_counties <- USAboundaries::us_counties(states = "Florida") %>%
-    select(fips_code = .data$countyfp, "geometry")
-
-  if (!"county_fips" %in% names(data)) {
-    county_fips <- fcds::county_fips_fl
-    data <-
-      data %>%
-      dplyr::left_join(county_fips, by = "county_name") %>%
-      mutate(fips_code = sprintf("%03d", as.integer(.data$fips_code)))
-  }
-
-  dplyr::left_join(data, florida_counties, by = "fips_code")
-}
-# nocov end
-
-
 # FCDS Variable Names -----------------------------------------------------
 
 #' Select Common FCDS Variable Groups

@@ -38,8 +38,10 @@ Imports:
     yaml
 Suggests: 
     ggplot2,
+    leaflet,
     knitr,
     rmarkdown,
+    sf,
     testthat (>= 2.1.0),
     USAboundaries
 VignetteBuilder: 
