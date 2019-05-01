@@ -3,21 +3,27 @@
 join_population <- function(
   data,
   population = fcds::seer_pop_fl,
-  by_year = NULL
+  by_year = NULL,
+  keep_pop_vars = FALSE
 ) {
   if (!is.null(by_year)) {
     return(join_population_by_year(data, population, by_year))
   }
 
   common_names_ <- common_names(data, population)
-  pop_vars <- setdiff(names(population), common_names_)
+  pop_vars <- if (keep_pop_vars) {
+    setdiff(names(population), common_names_)
+  } else "population"
+
+  pop_groups <- setdiff(common_names_, pop_vars)
 
   # Nest population specific variables
   population <- population %>%
-    quiet_semi_join(data, by = setdiff(common_names_, pop_vars)) %>%
+    quiet_semi_join(data, by = pop_groups) %>%
+    select(pop_groups, pop_vars) %>%
     tidyr::nest(pop_vars, .key = "population")
 
-  quiet_left_join(data, population, by = common_names_)
+  with_ungroup(data, ~ quiet_left_join(., population, by = common_names_))
 }
 
 join_population_by_year <- function(

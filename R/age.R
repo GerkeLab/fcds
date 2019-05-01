@@ -554,10 +554,7 @@ age_adjust <- function(
   data <- data %>%
     with_ungroup(~ {
       join_population(.x, population, by_year = by_year) %>%
-        mutate(
-          population = purrr::map(population, "population") %>%
-            purrr::map_dbl(sum)
-        )
+        mutate(population = purrr::map_dbl(population, ~ sum(.x$population)))
     }) %>%
     with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population), sum))
 
@@ -629,10 +626,10 @@ age_adjust_finalize <- function(
 
 validate_same_number_of_age_groups <- function(data) {
   # validate that all groups have same number of age groups
+  groups <- setdiff(group_vars(data), "age_group") %>% rlang::syms()
   d_age_groups <- data[, union("age_group", group_vars(data))] %>%
-    group_drop(age_group) %>%
-    dplyr::count(sort = TRUE) %>%
     ungroup() %>%
+    dplyr::count(!!!groups, sort = TRUE) %>%
     tidyr::nest(-n)
 
   if (nrow(d_age_groups) == 0) {
