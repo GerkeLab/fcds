@@ -65,9 +65,11 @@ fcds_map_add_label <- function(data, ...) {
 #'   dplyr::mutate(rate = rate / 5) %>%
 #'   dplyr::mutate(year_group = factor(year_group, unique(year_group)))
 #'
-#' fcds_map(fcds_example_rates) +
-#'   ggplot2::facet_wrap(~year_group, ncol = 4) +
-#'   ggplot2::theme(legend.position = c(0.93, 0.25))
+#' if (all(fcds:::suggests_package(c("sf", "ggplot2")))) {
+#'   fcds_map(fcds_example_rates) +
+#'     ggplot2::facet_wrap(~year_group, ncol = 4) +
+#'     ggplot2::theme(legend.position = c(0.93, 0.25))
+#' }
 #'
 #' \dontrun{
 #' fcds_map_leaflet(fcds_example_rates)
