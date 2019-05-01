@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SEER ICD-O-3 Histology Code and Behavior — seer_icd_o_3 • fcds</title>
+<title>Join Florida County Boundaries to a data frame — join_boundaries_fl • fcds</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="SEER ICD-O-3 Histology Code and Behavior — seer_icd_o_3" />
+<meta property="og:title" content="Join Florida County Boundaries to a data frame — join_boundaries_fl" />
 
-<meta property="og:description" content="Contains the histology codes and behavior description provided by the
-ICD-O-3 SEER Site/Histology Validation List." />
+<meta property="og:description" content="Uses the sf and USAboundaries packages to join the input data with the
+county shapes required for spatial data visualization. See
+USAboundaries::us_counties() for more information about the county
+shapes used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,43 +120,47 @@ ICD-O-3 SEER Site/Histology Validation List." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SEER ICD-O-3 Histology Code and Behavior</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/fcds-data.R'><code>R/fcds-data.R</code></a></small>
-    <div class="hidden name"><code>seer_icd_o_3.Rd</code></div>
+    <h1>Join Florida County Boundaries to a data frame</h1>
+    <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/map.R'><code>R/map.R</code></a></small>
+    <div class="hidden name"><code>join_boundaries_fl.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Contains the histology codes and behavior description provided by the
-<a href='https://seer.cancer.gov/icd-o-3/'>ICD-O-3 SEER Site/Histology Validation List</a>.</p>
+    <p>Uses the <code>sf</code> and <code>USAboundaries</code> packages to join the input data with the
+county shapes required for spatial data visualization. See
+<code><a href='http://lincolnmullen.com/software/usaboundaries/reference/us_counties.html'>USAboundaries::us_counties()</a></code> for more information about the county
+shapes used.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>seer_icd_o_3</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A data frame with 12,084 rows and 5 variables:</p><dl class='dl-horizontal'>
-<dt><code>site_group</code></dt><dd><p>integer. Site group, e.g. "<code>Esophagus</code>"</p></dd>
-<dt><code>histology</code></dt><dd><p>character. Four-digit ICD-O-3 histology code, e.g. "<code>8262</code>"</p></dd>
-<dt><code>histology_description</code></dt><dd><p>integer. Description of histology, e.g. "<code>Papillary Adenocarcinoma, NOS</code>"</p></dd>
-<dt><code>morphology</code></dt><dd><p>character. Five-digit ICD-O-3 morphology code, e.g. "<code>8262/3</code>"</p></dd>
-<dt><code>morphology_description</code></dt><dd><p>integer. Description of morphology, e.g. "<code>Villous Adenocarcinoma</code>"</p></dd>
-</dl>
+    <pre class="usage"><span class='fu'>join_boundaries_fl</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>A data frame</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='http://lincolnmullen.com/software/usaboundaries/reference/us_counties.html'>USAboundaries::us_counties()</a></code>.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='https://seer.cancer.gov/icd-o-3/'>https://seer.cancer.gov/icd-o-3/</a></p>
+    <p>An <code>sf</code> data frame, created by <code>sf::st_sf()</code>.</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#references">References</a></li>
+      <li><a href="#value">Value</a></li>
           </ul>
 
   </div>
