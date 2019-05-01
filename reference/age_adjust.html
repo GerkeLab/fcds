@@ -66,7 +66,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6.9001</span>
       </span>
     </div>
 
@@ -297,27 +297,27 @@ is calculated using the following formula</em>:</p>
 <span class='fu'>age_adjust</span>(<span class='no'>d_incidence</span>,
            <span class='kw'>population</span> <span class='kw'>=</span> <span class='no'>d_population</span>,
            <span class='kw'>by_year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-           <span class='kw'>keep_age</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 18 x 5
-#&gt;    age_group     n population  std_pop      w
-#&gt;    &lt;ord&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
-#&gt;  1 0 - 4       116     693068 18986520 0.0691
-#&gt;  2 5 - 9        67     736212 19919840 0.0725
-#&gt;  3 10 - 14      71     770999 20056779 0.0730
-#&gt;  4 15 - 19      87     651390 19819518 0.0722
-#&gt;  5 20 - 24     177     639159 18257225 0.0665
-#&gt;  6 25 - 29     290     676354 17722067 0.0645
-#&gt;  7 30 - 34     657     736557 19511370 0.0710
-#&gt;  8 35 - 39    1072     724826 22179956 0.0808
-#&gt;  9 40 - 44    1691     700200 22479229 0.0819
-#&gt; 10 45 - 49    2428     617437 19805793 0.0721
-#&gt; 11 50 - 54    2931     516541 17224359 0.0627
-#&gt; 12 55 - 59    2881     361170 13307234 0.0485
-#&gt; 13 60 - 64    2817     259440 10654272 0.0388
-#&gt; 14 65 - 69    2817     206204  9409940 0.0343
-#&gt; 15 70 - 74    2744     172087  8725574 0.0318
-#&gt; 16 75 - 79    2634     142958  7414559 0.0270
-#&gt; 17 80 - 84    1884      99654  4900234 0.0178
-#&gt; 18 85+        1705      92692  4259173 0.0155</div><div class='input'>
+           <span class='kw'>keep_age</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 18 x 6
+#&gt;    age_group     n population  std_pop      w   rate
+#&gt;    &lt;ord&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 0 - 4       116     693068 18986520 0.0691  1.16 
+#&gt;  2 5 - 9        67     736212 19919840 0.0725  0.660
+#&gt;  3 10 - 14      71     770999 20056779 0.0730  0.673
+#&gt;  4 15 - 19      87     651390 19819518 0.0722  0.964
+#&gt;  5 20 - 24     177     639159 18257225 0.0665  1.84 
+#&gt;  6 25 - 29     290     676354 17722067 0.0645  2.77 
+#&gt;  7 30 - 34     657     736557 19511370 0.0710  6.34 
+#&gt;  8 35 - 39    1072     724826 22179956 0.0808 11.9  
+#&gt;  9 40 - 44    1691     700200 22479229 0.0819 19.8  
+#&gt; 10 45 - 49    2428     617437 19805793 0.0721 28.4  
+#&gt; 11 50 - 54    2931     516541 17224359 0.0627 35.6  
+#&gt; 12 55 - 59    2881     361170 13307234 0.0485 38.7  
+#&gt; 13 60 - 64    2817     259440 10654272 0.0388 42.1  
+#&gt; 14 65 - 69    2817     206204  9409940 0.0343 46.8  
+#&gt; 15 70 - 74    2744     172087  8725574 0.0318 50.7  
+#&gt; 16 75 - 79    2634     142958  7414559 0.0270 49.7  
+#&gt; 17 80 - 84    1884      99654  4900234 0.0178 33.7  
+#&gt; 18 85+        1705      92692  4259173 0.0155 28.5  </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
