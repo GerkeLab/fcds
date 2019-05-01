@@ -53,7 +53,10 @@ skip the addition of this scale.}
 
 \item{palette}{Set the color palette of the shape fill. You may provide a
 vector of colors that will be used for the palette. The number of colors
-provided determines the number of bins for the values mapped to the fill.}
+provided determines the number of bins for the values mapped to the fill,
+unless specified by \code{palette_bins}.}
+
+\item{palette_bins}{The number of bins in the color \code{palette}.}
 
 \item{group_name}{Character name of the column in \code{data} containing group
 layers.}
@@ -89,8 +92,9 @@ fcds_example_rates <-
   count_fcds(moffitt_catchment = TRUE) \%>\%
   complete_age_groups() \%>\%
   age_adjust() \%>\%
-  ungroup() \%>\%
-  mutate(year_group = factor(year_group, unique(year_group)))
+  dplyr::ungroup() \%>\%
+  dplyr::mutate(rate = rate / 5) \%>\%
+  dplyr::mutate(year_group = factor(year_group, unique(year_group)))
 
 fcds_map(fcds_example_rates) +
   ggplot2::facet_wrap(~year_group, ncol = 4) +

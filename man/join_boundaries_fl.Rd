@@ -12,7 +12,7 @@ join_boundaries_fl(data, ...)
 \item{...}{Additional arguments passed to \code{\link[USAboundaries:us_counties]{USAboundaries::us_counties()}}.}
 }
 \value{
-An \code{sf} data frame, created by \code{\link[sp:st_sf]{sp::st_sf()}}.
+An \code{sf} data frame, created by \code{\link[sf:st_sf]{sf::st_sf()}}.
 }
 \description{
 Uses the \code{sf} and \code{USAboundaries} packages to join the input data with the

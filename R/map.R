@@ -1,3 +1,5 @@
+# Declare tidy eval default arguments as global variables for rcmd check
+if(getRversion() >= "2.15.1") utils::globalVariables(c("rate"))
 
 #' Join Florida County Boundaries to a data frame
 #'
@@ -6,7 +8,7 @@
 #' [USAboundaries::us_counties()] for more information about the county
 #' shapes used.
 #'
-#' @return An `sf` data frame, created by [sp::st_sf()].
+#' @return An `sf` data frame, created by [sf::st_sf()].
 #' @param data A data frame
 #' @param ... Additional arguments passed to [USAboundaries::us_counties()].
 #' @export
@@ -59,8 +61,9 @@ fcds_map_add_label <- function(data, ...) {
 #'   count_fcds(moffitt_catchment = TRUE) %>%
 #'   complete_age_groups() %>%
 #'   age_adjust() %>%
-#'   ungroup() %>%
-#'   mutate(year_group = factor(year_group, unique(year_group)))
+#'   dplyr::ungroup() %>%
+#'   dplyr::mutate(rate = rate / 5) %>%
+#'   dplyr::mutate(year_group = factor(year_group, unique(year_group)))
 #'
 #' fcds_map(fcds_example_rates) +
 #'   ggplot2::facet_wrap(~year_group, ncol = 4) +
@@ -113,6 +116,8 @@ fcds_map <- function(
     data <- join_boundaries_fl(data)
   }
 
+  geometry <- NULL # quiet rcmd check
+
   g <-
     ggplot2::ggplot(data) +
     ggplot2::aes(fill = !!fill, geometry = geometry) +
@@ -129,7 +134,9 @@ fcds_map <- function(
 #'
 #' @param palette Set the color palette of the shape fill. You may provide a
 #'   vector of colors that will be used for the palette. The number of colors
-#'   provided determines the number of bins for the values mapped to the fill.
+#'   provided determines the number of bins for the values mapped to the fill,
+#'   unless specified by `palette_bins`.
+#' @param palette_bins The number of bins in the color `palette`.
 #' @param group_name Character name of the column in `data` containing group
 #'   layers.
 #' @param group_labels Labels for the group levels in the column referenced by
@@ -186,7 +193,7 @@ fcds_map_leaflet <- function(
     leaflet::addProviderTiles(leaflet::providers$CartoDB.Positron) %>%
     leaflet::addPolygons(
       fillColor = ~ pal(rate),
-      group = if (has_group) as.formula(paste0("~", group_name)),
+      group = if (has_group) rlang::new_formula(NULL, rlang::sym(group_name)),
       opacity = 1,
       weight = 2,
       color = "#D4DADC",
