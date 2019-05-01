@@ -421,7 +421,10 @@ test_that("age_adjust() with keep_age = TRUE", {
     dplyr::left_join(d_population) %>%
     dplyr::left_join(d_std) %>%
     select(age_group, n, population, std_pop) %>%
-    mutate(w = std_pop / sum(std_pop))
+    mutate(
+      w = std_pop / sum(std_pop),
+      rate = n / population * w * 100000
+    )
 
   expect_equal(r_age_adjusted, e_age_adjusted)
 })

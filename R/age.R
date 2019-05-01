@@ -610,6 +610,11 @@ age_adjust_finalize <- function(
 
   data <- quiet_left_join(data, std_pop_relevant, by = age_name)
 
+  data <- data %>%
+    with_ungroup(
+      ~ mutate(., rate = !!count / .data$population * .data$w * 1e5)
+    )
+
   if (keep_age) return(data)
 
   # Get groups from the data other than "age_group" because we'll be
@@ -619,9 +624,7 @@ age_adjust_finalize <- function(
   data %>%
     # Drop "age_group" from groups so that summarization is over ages
     group_drop(!!age) %>%
-    with_ungroup(~ mutate(., rate = !!count / .data$population * .data$w)) %>%
-    with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population, rate), sum)) %>%
-    mutate(rate = .data$rate * 100000)
+    with_retain_groups(~ dplyr::summarize_at(., quos(!!count, population, rate), sum))
 }
 
 validate_same_number_of_age_groups <- function(data) {
