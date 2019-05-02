@@ -58,8 +58,22 @@ join_population_by_year <- function(
 #' not present in the FCDS data, then it would be better to use [dplyr::count()]
 #' directly.
 #'
+#' @examples
+#'
+#' fcds_example %>%
+#'   dplyr::filter(county_name == "Pinellas") %>%
+#'   count_fcds(cancer_site_group, sex = "Male")
+#'
+#' @return A grouped data frame with counts. The output groups includes the
+#'   union of the groups of the original input `data`, the groups specified by
+#'   the columns indicated in `...`, and the `default_groups` added by
+#'   `count_fcds()` (modifyable by the `default_groups` argument).
+#'
+#'   All factor levels will be modified to include only those levels that appear
+#'   in the final output across all groups.
 #' @param data A data frame
-#' @param ... Used only to require users to provide named arguments
+#' @param ... Unquoted column names to be added to the grouping of the output
+#'   and subsequent counting.
 #' @param sex Character vector of values of `sex` to be included in count
 #' @param race Character vector of values of `race` to be included in count
 #' @param origin Character vector of values of `origin` to be included in count
@@ -99,8 +113,9 @@ count_fcds <- function(
   groups <- union(group_vars(data), intersect(default_groups, names(data)))
 
   data %>%
-    group_by(!!!rlang::syms(groups)) %>%
-    dplyr::count()
+    group_by(..., !!!rlang::syms(groups)) %>%
+    dplyr::count() %>%
+    with_ungroup(discard_unobserved_levels)
 }
 
 filter_fcds <- function(fcds, var_name, values) {
@@ -110,6 +125,16 @@ filter_fcds <- function(fcds, var_name, values) {
   fcds %>%
     filter(!!var %in% values) %>%
     group_by(!!var, add = TRUE)
+}
+
+discard_unobserved_levels <- function(data) {
+  discard_levels <- function(fct) {
+    fct_observed <- intersect(levels(fct), as.character(unique(fct)))
+    factor(as.character(fct), fct_observed)
+  }
+
+  data %>%
+    dplyr::mutate_if(is.factor, discard_levels)
 }
 
 # FCDS Variable Names -----------------------------------------------------

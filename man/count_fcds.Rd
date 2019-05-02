@@ -11,7 +11,8 @@ count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
 \arguments{
 \item{data}{A data frame}
 
-\item{...}{Used only to require users to provide named arguments}
+\item{...}{Unquoted column names to be added to the grouping of the output
+and subsequent counting.}
 
 \item{sex}{Character vector of values of \code{sex} to be included in count}
 
@@ -26,6 +27,15 @@ count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
 prior to counting cancer cases. Set to \code{NULL} to use only the groups
 already present in the input data.}
 }
+\value{
+A grouped data frame with counts. The output groups includes the
+union of the groups of the original input \code{data}, the groups specified by
+the columns indicated in \code{...}, and the \code{default_groups} added by
+\code{count_fcds()} (modifyable by the \code{default_groups} argument).
+
+All factor levels will be modified to include only those levels that appear
+in the final output across all groups.
+}
 \description{
 Helper function to count cancer cases in the FCDS data by year and age group,
 in addition to any groups already present in the data. For convenience, you
@@ -36,4 +46,11 @@ that \code{age_group}, \code{year_group}, and \code{year} are included in the gr
 variables if they are present in the data. If they are not, or if they are
 not present in the FCDS data, then it would be better to use \code{\link[dplyr:count]{dplyr::count()}}
 directly.
+}
+\examples{
+
+fcds_example \%>\%
+  dplyr::filter(county_name == "Pinellas") \%>\%
+  count_fcds(cancer_site_group, sex = "Male")
+
 }

@@ -52,60 +52,97 @@ test_that("fcds_vars() with a data frame", {
 
 # count_fcds() ------------------------------------------------------------
 
-test_that("count_fcds()", {
+describe("count_fcds()", {
   r_count_fcds <- fcds::fcds_example %>%
     group_by(county_name) %>%
     count_fcds(sex = "Male", race = "White", origin = "Non-Hispanic")
 
-  expect_equal(
-    unique(r_count_fcds$sex) %>% paste(),
-    "Male"
-  )
-  expect_equal(
-    unique(r_count_fcds$race) %>% paste(),
-    "White"
-  )
-  expect_equal(
-    unique(r_count_fcds$origin) %>% paste(),
-    "Non-Hispanic"
-  )
-  expect_equal(
-    dplyr::group_vars(r_count_fcds),
-    c("county_name", "sex", "race", "origin", "year_group", "year", "age_group")
-  )
+  it("generally works", {
+    expect_equal(
+      unique(r_count_fcds$sex) %>% paste(),
+      "Male"
+    )
+    expect_equal(
+      unique(r_count_fcds$race) %>% paste(),
+      "White"
+    )
+    expect_equal(
+      unique(r_count_fcds$origin) %>% paste(),
+      "Non-Hispanic"
+    )
+    expect_known_hash(r_count_fcds, "b070c39aaf")
+  })
 
-  expect_known_hash(r_count_fcds, "5432290af8")
+  it("adds filtered variables to grouping", {
+    expect_equal(
+      dplyr::group_vars(r_count_fcds),
+      c("county_name", "sex", "race", "origin", "year_group", "year", "age_group")
+    )
+  })
 
-  r_count_fcds_default <- fcds::fcds_example %>%
-    count_fcds()
+  it("generally works with the defaults", {
+    r_count_fcds_default <- fcds::fcds_example %>%
+      count_fcds()
 
-  expect_equal(
-    dplyr::group_vars(r_count_fcds_default),
-    c("year_group", "year", "age_group")
-  )
-  expect_known_hash(r_count_fcds_default, "702cf9ee8a")
+    expect_equal(
+      dplyr::group_vars(r_count_fcds_default),
+      c("year_group", "year", "age_group")
+    )
+    expect_known_hash(r_count_fcds_default, "702cf9ee8a")
+  })
 
-  r_count_fcds_moffitt <- fcds::fcds_example %>%
-    count_fcds(moffitt_catchment = TRUE)
-  expect_known_hash(r_count_fcds_moffitt, "ff07191452")
+  it("subsets to Moffitt counties", {
+    r_count_fcds_moffitt <- fcds::fcds_example %>%
+      count_fcds(moffitt_catchment = TRUE)
+    expect_known_hash(r_count_fcds_moffitt, "8c8fac976d")
+  })
 
-  expect_error(
-    fcds::fcds_example %>% count_fcds(race = "Banana")
-  )
-  expect_error(
-    fcds::fcds_example %>% count_fcds(origin = "Not Hispanic")
-  )
+  it("errors when invalid FCDS constants are provided", {
+    expect_error(
+      fcds::fcds_example %>% count_fcds(race = "Banana")
+    )
+    expect_error(
+      fcds::fcds_example %>% count_fcds(origin = "Not Hispanic")
+    )
+  })
 
-  # Check that `year` (year midpoint) is calculated if needed.
-  # Coercion to data.frame is used to drop var_labels that are present in
-  # the example processed FCDS data.
-  expect_equivalent(
-    fcds::fcds_example %>%
-      select(-year) %>%
-      count_fcds() %>%
-      as.data.frame(),
-    fcds::fcds_example %>% count_fcds() %>% as.data.frame()
-  )
+  it("adds year (year_midpoint) if needed", {
+    # Check that `year` (year midpoint) is calculated if needed.
+    # Coercion to data.frame is used to drop var_labels that are present in
+    # the example processed FCDS data.
+    expect_equivalent(
+      fcds::fcds_example %>%
+        select(-year) %>%
+        count_fcds() %>%
+        as.data.frame(),
+      fcds::fcds_example %>% count_fcds() %>% as.data.frame()
+    )
+  })
+
+  it("lets additional columns be included in the count (and groups) via ...", {
+    r_cf <- fcds::fcds_example %>%
+      count_fcds(cancer_status)
+
+    e_cf <- fcds::fcds_example %>%
+      dplyr::group_by(year_group, year, age_group, cancer_status) %>%
+      dplyr::count()
+
+    expect_equal(r_cf, e_cf)
+  })
+
+  it("removes un-observed factor levels in output groups", {
+    r_cfl <- fcds::fcds_example %>%
+      filter(year > 2000) %>%
+      count_fcds(moffitt_catchment = TRUE, sex = "Male")
+
+    expect_true(
+      length(setdiff(levels(r_cfl$county_name), fcds_const("moffitt_catchment"))) == 0
+    )
+
+    expect_equal(levels(r_cfl$sex), "Male")
+
+    expect_equal(levels(r_cfl$year_group), c("2001-2005", "2006-2010", "2011-2015"))
+  })
 })
 
 test_that("filter_fcds()", {
