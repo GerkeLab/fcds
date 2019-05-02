@@ -100,7 +100,7 @@ filter_age_groups <- function(
   age_group = age_group
 ) {
   age_group <- enquo(age_group)
-  age_group_name <- quo_name(age_group)
+  age_group_name <- as_name(age_group)
 
   data_original_cols <- colnames(data)
 
@@ -176,7 +176,7 @@ complete_age_groups <- function(
   std_age_groups = fcds_const("age_group")
 ) {
   age_group <- enquo(age_group)
-  age_group_name <- quo_name(age_group)
+  age_group_name <- as_name(age_group)
   stopifnot(age_group_name %in% names(data))
 
   ages <- tibble(age_group = std_age_groups)
@@ -237,7 +237,7 @@ standardize_age_groups <- function(
   ...
 ) {
   age_group <- enquo(age_group)
-  age_group_name <- quo_name(age_group)
+  age_group_name <- as_name(age_group)
 
   data_cols <- names(data)
   data_groups <- group_vars(data) %>% rlang::syms()
@@ -508,10 +508,10 @@ age_adjust <- function(
 ) {
   count <- enquo(count)
   age <- enquo(age)
-  age_name <- quo_name(age)
+  age_name <- as_name(age)
 
-  if (!quo_name(count) %in% names(data)) {
-    abort(glue("`data` does not contain `count` column '{quo_name(count)}'"))
+  if (!as_name(count) %in% names(data)) {
+    abort(glue("`data` does not contain `count` column '{as_name(count)}'"))
   }
 
   population <- population %||% choose_seer_population(data)
@@ -606,7 +606,7 @@ age_adjust_finalize <- function(
 ) {
   count <- enquo(count)
   age <- rlang::enquo(age)
-  age_name <- rlang::quo_name(age)
+  age_name <- rlang::as_name(age)
 
   if (!age_name %in% names(population_standard)) {
     abort(glue(

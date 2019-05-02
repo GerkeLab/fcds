@@ -111,8 +111,8 @@ fcds_map <- function(
   scale_fill = ggplot2::scale_fill_viridis_c()
 ) {
   requires_package(c("sf", "ggplot2"), "fcds_map()")
-  fill <- rlang::enquo(fill)
-  fill_name <- rlang::quo_name(fill)
+  fill <- enquo(fill)
+  fill_name <- as_name(fill)
 
   if (!isTRUE(inherits(data, "sf"))) {
     data <- join_boundaries_fl(data)

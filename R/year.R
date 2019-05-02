@@ -51,8 +51,8 @@ complete_year_groups <- function(
   year_group = year_group,
   fill = list(n = 0)
 ) {
-  year_group <- rlang::enquo(year_group)
-  year_group_name <- rlang::quo_name(year_group)
+  year_group <- enquo(year_group)
+  year_group_name <- as_name(year_group)
   stopifnot(year_group_name %in% names(data))
 
   # rcmd check (used in NSE settings below)
@@ -129,7 +129,7 @@ add_mid_year_groups <- function(
     warn(glue("`{into}` already exists in data"))
     return(data)
   }
-  stopifnot(quo_name(year_group) %in% names(data))
+  stopifnot(as_name(year_group) %in% names(data))
 
   mutate(data, !!into := mid_year(!!year_group, sep = sep, offset = offset))
 }
@@ -157,7 +157,7 @@ separate_year_groups <- function(
   sep = "-"
 ) {
   year_group <- enquo(year_group)
-  year_group_name <- quo_name(year_group)
+  year_group_name <- as_name(year_group)
   if (is.null(into)) {
     into <- paste0(year_group_name, "_", c("min", "max"))
   }
