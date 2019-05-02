@@ -69,7 +69,7 @@ can be specified using the sep argument." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9002</span>
       </span>
     </div>
 
@@ -136,8 +136,8 @@ can be specified using the <code>sep</code> argument.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>separate_age_groups</span>(<span class='no'>data</span>, <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\\s*-\\s*"</span>,
-  <span class='no'>...</span>, <span class='kw'>age_min</span> <span class='kw'>=</span> <span class='no'>age_min</span>, <span class='kw'>age_max</span> <span class='kw'>=</span> <span class='no'>age_max</span>)</pre>
+    <pre class="usage"><span class='fu'>separate_age_groups</span>(<span class='no'>data</span>, <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>, <span class='no'>...</span>,
+  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\\s*-\\s*"</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"age_min"</span>, <span class='st'>"age_max"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,6 +151,10 @@ can be specified using the <code>sep</code> argument.</p>
       <td><p>Unquoted column name containing the age grouping.</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>Not used other than to require explicit naming of arguments.</p></td>
+    </tr>
+    <tr>
       <th>sep</th>
       <td><p>Separator between columns.</p>
 <p>If character, is interpreted as a regular expression. The default
@@ -162,16 +166,10 @@ far-right of the string. The length of <code>sep</code> should be one less than
 <code>into</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Not used other than to require explicit naming of arguments.</p></td>
-    </tr>
-    <tr>
-      <th>age_min</th>
-      <td><p>Unquoted column name for lower bondary of age group</p></td>
-    </tr>
-    <tr>
-      <th>age_max</th>
-      <td><p>Unquoted column name for upper boundary of age group</p></td>
+      <th>into</th>
+      <td><p>Character vector of column names for separated <code>age_group</code>.
+If <code>NULL</code>, then <code>_min</code> and <code>_max</code> will be appended to the name of the
+<code>age_group</code> column. Must be two names in the order min then max.</p></td>
     </tr>
     </table>
     
