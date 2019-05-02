@@ -69,7 +69,7 @@ age-adjusted rate has been calculated." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6.9004</span>
       </span>
     </div>
 
@@ -247,8 +247,8 @@ row-wise with references to the column in <code>data</code>.</p></li>
   <span class='fu'><a href='age_adjust.html'>age_adjust</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>rate</span> <span class='kw'>=</span> <span class='no'>rate</span> / <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>year_group</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>year_group</span>)))
-
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>year_group</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>year_group</span>)))</div><div class='output co'>#&gt; <span class='warning'>Warning: Mismatched number of age_groups in data, you may need to use complete_age_groups() first.</span>
+#&gt; <span class='warning'>'Hillsborough, 2011-2015, 2013' has 18 age groups, but 'Lake, 2001-2005, 2003', 'Lee, 2011-2015, 2013', and 102 more... have fewer age groups.</span></div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='kw pkg'>fcds</span><span class='kw ns'>:::</span><span class='fu'>suggests_package</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sf"</span>, <span class='st'>"ggplot2"</span>)))) {
   <span class='fu'>fcds_map</span>(<span class='no'>fcds_example_rates</span>) +
     <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></span>(~<span class='no'>year_group</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>) +
