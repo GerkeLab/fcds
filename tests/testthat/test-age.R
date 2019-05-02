@@ -7,40 +7,50 @@ d_age_group <- data.frame(
 )
 
 
-test_that("separate_age_groups()", {
-  r_age_group <- separate_age_groups(d_age_group)
+describe("separate_age_groups()", {
 
-  expect_equal(names(r_age_group), c("id", paste0("age_", c("group", "min", "max"))))
-  expect_equal(r_age_group$age_min, c(0, 10, 65, 85))
-  expect_equal(r_age_group$age_max, c(4, 14, 69, Inf))
+  it("works as expected in most generic case", {
+    r_age_group <- separate_age_groups(d_age_group)
 
-  names(d_age_group)[2] <- "age_variable"
-  expect_equal(
-    d_age_group %>% separate_age_groups(age_group = age_variable) %>% names(),
-    c("id", paste0("age_", c("variable", "min", "max")))
-  )
-})
+    expect_equal(names(r_age_group), c("id", paste0("age_", c("group", "min", "max"))))
+    expect_equal(r_age_group$age_min, c(0, 10, 65, 85))
+    expect_equal(r_age_group$age_max, c(4, 14, 69, Inf))
+  })
 
-test_that("expanding NA age group gives NA", {
-  d_age_group$age_group[2] <- NA_character_
+  it("handles non-standard age_group column name and still returns age_min, age_max", {
+    names(d_age_group)[2] <- "age_variable"
+    expect_equal(
+      d_age_group %>% separate_age_groups(age_group = age_variable) %>% names(),
+      c("id", paste0("age_", c("variable", "min", "max")))
+    )
+  })
 
-  r_age_group <- separate_age_groups(d_age_group)
+  it("expands NA age group into two NA values", {
+    d_age_group$age_group[2] <- NA_character_
 
-  expect_equal(r_age_group$age_min[2], NA_real_)
-  expect_equal(r_age_group$age_max[2], NA_real_)
-})
+    r_age_group <- separate_age_groups(d_age_group)
 
-test_that("separate_age_groups() allows renaming age_min and age_max", {
-  r_age_group <- d_age_group %>%
-    separate_age_groups(age_min = low, age_max = high)
+    expect_equal(r_age_group$age_min[2], NA_real_)
+    expect_equal(r_age_group$age_max[2], NA_real_)
+  })
 
-  r_age_group_default <- d_age_group %>% separate_age_groups()
+  it("allows renaming age_min and age_max", {
+    r_age_group <- d_age_group %>%
+      separate_age_groups(into = c("low", "high"))
 
-  expect_equal(names(r_age_group), c("id", "age_group", "low", "high"))
-  expect_equal(r_age_group$low, r_age_group_default$age_min)
+    r_age_group_default <- d_age_group %>% separate_age_groups()
 
-  names(r_age_group)[3:4] <- names(r_age_group_default)[3:4]
-  expect_equal(r_age_group, r_age_group_default)
+    expect_equal(names(r_age_group), c("id", "age_group", "low", "high"))
+    expect_equal(r_age_group$low, r_age_group_default$age_min)
+
+    names(r_age_group)[3:4] <- names(r_age_group_default)[3:4]
+    expect_equal(r_age_group, r_age_group_default)
+  })
+
+  it("errors if invalid `into` value", {
+    expect_error(separate_age_groups(d_age_groups, into = "low"))
+    expect_error(separate_age_groups(d_age_groups, into = c("low", "low")))
+  })
 })
 
 test_that("filter_age_groups()", {

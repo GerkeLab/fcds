@@ -24,37 +24,45 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c(
 #' @param data A data frame.
 #' @param age_group Unquoted column name containing the age grouping.
 #' @param ... Not used other than to require explicit naming of arguments.
-#' @param age_min Unquoted column name for lower bondary of age group
-#' @param age_max Unquoted column name for upper boundary of age group
+#' @param into Character vector of column names for separated `age_group`.
+#'   If `NULL`, then `_min` and `_max` will be appended to the name of the
+#'   `age_group` column. Must be two names in the order min then max.
 #' @inheritParams tidyr::separate
 #' @family age processors
 #' @export
 separate_age_groups <- function(
   data,
   age_group = age_group,
-  sep = "\\s*-\\s*",
   ...,
-  age_min = age_min,
-  age_max = age_max
+  sep = "\\s*-\\s*",
+  into = c("age_min", "age_max")
 ) {
-  age_group    <- enquo(age_group)
-  age_min      <- enquo(age_min)
-  age_min_name <- quo_name(age_min)
-  age_max      <- enquo(age_max)
-  age_max_name <- quo_name(age_max)
+  age_group <- enquo(age_group)
+
+  into <- into %||%  paste0(as_name(age_group), c("_min", "_max"))
+  into_is_valid <- isTRUE(inherits(into, "character")) &&
+    length(into) == 2 && length(unique(into)) == 2
+  if (!into_is_valid) {
+    abort(glue(
+      "`into` must be a length-two character vector of column names that ",
+      "to contain the min and max ages, respectively."
+    ))
+  }
+  age_min <- rlang::sym(into[1])
+  age_max <- rlang::sym(into[2])
 
   data %>%
-    separate(!!age_group, into = c(age_min_name, age_max_name),
-             sep = sep, remove = FALSE, fill = "right") %>%
+    separate(!!age_group, into = into, sep = sep, remove = FALSE, fill = "right") %>%
     mutate(
-      !!age_min_name := sub("+", "", !!age_min, fixed = TRUE),
-      !!age_min_name := ifelse(
+      !!into[1] := sub("+", "", !!age_min, fixed = TRUE),
+      !!into[1] := ifelse(
         (is.na(!!age_min) | !!age_min == "") & !is.na(!!age_max),
         "0", !!age_min)
     ) %>%
-    mutate_at(c(age_min_name, age_max_name), as.numeric) %>%
-    mutate(!!age_max_name := if_else(
-      is.na(!!age_max) & !is.na(!!age_min), Inf, !!age_max))
+    mutate_at(into, as.numeric) %>%
+    mutate(
+      !!into[2] := if_else(is.na(!!age_max) & !is.na(!!age_min), Inf, !!age_max)
+    )
 }
 
 #' Filter Data by Age Range
@@ -286,9 +294,11 @@ standardize_age_groups <- function(
     # match on min, match on max:
     #   - same answer? return first
     #   - different? error (non-overlapping groups)
-    data <- data %>% separate_age_groups(!!age_group, ...,
-                                       age_min  = .data$...age_min,
-                                       age_max = .data$...age_max)
+    data <- data %>%
+      separate_age_groups(
+        !!age_group, ...,
+        into = paste("...age", c("min", "max"), sep = "_")
+      )
 
     data_age_min <- data %>%
       select(age_group = .data$...age_min) %>%

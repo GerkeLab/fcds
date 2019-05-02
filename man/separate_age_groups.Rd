@@ -4,13 +4,15 @@
 \alias{separate_age_groups}
 \title{Separate Age Group Column into Min and Max Age of Range}
 \usage{
-separate_age_groups(data, age_group = age_group, sep = "\\\\s*-\\\\s*",
-  ..., age_min = age_min, age_max = age_max)
+separate_age_groups(data, age_group = age_group, ...,
+  sep = "\\\\s*-\\\\s*", into = c("age_min", "age_max"))
 }
 \arguments{
 \item{data}{A data frame.}
 
 \item{age_group}{Unquoted column name containing the age grouping.}
+
+\item{...}{Not used other than to require explicit naming of arguments.}
 
 \item{sep}{Separator between columns.
 
@@ -23,11 +25,9 @@ at 1 at the far-left of the string; negative value start at -1 at the
 far-right of the string. The length of \code{sep} should be one less than
 \code{into}.}
 
-\item{...}{Not used other than to require explicit naming of arguments.}
-
-\item{age_min}{Unquoted column name for lower bondary of age group}
-
-\item{age_max}{Unquoted column name for upper boundary of age group}
+\item{into}{Character vector of column names for separated \code{age_group}.
+If \code{NULL}, then \code{_min} and \code{_max} will be appended to the name of the
+\code{age_group} column. Must be two names in the order min then max.}
 }
 \description{
 Takes the age group stored in \code{age_group} and creates two variables,
