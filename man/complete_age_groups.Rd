@@ -4,18 +4,21 @@
 \alias{complete_age_groups}
 \title{Complete Age Groups}
 \usage{
-complete_age_groups(data, age_gt = NULL, age_lt = NULL, ...,
+complete_age_groups(data, ..., age_gt = NULL, age_lt = NULL,
   age_group = age_group, fill = list(n = 0), include_unknown = FALSE,
   std_age_groups = fcds_const("age_group"))
 }
 \arguments{
 \item{data}{A data frame.}
 
+\item{...}{Column specification passed on to \code{\link[tidyr:complete]{tidyr::complete()}}. Used to
+identify additional columns that should also be completed. Columns that
+aren't declared here and do not have a default \code{fill} value will have \code{NA}
+values in the resulting output.}
+
 \item{age_gt}{Youngest age (inclusive).}
 
 \item{age_lt}{Eldest age (inclusive).}
-
-\item{...}{Not used other than to require explicit naming of arguments.}
 
 \item{age_group}{Unquoted column name containing the age grouping.}
 
@@ -39,7 +42,28 @@ dplyr::tibble(
   age_group = c("10 - 14", "15 - 19", "25 - 29"),
   n = 10:12
 ) \%>\%
-  complete_age_groups(10, 35)
+  complete_age_groups(age_gt = 10, age_lt = 35)
+
+set.seed(42)
+
+# Create an example data frame with age_groups at several grouping levels
+tidyr::crossing(
+  group = LETTERS[1:3],
+  sub_group = paste(1:3),
+) \%>\%
+  # Add a column with equivalent levels to `sub_group`
+  dplyr::mutate(sub_group_equal = letters[as.integer(sub_group)]) \%>\%
+  # Add age groups for ages < 25 to each group level
+  tidyr::crossing(
+    age_group = fcds_const("age_group")[1:5]
+  ) \%>\%
+  # Remove 20\% of the age_groups
+  dplyr::sample_frac(0.80) \%>\%
+  # Use complete_age_groups() to complete the grouping,
+  # using tidyr::complete() syntax to specificy which additional columns
+  # are completed.
+  complete_age_groups(age_lt = 25, group, tidyr::nesting(sub_group, sub_group_equal))
+
 
 }
 \seealso{

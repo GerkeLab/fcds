@@ -122,12 +122,36 @@ filter_age_groups <- function(
 #'   age_group = c("10 - 14", "15 - 19", "25 - 29"),
 #'   n = 10:12
 #' ) %>%
-#'   complete_age_groups(10, 35)
+#'   complete_age_groups(age_gt = 10, age_lt = 35)
+#'
+#' set.seed(42)
+#'
+#' # Create an example data frame with age_groups at several grouping levels
+#' tidyr::crossing(
+#'   group = LETTERS[1:3],
+#'   sub_group = paste(1:3),
+#' ) %>%
+#'   # Add a column with equivalent levels to `sub_group`
+#'   dplyr::mutate(sub_group_equal = letters[as.integer(sub_group)]) %>%
+#'   # Add age groups for ages < 25 to each group level
+#'   tidyr::crossing(
+#'     age_group = fcds_const("age_group")[1:5]
+#'   ) %>%
+#'   # Remove 20% of the age_groups
+#'   dplyr::sample_frac(0.80) %>%
+#'   # Use complete_age_groups() to complete the grouping,
+#'   # using tidyr::complete() syntax to specificy which additional columns
+#'   # are completed.
+#'   complete_age_groups(age_lt = 25, group, tidyr::nesting(sub_group, sub_group_equal))
+#'
 #'
 #' @param include_unknown Should the "Unknown" age group be included?
 #' @param std_age_groups Character vector containing expected (or standard) age
 #'   groups.
-#' @param ... Not used other than to require explicit naming of arguments.
+#' @param ... Column specification passed on to [tidyr::complete()]. Used to
+#'   identify additional columns that should also be completed. Columns that
+#'   aren't declared here and do not have a default `fill` value will have `NA`
+#'   values in the resulting output.
 #' @inheritParams separate_age_groups
 #' @inheritParams filter_age_groups
 #' @inheritParams tidyr::complete
@@ -135,9 +159,9 @@ filter_age_groups <- function(
 #' @export
 complete_age_groups <- function(
   data,
+  ...,
   age_gt = NULL,
   age_lt = NULL,
-  ...,
   age_group = age_group,
   fill = list(n = 0),
   include_unknown = FALSE,
@@ -156,24 +180,19 @@ complete_age_groups <- function(
 
   common_age_groups <- union(ages$age_group, paste(data[[age_group_name]]))
 
-  add_age_group <- age_group_name %in% group_vars(data)
-
   original_columns <- colnames(data)
 
-  quiet_complete <- quietly(complete)
+  original_groups <- groups(data)
 
   data <- data %>%
-    group_drop(age_group_name) %>%
+    ungroup() %>%
     refactor_single_level_groups() %>%
     mutate(
       !!age_group_name := paste(!!age_group),
       !!age_group_name := factor(!!age_group, common_age_groups, ordered = TRUE)
     ) %>%
-    quiet_complete(!!age_group, fill = fill)
-
-  if (add_age_group) {
-    data <- group_by(data, !!age_group, add = TRUE)
-  }
+    complete(..., !!age_group, fill = fill) %>%
+    group_by(!!!original_groups)
 
   data[, original_columns]
 }

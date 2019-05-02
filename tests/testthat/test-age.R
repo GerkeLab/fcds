@@ -74,27 +74,57 @@ test_that("filter_age_groups() doesn't add columns", {
   )
 })
 
-d_age_group <- tibble(
-  age_group = c("10 - 14", "15 - 19", "25 - 29"),
-  n = 10:12
-)
+describe("complete_age_groups()", {
 
-test_that("complete_age_groups()", {
-  r_age_group <- d_age_group %>%
-    complete_age_groups(10, 35)
-
-  expect_equal(
-    paste(r_age_group$age_group),
-    paste(seq(10, 30, 5), "-", seq(14, 34, 5))
+  d_age_group <- tibble(
+    age_group = c("10 - 14", "15 - 19", "25 - 29"),
+    n = 10:12
   )
-  expect_equal(r_age_group$n, c(10, 11, 0, 12, 0))
-})
 
-test_that("complete_age_groups() handles age_group being a grouping variable", {
-  expect_equal(
-    d_age_group %>% group_by(age_group) %>% complete_age_groups(),
-    d_age_group %>% complete_age_groups()
-  )
+  it("fills missing age groups", {
+    r_age_group <- d_age_group %>%
+      complete_age_groups(age_gt = 10, age_lt = 35)
+
+    expect_equal(
+      paste(r_age_group$age_group),
+      paste(seq(10, 30, 5), "-", seq(14, 34, 5))
+    )
+    expect_equal(r_age_group$n, c(10, 11, 0, 12, 0))
+  })
+
+  it("handles age_group being a grouping variable", {
+    expect_equal(
+      d_age_group %>% group_by(age_group) %>% complete_age_groups(),
+      d_age_group %>% complete_age_groups()
+    )
+  })
+
+  it("has tidyr::complete() syntax", {
+    e_age_group <- tidyr::crossing(
+      sub_group = letters[1:3],
+      group = LETTERS[1:3],
+      age_group = fcds_const("age_group")[1:5]
+    ) %>%
+      standardize_age_groups(std_age_groups = fcds_const("age_group")[1:5]) %>%
+      mutate_at(quos(sub_group, group), as.factor) %>%
+      dplyr::arrange(sub_group, group, age_group)
+
+    e_age_group$sub_group_equal <- purrr::map_int(e_age_group$sub_group, ~ which(letters == .))
+
+    set.seed(421216)
+    drop_many_group_c <- c(
+      which(e_age_group$group != "C"),
+      sample(which(e_age_group$group == "C"), 12)
+    )
+
+    d_age_group <- e_age_group[drop_many_group_c, ]
+
+    expect_equal(
+      d_age_group %>%
+        complete_age_groups(tidyr::nesting(sub_group, sub_group_equal), group, age_lt = 25),
+      e_age_group
+    )
+  })
 })
 
 test_that("standardize_age_groups()", {
