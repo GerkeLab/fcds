@@ -52,6 +52,9 @@
     <loc>https://gerkelab.github.io/fcds/reference/filter_age_groups.html</loc>
   </url>
   <url>
+    <loc>https://gerkelab.github.io/fcds/reference/format_age_groups.html</loc>
+  </url>
+  <url>
     <loc>https://gerkelab.github.io/fcds/reference/group_drop.html</loc>
   </url>
   <url>
@@ -59,6 +62,9 @@
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://gerkelab.github.io/fcds/reference/recode_age_groups.html</loc>
   </url>
   <url>
     <loc>https://gerkelab.github.io/fcds/reference/seer_icd_o_3.html</loc>
