@@ -28,6 +28,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c(
 #'   If `NULL`, then `_min` and `_max` will be appended to the name of the
 #'   `age_group` column. Must be two names in the order min then max.
 #' @inheritParams tidyr::separate
+#' @seealso [format_age_groups()] for the specification of the age group label
+#'   format and to convert age boundaries into age group labels.
 #' @family age processors
 #' @export
 separate_age_groups <- function(
@@ -57,10 +59,19 @@ separate_age_groups <- function(
       !!into[1] := sub("+", "", !!age_min, fixed = TRUE),
       !!into[1] := ifelse(
         (is.na(!!age_min) | !!age_min == "") & !is.na(!!age_max),
-        "0", !!age_min)
+        "0",
+        !!age_min
+      ),
     ) %>%
+    mutate_at(into, function(x) ifelse(x == "Unknown", NA, x)) %>%
     mutate_at(into, as.numeric) %>%
     mutate(
+      # single ages
+      !!into[2] := ifelse(
+        is.na(!!age_max) & !!age_group == !!age_min,
+        !!age_min, !!age_max
+      ),
+      # x and older ages
       !!into[2] := if_else(is.na(!!age_max) & !is.na(!!age_min), Inf, !!age_max)
     )
 }
@@ -229,6 +240,8 @@ complete_age_groups <- function(
 #' @inheritDotParams separate_age_groups sep
 #' @inheritParams filter_age_groups
 #' @family age processors
+#' @seealso [format_age_groups()] for the specification of the age group label
+#'   format and to convert age boundaries into age group labels.
 #' @export
 standardize_age_groups <- function(
   data = NULL,
@@ -328,28 +341,117 @@ standardize_age_groups <- function(
     group_by(!!!data_groups)
 }
 
-# nocov start
+#' Format Age Min/Max Boundaries into Standard Age Groups
+#'
+#' This function formats `age_min` and `age_max` column into a new column, by
+#' default called `age_group`, with a formatted string containing the age group
+#' label denotes by the age boundaries.
+#'
+#' @section Age Formatting Guidelines: Ages are formatted according to the
+#'   following rules.
+#'
+#'   1. Ages range from `0` to `Inf`. Any age below `0` will be set to `0`.
+#'   Setting an age min boundary to `-Inf` is a resonable way of denoting _all
+#'   ages under `age_max`_, but will result in age groups starting with `0`.
+#'
+#'   2. Age groups with an upper boundary of `Inf` will become "`{age_min}+`".
+#'   For example, if `age_min` is 85, then the age group label is `85+`. Use
+#'   `Inf` to denote all ages greater than or equal to `age_min`.
+#'
+#'   3. Single age groups are allowed, but there cannot otherwise be overlap
+#'   between the age boundaries.
+#'
+#'   4. Age boundaries are whole integers. Any partial ages are rounded down to
+#'   the highest integer less than the age boundary.
+#'
+#'   5. Missing age boundaries on either side result in an age group label of
+#'   `missing_age_group`, which is by default `"Unknown"`.
+#'
+#' @examples
+#' d_age_group <- dplyr::tibble(
+#'   age_min = c(-Inf, 20, 85),
+#'   age_max = c(19, 84, Inf)
+#' )
+#'
+#' format_age_groups(d_age_group)
+#'
+#' # format_age_groups() is the inverse of separate_age_groups()
+#' d_age_group %>%
+#'   format_age_groups() %>%
+#'   dplyr::select(age_group) %>%
+#'   separate_age_groups()
+#'
+#' @return A data frame with an additional column containing the age group
+#'   labels, named according to `into`.
+#' @param data A data frame containing the columns indicated by `age_min` and
+#'   `age_max`.
+#' @param age_min The minimum age (inclusive) of the age group. May be `-Inf`
+#'   or `0`.
+#' @param age_max The maximum age (inclusive) of the age group. May be `Inf`.
+#' @param into The column name as a character string where the age group labels
+#'   will be stored in the input data frame.
+#' @param missing_age_group The value for any age group with a missing boundary.
+#' @family age processors
+#' @export
 format_age_groups <- function(
   data,
-  age_min_var = age_min,
-  age_max_var = age_max
+  age_min = age_min,
+  age_max = age_max,
+  into = "age_group",
+  missing_age_group = "Unknown"
 ) {
-  age_min_var  <- enquo(age_min_var)
-  age_max_var <- enquo(age_max_var)
+  age_min <- enquo(age_min)
+  age_max <- enquo(age_max)
 
-  data %>%
-    mutate(
-      age_group_min = if_else(!!age_min_var < 0, "0", paste(!!age_min_var)),
-      age_group_max = if_else(
-        !!age_max_var > 0 & is.infinite(!!age_max_var),
-        "+",
-        paste(" -", !!age_max_var)),
-      age_group = paste0(.data$age_group_min, .data$age_group_max),
-      age_group = factor(.data$age_group, fcds_const("age_group"), ordered = TRUE)
-    ) %>%
-    select(-"age_group_min", -"age_group_max")
+  age_min_value <- data %>% dplyr::pull(!!age_min) %>% floor()
+  age_max_value <- data %>% dplyr::pull(!!age_max) %>% floor()
+
+  idx_na <- union(which(is.na(age_min_value)), which(is.na(age_max_value)))
+  idx_not_na <- setdiff(seq_along(age_min_value), idx_na)
+
+  age_min_value <- age_min_value[idx_not_na]
+  age_max_value <- age_max_value[idx_not_na]
+
+  if (any(is_pos_infinite(age_min_value))) {
+    abort("Minimum age cannot be positive infinite")
+  }
+  if (any(is_neg_infinite(age_max_value))) {
+    abort("Maximum age cannot be negative infinite")
+  }
+  age_min_value[is_neg_infinite(age_min_value)] <- 0
+
+  if (any(age_min_value < 0) || any(age_max_value < 0)) {
+    warn("Negative age values were replaced with age 0")
+    age_min_value[age_min_value < 0] <- 0
+    age_max_value[age_max_value < 0] <- 0
+  }
+
+  single_ages <- age_min_value == age_max_value
+
+  common_values <- intersect(
+    age_min_value[!is.infinite(age_min_value) & !single_ages],
+    age_max_value[!is.infinite(age_max_value) & !single_ages]
+  )
+
+  if (length(common_values)) abort(
+    "Minimum and maximum ages must not overlap"
+  )
+
+  age_min_out <- rep("0", length(age_min_value))
+  age_max_out <- rep("+", length(age_max_value))
+  age_min_out[age_min_value > 0] <- paste(age_min_value[age_min_value > 0])
+  age_max_out[!is.infinite(age_max_value)] <- paste(
+    " -", age_max_value[!is.infinite(age_max_value)]
+  )
+
+  data[[into]] <- ""
+  if (length(idx_na)) {
+    data[[into]][idx_na] <- missing_age_group
+  }
+  data[[into]][idx_not_na] <- paste0(age_min_out, age_max_out)
+  data[[into]][idx_not_na][single_ages] <- age_min_out[single_ages]
+  data
 }
-# nocov end
 
 
 # Age Adjustment ----------------------------------------------------------

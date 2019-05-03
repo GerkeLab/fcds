@@ -46,8 +46,12 @@ separate_age_groups(d_age_group)
 
 }
 \seealso{
+\code{\link[=format_age_groups]{format_age_groups()}} for the specification of the age group label
+format and to convert age boundaries into age group labels.
+
 Other age processors: \code{\link{complete_age_groups}},
   \code{\link{filter_age_groups}},
+  \code{\link{format_age_groups}},
   \code{\link{standardize_age_groups}}
 }
 \concept{age processors}

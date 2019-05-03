@@ -77,13 +77,13 @@ common_names <- function(x, y) intersect(names(x), names(y))
 
 is_neg_infinite <- function(x) {
   vapply(x, function(y) {
-    y < 0 & is.infinite(y)
+    y < 0 && is.infinite(y)
   }, logical(1))
 }
 
 is_pos_infinite <- function(x) {
   vapply(x, function(y) {
-    y > 0 & is.infinite(y)
+    y > 0 && is.infinite(y)
   }, logical(1))
 }
 

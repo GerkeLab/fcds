@@ -41,6 +41,7 @@ d_age_group \%>\%
 }
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
+  \code{\link{format_age_groups}},
   \code{\link{separate_age_groups}},
   \code{\link{standardize_age_groups}}
 }

@@ -6,6 +6,97 @@ d_age_group <- data.frame(
   age_group = c("0 - 4", "10-14", "65-69", "85+")
 )
 
+describe("format_age_groups()", {
+  it("consistently formats age groups", {
+    d_fmt_age_group <- dplyr::tibble(
+      age_min = c(-Inf, 20, 85),
+      age_max = c(19, 84, Inf)
+    )
+    expect_equal(
+      format_age_groups(d_fmt_age_group)$age_group,
+      c("0 - 19", "20 - 84", "85+")
+    )
+
+    expect_equal(
+      format_age_groups(d_fmt_age_group, into = "ag")$ag,
+      c("0 - 19", "20 - 84", "85+")
+    )
+  })
+
+  it("round-trips with separate_age_groups()", {
+    d_age_group_init <- dplyr::tibble(
+      age_min = c(0, 20, 21),
+      age_max = c(19, 20, Inf)
+    ) %>%
+      format_age_groups()
+    d_age_group_round_trip <- d_age_group_init %>%
+      separate_age_groups() %>% format_age_groups()
+
+    expect_equivalent(d_age_group_round_trip, d_age_group_init)
+
+    d_age_groups <- dplyr::tibble(
+      age_group = fcds_const("age_group")
+    ) %>%
+      separate_age_groups()
+
+    d_age_groups_round_trip <- d_age_groups %>%
+      format_age_groups() %>% separate_age_groups()
+
+    expect_equivalent(d_age_groups_round_trip, d_age_groups)
+  })
+
+  it("replaces missing on either side with missing_age_group", {
+    d_age_group_missing <- dplyr::tibble(
+      age_min = c(NA, 20, 25),
+      age_max = c(19, NA, 29)
+    )
+    expect_equal(
+      format_age_groups(d_age_group_missing)$age_group,
+      c("Unknown", "Unknown", "25 - 29")
+    )
+  })
+
+  it("rounds silently", {
+    d_fmt_age_group_numeric <- dplyr::tibble(
+      age_min = 15.25,
+      age_max = 20.01
+    )
+
+    expect_equal(
+      format_age_groups(d_fmt_age_group_numeric)$age_group,
+      "15 - 20"
+    )
+  })
+
+  it("warns if boundaries are less than zero", {
+    d_fmt_age_group_zero <- dplyr::tibble(
+      age_min = -1,
+      age_max = -2
+    )
+
+    expect_warning(r_fmt_age_group_zero <- format_age_groups(d_fmt_age_group_zero))
+    expect_equal(r_fmt_age_group_zero$age_group, "0")
+  })
+
+  it("errors if boundaries are equivalent", {
+    d_fmt_age_group_equal <- dplyr::tibble(
+      age_min = c(0, 20),
+      age_max = c(20, 40)
+    )
+
+    expect_error(format_age_groups(d_fmt_age_group_equal))
+  })
+
+  it("throws errors if boundaries are infinitely wrong", {
+    expect_error(
+      dplyr::tibble(age_min = Inf, age_max = 20) %>% format_age_groups()
+    )
+
+    expect_error(
+      dplyr::tibble(age_min = 20, age_max = -Inf) %>% format_age_groups()
+    )
+  })
+})
 
 describe("separate_age_groups()", {
 
