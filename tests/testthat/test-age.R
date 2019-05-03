@@ -305,6 +305,128 @@ test_that("standardize_age_groups() when input is grouped", {
   expect_equal(levels(stdized_age_group$age_group), fcds_const("age_group"))
 })
 
+# ---- |> recode_age_groups() ----
+
+describe("recode_age_groups()", {
+  d_age_groups <- dplyr::tibble(
+    age_min = seq(0, 25, 5),
+    age_max = seq(4, 29, 5)
+  ) %>%
+    format_age_groups()
+
+  it("recodes age groups", {
+    r_age_groups <- d_age_groups %>%
+      recode_age_groups(breaks = c(10, 20, 25))
+
+    expect_equal(
+      r_age_groups$age_group,
+      c(rep("0 - 9", 2), rep("10 - 19", 2), "20 - 24", "25+")
+    )
+
+    r_age_groups2 <- d_age_groups %>%
+      recode_age_groups(breaks = c(25, 20, 10))
+
+    expect_equal(r_age_groups2, r_age_groups)
+
+    r_age_groups3 <- d_age_groups %>%
+      dplyr::select(age_group) %>%
+      recode_age_groups(breaks = c(10, 20, 25))
+
+    expect_equal(r_age_groups3, r_age_groups[, "age_group"])
+  })
+
+  it("upper and lower age group determined by existing groups", {
+    r_age_groups_upper <- d_age_groups %>%
+      recode_age_groups(breaks = c(10, 20, 25, NA))
+
+    expect_equal(
+      r_age_groups_upper$age_group,
+      c(rep("0 - 9", 2), rep("10 - 19", 2), "20 - 24", "25 - 29")
+    )
+
+    r_age_groups_lower <- d_age_groups %>%
+      dplyr::filter(age_min >= 5) %>%
+      recode_age_groups(breaks = c(NA, 10, 20, 25))
+
+    expect_equal(
+      r_age_groups_lower$age_group,
+      c("5 - 9", rep("10 - 19", 2), "20 - 24", "25+")
+    )
+
+    r_age_groups_both <- d_age_groups %>%
+      dplyr::filter(age_min >= 5) %>%
+      recode_age_groups(breaks = c(NA, 10, 20, NA))
+
+    expect_equal(
+      r_age_groups_both$age_group,
+      c("5 - 9", rep("10 - 19", 2), rep("20 - 29", 2))
+    )
+  })
+
+  it("errors when breaks fall within existing groups", {
+    expect_error(
+      recode_age_groups(d_age_groups, breaks = c(9))
+    )
+  })
+
+  it("errors when breaks are all missing", {
+    expect_error(
+      recode_age_groups(d_age_groups, breaks = NA)
+    )
+
+    expect_error(
+      recode_age_groups(d_age_groups, breaks = c(NA, NA))
+    )
+  })
+
+  it("dichotomizes groups", {
+    r_age_groups <- d_age_groups %>%
+      recode_age_groups(breaks = 15)
+
+    expect_equal(
+      r_age_groups$age_group,
+      c(rep("0 - 14", 3), rep("15+", 3))
+    )
+
+    r_age_groups_lower <- d_age_groups %>%
+      filter(age_min >= 5) %>%
+      recode_age_groups(breaks = c(NA, 15))
+
+    expect_equal(
+      r_age_groups_lower$age_group,
+      c(rep("5 - 14", 2), rep("15+", 3))
+    )
+
+    r_age_groups_upper <- d_age_groups %>%
+      filter(age_min >= 5) %>%
+      recode_age_groups(breaks = c(15, NA))
+
+    expect_equal(
+      r_age_groups_upper$age_group,
+      c(rep("0 - 14", 2), rep("15 - 29", 3))
+    )
+
+    r_age_groups_both <- d_age_groups %>%
+      filter(age_min >= 5) %>%
+      recode_age_groups(breaks = c(NA, 15, NA))
+
+    expect_equal(
+      r_age_groups_both$age_group,
+      c(rep("5 - 14", 2), rep("15 - 29", 3))
+    )
+  })
+
+  it("handles Unknown or NA age_groups", {
+    d_age_groups <- dplyr::tibble(
+      age_group = fcds_const("age_group")
+    )
+
+    r_age_groups <- d_age_groups %>%
+      recode_age_groups(50)
+    expect_equal(unique(r_age_groups$age_group), c("0 - 49", "50+", "Unknown"))
+  })
+})
+
 # Age Adjustment ----------------------------------------------------------
 
 

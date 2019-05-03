@@ -5,7 +5,8 @@
 \title{Format Age Min/Max Boundaries into Standard Age Groups}
 \usage{
 format_age_groups(data, age_min = age_min, age_max = age_max,
-  into = "age_group", missing_age_group = "Unknown")
+  into = "age_group", missing_age_group = "Unknown",
+  skip_overlap_check = FALSE)
 }
 \arguments{
 \item{data}{A data frame containing the columns indicated by \code{age_min} and
@@ -20,6 +21,10 @@ or \code{0}.}
 will be stored in the input data frame.}
 
 \item{missing_age_group}{The value for any age group with a missing boundary.}
+
+\item{skip_overlap_check}{If \code{TRUE}, will skip the check ensuring that age
+group upper boundaries do not match age group lower boundaries for any
+age group other that those that are singular ages.}
 }
 \value{
 A data frame with an additional column containing the age group
@@ -67,6 +72,7 @@ d_age_group \%>\%
 \seealso{
 Other age processors: \code{\link{complete_age_groups}},
   \code{\link{filter_age_groups}},
+  \code{\link{recode_age_groups}},
   \code{\link{separate_age_groups}},
   \code{\link{standardize_age_groups}}
 }

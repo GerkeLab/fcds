@@ -69,6 +69,7 @@ tidyr::crossing(
 \seealso{
 Other age processors: \code{\link{filter_age_groups}},
   \code{\link{format_age_groups}},
+  \code{\link{recode_age_groups}},
   \code{\link{separate_age_groups}},
   \code{\link{standardize_age_groups}}
 }

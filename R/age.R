@@ -391,6 +391,9 @@ standardize_age_groups <- function(
 #' @param into The column name as a character string where the age group labels
 #'   will be stored in the input data frame.
 #' @param missing_age_group The value for any age group with a missing boundary.
+#' @param skip_overlap_check If `TRUE`, will skip the check ensuring that age
+#'   group upper boundaries do not match age group lower boundaries for any
+#'   age group other that those that are singular ages.
 #' @family age processors
 #' @export
 format_age_groups <- function(
@@ -398,7 +401,8 @@ format_age_groups <- function(
   age_min = age_min,
   age_max = age_max,
   into = "age_group",
-  missing_age_group = "Unknown"
+  missing_age_group = "Unknown",
+  skip_overlap_check = FALSE
 ) {
   age_min <- enquo(age_min)
   age_max <- enquo(age_max)
@@ -433,7 +437,7 @@ format_age_groups <- function(
     age_max_value[!is.infinite(age_max_value) & !single_ages]
   )
 
-  if (length(common_values)) abort(
+  if (!skip_overlap_check && length(common_values)) abort(
     "Minimum and maximum ages must not overlap"
   )
 
@@ -453,6 +457,121 @@ format_age_groups <- function(
   data
 }
 
+#' Recode Age Groups
+#'
+#' This function helps to recode age groups into new groups that are equal to or
+#' overlap the original age grouping.
+#'
+#' @examples
+#' d_age_groups <- dplyr::tibble(
+#'   age_min = seq(0, 25, 5),
+#'   age_max = seq(4, 29, 5)
+#' ) %>%
+#'   format_age_groups()
+#'
+#' d_age_groups
+#'
+#' recode_age_groups(d_age_groups, breaks = c(10, 20, 25))
+#'
+#' # Use maximum age in data for upper bound of highest group
+#' recode_age_groups(d_age_groups, breaks = c(10, 20, 25, NA))
+#'
+#' # Use minimum age in data for lower bound of lowest group
+#' d_age_groups %>%
+#'   dplyr::filter(age_min >= 5) %>%
+#'   recode_age_groups(breaks = c(NA, 10, 20, 25))
+#'
+#' # Dichotomize
+#' recode_age_groups(d_age_groups, breaks = 20)
+#'
+#' d_age_groups %>%
+#'   dplyr::filter(age_min >= 5) %>%
+#'   recode_age_groups(breaks = c(NA, 20, NA))
+#'
+#' @param data A data frame, containin age group labels in the `age_group`
+#'   column.
+#' @param breaks The breaks at which the lower bounds of age groups should be
+#'   defined. If the first and last elements are `NA`, the lower bound is
+#'   learned from the age groups present in the data. (Both, one, or none can be
+#'   `NA`). If the first element is not missing, the lowest group will be ages 0
+#'   to `min(breaks) - 1`. If the last element is not missing, the highest group
+#'   will be `max(breaks)` and above. Missing values within the breaks other
+#'   than the first and last elements are ignored. The order of the breaks is
+#'   not important beyond the presence of missing values at the extremes.
+#' @inheritParams separate_age_groups
+#' @family age processors
+#' @export
+recode_age_groups <- function(data, breaks, age_group = age_group) {
+  age_group <- enquo(age_group)
+  age_group_name <- as_name(age_group)
+
+  if (!age_group_name %in% names(data)) abort(glue(
+    "{age_group_name} not found in input data"
+  ))
+
+  single_and_missing <- length(breaks) == 1 && is.na(breaks)
+  only_missing <- all(is.na(breaks))
+  if (single_and_missing || only_missing) {
+    abort("At least one non-missing break must be supplied")
+  }
+  learn_lowest <- is.na(breaks[1])
+  learn_highest <- is.na(breaks[length(breaks)])
+  breaks <- as.integer(breaks)
+  breaks <- sort(breaks[!is.na(breaks)])
+
+  d_age_group <- dplyr::tibble(
+    !!age_group_name := data %>% dplyr::pull(!!age_group) %>% unique()
+  ) %>%
+    separate_age_groups(!!age_group) %>%
+    filter(!(is.na(age_min) | is.na(age_max)))
+
+  break_lowest <- if (learn_lowest) {
+    min(d_age_group$age_min)
+  } else 0
+
+  break_highest <- if (learn_highest) {
+    max(d_age_group$age_max) + 1
+  } else Inf
+
+  breaks <- c(break_lowest, breaks, break_highest)
+  for (i in seq_along(breaks)[-1]) {
+    above_lower <- d_age_group$age_min >= breaks[i - 1]
+    if (is.infinite(breaks[i])) {
+      below_upper <- TRUE
+    } else {
+      below_upper <- d_age_group$age_max < breaks[i]
+      if (!is.infinite(breaks[i])) {
+        is_within <- any(
+          breaks[i] > d_age_group$age_min &
+            breaks[i] <= d_age_group$age_max
+        )
+        if (is_within) {
+          abort(glue(
+            "The breakpoint {break[i]} falls between ",
+            "an existing age group."
+          ))
+        }
+      }
+    }
+    is_contained <- above_lower & below_upper
+    d_age_group[is_contained, "age_min"] <- breaks[i - 1]
+    d_age_group[is_contained, "age_max"] <- breaks[i] - 1
+  }
+
+  d_age_group <- d_age_group %>%
+    format_age_groups(into = "...age_group")
+
+  # replace existing age groups and age_min/max if needed
+  data %>%
+    select(-dplyr::matches("age_min"), -dplyr::matches("age_max")) %>%
+    dplyr::left_join(d_age_group, by = "age_group") %>%
+    mutate(...age_group = dplyr::if_else(
+      is.na(.data$...age_group), !!age_group, .data$...age_group
+    )) %>%
+    select(-!!age_group) %>%
+    dplyr::rename(!!age_group_name := .data$...age_group) %>%
+    select(names(data))
+}
 
 # Age Adjustment ----------------------------------------------------------
 

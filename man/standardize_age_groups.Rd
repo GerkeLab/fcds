@@ -54,6 +54,7 @@ format and to convert age boundaries into age group labels.
 Other age processors: \code{\link{complete_age_groups}},
   \code{\link{filter_age_groups}},
   \code{\link{format_age_groups}},
+  \code{\link{recode_age_groups}},
   \code{\link{separate_age_groups}}
 }
 \concept{age processors}
