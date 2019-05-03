@@ -6,6 +6,7 @@ d_age_group <- data.frame(
   age_group = c("0 - 4", "10-14", "65-69", "85+")
 )
 
+# ---- |> format_age_groups() ----
 describe("format_age_groups()", {
   it("consistently formats age groups", {
     d_fmt_age_group <- dplyr::tibble(
@@ -98,6 +99,7 @@ describe("format_age_groups()", {
   })
 })
 
+# ---- |> separate_age_groups() ----
 describe("separate_age_groups()", {
 
   it("works as expected in most generic case", {
@@ -144,6 +146,7 @@ describe("separate_age_groups()", {
   })
 })
 
+# ---- |> filter_age_groups() ----
 test_that("filter_age_groups()", {
   expect_equal(
     d_age_group %>% filter_age_groups(age_gt = 5) %>% .$id,
@@ -175,6 +178,7 @@ test_that("filter_age_groups() doesn't add columns", {
   )
 })
 
+# ---- |> complete_age_groups() ----
 describe("complete_age_groups()", {
 
   d_age_group <- tibble(
@@ -228,6 +232,7 @@ describe("complete_age_groups()", {
   })
 })
 
+# ---- |> standardize_age_groups() ----
 test_that("standardize_age_groups()", {
   # normal
   expected_age_group <- d_age_group %>%
