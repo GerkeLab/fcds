@@ -39,7 +39,10 @@ calculation that would otherwise by slowed down by subdividing the
 calculation by group. In these circumstances, the calculation should be
 independent of the grouping. with_ungroup() temporarily removes groups,
 applies the function .f to .data (as .f(.data)) and then restores
-the original grouping." />
+the original grouping. This function is fastest when the applied function
+does not modify the row order or the value of grouping columns. In these
+cases, the group index will need to be recalculated adding computational
+overhead depending on the number of rows and groups in the data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +73,7 @@ the original grouping." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9008</span>
       </span>
     </div>
 
@@ -134,7 +137,10 @@ calculation that would otherwise by slowed down by subdividing the
 calculation by group. In these circumstances, the calculation should be
 independent of the grouping. <code>with_ungroup()</code> temporarily removes groups,
 applies the function <code>.f</code> to <code>.data</code> (as <code>.f(.data)</code>) and then restores
-the original grouping.</p>
+the original grouping. This function is fastest when the applied function
+does not modify the row order or the value of grouping columns. In these
+cases, the group index will need to be recalculated adding computational
+overhead depending on the number of rows and groups in the data.</p>
     
     </div>
 
