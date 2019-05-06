@@ -20,7 +20,8 @@ shuffle_groups <- c("demographics", "cancer", "population", "seer", "tobacco")
 for (group in shuffle_groups) {
   # scramble rows among the given columns
   fcds_example[, fcds::fcds_vars(group)] <-
-    fcds::fcds_vars(group, .data = fcds_example) %>%
+    fcds_example %>%
+    select(fcds::fcds_vars(group)) %>%
     sample_frac()
 }
 
