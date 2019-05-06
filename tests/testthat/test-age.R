@@ -452,6 +452,26 @@ describe("recode_age_groups()", {
     expect_equal(dplyr::group_vars(r_age_grouped), c("age_group", "i"))
     expect_equal(r_age_grouped$age_group, e_factor)
   })
+
+  it("handles age_group having an unusual column name", {
+    d_age_unusual <- d_age_groups %>%
+      dplyr::rename(unusual_name = age_group)
+
+    r_age_unusual <- d_age_unusual %>%
+      recode_age_groups(breaks = c(10, 20, 25), unusual_name)
+
+    expect_equal(r_age_unusual$unusual_name, e_factor)
+
+    d_age_u_grouped <- d_age_unusual %>%
+      dplyr::mutate(i = rep(1:3, each = 2)) %>%
+      dplyr::group_by(i, unusual_name)
+
+     r_age_u_grouped <- d_age_u_grouped %>%
+      recode_age_groups(breaks = c(10, 20, 25), unusual_name)
+
+    expect_equal(dplyr::group_vars(r_age_u_grouped), c("i", "unusual_name"))
+    expect_equal(r_age_u_grouped$unusual_name, e_factor)
+  })
 })
 
 # Age Adjustment ----------------------------------------------------------
