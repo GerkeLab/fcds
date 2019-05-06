@@ -49,6 +49,11 @@ test_that("fcds_vars() with a data frame", {
   expect_equal(names(r_fcds_vars), names(fcds_data))
 })
 
+test_that("fcds_vars() without argument returns options", {
+  expect_message(fcds_vars(), "groups include")
+  expect_true("id" %in% fcds_vars())
+})
+
 
 # count_fcds() ------------------------------------------------------------
 

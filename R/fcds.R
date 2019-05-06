@@ -180,6 +180,12 @@ fcds_vars <- function(..., .data = NULL) {
   choices <- c("id", "demographics", "cancer", "icdo3",
                "population", "seer", "tobacco")
   group <- tolower(c(...))
+  if (!length(group)) {
+    message(glue(
+      "Variable groups include: {single_quote(choices, sep = ', ')}"
+    ))
+    return(invisible(choices))
+  }
   group_match <- purrr::map_chr(group, ~ {
     tryCatch({
       match.arg(.x, several.ok = TRUE, choices = choices)
