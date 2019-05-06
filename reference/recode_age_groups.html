@@ -66,7 +66,7 @@ overlap the original age grouping." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9001</span>
       </span>
     </div>
 
@@ -184,7 +184,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
 #&gt; 6      25      29 25 - 29  </div><div class='input'>
 <span class='fu'>recode_age_groups</span>(<span class='no'>d_age_groups</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt;   age_min age_max age_group
-#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;ord&gt;    
 #&gt; 1       0       9 0 - 9    
 #&gt; 2       0       9 0 - 9    
 #&gt; 3      10      19 10 - 19  
@@ -194,7 +194,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
 <span class='co'># Use maximum age in data for upper bound of highest group</span>
 <span class='fu'>recode_age_groups</span>(<span class='no'>d_age_groups</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span>, <span class='fl'>NA</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt;   age_min age_max age_group
-#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;ord&gt;    
 #&gt; 1       0       9 0 - 9    
 #&gt; 2       0       9 0 - 9    
 #&gt; 3      10      19 10 - 19  
@@ -206,7 +206,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>age_min</span> <span class='kw'>&gt;=</span> <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>recode_age_groups</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;   age_min age_max age_group
-#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;ord&gt;    
 #&gt; 1       5       9 5 - 9    
 #&gt; 2      10      19 10 - 19  
 #&gt; 3      10      19 10 - 19  
@@ -215,7 +215,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
 <span class='co'># Dichotomize</span>
 <span class='fu'>recode_age_groups</span>(<span class='no'>d_age_groups</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt;   age_min age_max age_group
-#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;ord&gt;    
 #&gt; 1       0      19 0 - 19   
 #&gt; 2       0      19 0 - 19   
 #&gt; 3       0      19 0 - 19   
@@ -226,7 +226,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>age_min</span> <span class='kw'>&gt;=</span> <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>recode_age_groups</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>20</span>, <span class='fl'>NA</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;   age_min age_max age_group
-#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+#&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;ord&gt;    
 #&gt; 1       5      19 5 - 19   
 #&gt; 2       5      19 5 - 19   
 #&gt; 3       5      19 5 - 19   
