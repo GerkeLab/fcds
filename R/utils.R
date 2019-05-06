@@ -18,13 +18,11 @@ cat_line <- function(..., sep = "", symbol = "", indent = 0) {
 
 cat_bullet <- function(...) cat_line(..., symbol = "bullet")
 cat_tick   <- function(...) cat_line(..., symbol = "tick")
-cat_dots   <- function(...) cat_line(..., symbol = "dots")
+cat_dots   <- function(...) cat_line(..., symbol = "dots") #nocov
 
 
 quietly <- function(.f) {
-  function(...) {
-    suppressWarnings(.f(...))
-  }
+  function(...) suppressWarnings(.f(...))
 }
 
 quiet_left_join  <- quietly(dplyr::left_join)
@@ -33,10 +31,12 @@ quiet_anti_join  <- quietly(dplyr::anti_join)
 quiet_inner_join <- quietly(dplyr::inner_join)
 quiet_complete   <- quietly(tidyr::complete)
 
+# nocov start
 fcds_version <- function(drop_dev = TRUE) {
   v <- utils::packageVersion("fcds")
   if (drop_dev) sub("\\.9\\d\\d\\d$", "", v) else v
 }
+# nocov end
 
 # ---- Check for existing packages ----
 check_package <- function(
@@ -216,7 +216,10 @@ group_drop <- function(.data, ..., .remove_dropped = FALSE) {
 #' calculation by group. In these circumstances, the calculation should be
 #' independent of the grouping. `with_ungroup()` temporarily removes groups,
 #' applies the function `.f` to `.data` (as `.f(.data)`) and then restores
-#' the original grouping.
+#' the original grouping. This function is fastest when the applied function
+#' does not modify the row order or the value of grouping columns. In these
+#' cases, the group index will need to be recalculated adding computational
+#' overhead depending on the number of rows and groups in the data.
 #'
 #' @examples
 #' # with_ungroup() ungroups the input data frame, applies the inner function,
@@ -244,10 +247,25 @@ group_drop <- function(.data, ..., .remove_dropped = FALSE) {
 with_ungroup <- function(.data, .f, ...) {
   .f <- purrr::as_mapper(.f, ...)
   if (!inherits(.data, "grouped_df")) return(.f(.data))
-  data_groups <- group_vars(.data)
+  data_group_vars <- group_vars(.data)
+  data_group_data <- dplyr::group_data(.data)
+  n_rows_init <- nrow(.data)
+
   .data <- ungroup(.data)
+  .data$...sentinel <- sentinel <- seq_along(nrow(.data))
   .data <- .f(.data)
-  regroup(.data, data_groups)
+
+  fast_regroup <- FALSE
+  if (nrow(.data) == n_rows_init) {
+    fast_regroup <- !any(.data$...sentinel != sentinel)
+  }
+  .data$...sentinel <- NULL
+
+  regroup(
+    .data,
+    data_group_vars,
+    group_data = if (fast_regroup) data_group_data
+  )
 }
 
 #' Restore Groups After Applying a Function to a Data Frame
@@ -283,18 +301,65 @@ with_ungroup <- function(.data, .f, ...) {
 with_retain_groups <- function(.data, .f, ...) {
   .f <- purrr::as_mapper(.f, ...)
   if (!inherits(.data, "grouped_df")) return(.f(.data))
-  data_groups <- group_vars(.data)
+  data_group_vars <- group_vars(.data)
   .data <- .f(.data)
-  regroup(.data, data_groups)
+  regroup(.data, data_group_vars)
 }
 
-regroup <- function(.data, groups_possible) {
+regroup <- function(.data, groups_possible, group_data = NULL) {
+  # Check that all group vars are still present
   g_after <- intersect(groups_possible, names(.data))
   g_missing <- setdiff(groups_possible, g_after)
   if (length(g_missing)) {
     g_missing <- glue::glue_collapse(glue("`{g_missing}`"), ", ")
     warn(glue("groups were implicitly dropped: {g_missing}"))
   }
-  group_by(.data, !!!rlang::syms(g_after))
+
+  if (!is.null(group_data)) group_data <- align_grouping(.data, group_data)
+
+  recalculate_grouping <- is.null(group_data) || length(g_missing) > 0
+
+  if (recalculate_grouping) {
+    return(group_by(.data, !!!rlang::syms(g_after)))
+  } else {
+    dplyr::new_grouped_df(.data, groups = group_data)
+  }
 }
 
+align_grouping <- function(.data, group_data) {
+  group_vars <- setdiff(names(group_data), ".rows")
+  for (gv in group_vars) {
+    if (is.factor(.data[[gv]])) {
+      group_data[[gv]] <- factor(
+        group_data[[gv]],
+        levels = levels(.data[[gv]]),
+        ordered = is.ordered(.data[[gv]])
+      )
+    } else {
+      data_class <- class(.data[[gv]])
+      coerce <- switch(
+        data_class[length(data_class)],
+        "integer" = as.integer,
+        "numeric" = as.numeric,
+        "character" = as.character,
+        return(NULL)
+      )
+      group_data[[gv]] <- coerce(group_data[[gv]])
+    }
+
+    if (mismatched_values(group_data[[gv]], .data[[gv]])) {
+      return(NULL)
+    }
+  }
+  group_data
+}
+
+mismatched_values <- function(x, y) UseMethod("mismatched_values")
+
+mismatched_values.default <- function(x, y) {
+  length(setdiff(unique(x), unique(y))) > 0
+}
+
+mismatched_values.factor <- function(x, y) {
+  length(setdiff(unique(as.character(x)), unique(as.character(y)))) > 0
+}

@@ -37,7 +37,10 @@ calculation that would otherwise by slowed down by subdividing the
 calculation by group. In these circumstances, the calculation should be
 independent of the grouping. \code{with_ungroup()} temporarily removes groups,
 applies the function \code{.f} to \code{.data} (as \code{.f(.data)}) and then restores
-the original grouping.
+the original grouping. This function is fastest when the applied function
+does not modify the row order or the value of grouping columns. In these
+cases, the group index will need to be recalculated adding computational
+overhead depending on the number of rows and groups in the data.
 }
 \examples{
 # with_ungroup() ungroups the input data frame, applies the inner function,

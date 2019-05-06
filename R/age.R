@@ -577,14 +577,14 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
       is.na(.data$...age_group), !!age_group, .data$...age_group
     )) %>%
     # factorize new age groups in order
-    mutate(...original_order = row_number()) %>%
+    mutate(...original_order = dplyr::row_number()) %>%
     dplyr::arrange(age_min) %>%
     mutate(
       ...age_group = factor(
         .data$...age_group, unique(.data$...age_group), ordered = TRUE
       )
     ) %>%
-    dplyr::arrange(...original_order) %>%
+    dplyr::arrange(.data$...original_order) %>%
     # overwrite old age_group
     select(-!!age_group) %>%
     dplyr::rename(!!age_group_name := .data$...age_group) %>%

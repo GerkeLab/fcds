@@ -47,27 +47,49 @@ test_that("group_drop(): Doesn't do anything if there are no groups defined", {
 
 # with_ungroup() ----------------------------------------------------------
 
-test_that("with_ungroup() computes and restores groups", {
-  expect_equal(
-    tidyr::table1 %>% group_by(country, year) %>%
-      with_ungroup(~ mutate(., r = cases/population)),
-    tidyr::table1 %>% mutate(r = cases/population) %>% group_by(country, year)
-  )
-})
+describe("with_ungroup()", {
 
-test_that("with_ungroup() is a normal function if no groups", {
-  expect_equal(
-    tidyr::table1 %>% with_ungroup(~ mutate(., r = cases/population)),
-    tidyr::table1 %>% mutate(r = cases/population)
-  )
-})
+  it("computes and restores groups", {
+    expect_equal(
+      tidyr::table1 %>% group_by(country, year) %>%
+        with_ungroup(~ mutate(., r = cases/population)),
+      tidyr::table1 %>% mutate(r = cases/population) %>% group_by(country, year)
+    )
+  })
 
-test_that("with_ungroup() implicitly drops groups with a warning", {
-  expect_warning(
-    tidyr::table1 %>% group_by(country, year) %>%
-      with_ungroup(~ mutate(., r = cases/population) %>% select(-year)),
-    "implicitly dropped.+year"
-  )
+  it("is a normal function if no groups", {
+    expect_equal(
+      tidyr::table1 %>% with_ungroup(~ mutate(., r = cases/population)),
+      tidyr::table1 %>% mutate(r = cases/population)
+    )
+  })
+
+  it("implicitly drops groups with a warning", {
+    expect_warning(
+      tidyr::table1 %>% group_by(country, year) %>%
+        with_ungroup(~ mutate(., r = cases/population) %>% select(-year)),
+      "implicitly dropped.+year"
+    )
+  })
+
+  it("retains correct grouping of rows", {
+    e_county_count <- fcds::fcds_example %>%
+      filter(sex == "Male", race == "White", origin == "Non-Hispanic") %>%
+      group_by(county_name) %>%
+      dplyr::count() %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(county_name = factor(county_name, levels = sort(fcds_const("moffitt"))))
+
+    r_county_count <- fcds::fcds_example %>%
+      group_by(county_name) %>%
+      count_fcds(sex = "Male", race = "White", origin = "Non-Hispanic") %>%
+      dplyr::summarize(n = sum(n)) %>% dplyr::summarize(n = sum(n)) %>%
+      dplyr::summarize(n = sum(n)) %>% dplyr::summarize(n = sum(n)) %>%
+      dplyr::summarize(n = sum(n)) %>% dplyr::summarize(n = sum(n)) %>%
+      dplyr::summarize(n = sum(n))
+
+    expect_equal(r_county_count, e_county_count)
+  })
 })
 
 

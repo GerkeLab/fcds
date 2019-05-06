@@ -70,7 +70,7 @@ describe("count_fcds()", {
       unique(r_count_fcds$origin) %>% paste(),
       "Non-Hispanic"
     )
-    expect_known_hash(r_count_fcds, "b070c39aaf")
+    expect_known_hash(r_count_fcds, "3c7cce9f7f")
   })
 
   it("adds filtered variables to grouping", {
@@ -88,13 +88,13 @@ describe("count_fcds()", {
       dplyr::group_vars(r_count_fcds_default),
       c("year_group", "year", "age_group")
     )
-    expect_known_hash(r_count_fcds_default, "702cf9ee8a")
+    expect_known_hash(r_count_fcds_default, "2db1b87898")
   })
 
   it("subsets to Moffitt counties", {
     r_count_fcds_moffitt <- fcds::fcds_example %>%
       count_fcds(moffitt_catchment = TRUE)
-    expect_known_hash(r_count_fcds_moffitt, "8c8fac976d")
+    expect_known_hash(r_count_fcds_moffitt, "bd756c9aaf")
   })
 
   it("errors when invalid FCDS constants are provided", {

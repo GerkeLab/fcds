@@ -19,7 +19,7 @@ join_population <- function(
 
   # Nest population specific variables
   population <- population %>%
-    quiet_semi_join(data, by = pop_groups) %>%
+    quiet_semi_join(ungroup(data), by = pop_groups) %>%
     select(pop_groups, pop_vars) %>%
     tidyr::nest(pop_vars, .key = "population")
 
