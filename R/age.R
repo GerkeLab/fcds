@@ -540,17 +540,16 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
       below_upper <- TRUE
     } else {
       below_upper <- d_age_group$age_max < breaks[i]
-      if (!is.infinite(breaks[i])) {
-        is_within <- any(
-          breaks[i] > d_age_group$age_min &
-            breaks[i] <= d_age_group$age_max
-        )
-        if (is_within) {
-          abort(glue(
-            "The breakpoint {break[i]} falls between ",
-            "an existing age group."
-          ))
-        }
+      # Check that break isn't within boundaries of any age groups
+      is_within <- any(
+        breaks[i] > d_age_group$age_min &
+          breaks[i] <= d_age_group$age_max
+      )
+      if (is_within) {
+        abort(glue(
+          "The breakpoint {break[i]} falls between ",
+          "an existing age group."
+        ))
       }
     }
     is_contained <- above_lower & below_upper
@@ -568,6 +567,16 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
     mutate(...age_group = dplyr::if_else(
       is.na(.data$...age_group), !!age_group, .data$...age_group
     )) %>%
+    # factorize new age groups in order
+    mutate(...original_order = row_number()) %>%
+    dplyr::arrange(age_min) %>%
+    mutate(
+      ...age_group = factor(
+        .data$...age_group, unique(.data$...age_group), ordered = TRUE
+      )
+    ) %>%
+    dplyr::arrange(...original_order) %>%
+    # overwrite old age_group
     select(-!!age_group) %>%
     dplyr::rename(!!age_group_name := .data$...age_group) %>%
     select(names(data))

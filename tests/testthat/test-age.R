@@ -314,13 +314,19 @@ describe("recode_age_groups()", {
   ) %>%
     format_age_groups()
 
+
+  e_levels <- c("0 - 9", "10 - 19", "20 - 24", "25+")
+  e_factor <- factor(e_levels[c(1, 1, 2, 2, 3, 4)], e_levels, ordered = TRUE)
+
   it("recodes age groups", {
     r_age_groups <- d_age_groups %>%
       recode_age_groups(breaks = c(10, 20, 25))
 
+    expect_equal(r_age_groups$age_group, e_factor)
+
     expect_equal(
-      r_age_groups$age_group,
-      c(rep("0 - 9", 2), rep("10 - 19", 2), "20 - 24", "25+")
+      r_age_groups$age_group %>% levels(),
+      c("0 - 9", "10 - 19", "20 - 24", "25+")
     )
 
     r_age_groups2 <- d_age_groups %>%
@@ -340,7 +346,7 @@ describe("recode_age_groups()", {
       recode_age_groups(breaks = c(10, 20, 25, NA))
 
     expect_equal(
-      r_age_groups_upper$age_group,
+      r_age_groups_upper$age_group %>% paste(),
       c(rep("0 - 9", 2), rep("10 - 19", 2), "20 - 24", "25 - 29")
     )
 
@@ -349,7 +355,7 @@ describe("recode_age_groups()", {
       recode_age_groups(breaks = c(NA, 10, 20, 25))
 
     expect_equal(
-      r_age_groups_lower$age_group,
+      r_age_groups_lower$age_group %>% paste(),
       c("5 - 9", rep("10 - 19", 2), "20 - 24", "25+")
     )
 
@@ -358,7 +364,7 @@ describe("recode_age_groups()", {
       recode_age_groups(breaks = c(NA, 10, 20, NA))
 
     expect_equal(
-      r_age_groups_both$age_group,
+      r_age_groups_both$age_group %>% paste(),
       c("5 - 9", rep("10 - 19", 2), rep("20 - 29", 2))
     )
   })
@@ -382,37 +388,43 @@ describe("recode_age_groups()", {
   it("dichotomizes groups", {
     r_age_groups <- d_age_groups %>%
       recode_age_groups(breaks = 15)
+    e_levels <- c("0 - 14", "15+")
 
     expect_equal(
       r_age_groups$age_group,
-      c(rep("0 - 14", 3), rep("15+", 3))
+      factor(e_levels[c(1, 1, 1, 2, 2, 2)], e_levels, ordered = TRUE)
     )
 
     r_age_groups_lower <- d_age_groups %>%
       filter(age_min >= 5) %>%
       recode_age_groups(breaks = c(NA, 15))
 
+    e_lower_levels <- c("5 - 14", "15+")
+
     expect_equal(
       r_age_groups_lower$age_group,
-      c(rep("5 - 14", 2), rep("15+", 3))
+      factor(e_lower_levels[c(1, 1, 2, 2, 2)], e_lower_levels, ordered = TRUE)
     )
 
     r_age_groups_upper <- d_age_groups %>%
       filter(age_min >= 5) %>%
       recode_age_groups(breaks = c(15, NA))
 
+    e_upper_levels <- c("0 - 14", "15 - 29")
+
     expect_equal(
       r_age_groups_upper$age_group,
-      c(rep("0 - 14", 2), rep("15 - 29", 3))
+      factor(e_upper_levels[c(1, 1, 2, 2, 2)], e_upper_levels, ordered = TRUE)
     )
 
     r_age_groups_both <- d_age_groups %>%
       filter(age_min >= 5) %>%
       recode_age_groups(breaks = c(NA, 15, NA))
+    e_both_levels <- c("5 - 14", "15 - 29")
 
     expect_equal(
       r_age_groups_both$age_group,
-      c(rep("5 - 14", 2), rep("15 - 29", 3))
+      factor(e_both_levels[c(1, 1, 2, 2, 2)], e_both_levels, ordered = TRUE)
     )
   })
 
@@ -423,7 +435,10 @@ describe("recode_age_groups()", {
 
     r_age_groups <- d_age_groups %>%
       recode_age_groups(50)
-    expect_equal(unique(r_age_groups$age_group), c("0 - 49", "50+", "Unknown"))
+    expect_equal(
+      unique(paste(r_age_groups$age_group)),
+      c("0 - 49", "50+", "Unknown")
+    )
   })
 })
 
