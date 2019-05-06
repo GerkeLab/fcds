@@ -6,7 +6,7 @@
 \title{Florida County FIPS Codes}
 \format{A data frame with 68 rows and 2 variables: \describe{
 \item{\code{county_name}}{Name of the county in Florida.}
-\item{\code{fips_code}}{FIPS code.} }}
+\item{\code{county_fips}}{FIPS code.} }}
 \usage{
 county_fips_fl
 }

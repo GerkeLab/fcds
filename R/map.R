@@ -19,12 +19,9 @@ join_boundaries_fl <- function(data, ...) {
     select(county_fips = .data$countyfp, "geometry", "geoid")
 
   if (!"county_fips" %in% names(data)) {
-    county_fips <- fcds::county_fips_fl
-    names(county_fips) <- sub("^fips_code$", "county_fips", names(county_fips))
-
     data <-
       data %>%
-      quiet_left_join(county_fips, by = "county_name") %>%
+      quiet_left_join(fcds::county_fips_fl, by = "county_name") %>%
       mutate(county_fips = sprintf("%03d", as.integer(.data$county_fips)))
   }
 

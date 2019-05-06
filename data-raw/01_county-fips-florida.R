@@ -289,8 +289,11 @@ split_and_clean <- function(x, by = "\n") {
 
 county_fips_fl <- tibble(
   county_name = tools::toTitleCase(tolower(split_and_clean(county_name))),
-  fips_code = split_and_clean(fips_code)
+  county_fips = split_and_clean(fips_code)
 ) %>%
-  mutate(county_name = recode(county_name, "Desoto" = "DeSoto"))
+  mutate(
+    county_name = recode(county_name, "Desoto" = "DeSoto"),
+    county_fips = sprintf("%03d", as.integer(county_fips))
+  )
 
 usethis::use_data(county_fips_fl, overwrite = TRUE, compress = "xz")

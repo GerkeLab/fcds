@@ -16,7 +16,7 @@ if (!file.exists(county_fips_file)) stop(
 )
 
 county_fips_fl <- fcds::county_fips_fl %>%
-  mutate(county_fips = sprintf("%03d", as.integer(fips_code)))
+  mutate(county_fips = sprintf("%03d", as.integer(county_fips)))
 
 # Download Files ----------------------------------------------------------
 seer_pop_fl_file <- here::here("data-raw", "seer_fl-1969-2016_19ages.txt.gz")
