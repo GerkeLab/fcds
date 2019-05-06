@@ -509,6 +509,15 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
     "{age_group_name} not found in input data"
   ))
 
+  if (!is.null(groups(data))) {
+    return(
+      with_ungroup(
+        data,
+        ~ recode_age_groups(.x, breaks = breaks, age_group = !!age_group)
+      )
+    )
+  }
+
   single_and_missing <- length(breaks) == 1 && is.na(breaks)
   only_missing <- all(is.na(breaks))
   if (single_and_missing || only_missing) {

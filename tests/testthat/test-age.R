@@ -440,6 +440,18 @@ describe("recode_age_groups()", {
       c("0 - 49", "50+", "Unknown")
     )
   })
+
+  it("handles age_group being in grouping variables", {
+    d_age_grouped <- d_age_groups %>%
+      dplyr::mutate(i = rep(1:3, each = 2)) %>%
+      dplyr::group_by(age_group, i)
+
+    r_age_grouped <- d_age_grouped %>%
+      recode_age_groups(breaks = c(10, 20, 25))
+
+    expect_equal(dplyr::group_vars(r_age_grouped), c("age_group", "i"))
+    expect_equal(r_age_grouped$age_group, e_factor)
+  })
 })
 
 # Age Adjustment ----------------------------------------------------------
