@@ -112,12 +112,12 @@ fcds_prostate <-
     county_name %in% c("Hillsborough", "Pinellas"),
     sex == "Male"
   ) %>% 
-  # Declare group variables
-  group_by(cancer_site_group, county_name) %>% 
   # Count incidences of Prostate Cancer
-  count_fcds() %>% 
-  # Fill in missing age groups
-  complete_age_groups() %>% 
+  count_fcds(county_name, cancer_site_group) %>% 
+  # Fill in missing age groups w.r.t. specified columns
+  complete_age_groups(
+    county_name, cancer_site_group, tidyr::nesting(year_group, year)
+  ) %>% 
   # Calculate age-adjusted rate from incidence
   age_adjust() %>% 
   # Compute average yearly age-adjusted rate over 5 year range
