@@ -74,9 +74,12 @@ join_population_by_year <- function(
 #' @param data A data frame
 #' @param ... Unquoted column names to be added to the grouping of the output
 #'   and subsequent counting.
-#' @param sex Character vector of values of `sex` to be included in count
-#' @param race Character vector of values of `race` to be included in count
-#' @param origin Character vector of values of `origin` to be included in count
+#' @param sex Character vector of values of `sex` to be included in count, or
+#'   `TRUE` to include all values of `sex` present in input data
+#' @param race Character vector of values of `race` to be included in count, or
+#'   `TRUE` to include all values of `race` present in input data
+#' @param origin Character vector of values of `origin` to be included in count,
+#'   or `TRUE` to include all values of `origin` present in input data
 #' @param moffitt_catchment Limit counties to those in the catchment area of the
 #'   [Moffitt Cancer Center](https://moffitt.org).
 #' @param default_groups Variables that should be included in the grouping,
@@ -97,6 +100,17 @@ count_fcds <- function(
     race = race,
     origin = origin
   )
+
+  for (var in names(filters)) {
+    if (isTRUE(filters[[var]])) {
+      data <- data %>% group_by(!!rlang::sym(var), add = TRUE)
+      filters[[var]] <- NULL
+    }
+    if (isFALSE(filters[[var]])) abort(glue(
+      "{var} must be a vector of values to be included, `TRUE`, or `NULL`."
+    ))
+  }
+
   if (moffitt_catchment) filters$county_name <- fcds_const("moffitt_catchment")
 
   filters <- purrr::compact(filters)

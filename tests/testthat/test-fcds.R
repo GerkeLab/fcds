@@ -75,7 +75,7 @@ describe("count_fcds()", {
       unique(r_count_fcds$origin) %>% paste(),
       "Non-Hispanic"
     )
-    expect_known_hash(r_count_fcds, "3c7cce9f7f")
+    expect_known_hash(r_count_fcds %>% dplyr::ungroup(), "7050702f4c")
   })
 
   it("adds filtered variables to grouping", {
@@ -93,13 +93,13 @@ describe("count_fcds()", {
       dplyr::group_vars(r_count_fcds_default),
       c("year_group", "year", "age_group")
     )
-    expect_known_hash(r_count_fcds_default, "2db1b87898")
+    expect_known_hash(r_count_fcds_default %>% dplyr::ungroup(), "ade226709a")
   })
 
   it("subsets to Moffitt counties", {
     r_count_fcds_moffitt <- fcds::fcds_example %>%
       count_fcds(moffitt_catchment = TRUE)
-    expect_known_hash(r_count_fcds_moffitt, "bd756c9aaf")
+    expect_known_hash(r_count_fcds_moffitt %>% dplyr::ungroup(), "0418a81f18")
   })
 
   it("errors when invalid FCDS constants are provided", {
@@ -147,6 +147,25 @@ describe("count_fcds()", {
     expect_equal(levels(r_cfl$sex), "Male")
 
     expect_equal(levels(r_cfl$year_group), c("2001-2005", "2006-2010", "2011-2015"))
+  })
+
+  it("has shortcuts for {sex,origin,race} = TRUE", {
+    expect_equal(
+      fcds::fcds_example %>% count_fcds(sex = TRUE),
+      fcds::fcds_example %>% group_by(sex) %>% count_fcds()
+    )
+
+    expect_equal(
+      fcds::fcds_example %>% count_fcds(origin = TRUE),
+      fcds::fcds_example %>% group_by(origin) %>% count_fcds()
+    )
+
+    expect_equal(
+      fcds::fcds_example %>% count_fcds(race = TRUE),
+      fcds::fcds_example %>% group_by(race) %>% count_fcds()
+    )
+
+    expect_error(count_fcds(fcds::fcds_example, race = FALSE))
   })
 })
 

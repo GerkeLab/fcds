@@ -14,11 +14,14 @@ count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
 \item{...}{Unquoted column names to be added to the grouping of the output
 and subsequent counting.}
 
-\item{sex}{Character vector of values of \code{sex} to be included in count}
+\item{sex}{Character vector of values of \code{sex} to be included in count, or
+\code{TRUE} to include all values of \code{sex} present in input data}
 
-\item{race}{Character vector of values of \code{race} to be included in count}
+\item{race}{Character vector of values of \code{race} to be included in count, or
+\code{TRUE} to include all values of \code{race} present in input data}
 
-\item{origin}{Character vector of values of \code{origin} to be included in count}
+\item{origin}{Character vector of values of \code{origin} to be included in count,
+or \code{TRUE} to include all values of \code{origin} present in input data}
 
 \item{moffitt_catchment}{Limit counties to those in the catchment area of the
 \href{https://moffitt.org}{Moffitt Cancer Center}.}
