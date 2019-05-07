@@ -3,19 +3,22 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("rate"))
 
 #' Join Florida County Boundaries to a data frame
 #'
-#' Uses the `sf` and `USAboundaries` packages to join the input data with the
-#' county shapes required for spatial data visualization. See
-#' [USAboundaries::us_counties()] for more information about the county
-#' shapes used.
+#' Uses the `sf` and county boundaries from the `USAboundaries` packages to join
+#' the input data with the county shapes required for spatial data
+#' visualization. See [USAboundaries::us_counties()] for more information about
+#' the county shapes used.
 #'
 #' @return An `sf` data frame, created by [sf::st_sf()].
 #' @param data A data frame
-#' @param ... Additional arguments passed to [USAboundaries::us_counties()].
+#' @param counties_fl Florida Counties. If `NULL`, uses FL county boundaries
+#'   from [USAboundaries::us_counties()].
 #' @export
-join_boundaries_fl <- function(data, ...) {
-  requires_package(c("sf", "USAboundaries"), "join_boundaries_fl()")
+join_boundaries_fl <- function(data, counties_fl = NULL) {
+  requires_package("sf", "join_boundaries_fl()")
 
-  florida_counties <- USAboundaries::us_counties(states = "Florida", ...) %>%
+  counties_fl <- counties_fl %||% usaboundaries_counties_fl
+
+  florida_counties <- counties_fl %>%
     select(county_fips = .data$countyfp, "geometry", "geoid")
 
   if (!"county_fips" %in% names(data)) {

@@ -4,19 +4,20 @@
 \alias{join_boundaries_fl}
 \title{Join Florida County Boundaries to a data frame}
 \usage{
-join_boundaries_fl(data, ...)
+join_boundaries_fl(data, counties_fl = NULL)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{...}{Additional arguments passed to \code{\link[USAboundaries:us_counties]{USAboundaries::us_counties()}}.}
+\item{counties_fl}{Florida Counties. If \code{NULL}, uses FL county boundaries
+from \code{\link[USAboundaries:us_counties]{USAboundaries::us_counties()}}.}
 }
 \value{
 An \code{sf} data frame, created by \code{\link[sf:st_sf]{sf::st_sf()}}.
 }
 \description{
-Uses the \code{sf} and \code{USAboundaries} packages to join the input data with the
-county shapes required for spatial data visualization. See
-\code{\link[USAboundaries:us_counties]{USAboundaries::us_counties()}} for more information about the county
-shapes used.
+Uses the \code{sf} and county boundaries from the \code{USAboundaries} packages to join
+the input data with the county shapes required for spatial data
+visualization. See \code{\link[USAboundaries:us_counties]{USAboundaries::us_counties()}} for more information about
+the county shapes used.
 }

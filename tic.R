@@ -2,14 +2,7 @@ do_package_checks()
 
 get_stage("install") %>%
   add_step(step_install_cran("ggplot2")) %>%
-  add_step(step_install_cran("sf")) %>%
-  add_step(step_install_cran("USAboundaries")) %>%
-  add_step(step_install_cran(
-    "USAboundariesData",
-    repos = "http://packages.ropensci.org",
-    type = "source"
-  ))
-
+  add_step(step_install_cran("sf"))
 
 if (Sys.getenv("id_rsa") != "" && !ci()$is_tag()) {
   # pkgdown documentation can be built optionally. Other example criteria:

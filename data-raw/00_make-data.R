@@ -6,3 +6,6 @@ callr::rscript(here::here("data-raw/02_seer-pop-florida-county.R"))
 callr::rscript(here::here("data-raw/03_seer-pop-us-standard.R"))
 callr::rscript(here::here("data-raw/04_seer-icd-o-3.R"))
 callr::rscript(here::here("data-raw/05_fcds-example.R"))
+
+usaboundaries_counties_fl <- USAboundaries::us_counties(states = "FL")
+usethis::use_data(usaboundaries_counties_fl, internal = TRUE, overwrite = TRUE)
