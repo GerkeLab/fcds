@@ -1,7 +1,7 @@
 do_package_checks()
 
 get_stage("install") %>%
-  add_step(step_install_cran("ggplot2"))
+  add_step(step_install_cran("ggplot2")) %>%
   add_step(step_install_cran("sf"))
 
 
