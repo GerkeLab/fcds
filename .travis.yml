@@ -26,6 +26,11 @@ after_script: R -q -e 'tic::after_script()'
 # DO NOT CHANGE THE CODE ABOVE
 
 # Custom parts:
+before_install:
+  - sudo apt-get install -y libudunits2-dev
+addons:
+  apt:
+    update: true
 
 # Header
 language: r
