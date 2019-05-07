@@ -56,7 +56,7 @@ fcds_map_add_label <- function(data, ...) {
 #' fcds_example_rates <-
 #'   fcds::fcds_example %>%
 #'   count_fcds(moffitt_catchment = TRUE) %>%
-#'   complete_age_groups(county_name, tidyr::nesting(year_group,)) %>%
+#'   complete_age_groups(county_name, tidyr::nesting(year_group, year)) %>%
 #'   age_adjust() %>%
 #'   dplyr::ungroup() %>%
 #'   dplyr::mutate(rate = rate / 5) %>%
