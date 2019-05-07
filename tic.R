@@ -2,7 +2,10 @@ do_package_checks()
 
 get_stage("install") %>%
   add_step(step_install_cran("ggplot2")) %>%
-  add_step(step_install_cran("sf"))
+  add_step(step_install_cran("sf")) %>%
+  add_step(step_install_cran(
+    "USAboundariesData", repos = "http://packages.ropensci.org"
+  ))
 
 
 if (Sys.getenv("id_rsa") != "" && !ci()$is_tag()) {
