@@ -34,10 +34,10 @@
   
 <meta property="og:title" content="Join Florida County Boundaries to a data frame — join_boundaries_fl" />
 
-<meta property="og:description" content="Uses the sf and USAboundaries packages to join the input data with the
-county shapes required for spatial data visualization. See
-USAboundaries::us_counties() for more information about the county
-shapes used." />
+<meta property="og:description" content="Uses the sf and county boundaries from the USAboundaries packages to join
+the input data with the county shapes required for spatial data
+visualization. See USAboundaries::us_counties() for more information about
+the county shapes used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,14 +127,14 @@ shapes used." />
 
     <div class="ref-description">
     
-    <p>Uses the <code>sf</code> and <code>USAboundaries</code> packages to join the input data with the
-county shapes required for spatial data visualization. See
-<code><a href='https://www.rdocumentation.org/packages/USAboundaries/topics/us_counties'>USAboundaries::us_counties()</a></code> for more information about the county
-shapes used.</p>
+    <p>Uses the <code>sf</code> and county boundaries from the <code>USAboundaries</code> packages to join
+the input data with the county shapes required for spatial data
+visualization. See <code>USAboundaries::us_counties()</code> for more information about
+the county shapes used.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>join_boundaries_fl</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>join_boundaries_fl</span>(<span class='no'>data</span>, <span class='kw'>counties_fl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,14 +144,15 @@ shapes used.</p>
       <td><p>A data frame</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to <code><a href='https://www.rdocumentation.org/packages/USAboundaries/topics/us_counties'>USAboundaries::us_counties()</a></code>.</p></td>
+      <th>counties_fl</th>
+      <td><p>Florida Counties. If <code>NULL</code>, uses FL county boundaries
+from <code>USAboundaries::us_counties()</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An <code>sf</code> data frame, created by <code>sf::st_sf()</code>.</p>
+    <p>An <code>sf</code> data frame, created by <code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf::st_sf()</a></code>.</p>
     
 
   </div>
