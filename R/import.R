@@ -149,7 +149,8 @@
 #'   imported data? By default, only the cleaned columns are kept.
 #' @param fcds_recoding The FCDS recoding definition. See the FCDS Recoding
 #'   section for more information. Set to `NULL` to use the fcds package
-#'   default settings.
+#'   default settings for the current year's release. See [fcds_recoding()] for
+#'   recoding settings for previous years.
 #' @param verbose Prints additional information about the importing process
 #' @param col_types Passed to [readr::read_csv()]. By default, all columns are
 #'   imported initially as character and are recoded or updated during the
@@ -378,6 +379,60 @@ fcds_cache_clean <- function(path = NULL, ..., all = FALSE, dry_run = FALSE) {
 }
 
 # Recode FCDS Values ------------------------------------------------------
+
+#' List Available FCDS Recoding Settings Files
+#'
+#' Lists the available FCDS recoding settings files for use with
+#' [fcds_import()]. Recoding settings are tagged with `-release-2018` indicating
+#' the year of the FCDS release for which they are designed, except for the
+#' latest release settings, which does not have this tag.
+#'
+#' @param version The full name of the FCDS recoding settings file, or the year
+#'   of the release. If the year provided is more recent than the latest
+#'   tagged setting, the current release (package default) will be returned.
+#'
+#' @examples
+#' fcds_recoding()
+#' fcds_recoding(NULL)
+#'
+#' fcds_recoding(2018)
+#' fcds_recoding("fcds_recoding_release-2018")
+#' fcds_recoding(2019)
+#'
+#' @family FCDS Import Functions
+#' @export
+fcds_recoding <- function(version = as.integer(strftime(Sys.Date(), "%Y"))) {
+  stopifnot(is.null(version) || length(version) == 1)
+
+  recoding_files <- dir(fcds_file(), pattern = "fcds_recoding.*[.]yaml")
+  recoding_files <- sort(recoding_files, TRUE)
+
+  if (is.null(version)) {
+    return(recoding_files)
+  }
+
+  if (is.integer(version) || grepl("^\\d+$", version)) {
+    version <- as.integer(version)
+    recoding_years <- sub(".+?(\\d{0,4})[.]yaml", "\\1", recoding_files)
+    recoding_years <- recoding_years[recoding_years != ""]
+    recoding_years <- as.integer(recoding_years)
+    if (version %in% recoding_years) {
+      return(as.character(glue("fcds_recoding_release-{version}.yaml")))
+    } else if (version > max(recoding_years)) {
+      return(recoding_files[1])
+    } else {
+      abort(glue("Unknown release year: {version}"))
+    }
+  }
+
+  if (version %in% recoding_files) {
+    return(version)
+  } else if ((version <- paste0(version, ".yaml")) %in% recoding_files) {
+    return(version)
+  } else {
+    abort(glue("Unkown recoding file: {version}"))
+  }
+}
 
 fcds_recode_values <- function(
   data,

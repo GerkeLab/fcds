@@ -201,3 +201,19 @@ mid_year <- function(years, sep = "-", offset = NULL) {
     paste(years$year_min + offset)
   )
 }
+
+expand_two_digit_year <- function(years) {
+  yr_levels <- unique(years)
+  stopifnot(all(grepl("^\\d{4}$", yr_levels)))
+
+  yr_start <- as.integer(substr(yr_levels, 1, 2))
+  yr_end <- as.integer(substr(yr_levels, 3, 4))
+
+  yr_start <- yr_start + ifelse(yr_start < 70, 2000, 1900)
+  yr_end <- yr_end + ifelse(yr_end < 70, 2000, 1900)
+
+  yr_new <- paste(yr_start, yr_end, sep = "-")
+  names(yr_new) <- yr_levels
+
+  yr_new[years]
+}

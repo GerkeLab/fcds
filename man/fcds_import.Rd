@@ -100,7 +100,8 @@ imported data? By default, only the cleaned columns are kept.}
 
 \item{fcds_recoding}{The FCDS recoding definition. See the FCDS Recoding
 section for more information. Set to \code{NULL} to use the fcds package
-default settings.}
+default settings for the current year's release. See \code{\link[=fcds_recoding]{fcds_recoding()}} for
+recoding settings for previous years.}
 
 \item{verbose}{Prints additional information about the importing process}
 
@@ -252,6 +253,6 @@ This section will discuss the formatting for the FCDS recoding yaml file.
 \seealso{
 Other FCDS Import Functions: \code{\link{fcds_cache}},
   \code{\link{fcds_default_data_path}},
-  \code{\link{fcds_load}}
+  \code{\link{fcds_load}}, \code{\link{fcds_recoding}}
 }
 \concept{FCDS Import Functions}

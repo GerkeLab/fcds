@@ -28,6 +28,6 @@ a specific RDS file.
 \seealso{
 Other FCDS Import Functions: \code{\link{fcds_cache}},
   \code{\link{fcds_default_data_path}},
-  \code{\link{fcds_import}}
+  \code{\link{fcds_import}}, \code{\link{fcds_recoding}}
 }
 \concept{FCDS Import Functions}

@@ -150,3 +150,35 @@ test_that("get_fcds_recoding()", {
 
   expect_error(get_fcds_recoding("taco", bad_recoding), "[Mm]ore than one")
 })
+
+
+# Recoding ----
+
+describe("fcds_recoding()", {
+  it("returns list of available recoding settings", {
+    recoding_files <- dir(fcds_file(), pattern = "fcds_recoding")
+    expect_setequal(fcds_recoding(NULL), recoding_files)
+  })
+
+  it("returns latest release by default", {
+    expect_equal(fcds_recoding(), "fcds_recoding.yaml")
+  })
+
+  it("returns version by release year", {
+    expect_equal(fcds_recoding(2018), "fcds_recoding_release-2018.yaml")
+    expect_equal(fcds_recoding("2018"), "fcds_recoding_release-2018.yaml")
+    expect_equal(fcds_recoding(2019), "fcds_recoding.yaml")
+  })
+
+  it("returns errors for bad release years", {
+    expect_error(fcds_recoding(18))
+    expect_error(fcds_recoding("18"))
+  })
+
+  it("returns version if full file given", {
+    expect_equal(fcds_recoding("fcds_recoding.yaml"), "fcds_recoding.yaml")
+    expect_equal(fcds_recoding("fcds_recoding"), "fcds_recoding.yaml")
+    expect_equal(fcds_recoding("fcds_recoding_release-2018.yaml"), "fcds_recoding_release-2018.yaml")
+    expect_equal(fcds_recoding("fcds_recoding_release-2018"), "fcds_recoding_release-2018.yaml")
+  })
+})

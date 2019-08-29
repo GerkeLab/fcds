@@ -33,6 +33,7 @@ fcds_default_data_path()
 }
 \seealso{
 Other FCDS Import Functions: \code{\link{fcds_cache}},
-  \code{\link{fcds_import}}, \code{\link{fcds_load}}
+  \code{\link{fcds_import}}, \code{\link{fcds_load}},
+  \code{\link{fcds_recoding}}
 }
 \concept{FCDS Import Functions}
