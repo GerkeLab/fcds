@@ -8,10 +8,12 @@
 
 <title>Separate Year Groups — separate_year_groups • fcds</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,11 +34,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Separate Year Groups — separate_year_groups" />
 
+<meta property="og:title" content="Separate Year Groups — separate_year_groups" />
 <meta property="og:description" content="Separates a column containing year groups, such as &quot;1983-1985&quot;, into
 two separate columns named year_min and year_max by default." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -66,7 +69,7 @@ two separate columns named year_min and year_max by default." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -85,12 +88,12 @@ two separate columns named year_min and year_max by default." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -124,15 +127,13 @@ two separate columns named year_min and year_max by default." />
     </div>
 
     <div class="ref-description">
-    
     <p>Separates a column containing year groups, such as "<code>1983-1985</code>", into
 two separate columns named <code>year_min</code> and <code>year_max</code> by default.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>separate_year_groups</span>(<span class='no'>data</span>, <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_group</span>,
   <span class='kw'>into</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year_min"</span>, <span class='st'>"year_max"</span>), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -157,15 +158,17 @@ to <code>NULL</code> to use the <code>year_group</code> column name as a prefix 
 of <code>sep</code> will be automatically removed. Passed to <code><a href='https://tidyr.tidyverse.org/reference/separate.html'>tidyr::separate()</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other year processors: <code><a href='add_mid_year_groups.html'>add_mid_year_groups</a></code>,
   <code><a href='complete_year_groups.html'>complete_year_groups</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"year_group"</span>)) <span class='kw'>%&gt;%</span>
+    <pre class="examples"><div class='input'><span class='no'>year_groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1981-1985"</span>, <span class='st'>"1986-1990"</span>, <span class='st'>"1991-1995"</span>, <span class='st'>"1996-2000"</span>,
+                 <span class='st'>"2001-2005"</span>, <span class='st'>"2006-2010"</span>, <span class='st'>"2011-2015"</span>)
+
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_groups</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>separate_year_groups</span>()</div><div class='output co'>#&gt; # A tibble: 7 x 3
 #&gt;   year_group year_min year_max
 #&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;   
@@ -182,9 +185,7 @@ of <code>sep</code> will be automatically removed. Passed to <code><a href='http
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

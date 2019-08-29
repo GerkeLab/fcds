@@ -8,10 +8,12 @@
 
 <title>List Expected or Valid FCDS Constants — fcds_const • fcds</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,12 +34,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="List Expected or Valid FCDS Constants — fcds_const" />
 
+<meta property="og:title" content="List Expected or Valid FCDS Constants — fcds_const" />
 <meta property="og:description" content="Lists the expected values in the processed, cached FCDS data using the
 built-in recoding, or alternatively returns a tibble containing information
 about the cleaned column and value labels and the original data values." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ about the cleaned column and value labels and the original data values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -86,12 +89,12 @@ about the cleaned column and value labels and the original data values." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -125,16 +128,14 @@ about the cleaned column and value labels and the original data values." />
     </div>
 
     <div class="ref-description">
-    
     <p>Lists the expected values in the processed, cached FCDS data using the
 built-in recoding, or alternatively returns a tibble containing information
 about the cleaned column and value labels and the original data values.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>fcds_const</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"year_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>fcds_recoding_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,27 +157,22 @@ variable name (<code>name_clean</code>) and value label (<code>label</code>).</p
 Set to <code>NULL</code> to use the default recoding as used in <code><a href='fcds_import.html'>fcds_import()</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A character vector of valid FCDS values, or a tibble with information
 about the original and recoded FCDS data values.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>fcds_const</span>(<span class='st'>"year_group"</span>)</div><div class='output co'>#&gt; [1] "1981-1985" "1986-1990" "1991-1995" "1996-2000" "2001-2005" "2006-2010"
-#&gt; [7] "2011-2015"</div><div class='input'>
-<span class='fu'>fcds_const</span>(<span class='st'>"year_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 4
-#&gt;   name_clean name_original           value label    
-#&gt;   &lt;chr&gt;      &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;    
-#&gt; 1 year_group Date_of_Dx_Year_Recoded 8185  1981-1985
-#&gt; 2 year_group Date_of_Dx_Year_Recoded 8690  1986-1990
-#&gt; 3 year_group Date_of_Dx_Year_Recoded 9195  1991-1995
-#&gt; 4 year_group Date_of_Dx_Year_Recoded 9600  1996-2000
-#&gt; 5 year_group Date_of_Dx_Year_Recoded 0105  2001-2005
-#&gt; 6 year_group Date_of_Dx_Year_Recoded 0610  2006-2010
-#&gt; 7 year_group Date_of_Dx_Year_Recoded 1115  2011-2015</div><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"race"</span>)</div><div class='output co'>#&gt; [1] "White"   "Black"   "Other"   "Unknown"</div><div class='input'>
+<span class='fu'>fcds_const</span>(<span class='st'>"race"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
+#&gt;   name_clean name_original value label  
+#&gt;   &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;  
+#&gt; 1 race       Race_Recoded  1     White  
+#&gt; 2 race       Race_Recoded  2     Black  
+#&gt; 3 race       Race_Recoded  3     Other  
+#&gt; 4 race       Race_Recoded  9     Unknown</div><div class='input'>
 <span class='fu'>fcds_const</span>(<span class='st'>"cancer_site_group"</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 4
 #&gt;   name_clean        name_original   value label                           
 #&gt;   &lt;chr&gt;             &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;                           
@@ -195,9 +191,7 @@ about the original and recoded FCDS data values.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -8,10 +8,12 @@
 
 <title>Complete Year Groups — complete_year_groups • fcds</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,11 +34,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Complete Year Groups — complete_year_groups" />
 
+<meta property="og:title" content="Complete Year Groups — complete_year_groups" />
 <meta property="og:description" content="Completes year groups in the data frame with the expected year values,
 see fcds_const()." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -66,7 +69,7 @@ see fcds_const()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -85,12 +88,12 @@ see fcds_const()." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -124,15 +127,14 @@ see fcds_const()." />
     </div>
 
     <div class="ref-description">
-    
     <p>Completes year groups in the data frame with the expected year values,
 see <code><a href='fcds_const.html'>fcds_const()</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>complete_year_groups</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>year_gt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>year_lt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_group</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>))</pre>
-    
+  <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='no'>year_group</span>, <span class='kw'>year_group_levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>n</span> <span class='kw'>=</span>
+  <span class='fl'>0</span>))</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -160,23 +162,30 @@ specify which columns are included in the expansion and how. See
       <td><p>The unquoted column containing the <code>year_group</code>.</p></td>
     </tr>
     <tr>
+      <th>year_group_levels</th>
+      <td><p>The expected year groups that should appear in the
+data set. If not supplied, the expected year groups from the latest FCDS
+release will be used instead.</p></td>
+    </tr>
+    <tr>
       <th>fill</th>
       <td><p>Default values for rows in columns added to the data</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other year processors: <code><a href='add_mid_year_groups.html'>add_mid_year_groups</a></code>,
   <code><a href='separate_year_groups.html'>separate_year_groups</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>d_year</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/expand.html'>crossing</a></span>(
   <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"Female"</span>,
   <span class='kw'>race</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"race"</span>),
-  <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='fcds_const.html'>fcds_const</a></span>(<span class='st'>"year_group"</span>)
-)
+  <span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1981-1985"</span>, <span class='st'>"1986-1990"</span>, <span class='st'>"1991-1995"</span>, <span class='st'>"1996-2000"</span>,
+                 <span class='st'>"2001-2005"</span>, <span class='st'>"2006-2010"</span>, <span class='st'>"2011-2015"</span>)
+) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>year_group</span>))
 
 <span class='co'># These two versions are equivalent. The first version completes all variables</span>
 <span class='co'># included in the grouping and the second explicitly declares the variables</span>
@@ -185,35 +194,35 @@ specify which columns are included in the expansion and how. See
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>() <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; # A tibble: 28 x 3
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 28 x 3
 #&gt;    sex    race  year_group
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     
-#&gt;  1 Female Black 1981-1985 
-#&gt;  2 Female Black 1986-1990 
-#&gt;  3 Female Black 1991-1995 
-#&gt;  4 Female Black 1996-2000 
-#&gt;  5 Female Black 2001-2005 
-#&gt;  6 Female Black 2006-2010 
-#&gt;  7 Female Black 2011-2015 
-#&gt;  8 Female Other 1981-1985 
-#&gt;  9 Female Other 1986-1990 
-#&gt; 10 Female Other 1991-1995 
+#&gt;  1 Female Black 1982-1986 
+#&gt;  2 Female Black 1986-1991 
+#&gt;  3 Female Black 1992-1996 
+#&gt;  4 Female Black 1997-2001 
+#&gt;  5 Female Black 2002-2006 
+#&gt;  6 Female Black 2007-2011 
+#&gt;  7 Female Black 2012-2016 
+#&gt;  8 Female Other 1982-1986 
+#&gt;  9 Female Other 1986-1991 
+#&gt; 10 Female Other 1992-1996 
 #&gt; # … with 18 more rows</div><div class='input'>
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>(<span class='no'>sex</span>, <span class='no'>race</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; # A tibble: 28 x 3
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 28 x 3
 #&gt;    sex    race  year_group
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     
-#&gt;  1 Female Black 1981-1985 
-#&gt;  2 Female Black 1986-1990 
-#&gt;  3 Female Black 1991-1995 
-#&gt;  4 Female Black 1996-2000 
-#&gt;  5 Female Black 2001-2005 
-#&gt;  6 Female Black 2006-2010 
-#&gt;  7 Female Black 2011-2015 
-#&gt;  8 Female Other 1981-1985 
-#&gt;  9 Female Other 1986-1990 
-#&gt; 10 Female Other 1991-1995 
+#&gt;  1 Female Black 1982-1986 
+#&gt;  2 Female Black 1986-1991 
+#&gt;  3 Female Black 1992-1996 
+#&gt;  4 Female Black 1997-2001 
+#&gt;  5 Female Black 2002-2006 
+#&gt;  6 Female Black 2007-2011 
+#&gt;  7 Female Black 2012-2016 
+#&gt;  8 Female Other 1982-1986 
+#&gt;  9 Female Other 1986-1991 
+#&gt; 10 Female Other 1992-1996 
 #&gt; # … with 18 more rows</div><div class='input'>
 <span class='co'># If you have previously filtered the data to include a subset of years, you</span>
 <span class='co'># will likely want to exclude those years from the group completion.</span>
@@ -222,38 +231,21 @@ specify which columns are included in the expansion and how. See
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='no'>year_group</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1981-1985"</span>, <span class='st'>"1986-1990"</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>(<span class='kw'>year_gt</span> <span class='kw'>=</span> <span class='fl'>1990</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; # A tibble: 20 x 3
-#&gt;    sex    race    year_group
-#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;     
-#&gt;  1 Female Black   1991-1995 
-#&gt;  2 Female Black   1996-2000 
-#&gt;  3 Female Black   2001-2005 
-#&gt;  4 Female Black   2006-2010 
-#&gt;  5 Female Black   2011-2015 
-#&gt;  6 Female Other   1991-1995 
-#&gt;  7 Female Other   1996-2000 
-#&gt;  8 Female Other   2001-2005 
-#&gt;  9 Female Other   2006-2010 
-#&gt; 10 Female Other   2011-2015 
-#&gt; 11 Female Unknown 1991-1995 
-#&gt; 12 Female Unknown 1996-2000 
-#&gt; 13 Female Unknown 2001-2005 
-#&gt; 14 Female Unknown 2006-2010 
-#&gt; 15 Female Unknown 2011-2015 
-#&gt; 16 Female White   1991-1995 
-#&gt; 17 Female White   1996-2000 
-#&gt; 18 Female White   2001-2005 
-#&gt; 19 Female White   2006-2010 
-#&gt; 20 Female White   2011-2015 </div><div class='input'>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 5 x 3
+#&gt;   sex   race  year_group
+#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
+#&gt; 1 &lt;NA&gt;  &lt;NA&gt;  1992-1996 
+#&gt; 2 &lt;NA&gt;  &lt;NA&gt;  1997-2001 
+#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  2002-2006 
+#&gt; 4 &lt;NA&gt;  &lt;NA&gt;  2007-2011 
+#&gt; 5 &lt;NA&gt;  &lt;NA&gt;  2012-2016 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

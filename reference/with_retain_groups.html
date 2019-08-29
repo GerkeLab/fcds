@@ -8,10 +8,12 @@
 
 <title>Restore Groups After Applying a Function to a Data Frame — with_retain_groups • fcds</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,14 +34,15 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Restore Groups After Applying a Function to a Data Frame — with_retain_groups" />
 
+<meta property="og:title" content="Restore Groups After Applying a Function to a Data Frame — with_retain_groups" />
 <meta property="og:description" content="Groups are sometimes removed by dplyr functions, such as
 dplyr::summarize(). However, it may be necessary to ensure that the data
 output by a function retains as many of the original groups as are available
 after applying the function. with_retain_groups() applies a function to a
 grouped data frame and restores the original group as much as possible." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -69,7 +72,7 @@ grouped data frame and restores the original group as much as possible." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -88,12 +91,12 @@ grouped data frame and restores the original group as much as possible." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -127,17 +130,15 @@ grouped data frame and restores the original group as much as possible." />
     </div>
 
     <div class="ref-description">
-    
     <p>Groups are sometimes removed by dplyr functions, such as
 <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>dplyr::summarize()</a></code>. However, it may be necessary to ensure that the data
 output by a function retains as many of the original groups as are available
 after applying the function. <code>with_retain_groups()</code> applies a function to a
 grouped data frame and restores the original group as much as possible.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>with_retain_groups</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -168,12 +169,11 @@ present, the value of <code>.default</code> will be returned.</p></td>
       <td><p>Additional arguments passed on to methods.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Group Utilities: <code><a href='group_drop.html'>group_drop</a></code>,
   <code><a href='with_ungroup.html'>with_ungroup</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># with_retain_groups() applies inner function to grouped data frame</span>
@@ -220,9 +220,7 @@ present, the value of <code>.default</code> will be returned.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -55,6 +55,7 @@
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -150,9 +151,8 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Valid fcds_const() variables include: "year_group", "cancer_status", "cancer_site_group", "cancer_site_specific", "cancer_confirmation", "age_group", "race", "sex", "origin", "marital_status", "county_name", "state", "country", "birth_country", "birth_state", "primary_payer", "cancer_reporting_source", "cancer_ICDO3_conversion", "cancer_laterality", "cancer_grade", "cancer_ICDO3_behavior", "seer_stage_1977", "seer_stage_2000", "seer_stage_derived_1977", "seer_stage_derived_2000", "tobacco_cigarette", "tobacco_other", "tobacco_smokeless", "tobacco_nos", "moffitt_catchment"</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"year_group"</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] "1981-1985" "1986-1990" "1991-1995" "1996-2000" "2001-2005" "2006-2010"</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [7] "2011-2015"</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_status"</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] "No evidence of tumor" "Evidence of tumor"    "Unknown"</span></a></code></pre></div>
 <p>If you supply <code>full = TRUE</code>, the original column name (<code>name_original</code>) and <code>value</code> from the FCDS data will be reported alongsize the cleaned column name (<code>name_clean</code>) and the value <code>label</code> used by the <strong>fcds</strong> package.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_site_group"</span>, <span class="dt">full =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 41 x 4</span></a>
@@ -266,21 +266,17 @@
 <a class="sourceLine" id="cb10-39" data-line-number="39"><span class="co">#&gt; 14 Pinellas     Prostate Gland    2011-2015  2013      7     929085 0.0800</span></a></code></pre></div>
 <p>This data can readily be passed to <code>ggplot2</code> for visualization.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ggplot2':</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   method         from </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   [.quosures     rlang</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   c.quosures     rlang</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   print.quosures rlang</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(fcds_prostate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(year_group, rate, <span class="dt">color =</span> county_name, <span class="dt">group =</span> county_name) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(fcds_prostate) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(year_group, rate, <span class="dt">color =</span> county_name, <span class="dt">group =</span> county_name) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</a></code></pre></div>
 <p><img src="fcds_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

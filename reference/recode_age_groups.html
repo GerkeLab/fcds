@@ -8,10 +8,12 @@
 
 <title>Recode Age Groups — recode_age_groups • fcds</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,11 +34,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Recode Age Groups — recode_age_groups" />
 
+<meta property="og:title" content="Recode Age Groups — recode_age_groups" />
 <meta property="og:description" content="This function helps to recode age groups into new groups that are equal to or
 overlap the original age grouping." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -66,7 +69,7 @@ overlap the original age grouping." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
       </span>
     </div>
 
@@ -85,12 +88,12 @@ overlap the original age grouping." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
     <span class="fa fa fa fa-newspaper-o fa-lg"></span>
      
+    Changelog
   </a>
 </li>
 <li>
@@ -124,14 +127,12 @@ overlap the original age grouping." />
     </div>
 
     <div class="ref-description">
-    
     <p>This function helps to recode age groups into new groups that are equal to or
 overlap the original age grouping.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>recode_age_groups</span>(<span class='no'>data</span>, <span class='no'>breaks</span>, <span class='kw'>age_group</span> <span class='kw'>=</span> <span class='no'>age_group</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,7 +157,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
       <td><p>Unquoted column name containing the age grouping.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other age processors: <code><a href='complete_age_groups.html'>complete_age_groups</a></code>,
@@ -164,7 +165,6 @@ not important beyond the presence of missing values at the extremes.</p></td>
   <code><a href='format_age_groups.html'>format_age_groups</a></code>,
   <code><a href='separate_age_groups.html'>separate_age_groups</a></code>,
   <code><a href='standardize_age_groups.html'>standardize_age_groups</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>d_age_groups</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(
@@ -238,9 +238,7 @@ not important beyond the presence of missing values at the extremes.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
