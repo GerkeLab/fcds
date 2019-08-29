@@ -22,7 +22,7 @@ county_fips_fl <- fcds::county_fips_fl %>%
 seer_pop_fl_file <- here::here("data-raw", "seer_fl-1969-2016_19ages.txt.gz")
 if (!file.exists(seer_pop_fl_file)) {
   download.file(
-    "https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz",
+    "https://seer.cancer.gov/popdata/yr1969_2017.19ages/fl.1969_2017.19ages.txt.gz",
     seer_pop_fl_file
   )
 }
@@ -30,7 +30,7 @@ if (!file.exists(seer_pop_fl_file)) {
 seer_pop_fl_exp_race_file <- here::here(
   "data-raw", "seer_fl-1990-2016_19ages.txt.gz")
 if (!file.exists(seer_pop_fl_exp_race_file)) download.file(
-  "https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz",
+  "https://seer.cancer.gov/popdata/yr1990_2017.19ages/fl.1990_2017.19ages.txt.gz",
   seer_pop_fl_exp_race_file
 )
 
