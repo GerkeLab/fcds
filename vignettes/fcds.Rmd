@@ -70,7 +70,7 @@ Lookup the values of variables in the imported data (referred to as a `labels` o
 ```{r}
 fcds_const(NULL)
 
-fcds_const("year_group")
+fcds_const("cancer_status")
 ```
 
 If you supply `full = TRUE`, the original column name (`name_original`) and `value` from the FCDS data will be reported alongsize the cleaned column name (`name_clean`) and the value `label` used by the **fcds** package.

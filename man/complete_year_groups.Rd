@@ -5,7 +5,8 @@
 \title{Complete Year Groups}
 \usage{
 complete_year_groups(data, ..., year_gt = NULL, year_lt = NULL,
-  year_group = year_group, fill = list(n = 0))
+  year_group = year_group, year_group_levels = NULL, fill = list(n =
+  0))
 }
 \arguments{
 \item{data}{A data frame}
@@ -21,6 +22,10 @@ specify which columns are included in the expansion and how. See
 
 \item{year_group}{The unquoted column containing the \code{year_group}.}
 
+\item{year_group_levels}{The expected year groups that should appear in the
+data set. If not supplied, the expected year groups from the latest FCDS
+release will be used instead.}
+
 \item{fill}{Default values for rows in columns added to the data}
 }
 \description{
@@ -31,8 +36,10 @@ see \code{\link[=fcds_const]{fcds_const()}}.
 d_year <- tidyr::crossing(
   sex = "Female",
   race = fcds_const("race"),
-  year_group = fcds_const("year_group")
-)
+  year_group = c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+                 "2001-2005", "2006-2010", "2011-2015")
+) \%>\%
+  dplyr::mutate(year_group = factor(year_group))
 
 # These two versions are equivalent. The first version completes all variables
 # included in the grouping and the second explicitly declares the variables

@@ -419,7 +419,7 @@ fcds_recoding <- function(version = as.integer(strftime(Sys.Date(), "%Y"))) {
     if (version %in% recoding_years) {
       return(as.character(glue("fcds_recoding_release-{version}.yaml")))
     } else if (version > max(recoding_years)) {
-      return(recoding_files[1])
+      return("fcds_recoding.yaml")
     } else {
       abort(glue("Unknown release year: {version}"))
     }
@@ -597,9 +597,9 @@ document_fcds_recoding <- function(recoding = load_fcds_recoding()) {
 #'
 #' @examples
 #'
-#' fcds_const("year_group")
+#' fcds_const("race")
 #'
-#' fcds_const("year_group", full = TRUE)
+#' fcds_const("race", full = TRUE)
 #'
 #' fcds_const("cancer_site_group", full = TRUE) %>% head()
 #'

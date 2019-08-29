@@ -9,7 +9,22 @@
     clean: year_group
   description: Year of Diagnosis (5 year group)
   naaccr: 390
-  mutate: expand_two_digit_year(Date_of_Dx_Year_Recoded)
+  # mutate: expand_two_digit_year(Date_of_Dx_Year_Recoded)
+  recode:
+    - value: '8286'
+      label: '1982-1986'
+    - value: '8691'
+      label: '1986-1991'
+    - value: '9296'
+      label: '1992-1996'
+    - value: '09701'
+      label: '1997-2001'
+    - value: '0206'
+      label: '2002-2006'
+    - value: '0711'
+      label: '2007-2011'
+    - value: '1216'
+      label: '2012-2016'
 - name:
     original: Date_of_Dx_Year_Recoded
     clean: year

@@ -1,7 +1,7 @@
 context("test-year")
 
 d_year <- dplyr::tribble(
-        ~year_group,
+  ~year_group,
   "1981-1985",
   "1986-1990",
   "1991-1995",
@@ -70,7 +70,7 @@ test_that("complete_year_groups()", {
   e_year <- tidyr::crossing(
     sex = fcds_const("sex"),
     race = fcds_const("race"),
-    year_group = fcds_const("year_group")
+    year_group = d_year$year_group
   )
 
   set.seed(421321)
@@ -79,11 +79,14 @@ test_that("complete_year_groups()", {
 
   r_year_grouped <- d_year %>%
     group_by(sex, race) %>%
-    complete_year_groups() %>%
+    complete_year_groups(year_group_levels = d_year$year_group) %>%
     dplyr::arrange(sex, race, year_group)
 
   r_year_ungrouped <- d_year %>%
-    complete_year_groups(sex, race) %>%
+    complete_year_groups(
+      sex, race,
+      year_group_levels = d_year$year_group
+    ) %>%
     dplyr::arrange(sex, race, year_group)
 
   expect_equal(r_year_grouped, e_year)
@@ -95,7 +98,7 @@ test_that("complete_year_groups() when filtering years", {
   e_year <- tidyr::crossing(
     sex = fcds_const("sex"),
     race = fcds_const("race"),
-    year_group = fcds_const("year_group")
+    year_group = d_year$year_group
   ) %>%
     separate_year_groups() %>%
     filter(year_min >= 2001, year_max <= 2015) %>%
@@ -106,11 +109,17 @@ test_that("complete_year_groups() when filtering years", {
 
   r_year_grouped <- d_year %>%
     group_by(sex, race) %>%
-    complete_year_groups(year_gt = 2001, year_lt = 2015) %>%
+    complete_year_groups(
+      year_gt = 2001, year_lt = 2015,
+      year_group_levels = d_year$year_group
+    ) %>%
     dplyr::arrange(sex, race, year_group)
 
   r_year_ungrouped <- d_year %>%
-    complete_year_groups(sex, race, year_gt = 2001, year_lt = 2015) %>%
+    complete_year_groups(
+      sex, race, year_gt = 2001, year_lt = 2015,
+      year_group_levels = d_year$year_group
+    ) %>%
     dplyr::arrange(sex, race, year_group)
 
   expect_equal(r_year_grouped, e_year)

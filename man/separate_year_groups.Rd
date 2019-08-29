@@ -25,7 +25,10 @@ Separates a column containing year groups, such as "\code{1983-1985}", into
 two separate columns named \code{year_min} and \code{year_max} by default.
 }
 \examples{
-dplyr::tibble(year_group = fcds_const("year_group")) \%>\%
+year_groups <- c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+                 "2001-2005", "2006-2010", "2011-2015")
+
+dplyr::tibble(year_group = year_groups) \%>\%
   separate_year_groups()
 
 }

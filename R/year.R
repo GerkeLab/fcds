@@ -7,8 +7,10 @@
 #' d_year <- tidyr::crossing(
 #'   sex = "Female",
 #'   race = fcds_const("race"),
-#'   year_group = fcds_const("year_group")
-#' )
+#'   year_group = c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+#'                  "2001-2005", "2006-2010", "2011-2015")
+#' ) %>%
+#'   dplyr::mutate(year_group = factor(year_group))
 #'
 #' # These two versions are equivalent. The first version completes all variables
 #' # included in the grouping and the second explicitly declares the variables
@@ -34,6 +36,9 @@
 #'
 #' @param data A data frame
 #' @param year_group The unquoted column containing the `year_group`.
+#' @param year_group_levels The expected year groups that should appear in the
+#'   data set. If not supplied, the expected year groups from the latest FCDS
+#'   release will be used instead.
 #' @param year_gt Optional earliest year to include (inclusive)
 #' @param year_lt Optional latest year to include (inclusive)
 #' @param fill Default values for rows in columns added to the data
@@ -49,6 +54,7 @@ complete_year_groups <- function(
   year_gt = NULL,
   year_lt = NULL,
   year_group = year_group,
+  year_group_levels = NULL,
   fill = list(n = 0)
 ) {
   year_group <- enquo(year_group)
@@ -60,7 +66,8 @@ complete_year_groups <- function(
   year_max <- NULL
 
   # Get known years data set, and subset to requested yrs to get expected values
-  years <- tibble(year_group = fcds_const("year_group")) %>%
+  year_group_levels <- year_group_levels %||% fcds_const("year_group")
+  years <- tibble(year_group = year_group_levels) %>%
     separate_year_groups(year_group = year_group) %>%
     mutate_at(quos(year_min, year_max), as.integer)
 
@@ -103,7 +110,10 @@ complete_year_groups <- function(
 #' as `floor((year_max - year_min) / 2)` unless `offset` is explicitly provided.
 #'
 #' @examples
-#' dplyr::tibble(year = fcds_const("year_group")) %>%
+#' year_groups <- c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+#'                  "2001-2005", "2006-2010", "2011-2015")
+#'
+#' dplyr::tibble(year = year_groups) %>%
 #'   add_mid_year_groups()
 #'
 #' @inheritParams complete_year_groups
@@ -140,7 +150,10 @@ add_mid_year_groups <- function(
 #' two separate columns named `year_min` and `year_max` by default.
 #'
 #' @examples
-#' dplyr::tibble(year_group = fcds_const("year_group")) %>%
+#' year_groups <- c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+#'                  "2001-2005", "2006-2010", "2011-2015")
+#'
+#' dplyr::tibble(year_group = year_groups) %>%
 #'   separate_year_groups()
 #'
 #' @param into The names of the min year and max year columns (respectively)
@@ -203,6 +216,9 @@ mid_year <- function(years, sep = "-", offset = NULL) {
 }
 
 expand_two_digit_year <- function(years) {
+  if (!is.character(years)) {
+    years <- paste(years)
+  }
   yr_levels <- unique(years)
   stopifnot(all(grepl("^\\d{4}$", yr_levels)))
 
@@ -213,7 +229,6 @@ expand_two_digit_year <- function(years) {
   yr_end <- yr_end + ifelse(yr_end < 70, 2000, 1900)
 
   yr_new <- paste(yr_start, yr_end, sep = "-")
-  names(yr_new) <- yr_levels
 
-  yr_new[years]
+  factor(years, levels = yr_levels, labels = yr_new)
 }

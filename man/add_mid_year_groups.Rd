@@ -30,7 +30,10 @@ a \emph{min} year and a \emph{max} year, separated by \code{sep}. The midpoint i
 as \code{floor((year_max - year_min) / 2)} unless \code{offset} is explicitly provided.
 }
 \examples{
-dplyr::tibble(year = fcds_const("year_group")) \%>\%
+year_groups <- c("1981-1985", "1986-1990", "1991-1995", "1996-2000",
+                 "2001-2005", "2006-2010", "2011-2015")
+
+dplyr::tibble(year = year_groups) \%>\%
   add_mid_year_groups()
 
 }

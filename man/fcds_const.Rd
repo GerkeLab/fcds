@@ -30,9 +30,9 @@ about the cleaned column and value labels and the original data values.
 }
 \examples{
 
-fcds_const("year_group")
+fcds_const("race")
 
-fcds_const("year_group", full = TRUE)
+fcds_const("race", full = TRUE)
 
 fcds_const("cancer_site_group", full = TRUE) \%>\% head()
 
