@@ -76,7 +76,7 @@ directly." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -202,21 +202,21 @@ in the final output across all groups.</p>
     <pre class="examples"><div class='input'>
 <span class='no'>fcds_example</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>county_name</span> <span class='kw'>==</span> <span class='st'>"Pinellas"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>count_fcds</span>(<span class='no'>cancer_site_group</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"Male"</span>)</div><div class='output co'>#&gt; # A tibble: 302 x 6
-#&gt; # Groups:   cancer_site_group, sex, year_group, year, age_group [302]
+  <span class='fu'>count_fcds</span>(<span class='no'>cancer_site_group</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"Male"</span>)</div><div class='output co'>#&gt; # A tibble: 285 x 6
+#&gt; # Groups:   cancer_site_group, sex, year_group, year, age_group [285]
 #&gt;    cancer_site_group       sex   year_group year  age_group     n
 #&gt;    &lt;fct&gt;                   &lt;fct&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;int&gt;
-#&gt;  1 Oral Cavity and Pharynx Male  1986-1990  1988  60 - 64       1
-#&gt;  2 Oral Cavity and Pharynx Male  1991-1995  1993  55 - 59       1
-#&gt;  3 Oral Cavity and Pharynx Male  1991-1995  1993  60 - 64       1
-#&gt;  4 Oral Cavity and Pharynx Male  1991-1995  1993  65 - 69       1
-#&gt;  5 Oral Cavity and Pharynx Male  1991-1995  1993  70 - 74       1
-#&gt;  6 Oral Cavity and Pharynx Male  1991-1995  1993  75 - 79       1
-#&gt;  7 Oral Cavity and Pharynx Male  1996-2000  1998  45 - 49       1
-#&gt;  8 Oral Cavity and Pharynx Male  1996-2000  1998  75 - 79       1
-#&gt;  9 Oral Cavity and Pharynx Male  1996-2000  1998  85+           1
-#&gt; 10 Oral Cavity and Pharynx Male  2001-2005  2003  5 - 9         1
-#&gt; # … with 292 more rows</div><div class='input'>
+#&gt;  1 Oral Cavity and Pharynx Male  1992-1996  1994  0 - 4         1
+#&gt;  2 Oral Cavity and Pharynx Male  1992-1996  1994  55 - 59       1
+#&gt;  3 Oral Cavity and Pharynx Male  1997-2001  1999  70 - 74       1
+#&gt;  4 Oral Cavity and Pharynx Male  2002-2006  2004  15 - 19       1
+#&gt;  5 Oral Cavity and Pharynx Male  2002-2006  2004  75 - 79       1
+#&gt;  6 Oral Cavity and Pharynx Male  2007-2011  2009  70 - 74       2
+#&gt;  7 Esophagus               Male  1987-1991  1989  70 - 74       1
+#&gt;  8 Esophagus               Male  1987-1991  1989  75 - 79       1
+#&gt;  9 Esophagus               Male  1997-2001  1999  65 - 69       1
+#&gt; 10 Esophagus               Male  2007-2011  2009  50 - 54       1
+#&gt; # … with 275 more rows</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
