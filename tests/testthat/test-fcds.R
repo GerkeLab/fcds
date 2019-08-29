@@ -75,7 +75,7 @@ describe("count_fcds()", {
       unique(r_count_fcds$origin) %>% paste(),
       "Non-Hispanic"
     )
-    expect_known_hash(r_count_fcds %>% dplyr::ungroup(), "7050702f4c")
+    expect_known_hash(r_count_fcds %>% dplyr::ungroup(), "cb200d3fef")
   })
 
   it("adds filtered variables to grouping", {
@@ -93,13 +93,13 @@ describe("count_fcds()", {
       dplyr::group_vars(r_count_fcds_default),
       c("year_group", "year", "age_group")
     )
-    expect_known_hash(r_count_fcds_default %>% dplyr::ungroup(), "ade226709a")
+    expect_known_hash(r_count_fcds_default %>% dplyr::ungroup(), "41f6683ccf")
   })
 
   it("subsets to Moffitt counties", {
     r_count_fcds_moffitt <- fcds::fcds_example %>%
       count_fcds(moffitt_catchment = TRUE)
-    expect_known_hash(r_count_fcds_moffitt %>% dplyr::ungroup(), "0418a81f18")
+    expect_known_hash(r_count_fcds_moffitt %>% dplyr::ungroup(), "a4ff52c455")
   })
 
   it("errors when invalid FCDS constants are provided", {
@@ -146,7 +146,7 @@ describe("count_fcds()", {
 
     expect_equal(levels(r_cfl$sex), "Male")
 
-    expect_equal(levels(r_cfl$year_group), c("2001-2005", "2006-2010", "2011-2015"))
+    expect_equal(levels(r_cfl$year_group), c("2002-2006", "2007-2011", "2012-2016"))
   })
 
   it("has shortcuts for {sex,origin,race} = TRUE", {
@@ -208,9 +208,9 @@ test_that("join_population_by_year() handles by_year edge cases", {
     )) %>%
     dplyr::rename(year = year_mid)
 
-  expect_known_hash(r_joined_pop, "fe898dfd4c")
+  expect_known_hash(r_joined_pop, "0c29e78c8e")
   expect_known_hash(
     suppressWarnings(join_population_by_year(sub_fcds_example)),
-    "fe898dfd4c"
+    "0c29e78c8e"
   )
 })
