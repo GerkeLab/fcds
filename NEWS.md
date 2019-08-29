@@ -1,6 +1,6 @@
 ## fcds (in development)
 
-### fcds 0.1.0
+## fcds 0.1.0
 
 * Updated the FCDS import recoding specification for the 2019 FCDS release.
 
