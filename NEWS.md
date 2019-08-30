@@ -1,4 +1,9 @@
-## fcds (in development)
+## fcds 0.1.1
+
+* Add option `discard_unseen_levels` to `count_fcds()` that allows the user to
+  control whether unobserved factor levels are dropped from the returned data
+  (`TRUE`/`FALSE`) or to provide a list of columns where unobserved factor
+  levels should be dropped.
 
 ## fcds 0.1.0
 

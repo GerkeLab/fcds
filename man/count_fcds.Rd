@@ -6,7 +6,7 @@
 \usage{
 count_fcds(data, ..., sex = NULL, race = NULL, origin = NULL,
   moffitt_catchment = FALSE, default_groups = c("year_group", "year",
-  "age_group"))
+  "age_group"), discard_unseen_levels = TRUE)
 }
 \arguments{
 \item{data}{A data frame}
@@ -29,6 +29,11 @@ or \code{TRUE} to include all values of \code{origin} present in input data}
 \item{default_groups}{Variables that should be included in the grouping,
 prior to counting cancer cases. Set to \code{NULL} to use only the groups
 already present in the input data.}
+
+\item{discard_unseen_levels}{If \code{TRUE}, drops factor levels that don't appear
+in the results. If \code{FALSE}, then no changes are made to the factor levels.
+If a character string of column names, then only unobserved levels in those
+columns are dropped.}
 }
 \value{
 A grouped data frame with counts. The output groups includes the

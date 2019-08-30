@@ -1,6 +1,6 @@
 Package: fcds
 Title: Process data from the Florida Cancer Data System
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     c(person(given = "Garrick",
              family = "Aden-Buie",

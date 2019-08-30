@@ -85,6 +85,10 @@ join_population_by_year <- function(
 #' @param default_groups Variables that should be included in the grouping,
 #'   prior to counting cancer cases. Set to `NULL` to use only the groups
 #'   already present in the input data.
+#' @param discard_unseen_levels If `TRUE`, drops factor levels that don't appear
+#'   in the results. If `FALSE`, then no changes are made to the factor levels.
+#'   If a character string of column names, then only unobserved levels in those
+#'   columns are dropped.
 #' @export
 count_fcds <- function(
   data,
@@ -93,7 +97,8 @@ count_fcds <- function(
   race = NULL,
   origin = NULL,
   moffitt_catchment = FALSE,
-  default_groups = c("year_group", "year", "age_group")
+  default_groups = c("year_group", "year", "age_group"),
+  discard_unseen_levels = TRUE
 ) {
   filters <- list(
     sex = sex,
@@ -126,10 +131,22 @@ count_fcds <- function(
   # Initial counting has to be by year and age_group
   groups <- union(group_vars(data), intersect(default_groups, names(data)))
 
-  data %>%
+  data <- data %>%
     group_by(..., !!!rlang::syms(groups)) %>%
-    dplyr::count() %>%
-    with_ungroup(discard_unobserved_levels)
+    dplyr::count()
+
+  if (is.logical(discard_unseen_levels)) {
+    if (!discard_unseen_levels) {
+      data
+    } else {
+      with_ungroup(data, discard_unobserved_levels)
+    }
+  } else {
+    discard_levels <- purrr::partial(
+      discard_unobserved_levels, cols = discard_unseen_levels
+    )
+    with_ungroup(data, discard_levels)
+  }
 }
 
 filter_fcds <- function(fcds, var_name, values) {
@@ -141,14 +158,23 @@ filter_fcds <- function(fcds, var_name, values) {
     group_by(!!var, add = TRUE)
 }
 
-discard_unobserved_levels <- function(data) {
+discard_unobserved_levels <- function(data, cols = NULL) {
   discard_levels <- function(fct) {
     fct_observed <- intersect(levels(fct), as.character(unique(fct)))
     factor(as.character(fct), fct_observed)
   }
 
-  data %>%
-    dplyr::mutate_if(is.factor, discard_levels)
+  if (is.null(cols)) {
+    data %>%
+      dplyr::mutate_if(is.factor, discard_levels)
+  } else {
+    for (col in cols) {
+      if (is.factor(data[[col]])) {
+        data[[col]] <- discard_levels(data[[col]])
+      }
+    }
+    data
+  }
 }
 
 # FCDS Variable Names -----------------------------------------------------

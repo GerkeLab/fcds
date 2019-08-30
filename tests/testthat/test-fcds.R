@@ -167,6 +167,33 @@ describe("count_fcds()", {
 
     expect_error(count_fcds(fcds::fcds_example, race = FALSE))
   })
+
+  it("discard_unseen_levels appropriately", {
+    expect_equal(
+      fcds::fcds_example %>%
+        count_fcds(sex = "Male") %>%
+        dplyr::pull(sex) %>% levels(),
+      "Male"
+    )
+    expect_equal(
+      fcds::fcds_example %>%
+        count_fcds(sex = "Male", discard_unseen_levels = "sex") %>%
+        dplyr::pull(sex) %>% levels(),
+      "Male"
+    )
+    expect_equal(
+      fcds::fcds_example %>%
+        count_fcds(sex = "Male", discard_unseen_levels = FALSE) %>%
+        dplyr::pull(sex) %>% levels(),
+      c("Male", "Female", "Unknown")
+    )
+    expect_equal(
+      fcds::fcds_example %>%
+        count_fcds(sex = "Male", discard_unseen_levels = "origin") %>%
+        dplyr::pull(sex) %>% levels(),
+      c("Male", "Female", "Unknown")
+    )
+  })
 })
 
 test_that("filter_fcds()", {
