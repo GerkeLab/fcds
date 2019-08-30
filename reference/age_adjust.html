@@ -69,7 +69,7 @@ by default seer_std_ages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -204,6 +204,12 @@ the age-adjusted rate summarizes the observed incidence across all ages.</p>
 not calculated, adding the columns <code>population</code>, <code>std_pop</code>, and <code>w</code> for the
 specific population, standard population and standardizing population
 weight, respectively.</p>
+<p><strong>NOTE:</strong> The output rate and count are relative to the time span of the
+intput data. If the supplied event count data summarizes multiple years --
+for example, the FDCS summarized data spans 5 years -- the resulting rate
+and count are for the entire period (e.g. 5 years). Convention is to
+divide <code>rate</code> by the number of years in the period but leave <code>n</code> as the
+raw event count for the period.</p>
     <h2 class="hasAnchor" id="age-adjusted-rates"><a class="anchor" href="#age-adjusted-rates"></a>Age-Adjusted Rates</h2>
 
     

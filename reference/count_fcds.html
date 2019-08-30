@@ -76,7 +76,7 @@ directly." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ directly.</p>
 
     <pre class="usage"><span class='fu'>count_fcds</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>race</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>moffitt_catchment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year_group"</span>, <span class='st'>"year"</span>,
-  <span class='st'>"age_group"</span>))</pre>
+  <span class='st'>"age_group"</span>), <span class='kw'>discard_unseen_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,6 +186,13 @@ or <code>TRUE</code> to include all values of <code>origin</code> present in inp
       <td><p>Variables that should be included in the grouping,
 prior to counting cancer cases. Set to <code>NULL</code> to use only the groups
 already present in the input data.</p></td>
+    </tr>
+    <tr>
+      <th>discard_unseen_levels</th>
+      <td><p>If <code>TRUE</code>, drops factor levels that don't appear
+in the results. If <code>FALSE</code>, then no changes are made to the factor levels.
+If a character string of column names, then only unobserved levels in those
+columns are dropped.</p></td>
     </tr>
     </table>
 
