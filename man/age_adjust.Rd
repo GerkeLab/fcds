@@ -58,6 +58,13 @@ If \code{keep_age} is \code{TRUE}, the age column is retained, but the final rat
 not calculated, adding the columns \code{population}, \code{std_pop}, and \code{w} for the
 specific population, standard population and standardizing population
 weight, respectively.
+
+\strong{NOTE:} The output rate and count are relative to the time span of the
+intput data. If the supplied event count data summarizes multiple years --
+for example, the FDCS summarized data spans 5 years -- the resulting rate
+and count are for the entire period (e.g. 5 years). Convention is to
+divide \code{rate} by the number of years in the period but leave \code{n} as the
+raw event count for the period.
 }
 \description{
 Provides age-adjusted incident rates with respect to a reference population,

@@ -637,6 +637,13 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
 #'   specific population, standard population and standardizing population
 #'   weight, respectively.
 #'
+#'   **NOTE:** The output rate and count are relative to the time span of the
+#'   intput data. If the supplied event count data summarizes multiple years --
+#'   for example, the FDCS summarized data spans 5 years -- the resulting rate
+#'   and count are for the entire period (e.g. 5 years). Convention is to
+#'   divide `rate` by the number of years in the period but leave `n` as the
+#'   raw event count for the period.
+#'
 #' @references
 #'   <https://seer.cancer.gov/seerstat/tutorials/aarates/definition.html>
 #'
