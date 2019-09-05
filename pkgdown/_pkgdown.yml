@@ -86,10 +86,11 @@ reference:
   - '`with_retain_groups`'
   - '`with_ungroup`'
 - title: Data Sets
-  desc: Additional data sets from FCDS or SEER
+  desc: Additional data sets from FCDS, SEER, or IACR
   contents:
   - '`fcds_example`'
   - '`seer_icd_o_3`'
+  - '`iacr_icd_o_3`'
   - '`seer_std_ages`'
   - '`seer_pop_fl`'
   - '`seer_pop_fl_1990`'

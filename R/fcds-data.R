@@ -118,6 +118,21 @@
 #' }
 "seer_icd_o_3"
 
+#' IACR ICD-O-3 Histology Description
+#'
+#' Provides the histology codes and morphological descriptions from IACR.
+#'
+#' @references <http://www.iacr.com.fr/index.php?option=com_content&view=category&layout=blog&id=100&Itemid=577>
+#'
+#' @format A data frame with 2950 rows and 5 variables:
+#' \describe{
+#'   \item{\code{ICDO3_morphology}}{Five-digit ICD-O-3 morphology code, e.g. "`8262/3`", matches `cancer_ICDO3_morphology`}
+#'   \item{\code{ICDO3}}{Three-digit ICD-O-3 histology code, e.g. "`826`"}
+#'   \item{\code{ICDO3_histology}}{Four-digit ICD-O-3 histology code, e.g. "`8262`, matches `cancer_ICDO3_histology`}
+#'   \item{\code{level}}{IACR Level, one of 1, 2, 3, Preferred, Synonym, Related}
+#'   \item{\code{term}}{IACR ICD-O-3 description}
+#' }
+"iacr_icd_o_3"
 
 #' FCDS Example Data
 #'

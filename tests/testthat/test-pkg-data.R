@@ -24,4 +24,5 @@ test_that("population data didn't change", {
 
 test_that("icdo3 data didn't change", {
   expect_known_hash(seer_icd_o_3, "6003bfea82")
+  expect_known_hash(iacr_icd_o_3, "274b06c5e3")
 })

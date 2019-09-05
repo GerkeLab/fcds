@@ -1,3 +1,8 @@
+## fcds 0.1.2
+
+* Add ICD-O-3 codes from [IACR](http://www.iacr.com.fr/index.php?option=com_content&view=category&layout=blog&id=100&Itemid=577)
+  because the SEER ICD-O-3 codes are not complete (but are likely the most common).
+
 ## fcds 0.1.1
 
 * Add option `discard_unseen_levels` to `count_fcds()` that allows the user to

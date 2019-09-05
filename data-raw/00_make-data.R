@@ -7,6 +7,7 @@ callr::rscript(here::here("data-raw/01_county-fips-florida.R"))
 callr::rscript(here::here("data-raw/02_seer-pop-florida-county.R"))
 callr::rscript(here::here("data-raw/03_seer-pop-us-standard.R"))
 callr::rscript(here::here("data-raw/04_seer-icd-o-3.R"))
+callr::rscript(here::here("data-raw/06_iacr-icd-o-3.R"))
 
 if (UPDATE_FCDS_EXAMPLE && length(fcds::fcds_cache_ls())) {
   callr::rscript(here::here("data-raw/05_fcds-example.R"))
