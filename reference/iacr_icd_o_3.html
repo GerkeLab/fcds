@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SEER U.S. Standard Population for Age-Adjustment — seer_std_ages • fcds</title>
+<title>IACR ICD-O-3 Histology Description — iacr_icd_o_3 • fcds</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="SEER U.S. Standard Population for Age-Adjustment — seer_std_ages" />
-<meta property="og:description" content="U.S. Standard populations, year 2000, for age-adjusted statistics. Downloaded
-from SEER on 2019-01-24 (see References for direct links). This data set is
-the 2000 U.S. Std Population (single ages to 84 - Census P25-1130), with
-ages agregated into 18 age groups: &quot;0 - 4&quot;, ..., &quot;80 - 84&quot;, &quot;85+&quot;." />
+<meta property="og:title" content="IACR ICD-O-3 Histology Description — iacr_icd_o_3" />
+<meta property="og:description" content="Provides the histology codes and morphological descriptions from IACR." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,33 +120,30 @@ ages agregated into 18 age groups: &quot;0 - 4&quot;, ..., &quot;80 - 84&quot;, 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SEER U.S. Standard Population for Age-Adjustment</h1>
+    <h1>IACR ICD-O-3 Histology Description</h1>
     <small class="dont-index">Source: <a href='https://github.com/GerkeLab/fcds/blob/master/R/fcds-data.R'><code>R/fcds-data.R</code></a></small>
-    <div class="hidden name"><code>seer_std_ages.Rd</code></div>
+    <div class="hidden name"><code>iacr_icd_o_3.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>U.S. Standard populations, year 2000, for age-adjusted statistics. Downloaded
-from SEER on 2019-01-24 (see References for direct links). This data set is
-the <em>2000 U.S. Std Population (single ages to 84 - Census P25-1130)</em>, with
-ages agregated into 18 age groups: "<code>0 - 4</code>", ..., "<code>80 - 84</code>", "<code>85+</code>".</p>
+    <p>Provides the histology codes and morphological descriptions from IACR.</p>
     </div>
 
-    <pre class="usage"><span class='no'>seer_std_ages</span></pre>
+    <pre class="usage"><span class='no'>iacr_icd_o_3</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 18 rows and 4 variables:</p><dl class='dl-horizontal'>
-<dt><code>standard</code></dt><dd><p>Standard</p></dd>
-<dt><code>standard_name</code></dt><dd><p>Standard Name</p></dd>
-<dt><code>age_group</code></dt><dd><p>Age group</p></dd>
-<dt><code>std_pop</code></dt><dd><p>Standard Population</p></dd>
+    <p>A data frame with 2950 rows and 5 variables:</p><dl class='dl-horizontal'>
+<dt><code>ICDO3_morphology</code></dt><dd><p>Five-digit ICD-O-3 morphology code, e.g. "<code>8262/3</code>", matches <code>cancer_ICDO3_morphology</code></p></dd>
+<dt><code>ICDO3</code></dt><dd><p>Three-digit ICD-O-3 histology code, e.g. "<code>826</code>"</p></dd>
+<dt><code>ICDO3_histology</code></dt><dd><p>Four-digit ICD-O-3 histology code, e.g. "<code>8262</code>, matches <code>cancer_ICDO3_histology</code></p></dd>
+<dt><code>level</code></dt><dd><p>IACR Level, one of 1, 2, 3, Preferred, Synonym, Related</p></dd>
+<dt><code>term</code></dt><dd><p>IACR ICD-O-3 description</p></dd>
 </dl>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://seer.cancer.gov/stdpopulations/'>https://seer.cancer.gov/stdpopulations/</a></p>
-<p><a href='https://seer.cancer.gov/stdpopulations/stdpop.singleagesthru84.txt'>https://seer.cancer.gov/stdpopulations/stdpop.singleagesthru84.txt</a></p>
+    <p><a href='http://www.iacr.com.fr/index.php?option=com_content&amp;view=category&amp;layout=blog&amp;id=100&amp;Itemid=577'>http://www.iacr.com.fr/index.php?option=com_content&amp;view=category&amp;layout=blog&amp;id=100&amp;Itemid=577</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
