@@ -595,8 +595,16 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
 
 #' Age-Adjust Rates
 #'
-#' Provides age-adjusted incident rates with respect to a reference population,
+#' @description Provides age-adjusted incident rates with respect to a reference population,
 #' by default [seer_std_ages].
+#'
+#' **Warning!** All variables related to your population cohort must be included
+#' in the input data to `age_adjust()`, otherwise the default assumption will
+#' result in the Florida state population being used for the age-adjustment.
+#' For example if you are calculating incidence rates for subset of counties,
+#' you must include `county_name` in the input data to `age_adjust()`, but
+#' `county_name` should not be a grouping variable. See [group_drop()] for a
+#' helper function to remove a grouping variable.
 #'
 #' @section Age-Adjusted Rates:
 #'

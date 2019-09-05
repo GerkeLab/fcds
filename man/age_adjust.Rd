@@ -69,6 +69,14 @@ raw event count for the period.
 \description{
 Provides age-adjusted incident rates with respect to a reference population,
 by default \link{seer_std_ages}.
+
+\strong{Warning!} All variables related to your population cohort must be included
+in the input data to \code{age_adjust()}, otherwise the default assumption will
+result in the Florida state population being used for the age-adjustment.
+For example if you are calculating incidence rates for subset of counties,
+you must include \code{county_name} in the input data to \code{age_adjust()}, but
+\code{county_name} should not be a grouping variable. See \code{\link[=group_drop]{group_drop()}} for a
+helper function to remove a grouping variable.
 }
 \section{Age-Adjusted Rates}{
 
