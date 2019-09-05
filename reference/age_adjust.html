@@ -37,7 +37,14 @@
 
 <meta property="og:title" content="Age-Adjust Rates — age_adjust" />
 <meta property="og:description" content="Provides age-adjusted incident rates with respect to a reference population,
-by default seer_std_ages." />
+by default seer_std_ages.
+Warning! All variables related to your population cohort must be included
+in the input data to age_adjust(), otherwise the default assumption will
+result in the Florida state population being used for the age-adjustment.
+For example if you are calculating incidence rates for subset of counties,
+you must include county_name in the input data to age_adjust(), but
+county_name should not be a grouping variable. See group_drop() for a
+helper function to remove a grouping variable." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,6 +136,13 @@ by default seer_std_ages." />
     <div class="ref-description">
     <p>Provides age-adjusted incident rates with respect to a reference population,
 by default <a href='seer_std_ages.html'>seer_std_ages</a>.</p>
+<p><strong>Warning!</strong> All variables related to your population cohort must be included
+in the input data to <code>age_adjust()</code>, otherwise the default assumption will
+result in the Florida state population being used for the age-adjustment.
+For example if you are calculating incidence rates for subset of counties,
+you must include <code>county_name</code> in the input data to <code>age_adjust()</code>, but
+<code>county_name</code> should not be a grouping variable. See <code><a href='group_drop.html'>group_drop()</a></code> for a
+helper function to remove a grouping variable.</p>
     </div>
 
     <pre class="usage"><span class='fu'>age_adjust</span>(<span class='no'>data</span>, <span class='kw'>count</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>population</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
