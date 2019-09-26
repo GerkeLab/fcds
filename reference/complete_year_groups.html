@@ -69,7 +69,7 @@ see fcds_const()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -194,36 +194,36 @@ release will be used instead.</p></td>
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>() <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 28 x 3
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 56 x 3
 #&gt;    sex    race  year_group
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     
-#&gt;  1 Female Black 1982-1986 
-#&gt;  2 Female Black 1987-1991 
-#&gt;  3 Female Black 1992-1996 
-#&gt;  4 Female Black 1997-2001 
-#&gt;  5 Female Black 2002-2006 
-#&gt;  6 Female Black 2007-2011 
-#&gt;  7 Female Black 2012-2016 
-#&gt;  8 Female Other 1982-1986 
-#&gt;  9 Female Other 1987-1991 
-#&gt; 10 Female Other 1992-1996 
-#&gt; # … with 18 more rows</div><div class='input'>
+#&gt;  1 Female Black 1981-1985 
+#&gt;  2 Female Black 1982-1986 
+#&gt;  3 Female Black 1986-1990 
+#&gt;  4 Female Black 1987-1991 
+#&gt;  5 Female Black 1991-1995 
+#&gt;  6 Female Black 1992-1996 
+#&gt;  7 Female Black 1996-2000 
+#&gt;  8 Female Black 1997-2001 
+#&gt;  9 Female Black 2001-2005 
+#&gt; 10 Female Black 2002-2006 
+#&gt; # … with 46 more rows</div><div class='input'>
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>(<span class='no'>sex</span>, <span class='no'>race</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 28 x 3
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 56 x 3
 #&gt;    sex    race  year_group
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     
-#&gt;  1 Female Black 1982-1986 
-#&gt;  2 Female Black 1987-1991 
-#&gt;  3 Female Black 1992-1996 
-#&gt;  4 Female Black 1997-2001 
-#&gt;  5 Female Black 2002-2006 
-#&gt;  6 Female Black 2007-2011 
-#&gt;  7 Female Black 2012-2016 
-#&gt;  8 Female Other 1982-1986 
-#&gt;  9 Female Other 1987-1991 
-#&gt; 10 Female Other 1992-1996 
-#&gt; # … with 18 more rows</div><div class='input'>
+#&gt;  1 Female Black 1981-1985 
+#&gt;  2 Female Black 1982-1986 
+#&gt;  3 Female Black 1986-1990 
+#&gt;  4 Female Black 1987-1991 
+#&gt;  5 Female Black 1991-1995 
+#&gt;  6 Female Black 1992-1996 
+#&gt;  7 Female Black 1996-2000 
+#&gt;  8 Female Black 1997-2001 
+#&gt;  9 Female Black 2001-2005 
+#&gt; 10 Female Black 2002-2006 
+#&gt; # … with 46 more rows</div><div class='input'>
 <span class='co'># If you have previously filtered the data to include a subset of years, you</span>
 <span class='co'># will likely want to exclude those years from the group completion.</span>
 <span class='co'># You can use `year_gt` and `year_lt` to exclude years beyond the boundaries.</span>
@@ -231,14 +231,20 @@ release will be used instead.</p></td>
 <span class='no'>d_year</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='no'>year_group</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1981-1985"</span>, <span class='st'>"1986-1990"</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'>complete_year_groups</span>(<span class='kw'>year_gt</span> <span class='kw'>=</span> <span class='fl'>1990</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 5 x 3
-#&gt;   sex   race  year_group
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
-#&gt; 1 &lt;NA&gt;  &lt;NA&gt;  1992-1996 
-#&gt; 2 &lt;NA&gt;  &lt;NA&gt;  1997-2001 
-#&gt; 3 &lt;NA&gt;  &lt;NA&gt;  2002-2006 
-#&gt; 4 &lt;NA&gt;  &lt;NA&gt;  2007-2011 
-#&gt; 5 &lt;NA&gt;  &lt;NA&gt;  2012-2016 </div><div class='input'>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='no'>sex</span>, <span class='no'>race</span>, <span class='no'>year_group</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `year_group` joining character vector and factor, coercing into character vector</span></div><div class='output co'>#&gt; # A tibble: 25 x 3
+#&gt;    sex    race  year_group
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     
+#&gt;  1 Female Black 1991-1995 
+#&gt;  2 Female Black 1996-2000 
+#&gt;  3 Female Black 2001-2005 
+#&gt;  4 Female Black 2006-2010 
+#&gt;  5 Female Black 2011-2015 
+#&gt;  6 Female Other 1991-1995 
+#&gt;  7 Female Other 1996-2000 
+#&gt;  8 Female Other 2001-2005 
+#&gt;  9 Female Other 2006-2010 
+#&gt; 10 Female Other 2011-2015 
+#&gt; # … with 15 more rows</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
