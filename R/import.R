@@ -182,6 +182,7 @@ fcds_import <- function(
   )
 
   attributes(data)$fcds_version <- fcds_version(FALSE)
+  attributes(data)$fcds_path <- normalizePath(file)
 
   if (!is.null(output_file)) {
     output_file <- strftime(Sys.time(), output_file)
