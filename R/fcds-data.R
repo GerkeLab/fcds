@@ -24,7 +24,7 @@
 #' the FCDS data. Only years matching the FCDS 5-year mid year are included.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
-#' @references <https://seer.cancer.gov/popdata/yr1969_2016.19ages/fl.1969_2016.19ages.txt.gz>
+#' @references `https://seer.cancer.gov/popdata/yr1969_2017.19ages/fl.1969_2017.19ages.txt.gz`
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
 #' @format A data frame with 53,466 rows and 11 variables:
@@ -61,7 +61,7 @@
 #' "Other". Only years matching the FCDS 5-year mid year are included.
 #'
 #' @references <https://seer.cancer.gov/popdata/>
-#' @references <https://seer.cancer.gov/popdata/yr1990_2016.19ages/fl.1990_2016.19ages.txt.gz>
+#' @references `https://seer.cancer.gov/popdata/yr1990_2017.19ages/fl.1990_2017.19ages.txt.gz`
 #' @references <https://seer.cancer.gov/popdata/popdic.html>
 #'
 #'
