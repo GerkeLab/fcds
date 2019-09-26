@@ -265,7 +265,7 @@ standardize_age_groups <- function(
       age_max = if_else(is_pos_infinite(age_max), 125, age_max),
       ...age = seq2(age_min, age_max)
     ) %>%
-    tidyr::unnest() %>%
+    tidyr_unnest() %>%
     select(-age_min, -age_max)
 
   age_is_numeric <- is.numeric(data[[age_group_name]])
@@ -914,7 +914,7 @@ validate_same_number_of_age_groups <- function(data) {
     ungroup() %>%
     select(!!!groups, "age_group") %>%
     dplyr::count(!!!groups, sort = TRUE) %>%
-    tidyr::nest(-n)
+    tidyr_nest(-n)
 
   if (nrow(d_age_groups) == 0) {
     abort("No age groups found in data")
