@@ -4,7 +4,7 @@
 \name{fcds-package}
 \alias{fcds}
 \alias{fcds-package}
-\title{fcds: Process data from the Florida Cancer Data System}
+\title{fcds: Process Data from the Florida Cancer Data System}
 \description{
 Helper functions for processing data from the
     Florida Cancer Data System.
