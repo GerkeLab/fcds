@@ -21,7 +21,7 @@ join_population <- function(
   population <- population %>%
     quiet_semi_join(ungroup(data), by = pop_groups) %>%
     select(pop_groups, pop_vars) %>%
-    tidyr::nest(pop_vars, .key = "population")
+    tidyr_nest(pop_vars, .key = "population")
 
   with_ungroup(data, ~ quiet_left_join(., population, by = common_names_))
 }
