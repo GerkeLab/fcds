@@ -98,8 +98,33 @@ describe("count_fcds()", {
 
   it("subsets to Moffitt counties", {
     r_count_fcds_moffitt <- fcds::fcds_example %>%
-      count_fcds(moffitt_catchment = TRUE)
+      count_fcds(county_name = "moffitt_catchment")
     expect_known_hash(r_count_fcds_moffitt %>% dplyr::ungroup(), "a4ff52c455")
+  })
+
+  it("moffitt_catchment is deprecated", {
+    expect_warning(
+      fcds::fcds_example %>% count_fcds(moffitt_catchment = TRUE),
+      "deprecated"
+    )
+
+    expect_identical(
+      suppressWarnings(fcds::fcds_example %>% count_fcds(moffitt_catchment = TRUE)),
+      fcds::fcds_example %>% count_fcds(county_name = "moffitt_catchment")
+    )
+  })
+
+  it("county_name = TRUE includes county_name in group vars", {
+    fcds_county <- fcds::fcds_example %>% count_fcds(county_name = TRUE)
+    expect_identical(
+      dplyr::group_vars(fcds_county),
+      c("county_name", "year_group", "year", "age_group")
+    )
+
+    expect_identical(
+      fcds_county %>% .$county_name %>% paste() %>% unique() %>% sort(),
+      fcds::fcds_example %>% .$county_name %>% paste() %>% unique() %>% sort()
+    )
   })
 
   it("errors when invalid FCDS constants are provided", {
@@ -138,7 +163,7 @@ describe("count_fcds()", {
   it("removes un-observed factor levels in output groups", {
     r_cfl <- fcds::fcds_example %>%
       filter(year > 2000) %>%
-      count_fcds(moffitt_catchment = TRUE, sex = "Male")
+      count_fcds(county_name = "moffitt_catchment", sex = "Male")
 
     expect_true(
       length(setdiff(levels(r_cfl$county_name), fcds_const("moffitt_catchment"))) == 0
