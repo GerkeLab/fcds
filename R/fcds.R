@@ -62,7 +62,16 @@ join_population_by_year <- function(
 #'
 #' fcds_example %>%
 #'   dplyr::filter(county_name == "Pinellas") %>%
-#'   count_fcds(cancer_site_group, sex = "Male")
+#'   count_fcds(cancer_site_group, sex = "Male", county_name = TRUE) %>%
+#'   head()
+#'
+#' fcds_example %>%
+#'   filter_age_groups(age_gt = 20, age_lt = 25) %>%
+#'   count_fcds(sex = TRUE, county_name = c("Pinellas", "Hillsborough"))
+#'
+#' fcds_example %>%
+#'   count_fcds(county_name = "moffitt") %>%
+#'   head()
 #'
 #' @return A grouped data frame with counts. The output groups includes the
 #'   union of the groups of the original input `data`, the groups specified by
@@ -80,8 +89,13 @@ join_population_by_year <- function(
 #'   `TRUE` to include all values of `race` present in input data
 #' @param origin Character vector of values of `origin` to be included in count,
 #'   or `TRUE` to include all values of `origin` present in input data
-#' @param moffitt_catchment Limit counties to those in the catchment area of the
-#'   [Moffitt Cancer Center](https://moffitt.org).
+#' @param county_name Character vector of values of `county_name` to be included
+#'   in count, or `TRUE` to include all values of `county_name` present in the
+#'   input data, or `"moffitt"` to limit to the counties in the
+#'   catchment area of the [Moffitt Cancer Center](https://moffitt.org).
+#' @param moffitt_catchment **Deprecated.** Please use `county_name =
+#'   "moffitt"` instead to limit counties to those in the catchment
+#'   area of the [Moffitt Cancer Center](https://moffitt.org).
 #' @param default_groups Variables that should be included in the grouping,
 #'   prior to counting cancer cases. Set to `NULL` to use only the groups
 #'   already present in the input data.
@@ -96,14 +110,31 @@ count_fcds <- function(
   sex = NULL,
   race = NULL,
   origin = NULL,
-  moffitt_catchment = FALSE,
+  county_name = NULL,
   default_groups = c("year_group", "year", "age_group"),
-  discard_unseen_levels = TRUE
+  discard_unseen_levels = TRUE,
+  moffitt_catchment = FALSE
 ) {
+  if (!missing(moffitt_catchment)) {
+    .Deprecated(msg = paste(
+      "The moffitt_catchment argument is deprecated, please use",
+      "county_name = \"moffitt\""
+    ))
+    if (!missing(county_name)) {
+      warning(
+        "Both `county` and `moffitt_catchment` were specified, ",
+        "only `county` will be used."
+      )
+    } else {
+      county_name <- if (moffitt_catchment) "moffitt"
+    }
+  }
+
   filters <- list(
     sex = sex,
     race = race,
-    origin = origin
+    origin = origin,
+    county_name = county_name
   )
 
   for (var in names(filters)) {
@@ -116,7 +147,11 @@ count_fcds <- function(
     ))
   }
 
-  if (moffitt_catchment) filters$county_name <- fcds_const("moffitt_catchment")
+  if (!is.null(filters$county_name) && length(filters$county_name) == 1) {
+    if (grepl("moffitt", tolower(filters$county_name))) {
+      filters$county_name <- fcds_const("moffitt_catchment")
+    }
+  }
 
   filters <- purrr::compact(filters)
 
