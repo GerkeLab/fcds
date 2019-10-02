@@ -98,8 +98,15 @@ describe("count_fcds()", {
 
   it("subsets to Moffitt counties", {
     r_count_fcds_moffitt <- fcds::fcds_example %>%
-      count_fcds(county_name = "moffitt_catchment")
-    expect_known_hash(r_count_fcds_moffitt %>% dplyr::ungroup(), "a4ff52c455")
+      count_fcds(county_name = "moffitt_catchment") %>%
+      dplyr::ungroup()
+
+    r_count_fcds_moffitt2 <- fcds::fcds_example %>%
+      count_fcds(county_name = "Moffitt Cancer Center") %>%
+      dplyr::ungroup()
+
+    expect_known_hash(r_count_fcds_moffitt, "a4ff52c455")
+    expect_known_hash(r_count_fcds_moffitt2, "a4ff52c455")
   })
 
   it("moffitt_catchment is deprecated", {
@@ -163,7 +170,7 @@ describe("count_fcds()", {
   it("removes un-observed factor levels in output groups", {
     r_cfl <- fcds::fcds_example %>%
       filter(year > 2000) %>%
-      count_fcds(county_name = "moffitt_catchment", sex = "Male")
+      count_fcds(county_name = "Moffitt", sex = "Male")
 
     expect_true(
       length(setdiff(levels(r_cfl$county_name), fcds_const("moffitt_catchment"))) == 0

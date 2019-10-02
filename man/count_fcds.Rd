@@ -26,7 +26,7 @@ or \code{TRUE} to include all values of \code{origin} present in input data}
 
 \item{county_name}{Character vector of values of \code{county_name} to be included
 in count, or \code{TRUE} to include all values of \code{county_name} present in the
-input data, or \code{"moffitt_catchment"} to limit to the counties in the
+input data, or \code{"moffitt"} to limit to the counties in the
 catchment area of the \href{https://moffitt.org}{Moffitt Cancer Center}.}
 
 \item{default_groups}{Variables that should be included in the grouping,
@@ -38,7 +38,7 @@ in the results. If \code{FALSE}, then no changes are made to the factor levels.
 If a character string of column names, then only unobserved levels in those
 columns are dropped.}
 
-\item{moffitt_catchment}{\strong{Deprecated.} Please use \code{county_name = "moffitt_catchment"} instead to limit counties to those in the catchment
+\item{moffitt_catchment}{\strong{Deprecated.} Please use \code{county_name = "moffitt"} instead to limit counties to those in the catchment
 area of the \href{https://moffitt.org}{Moffitt Cancer Center}.}
 }
 \value{
@@ -65,10 +65,15 @@ directly.
 
 fcds_example \%>\%
   dplyr::filter(county_name == "Pinellas") \%>\%
-  count_fcds(cancer_site_group, sex = "Male", county_name = TRUE)
+  count_fcds(cancer_site_group, sex = "Male", county_name = TRUE) \%>\%
+  head()
 
 fcds_example \%>\%
   filter_age_groups(age_gt = 20, age_lt = 25) \%>\%
   count_fcds(sex = TRUE, county_name = c("Pinellas", "Hillsborough"))
+
+fcds_example \%>\%
+  count_fcds(county_name = "moffitt") \%>\%
+  head()
 
 }
