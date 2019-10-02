@@ -76,7 +76,7 @@ directly." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -146,8 +146,9 @@ directly.</p>
     </div>
 
     <pre class="usage"><span class='fu'>count_fcds</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>race</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>moffitt_catchment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year_group"</span>, <span class='st'>"year"</span>,
-  <span class='st'>"age_group"</span>), <span class='kw'>discard_unseen_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>county_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"year_group"</span>, <span class='st'>"year"</span>,
+  <span class='st'>"age_group"</span>), <span class='kw'>discard_unseen_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>moffitt_catchment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,9 +178,11 @@ and subsequent counting.</p></td>
 or <code>TRUE</code> to include all values of <code>origin</code> present in input data</p></td>
     </tr>
     <tr>
-      <th>moffitt_catchment</th>
-      <td><p>Limit counties to those in the catchment area of the
-<a href='https://moffitt.org'>Moffitt Cancer Center</a>.</p></td>
+      <th>county_name</th>
+      <td><p>Character vector of values of <code>county_name</code> to be included
+in count, or <code>TRUE</code> to include all values of <code>county_name</code> present in the
+input data, or <code>"moffitt"</code> to limit to the counties in the
+catchment area of the <a href='https://moffitt.org'>Moffitt Cancer Center</a>.</p></td>
     </tr>
     <tr>
       <th>default_groups</th>
@@ -193,6 +196,11 @@ already present in the input data.</p></td>
 in the results. If <code>FALSE</code>, then no changes are made to the factor levels.
 If a character string of column names, then only unobserved levels in those
 columns are dropped.</p></td>
+    </tr>
+    <tr>
+      <th>moffitt_catchment</th>
+      <td><p><strong>Deprecated.</strong> Please use <code>county_name = "moffitt"</code> instead to limit counties to those in the catchment
+area of the <a href='https://moffitt.org'>Moffitt Cancer Center</a>.</p></td>
     </tr>
     </table>
 
@@ -209,21 +217,46 @@ in the final output across all groups.</p>
     <pre class="examples"><div class='input'>
 <span class='no'>fcds_example</span> <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>county_name</span> <span class='kw'>==</span> <span class='st'>"Pinellas"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>count_fcds</span>(<span class='no'>cancer_site_group</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"Male"</span>)</div><div class='output co'>#&gt; # A tibble: 285 x 6
-#&gt; # Groups:   cancer_site_group, sex, year_group, year, age_group [285]
-#&gt;    cancer_site_group       sex   year_group year  age_group     n
-#&gt;    &lt;fct&gt;                   &lt;fct&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;int&gt;
-#&gt;  1 Oral Cavity and Pharynx Male  1992-1996  1994  0 - 4         1
-#&gt;  2 Oral Cavity and Pharynx Male  1992-1996  1994  55 - 59       1
-#&gt;  3 Oral Cavity and Pharynx Male  1997-2001  1999  70 - 74       1
-#&gt;  4 Oral Cavity and Pharynx Male  2002-2006  2004  15 - 19       1
-#&gt;  5 Oral Cavity and Pharynx Male  2002-2006  2004  75 - 79       1
-#&gt;  6 Oral Cavity and Pharynx Male  2007-2011  2009  70 - 74       2
-#&gt;  7 Esophagus               Male  1987-1991  1989  70 - 74       1
-#&gt;  8 Esophagus               Male  1987-1991  1989  75 - 79       1
-#&gt;  9 Esophagus               Male  1997-2001  1999  65 - 69       1
-#&gt; 10 Esophagus               Male  2007-2011  2009  50 - 54       1
-#&gt; # … with 275 more rows</div><div class='input'>
+  <span class='fu'>count_fcds</span>(<span class='no'>cancer_site_group</span>, <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"Male"</span>, <span class='kw'>county_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 7
+#&gt; # Groups:   cancer_site_group, county_name, sex, year_group, year, age_group
+#&gt; #   [6]
+#&gt;   cancer_site_group       county_name sex   year_group year  age_group     n
+#&gt;   &lt;fct&gt;                   &lt;fct&gt;       &lt;fct&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;int&gt;
+#&gt; 1 Oral Cavity and Pharynx Pinellas    Male  1992-1996  1994  0 - 4         1
+#&gt; 2 Oral Cavity and Pharynx Pinellas    Male  1992-1996  1994  55 - 59       1
+#&gt; 3 Oral Cavity and Pharynx Pinellas    Male  1997-2001  1999  70 - 74       1
+#&gt; 4 Oral Cavity and Pharynx Pinellas    Male  2002-2006  2004  15 - 19       1
+#&gt; 5 Oral Cavity and Pharynx Pinellas    Male  2002-2006  2004  75 - 79       1
+#&gt; 6 Oral Cavity and Pharynx Pinellas    Male  2007-2011  2009  70 - 74       2</div><div class='input'>
+<span class='no'>fcds_example</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='filter_age_groups.html'>filter_age_groups</a></span>(<span class='kw'>age_gt</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>age_lt</span> <span class='kw'>=</span> <span class='fl'>25</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>count_fcds</span>(<span class='kw'>sex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>county_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pinellas"</span>, <span class='st'>"Hillsborough"</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 6
+#&gt; # Groups:   sex, county_name, year_group, year, age_group [10]
+#&gt;    sex     county_name  year_group year  age_group     n
+#&gt;    &lt;fct&gt;   &lt;fct&gt;        &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;int&gt;
+#&gt;  1 Male    Pinellas     1992-1996  1994  20 - 24       1
+#&gt;  2 Male    Pinellas     2002-2006  2004  20 - 24       2
+#&gt;  3 Male    Pinellas     2007-2011  2009  20 - 24       2
+#&gt;  4 Female  Hillsborough 1992-1996  1994  20 - 24       3
+#&gt;  5 Female  Hillsborough 2007-2011  2009  20 - 24       1
+#&gt;  6 Female  Hillsborough 2012-2016  2014  20 - 24       1
+#&gt;  7 Female  Pinellas     1987-1991  1989  20 - 24       1
+#&gt;  8 Female  Pinellas     2007-2011  2009  20 - 24       2
+#&gt;  9 Unknown Hillsborough 2002-2006  2004  20 - 24       1
+#&gt; 10 Unknown Pinellas     1997-2001  1999  20 - 24       1</div><div class='input'>
+<span class='no'>fcds_example</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>count_fcds</span>(<span class='kw'>county_name</span> <span class='kw'>=</span> <span class='st'>"moffitt"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 5
+#&gt; # Groups:   county_name, year_group, year, age_group [6]
+#&gt;   county_name year_group year  age_group     n
+#&gt;   &lt;fct&gt;       &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;int&gt;
+#&gt; 1 Charlotte   1982-1986  1984  20 - 24       1
+#&gt; 2 Charlotte   1982-1986  1984  35 - 39       1
+#&gt; 3 Charlotte   1982-1986  1984  40 - 44       1
+#&gt; 4 Charlotte   1982-1986  1984  45 - 49       1
+#&gt; 5 Charlotte   1982-1986  1984  50 - 54       2
+#&gt; 6 Charlotte   1982-1986  1984  55 - 59       5</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
