@@ -573,6 +573,7 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
   data %>%
     select(-dplyr::matches("age_min"), -dplyr::matches("age_max")) %>%
     dplyr::left_join(d_age_group, by = age_group_name) %>%
+    dplyr::mutate_at(dplyr::vars(!!age_group_name), as.character) %>%
     mutate(...age_group = dplyr::if_else(
       is.na(.data$...age_group), !!age_group, .data$...age_group
     )) %>%

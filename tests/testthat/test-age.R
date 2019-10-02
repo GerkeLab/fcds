@@ -472,6 +472,15 @@ describe("recode_age_groups()", {
     expect_equal(dplyr::group_vars(r_age_u_grouped), c("i", "unusual_name"))
     expect_equal(r_age_u_grouped$unusual_name, e_factor)
   })
+
+  it("handles age_group being a factor", {
+    d_age_groups$age_group <- factor(d_age_groups$age_group, ordered = TRUE)
+
+    r_age_groups <- d_age_groups %>%
+      recode_age_groups(breaks = c(10, 20, 25))
+
+    expect_equal(r_age_groups$age_group, e_factor)
+  })
 })
 
 # Age Adjustment ----------------------------------------------------------
