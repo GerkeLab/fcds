@@ -124,7 +124,7 @@ fast_complete_age_groups <- function(data, fill = list(), .refactor = TRUE, .pro
   data <- if (packageVersion("tidyr") < "1.0.0") {
     data %>% tidyr::nest(fill_names)
   } else {
-    data %>% tidyr::nest_legacy(file_names)
+    data %>% tidyr::nest_legacy(fill_names)
   }
 
   if (.progress) .pb <- dplyr::progress_estimated(nrow(data))
@@ -139,7 +139,7 @@ fast_complete_age_groups <- function(data, fill = list(), .refactor = TRUE, .pro
   data <- if (utils::packageVersion("tidyr") < "1.0.0") {
     tidyr::unnest(data)
   } else {
-    tidyr::unnest_legact(data)
+    tidyr::unnest_legacy(data)
   }
 
   if (.refactor) {
