@@ -17,8 +17,12 @@ join_population <- function(
 
   pop_groups <- setdiff(common_names_, pop_vars)
 
+  # Drop factor orders
+  data <- fct_remove_order_all(data)
+
   # Nest population specific variables
   population <- population %>%
+    fct_remove_order_all() %>%
     quiet_semi_join(ungroup(data), by = pop_groups) %>%
     select(pop_groups, pop_vars) %>%
     tidyr_nest(pop_vars, .key = "population")
@@ -139,7 +143,7 @@ count_fcds <- function(
 
   for (var in names(filters)) {
     if (isTRUE(filters[[var]])) {
-      data <- data %>% group_by(!!rlang::sym(var), add = TRUE)
+      data <- data %>% group_by(!!rlang::sym(var), .add = TRUE)
       filters[[var]] <- NULL
     }
     if (isFALSE(filters[[var]])) abort(glue(
@@ -190,7 +194,7 @@ filter_fcds <- function(fcds, var_name, values) {
   var <- rlang::sym(var_name)
   fcds %>%
     filter(!!var %in% values) %>%
-    group_by(!!var, add = TRUE)
+    group_by(!!var, .add = TRUE)
 }
 
 discard_unobserved_levels <- function(data, cols = NULL) {

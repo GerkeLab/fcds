@@ -24,7 +24,7 @@ BugReports: https://github.com/GerkeLab/fcds/issues
 Depends: 
     R (>= 3.2.3)
 Imports: 
-    dplyr,
+    dplyr (>= 1.0.0),
     glue (>= 1.2.0),
     labelled,
     magrittr,

@@ -75,7 +75,7 @@ describe("count_fcds()", {
       unique(r_count_fcds$origin) %>% paste(),
       "Non-Hispanic"
     )
-    expect_known_hash(r_count_fcds %>% dplyr::ungroup(), "cb200d3fef")
+    expect_known_hash(r_count_fcds %>% dplyr::ungroup(), "c4a416ff9a")
   })
 
   it("adds filtered variables to grouping", {
@@ -93,7 +93,7 @@ describe("count_fcds()", {
       dplyr::group_vars(r_count_fcds_default),
       c("year_group", "year", "age_group")
     )
-    expect_known_hash(r_count_fcds_default %>% dplyr::ungroup(), "41f6683ccf")
+    expect_known_hash(r_count_fcds_default %>% dplyr::ungroup(), "589260aeb9")
   })
 
   it("subsets to Moffitt counties", {
@@ -105,8 +105,8 @@ describe("count_fcds()", {
       count_fcds(county_name = "Moffitt Cancer Center") %>%
       dplyr::ungroup()
 
-    expect_known_hash(r_count_fcds_moffitt, "a4ff52c455")
-    expect_known_hash(r_count_fcds_moffitt2, "a4ff52c455")
+    expect_known_hash(r_count_fcds_moffitt, "f60c484640")
+    expect_known_hash(r_count_fcds_moffitt2, "f60c484640")
   })
 
   it("moffitt_catchment is deprecated", {
@@ -158,13 +158,16 @@ describe("count_fcds()", {
 
   it("lets additional columns be included in the count (and groups) via ...", {
     r_cf <- fcds::fcds_example %>%
-      count_fcds(cancer_status)
+      count_fcds(cancer_status) %>%
+      dplyr::arrange(cancer_status, year, age_group)
 
     e_cf <- fcds::fcds_example %>%
       dplyr::group_by(year_group, year, age_group, cancer_status) %>%
-      dplyr::count()
+      dplyr::count() %>%
+      dplyr::arrange(cancer_status, year, age_group)
 
-    expect_equal(r_cf, e_cf)
+    expect_setequal(groups(r_cf), groups(e_cf))
+    expect_equal(r_cf[colnames(e_cf)] %>% dplyr::ungroup(), e_cf %>% dplyr::ungroup())
   })
 
   it("removes un-observed factor levels in output groups", {
@@ -256,6 +259,7 @@ test_that("join_population_by_year() handles by_year edge cases", {
   expect_error(join_population_by_year(fcds::fcds_example, by_year = 2015))
 
   overlapping_columns <- common_names(fcds::fcds_example, fcds::seer_pop_fl)
+  overlapping_columns <- setdiff(overlapping_columns, "origin")
 
   sub_fcds_example <- fcds::fcds_example[1:10, overlapping_columns]
 
@@ -267,9 +271,9 @@ test_that("join_population_by_year() handles by_year edge cases", {
     )) %>%
     dplyr::rename(year = year_mid)
 
-  expect_known_hash(r_joined_pop, "0c29e78c8e")
+  expect_known_hash(r_joined_pop, "06fc101af1")
   expect_known_hash(
     suppressWarnings(join_population_by_year(sub_fcds_example)),
-    "0c29e78c8e"
+    "06fc101af1"
   )
 })

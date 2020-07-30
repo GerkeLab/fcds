@@ -81,7 +81,7 @@ complete_year_groups <- function(
   }
 
 
-  if (!is.null(groups(data))) {
+  if (dplyr::is_grouped_df(data)) {
     data_groups <- group_vars(data)
     data_groups <- setdiff(data_groups, year_group_name)
 
