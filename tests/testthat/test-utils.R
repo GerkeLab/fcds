@@ -100,7 +100,7 @@ test_that("with_retain_groups() restores groups after computation", {
     tidyr::table1 %>% group_by(country, year) %>%
       with_retain_groups(~ dplyr::summarize(., cases = sum(cases))),
     tidyr::table1 %>% group_by(country, year) %>%
-      dplyr::summarize(cases = sum(cases)) %>% group_by(year, add = TRUE)
+      dplyr::summarize(cases = sum(cases)) %>% group_by(year, .add = TRUE)
   )
 
   expect_equal(

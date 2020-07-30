@@ -509,7 +509,7 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
     "{age_group_name} not found in input data"
   ))
 
-  if (!is.null(groups(data))) {
+  if (dplyr::is_grouped_df(data)) {
     return(
       with_ungroup(
         data,
@@ -556,7 +556,7 @@ recode_age_groups <- function(data, breaks, age_group = age_group) {
       )
       if (is_within) {
         abort(glue(
-          "The breakpoint {break[i]} falls between ",
+          "The breakpoint {breaks[i]} falls between ",
           "an existing age group."
         ))
       }
@@ -806,7 +806,7 @@ age_adjust <- function(
   # `population` needs a "population" column
   validate_all_have_var("population", population = population)
 
-  if (is.null(groups(data))) {
+  if (!dplyr::is_grouped_df(data)) {
     # warn if no groups provided but non count/age columns have multiple values
     data_meta <-
       data %>%
@@ -833,7 +833,7 @@ age_adjust <- function(
 
   data <- with_ungroup(data, ~ filter(.x, !!age != "Unknown")) %>%
     # data needs age to be in the groups
-    group_by(!!age, add = TRUE)
+    group_by(!!age, .add = TRUE)
 
   data <- data %>%
     with_ungroup(~ {
@@ -889,6 +889,8 @@ age_adjust_finalize <- function(
     select(!!age, "std_pop") %>%
     mutate(w = .data$std_pop / sum(.data$std_pop))
 
+  data[[age_name]] <- fct_remove_order(data[[age_name]])
+  std_pop_relevant[[age_name]] <- fct_remove_order(std_pop_relevant[[age_name]])
   data <- quiet_left_join(data, std_pop_relevant, by = age_name)
 
   data <- data %>%

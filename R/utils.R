@@ -25,6 +25,18 @@ quietly <- function(.f) {
   function(...) suppressWarnings(.f(...))
 }
 
+fct_remove_order <- function(x) {
+  if (!is_fct_ordered(x)) return(x)
+  class(x) <- "factor"
+  x
+}
+
+is_fct_ordered <- function(x) inherits(x, "ordered")
+
+fct_remove_order_all <- function(x) {
+  dplyr::mutate_if(x, is_fct_ordered, fct_remove_order)
+}
+
 quiet_left_join  <- quietly(dplyr::left_join)
 quiet_semi_join  <- quietly(dplyr::semi_join)
 quiet_anti_join  <- quietly(dplyr::anti_join)
@@ -156,7 +168,7 @@ double_quote <- function(x, sep = ", ", last = "") {
 #'
 #' Removes columns from the current list of groups, with the additional option
 #' to remove the columns from the data completely. In essence, the opposite of
-#' [dplyr::group_by()] with `add = TRUE`.
+#' [dplyr::group_by()] with `.add = TRUE`.
 #'
 #' @examples
 #' # Remove "type" from the groups

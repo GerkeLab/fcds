@@ -1,7 +1,7 @@
 
 # Age Helpers -------------------------------------------------------------
 
-d_age_group <- data.frame(
+d_age_group <- dplyr::tibble(
   id = 1:4,
   age_group = c("0 - 4", "10-14", "65-69", "85+")
 )
@@ -33,7 +33,8 @@ describe("format_age_groups()", {
     d_age_group_round_trip <- d_age_group_init %>%
       separate_age_groups() %>% format_age_groups()
 
-    expect_equivalent(d_age_group_round_trip, d_age_group_init)
+    cols_ordered <- colnames(d_age_group_init)
+    expect_equivalent(d_age_group_round_trip[cols_ordered], d_age_group_init[cols_ordered])
 
     d_age_groups <- dplyr::tibble(
       age_group = fcds_const("age_group")
@@ -43,7 +44,8 @@ describe("format_age_groups()", {
     d_age_groups_round_trip <- d_age_groups %>%
       format_age_groups() %>% separate_age_groups()
 
-    expect_equivalent(d_age_groups_round_trip, d_age_groups)
+    cols_ordered <- colnames(d_age_groups)
+    expect_equivalent(d_age_groups_round_trip[cols_ordered], d_age_groups[cols_ordered])
   })
 
   it("replaces missing on either side with missing_age_group", {
@@ -200,7 +202,7 @@ describe("complete_age_groups()", {
   it("handles age_group being a grouping variable", {
     expect_equal(
       d_age_group %>% group_by(age_group) %>% complete_age_groups(),
-      d_age_group %>% complete_age_groups()
+      d_age_group %>% complete_age_groups() %>% group_by(age_group)
     )
   })
 
@@ -258,9 +260,9 @@ test_that("standardize_age_groups() with non-standard age groups", {
     "not consistent with `std_age_groups`"
   )
   expect_equal(
-    data.frame(age_group = "3 - 6") %>%
+    dplyr::tibble(age_group = "3 - 6") %>%
       standardize_age_groups(std_age_groups = "3 - 6"),
-    data.frame(age_group = factor("3 - 6", ordered = TRUE))
+    dplyr::tibble(age_group = factor("3 - 6", ordered = TRUE))
   )
 })
 
@@ -296,7 +298,8 @@ test_that("standardize_age_groups() when input is grouped", {
       age_group = paste0(age_group_min, age_group_max),
       age_group = factor(age_group, fcds_const("age_group"), ordered = TRUE)
     ) %>%
-    select(-dplyr::matches("(min|max)$"))
+    select(-dplyr::matches("(min|max)$")) %>%
+    group_by(age_group)
 
   stdized_age_group <- d_age_group %>% group_by(age_group) %>%
     standardize_age_groups()
@@ -607,7 +610,7 @@ test_that("age_adjust() with additional grouping", {
 
   # age_group is removed from groups too
   expect_equal(
-    age_adjust(d_incidence_g %>% group_by(age_group, add = TRUE),
+    age_adjust(d_incidence_g %>% group_by(age_group, .add = TRUE),
                population = d_population_g, by_year = NULL),
     r_age_adjusted
   )
@@ -738,7 +741,8 @@ test_that("age_adjust() with keep_age = TRUE", {
     mutate(
       w = std_pop / sum(std_pop),
       rate = n / population * w * 100000
-    )
+    ) %>%
+    fct_remove_order_all()
 
   expect_equal(r_age_adjusted, e_age_adjusted)
 })
