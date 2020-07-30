@@ -6,20 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Getting Started with the fcds Package • fcds</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Getting Started with the fcds Package">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="fcds">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.9000</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Getting Started with the fcds Package</h1>
+      <h1 data-toc-skip>Getting Started with the fcds Package</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/GerkeLab/fcds/blob/master/vignettes/fcds.Rmd"><code>vignettes/fcds.Rmd</code></a></small>
@@ -97,49 +97,47 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"GerkeLab/fcds"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># install.packages("devtools")</span>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"GerkeLab/fcds"</span>)</pre></body></html></div>
 </div>
 <div id="setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setup" class="anchor"></a>Setup</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(fcds)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fcds</span>)</pre></body></html></div>
 <p>The <strong>fcds</strong> package doesn’t include data from the <a href="https://fcds.med.miami.edu/">FCDS Florida Cancer Registry</a>. Please visit the <a href="https://fcds.med.miami.edu/inc/datarequest.shtml">FCDS Data Request</a> page to request the most recent Florida Statewide Cancer Registry data.</p>
 <p>Once you have downloaded the data, you can use <strong>fcds</strong> to pre-process and import the FCDS data into R.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">fcds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fcds_import.html">fcds_import</a></span>(<span class="st">"STAT_dataset_2018.dat"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">fcds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fcds_import.html">fcds_import</a></span>(<span class="st">"STAT_dataset_2018.dat"</span>)</pre></body></html></div>
 <p>The imported, pre-processed data is automatically cached in the <code>.fcds</code> directory in your home directory for later use. Calling <code><a href="../reference/fcds_load.html">fcds_load()</a></code> will re-load the cached data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fcds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fcds_load.html">fcds_load</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">fcds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fcds_load.html">fcds_load</a></span>()</pre></body></html></div>
 <p>You can customize the folder where the cached data files are stored; see <code><a href="../reference/fcds_default_data_path.html">?fcds_default_data_path</a></code> for more information.</p>
 <p>You can also list the files currently stored in the data cache with <code><a href="../reference/fcds_cache.html">fcds_cache_ls()</a></code> and you can clean outdated files with <code><a href="../reference/fcds_cache.html">fcds_cache_clean()</a></code>, which by default retains the most recently imported FCDS data file.</p>
 <div id="example-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example Data</h3>
 <p>If you don’t have access to the FCDS data, we have provided a small example data set with similar properties to the FCDS data, but without any overlap in the attributes of cases.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">fcds &lt;-<span class="st"> </span>fcds<span class="op">::</span>fcds_example</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">fcds[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; # A tibble: 5 x 36</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   patient_id year_group year  cancer_status cancer_site_gro…</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;         &lt;fct&gt;           </span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 1      10001 1982-1986  1984  Unknown       Colon excluding…</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 2      10002 1982-1986  1984  Evidence of … Breast          </span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 3      10003 1982-1986  1984  Evidence of … Lung and Bronch…</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 4      10004 1982-1986  1984  No evidence … Colon excluding…</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 5      10005 1982-1986  1984  Unknown       Colon excluding…</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; # … with 31 more variables: cancer_site_specific &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; #   cancer_confirmation &lt;fct&gt;, age_group &lt;fct&gt;, race &lt;fct&gt;, sex &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; #   origin &lt;fct&gt;, marital_status &lt;fct&gt;, county_name &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; #   county_fips &lt;chr&gt;, state &lt;fct&gt;, florida_resident &lt;lgl&gt;, country &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; #   birth_country &lt;fct&gt;, birth_state &lt;fct&gt;, primary_payer &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; #   cancer_reporting_source &lt;fct&gt;, cancer_ICDO3_conversion &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; #   cancer_laterality &lt;fct&gt;, cancer_grade &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; #   cancer_ICDO3_histology &lt;chr&gt;, cancer_ICDO3_behavior &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; #   cancer_ICDO3_morphology &lt;chr&gt;, seer_stage_1977 &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; #   seer_stage_2000 &lt;fct&gt;, seer_stage &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; #   seer_stage_derived_1977 &lt;fct&gt;, seer_stage_derived_2000 &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; #   tobacco_cigarette &lt;fct&gt;, tobacco_other &lt;fct&gt;, tobacco_smokeless &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; #   tobacco_nos &lt;fct&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fcds</span> <span class="kw">&lt;-</span> <span class="kw pkg">fcds</span><span class="kw ns">::</span><span class="no"><a href="../reference/fcds_example.html">fcds_example</a></span>
+
+<span class="no">fcds</span>[<span class="fl">1</span>:<span class="fl">5</span>, ]
+<span class="co">#&gt; # A tibble: 5 x 36</span>
+<span class="co">#&gt;   patient_id year_group year  cancer_status cancer_site_gro… cancer_site_spe…</span>
+<span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;         &lt;fct&gt;            &lt;fct&gt;           </span>
+<span class="co">#&gt; 1      10001 1982-1986  1984  Unknown       Colon excluding… "Cecum, Appendi…</span>
+<span class="co">#&gt; 2      10002 1982-1986  1984  Evidence of … Breast           "Breast"        </span>
+<span class="co">#&gt; 3      10003 1982-1986  1984  Evidence of … Lung and Bronch… "Lung &amp; Bronchu…</span>
+<span class="co">#&gt; 4      10004 1982-1986  1984  No evidence … Colon excluding… "Cecum, Appendi…</span>
+<span class="co">#&gt; 5      10005 1982-1986  1984  Unknown       Colon excluding… "Cecum, Appendi…</span>
+<span class="co">#&gt; # … with 30 more variables: cancer_confirmation &lt;fct&gt;, age_group &lt;fct&gt;,</span>
+<span class="co">#&gt; #   race &lt;fct&gt;, sex &lt;fct&gt;, origin &lt;fct&gt;, marital_status &lt;fct&gt;,</span>
+<span class="co">#&gt; #   county_name &lt;fct&gt;, county_fips &lt;chr&gt;, state &lt;fct&gt;, florida_resident &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   country &lt;fct&gt;, birth_country &lt;fct&gt;, birth_state &lt;fct&gt;, primary_payer &lt;fct&gt;,</span>
+<span class="co">#&gt; #   cancer_reporting_source &lt;fct&gt;, cancer_ICDO3_conversion &lt;fct&gt;,</span>
+<span class="co">#&gt; #   cancer_laterality &lt;fct&gt;, cancer_grade &lt;fct&gt;, cancer_ICDO3_histology &lt;chr&gt;,</span>
+<span class="co">#&gt; #   cancer_ICDO3_behavior &lt;fct&gt;, cancer_ICDO3_morphology &lt;chr&gt;,</span>
+<span class="co">#&gt; #   seer_stage_1977 &lt;fct&gt;, seer_stage_2000 &lt;fct&gt;, seer_stage &lt;fct&gt;,</span>
+<span class="co">#&gt; #   seer_stage_derived_1977 &lt;fct&gt;, seer_stage_derived_2000 &lt;fct&gt;,</span>
+<span class="co">#&gt; #   tobacco_cigarette &lt;fct&gt;, tobacco_other &lt;fct&gt;, tobacco_smokeless &lt;fct&gt;,</span>
+<span class="co">#&gt; #   tobacco_nos &lt;fct&gt;</span></pre></body></html></div>
 </div>
 </div>
 <div id="looking-up-fcds-values" class="section level2">
@@ -149,145 +147,137 @@
 <h3 class="hasAnchor">
 <a href="#fcds-constants" class="anchor"></a>FCDS Constants</h3>
 <p>Lookup the values of variables in the imported data (referred to as a <code>labels</code> of the original data <code>value</code>) with <code><a href="../reference/fcds_const.html">fcds_const()</a></code></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Valid fcds_const() variables include: "year_group", "cancer_status", "cancer_site_group", "cancer_site_specific", "cancer_confirmation", "age_group", "race", "sex", "origin", "marital_status", "county_name", "state", "country", "birth_country", "birth_state", "primary_payer", "cancer_reporting_source", "cancer_ICDO3_conversion", "cancer_laterality", "cancer_grade", "cancer_ICDO3_behavior", "seer_stage_1977", "seer_stage_2000", "seer_stage_derived_1977", "seer_stage_derived_2000", "tobacco_cigarette", "tobacco_other", "tobacco_smokeless", "tobacco_nos", "moffitt_catchment"</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_status"</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] "No evidence of tumor" "Evidence of tumor"    "Unknown"</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="kw">NULL</span>)
+<span class="co">#&gt; Valid fcds_const() variables include: "year_group", "cancer_status", "cancer_site_group", "cancer_site_specific", "cancer_confirmation", "age_group", "race", "sex", "origin", "marital_status", "county_name", "state", "country", "birth_country", "birth_state", "primary_payer", "cancer_reporting_source", "cancer_ICDO3_conversion", "cancer_laterality", "cancer_grade", "cancer_ICDO3_behavior", "seer_stage_1977", "seer_stage_2000", "seer_stage_derived_1977", "seer_stage_derived_2000", "tobacco_cigarette", "tobacco_other", "tobacco_smokeless", "tobacco_nos", "moffitt_catchment"</span>
+
+<span class="fu"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_status"</span>)
+<span class="co">#&gt; [1] "No evidence of tumor" "Evidence of tumor"    "Unknown"</span></pre></body></html></div>
 <p>If you supply <code>full = TRUE</code>, the original column name (<code>name_original</code>) and <code>value</code> from the FCDS data will be reported alongsize the cleaned column name (<code>name_clean</code>) and the value <code>label</code> used by the <strong>fcds</strong> package.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_site_group"</span>, <span class="dt">full =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 41 x 4</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;    name_clean        name_original   value label                           </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;                           </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  1 cancer_site_group FCDS_Site_Group 0110  Oral Cavity and Pharynx         </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  2 cancer_site_group FCDS_Site_Group 0011  Esophagus                       </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  3 cancer_site_group FCDS_Site_Group 0012  Stomach                         </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  4 cancer_site_group FCDS_Site_Group 0013  Small Intestine                 </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  5 cancer_site_group FCDS_Site_Group 1422  Colon excluding Rectum          </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;  6 cancer_site_group FCDS_Site_Group 2324  Rectum and Rectosigmoid Junction</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;  7 cancer_site_group FCDS_Site_Group 0025  Anus, Anal Canal &amp; Anorectum    </span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;  8 cancer_site_group FCDS_Site_Group 2627  Liver and Intrahepatic Bile Duct</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  9 cancer_site_group FCDS_Site_Group 0028  Gall Bladder                    </span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 10 cancer_site_group FCDS_Site_Group 0029  Other Biliary                   </span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; # … with 31 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/fcds_const.html">fcds_const</a></span>(<span class="st">"cancer_site_group"</span>, <span class="kw">full</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; # A tibble: 41 x 4</span>
+<span class="co">#&gt;    name_clean        name_original   value label                           </span>
+<span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;                           </span>
+<span class="co">#&gt;  1 cancer_site_group FCDS_Site_Group 0110  Oral Cavity and Pharynx         </span>
+<span class="co">#&gt;  2 cancer_site_group FCDS_Site_Group 0011  Esophagus                       </span>
+<span class="co">#&gt;  3 cancer_site_group FCDS_Site_Group 0012  Stomach                         </span>
+<span class="co">#&gt;  4 cancer_site_group FCDS_Site_Group 0013  Small Intestine                 </span>
+<span class="co">#&gt;  5 cancer_site_group FCDS_Site_Group 1422  Colon excluding Rectum          </span>
+<span class="co">#&gt;  6 cancer_site_group FCDS_Site_Group 2324  Rectum and Rectosigmoid Junction</span>
+<span class="co">#&gt;  7 cancer_site_group FCDS_Site_Group 0025  Anus, Anal Canal &amp; Anorectum    </span>
+<span class="co">#&gt;  8 cancer_site_group FCDS_Site_Group 2627  Liver and Intrahepatic Bile Duct</span>
+<span class="co">#&gt;  9 cancer_site_group FCDS_Site_Group 0028  Gall Bladder                    </span>
+<span class="co">#&gt; 10 cancer_site_group FCDS_Site_Group 0029  Other Biliary                   </span>
+<span class="co">#&gt; # … with 31 more rows</span></pre></body></html></div>
 </div>
 <div id="fcds-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fcds-variables" class="anchor"></a>FCDS Variables</h3>
 <p>All of the variables in the imported FCDS data are documented in <code><a href="../reference/fcds_import.html">?fcds_import</a></code>. You can also list common groups of <code>fcds</code> variables using <code><a href="../reference/fcds_vars.html">fcds_vars()</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"demo"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; [1] "age_group"      "race"           "sex"            "origin"        </span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; [5] "marital_status" "birth_country"  "birth_state"    "primary_payer"</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"cancer"</span>)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  [1] "cancer_status"           "cancer_site_group"      </span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  [3] "cancer_site_specific"    "cancer_confirmation"    </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  [5] "cancer_reporting_source" "cancer_laterality"      </span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  [7] "cancer_grade"            "cancer_ICDO3_histology" </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [9] "cancer_ICDO3_behavior"   "cancer_ICDO3_morphology"</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; [11] "cancer_ICDO3_conversion"</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"demo"</span>)
+<span class="co">#&gt; [1] "age_group"      "race"           "sex"            "origin"        </span>
+<span class="co">#&gt; [5] "marital_status" "birth_country"  "birth_state"    "primary_payer"</span>
+
+<span class="fu"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"cancer"</span>)
+<span class="co">#&gt;  [1] "cancer_status"           "cancer_site_group"      </span>
+<span class="co">#&gt;  [3] "cancer_site_specific"    "cancer_confirmation"    </span>
+<span class="co">#&gt;  [5] "cancer_reporting_source" "cancer_laterality"      </span>
+<span class="co">#&gt;  [7] "cancer_grade"            "cancer_ICDO3_histology" </span>
+<span class="co">#&gt;  [9] "cancer_ICDO3_behavior"   "cancer_ICDO3_morphology"</span>
+<span class="co">#&gt; [11] "cancer_ICDO3_conversion"</span></pre></body></html></div>
 <p>These column names can be used in conjunction with <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code>, or you can supply FCDS data to <code><a href="../reference/fcds_vars.html">fcds_vars()</a></code> using the <code>.data</code> argument to select matching columns.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">fcds <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"id"</span>, <span class="st">"demo"</span>))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 8,062 x 11</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    patient_id year_group year  age_group race  sex   origin marital_status</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;         &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;         </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;  1      10001 1982-1986  1984  0 - 4     White Male  Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  2      10002 1982-1986  1984  0 - 4     White Male  Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  3      10003 1982-1986  1984  5 - 9     White Fema… Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  4      10004 1982-1986  1984  5 - 9     Other Fema… Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  5      10005 1982-1986  1984  10 - 14   Black Male  Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  6      10006 1982-1986  1984  15 - 19   Black Fema… Unkno… Unknown       </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  7      10007 1982-1986  1984  15 - 19   Other Male  Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  8      10008 1982-1986  1984  15 - 19   White Fema… Hispa… Unknown       </span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  9      10009 1982-1986  1984  15 - 19   Black Fema… Non-H… Married; Unma…</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 10      10010 1982-1986  1984  15 - 19   Other Male  Hispa… Single, Separ…</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; # … with 8,052 more rows, and 3 more variables: birth_country &lt;fct&gt;,</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; #   birth_state &lt;fct&gt;, primary_payer &lt;fct&gt;</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="kw"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="dt">.data =</span> fcds, <span class="st">"id"</span>, <span class="st">"icdo3"</span>)</a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; # A tibble: 8,062 x 7</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt;    patient_id year_group year  cancer_ICDO3_co… cancer_ICDO3_hi…</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt;         &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;            &lt;chr&gt;           </span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt;  1      10001 1982-1986  1984  Converted witho… 8010            </span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt;  2      10002 1982-1986  1984  Originally code… 8500            </span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt;  3      10003 1982-1986  1984  Converted witho… 8070            </span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt;  4      10004 1982-1986  1984  Originally code… 8263            </span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt;  5      10005 1982-1986  1984  Converted witho… 8140            </span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt;  6      10006 1982-1986  1984  Originally code… 8140            </span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt;  7      10007 1982-1986  1984  Originally code… 8140            </span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt;  8      10008 1982-1986  1984  Converted witho… 8500            </span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt;  9      10009 1982-1986  1984  Originally code… 8000            </span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; 10      10010 1982-1986  1984  Originally code… 8140            </span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; # … with 8,052 more rows, and 2 more variables:</span></a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; #   cancer_ICDO3_behavior &lt;fct&gt;, cancer_ICDO3_morphology &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">fcds</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="fu"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="st">"id"</span>, <span class="st">"demo"</span>))
+<span class="co">#&gt; # A tibble: 8,062 x 11</span>
+<span class="co">#&gt;    patient_id year_group year  age_group race  sex   origin marital_status</span>
+<span class="co">#&gt;         &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;         </span>
+<span class="co">#&gt;  1      10001 1982-1986  1984  0 - 4     White Male  Hispa… Single, Separ…</span>
+<span class="co">#&gt;  2      10002 1982-1986  1984  0 - 4     White Male  Hispa… Single, Separ…</span>
+<span class="co">#&gt;  3      10003 1982-1986  1984  5 - 9     White Fema… Hispa… Single, Separ…</span>
+<span class="co">#&gt;  4      10004 1982-1986  1984  5 - 9     Other Fema… Hispa… Single, Separ…</span>
+<span class="co">#&gt;  5      10005 1982-1986  1984  10 - 14   Black Male  Hispa… Single, Separ…</span>
+<span class="co">#&gt;  6      10006 1982-1986  1984  15 - 19   Black Fema… Unkno… Unknown       </span>
+<span class="co">#&gt;  7      10007 1982-1986  1984  15 - 19   Other Male  Hispa… Single, Separ…</span>
+<span class="co">#&gt;  8      10008 1982-1986  1984  15 - 19   White Fema… Hispa… Unknown       </span>
+<span class="co">#&gt;  9      10009 1982-1986  1984  15 - 19   Black Fema… Non-H… Married; Unma…</span>
+<span class="co">#&gt; 10      10010 1982-1986  1984  15 - 19   Other Male  Hispa… Single, Separ…</span>
+<span class="co">#&gt; # … with 8,052 more rows, and 3 more variables: birth_country &lt;fct&gt;,</span>
+<span class="co">#&gt; #   birth_state &lt;fct&gt;, primary_payer &lt;fct&gt;</span>
+
+<span class="fu"><a href="../reference/fcds_vars.html">fcds_vars</a></span>(<span class="kw">.data</span> <span class="kw">=</span> <span class="no">fcds</span>, <span class="st">"id"</span>, <span class="st">"icdo3"</span>)
+<span class="co">#&gt; # A tibble: 8,062 x 7</span>
+<span class="co">#&gt;    patient_id year_group year  cancer_ICDO3_co… cancer_ICDO3_hi…</span>
+<span class="co">#&gt;         &lt;dbl&gt; &lt;fct&gt;      &lt;chr&gt; &lt;fct&gt;            &lt;chr&gt;           </span>
+<span class="co">#&gt;  1      10001 1982-1986  1984  Converted witho… 8010            </span>
+<span class="co">#&gt;  2      10002 1982-1986  1984  Originally code… 8500            </span>
+<span class="co">#&gt;  3      10003 1982-1986  1984  Converted witho… 8070            </span>
+<span class="co">#&gt;  4      10004 1982-1986  1984  Originally code… 8263            </span>
+<span class="co">#&gt;  5      10005 1982-1986  1984  Converted witho… 8140            </span>
+<span class="co">#&gt;  6      10006 1982-1986  1984  Originally code… 8140            </span>
+<span class="co">#&gt;  7      10007 1982-1986  1984  Originally code… 8140            </span>
+<span class="co">#&gt;  8      10008 1982-1986  1984  Converted witho… 8500            </span>
+<span class="co">#&gt;  9      10009 1982-1986  1984  Originally code… 8000            </span>
+<span class="co">#&gt; 10      10010 1982-1986  1984  Originally code… 8140            </span>
+<span class="co">#&gt; # … with 8,052 more rows, and 2 more variables: cancer_ICDO3_behavior &lt;fct&gt;,</span>
+<span class="co">#&gt; #   cancer_ICDO3_morphology &lt;chr&gt;</span></pre></body></html></div>
 </div>
 </div>
 <div id="a-worked-example-prostate-cancer" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-worked-example-prostate-cancer" class="anchor"></a>A Worked Example: Prostate Cancer</h2>
 <p><strong>Note:</strong> This data uses the <code>fcds_example</code> data and therefore bears no resemblance to reality. The examples herein are only relevant to the demonstration of the functions of the <strong>fcds</strong> package.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">fcds_prostate &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span>fcds <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="co"># Filter to Prostate Cancer in two Florida counties</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">    cancer_site_group <span class="op">==</span><span class="st"> "Prostate Gland"</span>,</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">    county_name <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Hillsborough"</span>, <span class="st">"Pinellas"</span>),</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">    sex <span class="op">==</span><span class="st"> "Male"</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">  </span><span class="co"># Count incidences of Prostate Cancer</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="../reference/count_fcds.html">count_fcds</a></span>(county_name, cancer_site_group) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">  </span><span class="co"># Fill in missing age groups w.r.t. specified columns</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="../reference/complete_age_groups.html">complete_age_groups</a></span>(</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13">    county_name, cancer_site_group, tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/expand.html">nesting</a></span>(year_group, year)</a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="st">  </span><span class="co"># Calculate age-adjusted rate from incidence</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="../reference/age_adjust.html">age_adjust</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="st">  </span><span class="co"># Compute average yearly age-adjusted rate over 5 year range</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">rate =</span> rate <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20">fcds_prostate</a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; # A tibble: 14 x 7</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; # Groups:   county_name, cancer_site_group, year_group, year [14]</span></a>
-<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt;    county_name  cancer_site_group year_group year      n population   rate</span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt;    &lt;chr&gt;        &lt;fct&gt;             &lt;fct&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt;  1 Hillsborough Prostate Gland    1982-1986  1984      5     731913 0.156 </span></a>
-<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">#&gt;  2 Hillsborough Prostate Gland    1987-1991  1989      3     827378 0.0719</span></a>
-<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="co">#&gt;  3 Hillsborough Prostate Gland    1992-1996  1994      7     890958 0.162 </span></a>
-<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">#&gt;  4 Hillsborough Prostate Gland    1997-2001  1999      5     984930 0.106 </span></a>
-<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt;  5 Hillsborough Prostate Gland    2002-2006  2004     11    1108225 0.206 </span></a>
-<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt;  6 Hillsborough Prostate Gland    2007-2011  2009      7    1214050 0.109 </span></a>
-<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">#&gt;  7 Hillsborough Prostate Gland    2012-2016  2014     12    1319511 0.161 </span></a>
-<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">#&gt;  8 Pinellas     Prostate Gland    1982-1986  1984      4     793633 0.0490</span></a>
-<a class="sourceLine" id="cb10-33" data-line-number="33"><span class="co">#&gt;  9 Pinellas     Prostate Gland    1987-1991  1989      7     840882 0.132 </span></a>
-<a class="sourceLine" id="cb10-34" data-line-number="34"><span class="co">#&gt; 10 Pinellas     Prostate Gland    1992-1996  1994      5     884441 0.0723</span></a>
-<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co">#&gt; 11 Pinellas     Prostate Gland    1997-2001  1999      7     917379 0.116 </span></a>
-<a class="sourceLine" id="cb10-36" data-line-number="36"><span class="co">#&gt; 12 Pinellas     Prostate Gland    2002-2006  2004      5     928305 0.103 </span></a>
-<a class="sourceLine" id="cb10-37" data-line-number="37"><span class="co">#&gt; 13 Pinellas     Prostate Gland    2007-2011  2009      9     915330 0.149 </span></a>
-<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co">#&gt; 14 Pinellas     Prostate Gland    2012-2016  2014      3     937933 0.0583</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">fcds_prostate</span> <span class="kw">&lt;-</span>
+  <span class="no">fcds</span> <span class="kw">%&gt;%</span>
+  <span class="co"># Filter to Prostate Cancer in two Florida counties</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(
+    <span class="no">cancer_site_group</span> <span class="kw">==</span> <span class="st">"Prostate Gland"</span>,
+    <span class="no">county_name</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Hillsborough"</span>, <span class="st">"Pinellas"</span>),
+    <span class="no">sex</span> <span class="kw">==</span> <span class="st">"Male"</span>
+  ) <span class="kw">%&gt;%</span>
+  <span class="co"># Count incidences of Prostate Cancer</span>
+  <span class="fu"><a href="../reference/count_fcds.html">count_fcds</a></span>(<span class="no">county_name</span>, <span class="no">cancer_site_group</span>) <span class="kw">%&gt;%</span>
+  <span class="co"># Fill in missing age groups w.r.t. specified columns</span>
+  <span class="fu"><a href="../reference/complete_age_groups.html">complete_age_groups</a></span>(
+    <span class="no">county_name</span>, <span class="no">cancer_site_group</span>, <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">nesting</a></span>(<span class="no">year_group</span>, <span class="no">year</span>)
+  ) <span class="kw">%&gt;%</span>
+  <span class="co"># Calculate age-adjusted rate from incidence</span>
+  <span class="fu"><a href="../reference/age_adjust.html">age_adjust</a></span>() <span class="kw">%&gt;%</span>
+  <span class="co"># Compute average yearly age-adjusted rate over 5 year range</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">rate</span> <span class="kw">=</span> <span class="no">rate</span> / <span class="fl">5</span>)
+
+<span class="no">fcds_prostate</span>
+<span class="co">#&gt; # A tibble: 14 x 7</span>
+<span class="co">#&gt; # Groups:   county_name, cancer_site_group, year_group, year [14]</span>
+<span class="co">#&gt;    county_name  cancer_site_group year_group year      n population   rate</span>
+<span class="co">#&gt;    &lt;fct&gt;        &lt;fct&gt;             &lt;fct&gt;      &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Hillsborough Prostate Gland    1982-1986  1984      5     731913 0.156 </span>
+<span class="co">#&gt;  2 Hillsborough Prostate Gland    1987-1991  1989      3     827378 0.0719</span>
+<span class="co">#&gt;  3 Hillsborough Prostate Gland    1992-1996  1994      7     890958 0.162 </span>
+<span class="co">#&gt;  4 Hillsborough Prostate Gland    1997-2001  1999      5     984930 0.106 </span>
+<span class="co">#&gt;  5 Hillsborough Prostate Gland    2002-2006  2004     11    1108225 0.206 </span>
+<span class="co">#&gt;  6 Hillsborough Prostate Gland    2007-2011  2009      7    1214050 0.109 </span>
+<span class="co">#&gt;  7 Hillsborough Prostate Gland    2012-2016  2014     12    1319511 0.161 </span>
+<span class="co">#&gt;  8 Pinellas     Prostate Gland    1982-1986  1984      4     793633 0.0490</span>
+<span class="co">#&gt;  9 Pinellas     Prostate Gland    1987-1991  1989      7     840882 0.132 </span>
+<span class="co">#&gt; 10 Pinellas     Prostate Gland    1992-1996  1994      5     884441 0.0723</span>
+<span class="co">#&gt; 11 Pinellas     Prostate Gland    1997-2001  1999      7     917379 0.116 </span>
+<span class="co">#&gt; 12 Pinellas     Prostate Gland    2002-2006  2004      5     928305 0.103 </span>
+<span class="co">#&gt; 13 Pinellas     Prostate Gland    2007-2011  2009      9     915330 0.149 </span>
+<span class="co">#&gt; 14 Pinellas     Prostate Gland    2012-2016  2014      3     937933 0.0583</span></pre></body></html></div>
 <p>This data can readily be passed to <code>ggplot2</code> for visualization.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(fcds_prostate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(year_group, rate, <span class="dt">color =</span> county_name, <span class="dt">group =</span> county_name) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">fcds_prostate</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">year_group</span>, <span class="no">rate</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">county_name</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="no">county_name</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</pre></body></html></div>
 <p><img src="fcds_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#installation">Installation</a></li>
-      <li><a href="#setup">Setup</a></li>
-      <li><a href="#looking-up-fcds-values">Looking up FCDS Values</a></li>
-      <li><a href="#a-worked-example-prostate-cancer">A Worked Example: Prostate Cancer</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -298,7 +288,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

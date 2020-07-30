@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,7 +47,6 @@ ggplot2::geom_sf() and fcds_map_leaflet() uses leaflet::leaflet() to
 create static and interactive plots of the input data. The defaults of both
 functions are designed to work with fcds data, in particular after an
 age-adjusted rate has been calculated." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -61,7 +64,7 @@ age-adjusted rate has been calculated." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +78,7 @@ age-adjusted rate has been calculated." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fcds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.9000</span>
       </span>
     </div>
 
@@ -167,7 +170,7 @@ the data with the Florida county boundaries via <code><a href='join_boundaries_f
       <td><p>Ignored in <code>fcds_map()</code>.</p>
 <p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet::leaflet()</a></code> in
 <code>fcds_map_leaflet()</code>.</p>
-<p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/glue/man/glue.html'>glue::glue_data()</a></code> in
+<p>Additional arguments passed to <code><a href='https://glue.tidyverse.org/reference/glue.html'>glue::glue_data()</a></code> in
 <code>fcds_map_add_label()</code>.</p></td>
     </tr>
     <tr>
@@ -237,14 +240,14 @@ instead. For use in Shiny apps.</p></td>
     
 <ul>
 <li><p><code>fcds_map_add_label</code>: Add a column with the name "<code>label</code>" to the input data.
-The <code>...</code> are passed to <code><a href='https://rdrr.io/pkg/glue/man/glue.html'>glue::glue_data()</a></code>, so you can construct labels
+The <code>...</code> are passed to <code><a href='https://glue.tidyverse.org/reference/glue.html'>glue::glue_data()</a></code>, so you can construct labels
 row-wise with references to the column in <code>data</code>.</p></li>
 <li><p><code>fcds_map_leaflet</code>: Creates an interactive map using <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet::leaflet()</a></code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>fcds_example_rates</span> <span class='kw'>&lt;-</span>
-  <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/fcds/man/fcds_example.html'>fcds_example</a></span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>fcds</span><span class='kw ns'>::</span><span class='no'><a href='fcds_example.html'>fcds_example</a></span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='count_fcds.html'>count_fcds</a></span>(<span class='kw'>moffitt_catchment</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='complete_age_groups.html'>complete_age_groups</a></span>(<span class='no'>county_name</span>, <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/expand.html'>nesting</a></span>(<span class='no'>year_group</span>, <span class='no'>year</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='age_adjust.html'>age_adjust</a></span>() <span class='kw'>%&gt;%</span>
@@ -260,15 +263,10 @@ row-wise with references to the column in <code>data</code>.</p></li>
 <span class='fu'>fcds_map_leaflet</span>(<span class='no'>fcds_example_rates</span>)
 }</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#functions">Functions</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -279,7 +277,7 @@ row-wise with references to the column in <code>data</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
